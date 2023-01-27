@@ -2,36 +2,36 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on HomePage</title>
-    <link>/categories/</link>
+    <link>https://kobra3390.github.io/SpaceHack/categories/</link>
     <description>Recent content in Categories on HomePage</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language><atom:link href="https://kobra3390.github.io/SpaceHack/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Network Attack</title>
-      <link>/categories/network-attack/</link>
+      <link>https://kobra3390.github.io/SpaceHack/categories/network-attack/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/categories/network-attack/</guid>
+      <guid>https://kobra3390.github.io/SpaceHack/categories/network-attack/</guid>
       <description></description>
       <content></content>
     </item>
     
     <item>
       <title>Tutorial</title>
-      <link>/categories/tutorial/</link>
+      <link>https://kobra3390.github.io/SpaceHack/categories/tutorial/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/categories/tutorial/</guid>
+      <guid>https://kobra3390.github.io/SpaceHack/categories/tutorial/</guid>
       <description></description>
       <content></content>
     </item>
     
     <item>
       <title>Walkthrough HackTheBox</title>
-      <link>/categories/walkthrough-hackthebox/</link>
+      <link>https://kobra3390.github.io/SpaceHack/categories/walkthrough-hackthebox/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/categories/walkthrough-hackthebox/</guid>
+      <guid>https://kobra3390.github.io/SpaceHack/categories/walkthrough-hackthebox/</guid>
       <description></description>
       <content></content>
     </item>

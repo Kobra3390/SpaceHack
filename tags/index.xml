@@ -2,106 +2,106 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on HomePage</title>
-    <link>/tags/</link>
+    <link>https://kobra3390.github.io/SpaceHack/tags/</link>
     <description>Recent content in Tags on HomePage</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language><atom:link href="https://kobra3390.github.io/SpaceHack/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Android</title>
-      <link>/tags/android/</link>
+      <link>https://kobra3390.github.io/SpaceHack/tags/android/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/tags/android/</guid>
+      <guid>https://kobra3390.github.io/SpaceHack/tags/android/</guid>
       <description></description>
       <content></content>
     </item>
     
     <item>
       <title>ARP Poisoning</title>
-      <link>/tags/arp-poisoning/</link>
+      <link>https://kobra3390.github.io/SpaceHack/tags/arp-poisoning/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/tags/arp-poisoning/</guid>
+      <guid>https://kobra3390.github.io/SpaceHack/tags/arp-poisoning/</guid>
       <description></description>
       <content></content>
     </item>
     
     <item>
       <title>CTF</title>
-      <link>/tags/ctf/</link>
+      <link>https://kobra3390.github.io/SpaceHack/tags/ctf/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/tags/ctf/</guid>
+      <guid>https://kobra3390.github.io/SpaceHack/tags/ctf/</guid>
       <description></description>
       <content></content>
     </item>
     
     <item>
       <title>CVE</title>
-      <link>/tags/cve/</link>
+      <link>https://kobra3390.github.io/SpaceHack/tags/cve/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/tags/cve/</guid>
+      <guid>https://kobra3390.github.io/SpaceHack/tags/cve/</guid>
       <description></description>
       <content></content>
     </item>
     
     <item>
       <title>HackTheBox</title>
-      <link>/tags/hackthebox/</link>
+      <link>https://kobra3390.github.io/SpaceHack/tags/hackthebox/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/tags/hackthebox/</guid>
+      <guid>https://kobra3390.github.io/SpaceHack/tags/hackthebox/</guid>
       <description></description>
       <content></content>
     </item>
     
     <item>
       <title>Metasploit</title>
-      <link>/tags/metasploit/</link>
+      <link>https://kobra3390.github.io/SpaceHack/tags/metasploit/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/tags/metasploit/</guid>
+      <guid>https://kobra3390.github.io/SpaceHack/tags/metasploit/</guid>
       <description></description>
       <content></content>
     </item>
     
     <item>
       <title>Protocollo ARP</title>
-      <link>/tags/protocollo-arp/</link>
+      <link>https://kobra3390.github.io/SpaceHack/tags/protocollo-arp/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/tags/protocollo-arp/</guid>
+      <guid>https://kobra3390.github.io/SpaceHack/tags/protocollo-arp/</guid>
       <description></description>
       <content></content>
     </item>
     
     <item>
       <title>Python</title>
-      <link>/tags/python/</link>
+      <link>https://kobra3390.github.io/SpaceHack/tags/python/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/tags/python/</guid>
+      <guid>https://kobra3390.github.io/SpaceHack/tags/python/</guid>
       <description></description>
       <content></content>
     </item>
     
     <item>
       <title>Scapy</title>
-      <link>/tags/scapy/</link>
+      <link>https://kobra3390.github.io/SpaceHack/tags/scapy/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/tags/scapy/</guid>
+      <guid>https://kobra3390.github.io/SpaceHack/tags/scapy/</guid>
       <description></description>
       <content></content>
     </item>
     
     <item>
       <title>Telnet</title>
-      <link>/tags/telnet/</link>
+      <link>https://kobra3390.github.io/SpaceHack/tags/telnet/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/tags/telnet/</guid>
+      <guid>https://kobra3390.github.io/SpaceHack/tags/telnet/</guid>
       <description></description>
       <content></content>
     </item>

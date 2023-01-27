@@ -2,46 +2,46 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>/about/</loc>
+    <loc>https://kobra3390.github.io/SpaceHack/about/</loc>
   </url><url>
-    <loc>/tags/android/</loc>
+    <loc>https://kobra3390.github.io/SpaceHack/tags/android/</loc>
   </url><url>
-    <loc>/tags/arp-poisoning/</loc>
+    <loc>https://kobra3390.github.io/SpaceHack/tags/arp-poisoning/</loc>
   </url><url>
-    <loc>/categories/</loc>
+    <loc>https://kobra3390.github.io/SpaceHack/categories/</loc>
   </url><url>
-    <loc>/tags/ctf/</loc>
+    <loc>https://kobra3390.github.io/SpaceHack/tags/ctf/</loc>
   </url><url>
-    <loc>/tags/cve/</loc>
+    <loc>https://kobra3390.github.io/SpaceHack/tags/cve/</loc>
   </url><url>
-    <loc>/tags/hackthebox/</loc>
+    <loc>https://kobra3390.github.io/SpaceHack/tags/hackthebox/</loc>
   </url><url>
-    <loc>/</loc>
+    <loc>https://kobra3390.github.io/SpaceHack/</loc>
   </url><url>
-    <loc>/posts/introduzione-arp-poisoning/introduzione_arp_poisoning/</loc>
+    <loc>https://kobra3390.github.io/SpaceHack/posts/introduzione-arp-poisoning/introduzione_arp_poisoning/</loc>
   </url><url>
-    <loc>/tags/metasploit/</loc>
+    <loc>https://kobra3390.github.io/SpaceHack/tags/metasploit/</loc>
   </url><url>
-    <loc>/categories/network-attack/</loc>
+    <loc>https://kobra3390.github.io/SpaceHack/categories/network-attack/</loc>
   </url><url>
-    <loc>/posts/</loc>
+    <loc>https://kobra3390.github.io/SpaceHack/posts/</loc>
   </url><url>
-    <loc>/tags/protocollo-arp/</loc>
+    <loc>https://kobra3390.github.io/SpaceHack/tags/protocollo-arp/</loc>
   </url><url>
-    <loc>/tags/python/</loc>
+    <loc>https://kobra3390.github.io/SpaceHack/tags/python/</loc>
   </url><url>
-    <loc>/tags/scapy/</loc>
+    <loc>https://kobra3390.github.io/SpaceHack/tags/scapy/</loc>
   </url><url>
-    <loc>/tags/</loc>
+    <loc>https://kobra3390.github.io/SpaceHack/tags/</loc>
   </url><url>
-    <loc>/tags/telnet/</loc>
+    <loc>https://kobra3390.github.io/SpaceHack/tags/telnet/</loc>
   </url><url>
-    <loc>/categories/tutorial/</loc>
+    <loc>https://kobra3390.github.io/SpaceHack/categories/tutorial/</loc>
   </url><url>
-    <loc>/posts/walkthrough-explore/walkthrough_explore_ctf/</loc>
+    <loc>https://kobra3390.github.io/SpaceHack/posts/walkthrough-explore/walkthrough_explore_ctf/</loc>
   </url><url>
-    <loc>/categories/walkthrough-hackthebox/</loc>
+    <loc>https://kobra3390.github.io/SpaceHack/categories/walkthrough-hackthebox/</loc>
   </url><url>
-    <loc>/posts/walkthrough-meow/walkthrough_meow_ctf/</loc>
+    <loc>https://kobra3390.github.io/SpaceHack/posts/walkthrough-meow/walkthrough_meow_ctf/</loc>
   </url>
 </urlset>

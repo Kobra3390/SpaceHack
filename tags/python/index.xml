@@ -2,16 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Python on HomePage</title>
-    <link>/tags/python/</link>
+    <link>https://kobra3390.github.io/SpaceHack/tags/python/</link>
     <description>Recent content in Python on HomePage</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language><atom:link href="https://kobra3390.github.io/SpaceHack/tags/python/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Introduzione All&#39;ARP Poisoning</title>
-      <link>/posts/introduzione-arp-poisoning/introduzione_arp_poisoning/</link>
+      <link>https://kobra3390.github.io/SpaceHack/posts/introduzione-arp-poisoning/introduzione_arp_poisoning/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/posts/introduzione-arp-poisoning/introduzione_arp_poisoning/</guid>
+      <guid>https://kobra3390.github.io/SpaceHack/posts/introduzione-arp-poisoning/introduzione_arp_poisoning/</guid>
       <description>Table Of Contents:
  Cos&amp;rsquo;è il Protocollo ARP Che cos’è l’ARP Poisoning ARP Poisoning con Scapy e Python  In questi giorni ho letto Python per Hacker (seconda edizione) e mi sono imbattuto durante la lettura in un argomento molto interessante, ossia l&amp;rsquo;ARP Poisoning.
 Ho iniziato dunque a fare delle ricerche e voglio condividere quello che ho trovato con voi.
