@@ -50,7 +50,8 @@ function executeSearch() {
     // Se il campo searchInput non e' vuoto
     if(searchInput.value !== '') {
 	// Elabora il file JSON e restituisce un risultato
-	fetchJSONFile('/index.json', function(data){
+	// in locale modificare in : /index.json
+	fetchJSONFile('/SpaceHack/index.json', function(data){
 	    let fuse = new Fuse(data, options); // inizializza fuse
 	    let results = fuse.search(searchInput.value); // Variabile con i valori della ricerca con la ricerca passatagli
 	    let searchItems = ''; // Variabile che conterra' il risultato, elaborato, da mostrare
