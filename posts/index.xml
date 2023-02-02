@@ -7,6 +7,402 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language><atom:link href="https://kobra3390.github.io/SpaceHack/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Basi sul Modulo Scrapy</title>
+      <link>https://kobra3390.github.io/SpaceHack/posts/basi-sul-modulo-scrapy/basi_sul_modulo_scrapy/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://kobra3390.github.io/SpaceHack/posts/basi-sul-modulo-scrapy/basi_sul_modulo_scrapy/</guid>
+      <description>Table Of Contents:
+ Introduzione al modulo Esempi Pratici  Estrazione del titolo di una pagina web Estrazione dei prezzi dei libri da una pagina web Estrazione di tutte le informazioni sui libri da una pagina web Estrazione di tutte le informazioni sui libri da più pagine web Estrazione di informazioni sui libri da una pagina web utilizzando un&amp;rsquo;espressione regolare Estrazione di informazioni sui libri da una pagina web e salvataggio in formato CSV Scraping di dati da più siti Scraping di dati da una pagina con autenticazione Scraping di dati da una pagina AJAX Scraping di dati da una pagina utilizzando una sessione Scraping di tutti i prezzi dei libri su tutte le pagine Scraping di tutti i titoli e le categorie dei libri Scraping delle immagini dei libri Scraping dei prezzi dei libri in un formato specifico (es.</description>
+      <content>
+  &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/Scrapy-Banner.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
+
+
+&lt;p&gt;Table Of Contents:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#introduzione-al-modulo&#34;&gt;Introduzione al modulo&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#esempi-pratici&#34;&gt;Esempi Pratici&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#estrazione-del-titolo-di-una-pagina-web&#34;&gt;Estrazione del titolo di una pagina web&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#estrazione-dei-prezzi-dei-libri-da-una-pagina-web&#34;&gt;Estrazione dei prezzi dei libri da una pagina web&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#estrazione-di-tutte-le-informazioni-sui-libri-da-una-pagina-web&#34;&gt;Estrazione di tutte le informazioni sui libri da una pagina web&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#estrazione-di-tutte-le-informazioni-sui-libri-da-pi--pagine-web&#34;&gt;Estrazione di tutte le informazioni sui libri da più pagine web&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#estrazione-di-informazioni-sui-libri-da-una-pagina-web-utilizzando-un-espressione-regolare&#34;&gt;Estrazione di informazioni sui libri da una pagina web utilizzando un&amp;rsquo;espressione regolare&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#estrazione-di-informazioni-sui-libri-da-una-pagina-web-e-salvataggio-in-formato-csv&#34;&gt;Estrazione di informazioni sui libri da una pagina web e salvataggio in formato CSV&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#scraping-di-dati-da-pi--siti&#34;&gt;Scraping di dati da più siti&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#scraping-di-dati-da-una-pagina-con-autenticazione&#34;&gt;Scraping di dati da una pagina con autenticazione&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#scraping-di-dati-da-una-pagina-ajax&#34;&gt;Scraping di dati da una pagina AJAX&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#scraping-di-dati-da-una-pagina-utilizzando-una-sessione&#34;&gt;Scraping di dati da una pagina utilizzando una sessione&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#scraping-di-tutti-i-prezzi-dei-libri-su-tutte-le-pagine&#34;&gt;Scraping di tutti i prezzi dei libri su tutte le pagine&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#scraping-di-tutti-i-titoli-e-le-categorie-dei-libri&#34;&gt;Scraping di tutti i titoli e le categorie dei libri&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#scraping-delle-immagini-dei-libri&#34;&gt;Scraping delle immagini dei libri&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#scraping-dei-prezzi-dei-libri-in-un-formato-specifico--es-json-&#34;&gt;Scraping dei prezzi dei libri in un formato specifico (es. JSON)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;introduzione-al-modulo&#34;&gt;Introduzione al modulo&lt;/h1&gt;
+&lt;p&gt;Scrapy è un modulo Python open-source per il web scraping. È stato progettato per estrarre i dati da siti web in modo efficiente e rapido. Scrapy offre una serie di funzionalità avanzate per il web scraping, tra cui la gestione delle richieste, la navigazione del sito, la selezione dei dati tramite XPath o CSS selector e la gestione dei cookie.&lt;/p&gt;
+&lt;p&gt;Il modulo Scrapy utilizza una struttura ad albero per rappresentare il contenuto di una pagina web. Ciò consente agli sviluppatori di selezionare facilmente i dati desiderati utilizzando i selettori CSS e XPath. Inoltre, Scrapy fornisce una serie di metodi per navigare il sito web come segue: seguire i link, inviare form e gestire i cookie.&lt;/p&gt;
+&lt;p&gt;Scrapy è anche progettato per essere utilizzato in modo scalabile, è in grado di gestire grandi quantità di dati e di supportare il parallelismo. Il modulo supporta anche la persistenza dei dati, consentendo di salvare i dati estratti in un formato specifico, come CSV, JSON o XML.&lt;/p&gt;
+&lt;p&gt;Per creare un progetto con Scrapy, è necessario creare un nuovo progetto utilizzando il comando scrapy startproject, quindi creare un nuovo spider utilizzando il comando scrapy genspider. In seguito si definiscono le regole di scraping nella funzione parse() del proprio spider.&lt;/p&gt;
+&lt;p&gt;In sintesi Scrapy è uno strumento molto potente per estrarre i dati dal web, grazie alla sua flessibilità e alle sue funzionalità avanzate, è possibile creare spider in grado di estrarre dati da siti web complessi e navigare attraverso più pagine.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;Disclaimer: ⚠️ Il web scraping è una pratica legale a meno che non violi le condizioni d&amp;rsquo;uso del sito web in questione. Il presente software è stato creato per scopi educativi e di ricerca e non deve essere utilizzato per violare le leggi o i termini d&amp;rsquo;uso di un sito web. L&amp;rsquo;utente è responsabile dell&amp;rsquo;utilizzo del software e degli eventuali danni causati dall&amp;rsquo;utilizzo improprio. ⚠️&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Per installare e configurare uno progetto con il modulo scrapy possiamo usare i seguenti step:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Installare Scrapy&lt;/strong&gt;: è possibile farlo utilizzando il comando seguente nella riga di comando:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;pip install scrapy
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Oppure per Python3:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;pip3 install scrapy
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Creare un nuovo progetto&lt;/strong&gt;: Per creare un progetto è possibile utilizzare il comando nella riga di comando:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;scrapy startproject &amp;lt;nome_progetto&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Dove &lt;em&gt;&amp;lt;nome_progetto&amp;gt;&lt;/em&gt; è il nome del progetto che si desidera creare. Questo comando creerà una nuova cartella con il nome del progetto, che conterrà i file di configurazione e la struttura del progetto.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Creare un nuovo spider&lt;/strong&gt;: utilizzare il comando seguente nella riga di comando:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;scrapy genspider &amp;lt;nome_spider&amp;gt; &amp;lt;dominio&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Dove &lt;em&gt;&amp;lt;nome_spider&amp;gt;&lt;/em&gt; è il nome del spider che si desidera creare e &lt;em&gt;&lt;!-- raw HTML omitted --&gt;&lt;/em&gt; è il dominio del sito web da cui si desidera estrarre i dati. Questo comando creerà un nuovo file spider nella cartella &amp;ldquo;spiders&amp;rdquo; del progetto. Il comando richiede il nome dello spider e l&amp;rsquo;URL di partenza per lo spider. Esempio:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;scrapy genspider example example.com
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Questo creerà un file chiamato example.py all&amp;rsquo;interno della cartella &lt;em&gt;spiders&lt;/em&gt; del tuo progetto, con una classe di spider chiamata &lt;em&gt;ExampleSpider&lt;/em&gt; che inizia a estrarre i dati dall&amp;rsquo;URL example.com.&lt;/p&gt;
+&lt;p&gt;Una volta creato lo spider, è possibile modificare il codice per soddisfare le esigenze del progetto. In seguito, lo spider può essere eseguito utilizzando il comando:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;scrapy spiderun &amp;lt;nome_spider&amp;gt;.py
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Extra&lt;/strong&gt;: ExampleSpider è il nome della classe dello spider generato automaticamente dal comando &lt;em&gt;scrapy genspider&lt;/em&gt; con il nome che gli hai dato quando hai creato lo spider.&lt;/p&gt;
+&lt;p&gt;La classe estende la classe base scrapy.Spider e include una serie di proprietà e metodi predefiniti che puoi utilizzare per configurare e eseguire lo spider.&lt;/p&gt;
+&lt;p&gt;Per esempio, nella classe è presente il nome dello spider name e gli url di partenza start_urls che specificano l&amp;rsquo;indirizzo web a cui si vuole fare scraping, la funzione di callback parse() che viene chiamata quando lo spider recupera una pagina web.&lt;/p&gt;
+&lt;p&gt;L&amp;rsquo;idea è che tu possa modificare questa classe e adattarlo alle tue esigenze specifiche, aggiungendo eventuali selettori CSS o XPath, gestione dei cookies, trattamento dei dati, ecc.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Modificare il codice del spider&lt;/strong&gt;: aprire il file spider appena creato e modificare il codice per adattarlo alle esigenze del progetto. È possibile utilizzare il metodo start_requests() per specificare la URL iniziale da cui iniziare a estrarre i dati, il metodo parse() per specificare come estrarre i dati dalle pagine web, e il metodo parse_item() per specificare come estrarre i dati da un singolo elemento della pagina web.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Eseguire lo spider&lt;/strong&gt;: Come citato in precedenza è possibile utilizzare il comando seguente nella riga di comando per eseguire lo spider:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;scrapy spiderun &amp;lt;nome_spider&amp;gt;.py
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Dove &lt;em&gt;&amp;lt;nome_spider&amp;gt;&lt;/em&gt; è il nome del spider creato in precedenza. In questo modo, verranno stampati i dati estratti nella console o salvati in un file, a seconda delle impostazioni specificate nel codice. Per eseguire lo spider bisogna trovarsi nella directory &lt;em&gt;spiders&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Ricordati che è possibile utilizzare anche il comando&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;scrapy shell &amp;lt;url&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Questo per testare il codice del tuo spider su una singola pagina web, prima di lanciare la scansione sull&amp;rsquo;intero sito.&lt;/p&gt;
+&lt;p&gt;Di seguito vediamo degli esempi usando come URL: &lt;a href=&#34;http://books.toscrape.com/&#34;&gt;http://books.toscrape.com/&lt;/a&gt; che viene usato appositamente per il Web Scraping.&lt;/p&gt;
+&lt;h1 id=&#34;esempi-pratici&#34;&gt;Esempi Pratici&lt;/h1&gt;
+&lt;h2 id=&#34;estrazione-del-titolo-di-una-pagina-web&#34;&gt;Estrazione del titolo di una pagina web&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; scrapy
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;TitleSpider&lt;/span&gt;(scrapy&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Spider):
+    name &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;titlespider&amp;#34;&lt;/span&gt;
+    start_urls &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [
+        &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://books.toscrape.com/catalogue/category/books/science_22/index.html&amp;#34;&lt;/span&gt;,
+    ]
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;parse&lt;/span&gt;(self, response):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; book &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; response&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;article.product_pod&amp;#34;&lt;/span&gt;):
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;yield&lt;/span&gt; {
+                &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: book&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;h3 &amp;gt; a::text&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get(),
+            }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Questo codice crea uno spider chiamato &lt;strong&gt;TitleSpider&lt;/strong&gt; che estende la classe base &lt;strong&gt;scrapy.Spider&lt;/strong&gt;. Nella classe, viene definito un nome per lo spider e una lista di URL di partenza per lo spider. Nel nostro caso, l&amp;rsquo;URL di partenza è una pagina web di un negozio di libri online.&lt;/p&gt;
+&lt;p&gt;La funzione parse() è chiamata ogni volta che lo spider recupera una pagina web. All&amp;rsquo;interno della funzione parse(), utilizziamo un ciclo for per scorrere tutti gli elementi HTML che corrispondono al selettore &lt;strong&gt;article.product_pod&lt;/strong&gt;. Questo selettore seleziona tutti gli elementi  &lt;em&gt;&lt;!-- raw HTML omitted --&gt;&lt;/em&gt; con la classe &lt;strong&gt;product_pod&lt;/strong&gt; nella pagina web.&lt;/p&gt;
+&lt;p&gt;Per ogni elemento selezionato, utilizziamo il selettore &lt;em&gt;h3 &amp;gt; a::text&lt;/em&gt; per selezionare il testo del primo elemento &lt;em&gt;&lt;!-- raw HTML omitted --&gt;&lt;/em&gt; all&amp;rsquo;interno dell&amp;rsquo;elemento &lt;em&gt;&lt;!-- raw HTML omitted --&gt;&lt;/em&gt; all&amp;rsquo;interno dell&amp;rsquo;elemento &lt;em&gt;&lt;!-- raw HTML omitted --&gt;&lt;/em&gt;. Il testo selezionato rappresenta il titolo del libro. Utilizziamo la funzione get() per restituire il valore del titolo del libro come una stringa. Infine, utilizziamo yield per restituire un dizionario contenente il titolo del libro. Alla fine del ciclo for, lo spider avrà raccolto tutti i titoli dei libri presenti nella pagina web di partenza.&lt;/p&gt;
+&lt;h2 id=&#34;estrazione-dei-prezzi-dei-libri-da-una-pagina-web&#34;&gt;Estrazione dei prezzi dei libri da una pagina web&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; scrapy
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;PriceSpider&lt;/span&gt;(scrapy&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Spider):
+    name &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;pricespider&amp;#34;&lt;/span&gt;
+    start_urls &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [
+        &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://books.toscrape.com/catalogue/category/books/science_22/index.html&amp;#34;&lt;/span&gt;,
+    ]
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;parse&lt;/span&gt;(self, response):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; book &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; response&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;article.product_pod&amp;#34;&lt;/span&gt;):
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;yield&lt;/span&gt; {
+                &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;price&amp;#34;&lt;/span&gt;: book&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;.price_color::text&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get(),
+            }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Questo codice è un esempio di uno spider di Scrapy che estrae i prezzi dei libri da una pagina web specifica.&lt;/p&gt;
+&lt;p&gt;La classe PriceSpider estende la classe base scrapy.Spider e include alcune proprietà e metodi specifici per questo spider.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;La proprietà name assegna un nome allo spider, in questo caso &amp;ldquo;pricespider”&lt;/li&gt;
+&lt;li&gt;La proprietà start_urls specifica gli URL di partenza per lo spider, in questo caso l&amp;rsquo;indirizzo &amp;ldquo;&lt;a href=&#34;http://books.toscrape.com/catalogue/category/books/science_22/index.html&#34;&gt;http://books.toscrape.com/catalogue/category/books/science_22/index.html&lt;/a&gt;&amp;rdquo;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;La funzione parse() è il metodo di callback chiamato quando lo spider recupera una pagina web, questa funzione è responsabile di estrarre i dati dalla pagina.&lt;/p&gt;
+&lt;p&gt;La funzione utilizza un ciclo for per ciclare attraverso ogni elemento HTML con classe &lt;em&gt;article.product_pod&lt;/em&gt;, questi elementi rappresentano ogni libro presente sulla pagina.&lt;/p&gt;
+&lt;p&gt;Per ogni libro, utilizza il selettore CSS &lt;em&gt;.price_color&lt;/em&gt; per individuare il prezzo del libro, e utilizza il metodo get() per recuperare il testo del prezzo. Il prezzo estratto viene quindi aggiunto ad un dizionario come valore della chiave &amp;ldquo;price&amp;rdquo; e restituito attraverso l&amp;rsquo;istruzione yield.&lt;/p&gt;
+&lt;p&gt;In sintesi, questo spider recupera la pagina web specificata, estrae i prezzi di ogni libro presente sulla pagina e li restituisce come una serie di dizionari, dove ogni dizionario rappresenta un libro e contiene solo una chiave &lt;em&gt;price&lt;/em&gt; con il relativo prezzo del libro.&lt;/p&gt;
+&lt;h2 id=&#34;estrazione-di-tutte-le-informazioni-sui-libri-da-una-pagina-web&#34;&gt;Estrazione di tutte le informazioni sui libri da una pagina web&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; scrapy
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;BookSpider&lt;/span&gt;(scrapy&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Spider):
+    name &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;bookspider&amp;#34;&lt;/span&gt;
+    start_urls &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [
+        &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://books.toscrape.com/catalogue/category/books/science_22/index.html&amp;#34;&lt;/span&gt;,
+    ]
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;parse&lt;/span&gt;(self, response):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; book &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; response&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;article.product_pod&amp;#34;&lt;/span&gt;):
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;yield&lt;/span&gt; {
+                &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: book&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;h3 &amp;gt; a::text&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get(),
+                &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;price&amp;#34;&lt;/span&gt;: book&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;.price_color::text&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get(),
+                &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;rating&amp;#34;&lt;/span&gt;: book&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;.star-rating::attr(class)&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get()&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;split(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34; &amp;#34;&lt;/span&gt;)[&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;],
+            }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Questo codice mostra come creare uno spider chiamato &amp;ldquo;bookspider&amp;rdquo; utilizzando il modulo Scrapy in Python. Lo spider inizia a navigare nell&amp;rsquo;indirizzo web specificato in &amp;ldquo;start_urls&amp;rdquo;, che in questo caso è &amp;ldquo;&lt;a href=&#34;http://books.toscrape.com/catalogue/category/books/science_22/index.html%22&#34;&gt;http://books.toscrape.com/catalogue/category/books/science_22/index.html&amp;quot;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;La funzione parse() viene chiamata per ogni pagina visitata dallo spider e consente di analizzare il contenuto della pagina. In questo esempio, la funzione parse() utilizza il metodo &amp;ldquo;css&amp;rdquo; per selezionare tutti gli elementi HTML con la classe &amp;ldquo;product_pod&amp;rdquo; e li itera uno per uno.&lt;/p&gt;
+&lt;p&gt;Per ogni elemento, vengono estratte tre informazioni:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Il titolo del libro utilizzando il selettore &amp;ldquo;h3 &amp;gt; a::text&amp;rdquo;, che seleziona il testo all&amp;rsquo;interno del tag &amp;ldquo;a&amp;rdquo; immediatamente figlio del tag &amp;ldquo;h3&amp;rdquo; all&amp;rsquo;interno dell&amp;rsquo;elemento &amp;ldquo;article”&lt;/li&gt;
+&lt;li&gt;Il prezzo utilizzando il selettore &amp;ldquo;.price_color::text&amp;rdquo;, che seleziona il testo all&amp;rsquo;interno del tag con classe &amp;ldquo;price_color&amp;rdquo; all&amp;rsquo;interno dell&amp;rsquo;elemento &amp;ldquo;article”&lt;/li&gt;
+&lt;li&gt;La valutazione utilizzando il selettore &amp;ldquo;.star-rating::attr(class)&amp;rdquo;, che seleziona il valore dell&amp;rsquo;attributo &amp;ldquo;class&amp;rdquo; del tag con classe &amp;ldquo;star-rating&amp;rdquo; all&amp;rsquo;interno dell&amp;rsquo;elemento &amp;ldquo;article&amp;rdquo;. Poi si utilizza il metodo &amp;ldquo;split&amp;rdquo; per dividere la stringa in una lista di stringhe, e si prende l&amp;rsquo;ultima parte della stringa cioè l&amp;rsquo;ultimo elemento della lista.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Tutte queste informazioni vengono quindi restituite come un dizionario utilizzando il comando &amp;ldquo;yield&amp;rdquo; all&amp;rsquo;interno del ciclo for.&lt;/p&gt;
+&lt;h2 id=&#34;estrazione-di-tutte-le-informazioni-sui-libri-da-più-pagine-web&#34;&gt;Estrazione di tutte le informazioni sui libri da più pagine web&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; scrapy
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;MultiPageBookSpider&lt;/span&gt;(scrapy&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Spider):
+    name &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;multipagebookspider&amp;#34;&lt;/span&gt;
+    start_urls &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [
+        &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://books.toscrape.com/catalogue/category/books/science_22/index.html&amp;#34;&lt;/span&gt;,
+    ]
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;parse&lt;/span&gt;(self, response):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; book &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; response&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;article.product_pod&amp;#34;&lt;/span&gt;):
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;yield&lt;/span&gt; {
+                &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: book&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;h3 &amp;gt; a::text&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get(),
+                &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;price&amp;#34;&lt;/span&gt;: book&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;.price_color::text&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get(),
+                &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;rating&amp;#34;&lt;/span&gt;: book&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;.star-rating::attr(class)&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get()&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;split(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34; &amp;#34;&lt;/span&gt;)[&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;],
+            }
+        next_page &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; response&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;li.next &amp;gt; a::attr(href)&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get()
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; next_page &lt;span style=&#34;color:#f92672&#34;&gt;is&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;not&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;None&lt;/span&gt;:
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;yield&lt;/span&gt; response&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;follow(next_page, self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;parse)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Questo codice è un esempio di uno spider Scrapy che utilizza un ciclo for per estrarre informazioni da più pagine di un sito web.&lt;/p&gt;
+&lt;p&gt;Il nome dello spider è &lt;em&gt;multipagebookspider&lt;/em&gt; e la pagina iniziale da cui inizia la scansione è &amp;ldquo;&lt;a href=&#34;http://books.toscrape.com/catalogue/category/books/science_22/index.html%22&#34;&gt;http://books.toscrape.com/catalogue/category/books/science_22/index.html&amp;quot;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;La funzione &lt;strong&gt;parse&lt;/strong&gt; è chiamata per ogni pagina e utilizza il metodo css per estrarre informazioni sui libri dalla pagina (titolo, prezzo e valutazione).&lt;/p&gt;
+&lt;p&gt;Successivamente, utilizza il metodo css per estrarre il link alla prossima pagina e utilizza il metodo &lt;em&gt;response.follow&lt;/em&gt; per seguire il link e chiamare nuovamente la funzione &lt;em&gt;parse&lt;/em&gt; per la pagina successiva. Ciò consente allo spider di continuare a estrarre informazioni dalle pagine successive finché non viene raggiunta la fine del sito.&lt;/p&gt;
+&lt;h2 id=&#34;estrazione-di-informazioni-sui-libri-da-una-pagina-web-utilizzando-unespressione-regolare&#34;&gt;Estrazione di informazioni sui libri da una pagina web utilizzando un&amp;rsquo;espressione regolare&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; scrapy
+&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; re
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;RegexBookSpider&lt;/span&gt;(scrapy&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Spider):
+    name &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;regexbookspider&amp;#34;&lt;/span&gt;
+    start_urls &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [
+        &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://books.toscrape.com/catalogue/category/books/science_22/index.html&amp;#34;&lt;/span&gt;,
+    ]
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;parse&lt;/span&gt;(self, response):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; book &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; response&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;article.product_pod&amp;#34;&lt;/span&gt;):
+            title &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; book&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;h3 &amp;gt; a::text&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get()
+            price &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; book&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;.price_color::text&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get()
+            rating &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; book&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;.star-rating::attr(class)&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get()
+            availability &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; book&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;p.availability::text&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get()
+            match &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; re&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;search(&lt;span style=&#34;color:#e6db74&#34;&gt;r&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;\d+&amp;#39;&lt;/span&gt;, availability)
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; match:
+                stock &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; int(match&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;group(&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;))
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;yield&lt;/span&gt; {
+                &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: title,
+                &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;price&amp;#34;&lt;/span&gt;: price,
+                &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;rating&amp;#34;&lt;/span&gt;: rating,
+                &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;stock&amp;#34;&lt;/span&gt;: stock
+            }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Questo è un esempio di codice scritto in Python utilizzando la libreria Scrapy per creare un spider chiamato &lt;em&gt;RegexBookSpider&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;In particolare, questo spider è impostato per iniziare la navigazione nella pagina &amp;ldquo;&lt;a href=&#34;http://books.toscrape.com/catalogue/category/books/science_22/index.html%22&#34;&gt;http://books.toscrape.com/catalogue/category/books/science_22/index.html&amp;quot;&lt;/a&gt; e utilizza l&amp;rsquo;espressione regolare (regex) per estrarre informazioni sul numero di copie disponibili di ciascun libro.&lt;/p&gt;
+&lt;p&gt;Il metodo parse è chiamato per ogni pagina visitata dallo spider e utilizza il selettore CSS per selezionare i dati di interesse nella pagina. In questo caso, il spider estrae il titolo, il prezzo, la valutazione e la disponibilità di ogni libro. L&amp;rsquo;espressione regolare re.search(r&#39;\d+&#39;, availability) è utilizzata per cercare una corrispondenza di un numero intero all&amp;rsquo;interno della stringa di disponibilità. Se una corrispondenza viene trovata, il numero di stock disponibili viene salvato in una variabile chiamata &amp;ldquo;stock&amp;rdquo;. Infine, le informazioni estratte vengono restituite come un dizionario.&lt;/p&gt;
+&lt;h2 id=&#34;estrazione-di-informazioni-sui-libri-da-una-pagina-web-e-salvataggio-in-formato-csv&#34;&gt;Estrazione di informazioni sui libri da una pagina web e salvataggio in formato CSV&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; scrapy
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;BookSpiderCSV&lt;/span&gt;(scrapy&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Spider):
+    name &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;bookspidercsv&amp;#34;&lt;/span&gt;
+    start_urls &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [
+        &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://books.toscrape.com/catalogue/category/books/science_22/index.html&amp;#34;&lt;/span&gt;,
+    ]
+
+    custom_settings &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {
+        &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;FEED_FORMAT&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;csv&amp;#34;&lt;/span&gt;,
+        &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;FEED_URI&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;books.csv&amp;#34;&lt;/span&gt;,
+    }
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;parse&lt;/span&gt;(self, response):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; book &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; response&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;article.product_pod&amp;#34;&lt;/span&gt;):
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;yield&lt;/span&gt; {
+                &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: book&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;h3 &amp;gt; a::text&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get(),
+                &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;price&amp;#34;&lt;/span&gt;: book&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;.price_color::text&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get(),
+                &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;rating&amp;#34;&lt;/span&gt;: book&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;.star-rating::attr(class)&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get()&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;split(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34; &amp;#34;&lt;/span&gt;)[&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;],
+            }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Questo codice è un esempio di uno spider Scrapy che raccoglie informazioni sui libri presenti su un sito web di esempio &amp;ldquo;&lt;a href=&#34;http://books.toscrape.com/catalogue/category/books/science_22/index.html%22&#34;&gt;http://books.toscrape.com/catalogue/category/books/science_22/index.html&amp;quot;&lt;/a&gt; e le salva in un file CSV. Il nome dello spider è &amp;ldquo;bookspidercsv&amp;rdquo; e la classe principale è &lt;em&gt;BookSpiderCSV&lt;/em&gt; che estende la classe base &lt;em&gt;scrapy.Spider&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;La proprietà &lt;strong&gt;start_urls&lt;/strong&gt; specifica l&amp;rsquo;URL iniziale del sito web da cui lo spider inizierà a raccogliere i dati.&lt;/p&gt;
+&lt;p&gt;La funzione &lt;em&gt;parse&lt;/em&gt; viene eseguita per ogni pagina del sito web raccolta dallo spider. In questo caso, utilizza il metodo &lt;strong&gt;response.css&lt;/strong&gt; per selezionare tutti gli elementi HTML con la classe &lt;em&gt;product_pod&lt;/em&gt; dalla pagina, che rappresentano i libri. Per ogni libro, raccoglie il titolo, il prezzo e la valutazione utilizzando il metodo &amp;ldquo;css&amp;rdquo; e salva i dati raccolti in un dizionario.&lt;/p&gt;
+&lt;p&gt;La proprietà &lt;em&gt;custom_settings&lt;/em&gt; imposta il formato del file di output e il nome del file di output. In questo caso, il formato è impostato su &lt;em&gt;csv&lt;/em&gt; e il nome del file su &lt;strong&gt;books.csv&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Alla fine, tutti i dati raccolti dalla funzione &lt;em&gt;parse&lt;/em&gt; vengono scritti nel file CSV &lt;strong&gt;books.csv&lt;/strong&gt; nella cartella radice del progetto.&lt;/p&gt;
+&lt;h2 id=&#34;scraping-di-dati-da-più-siti&#34;&gt;Scraping di dati da più siti&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; scrapy
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;MultiSiteBookSpider&lt;/span&gt;(scrapy&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Spider):
+    name &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;multisitebookspider&amp;#34;&lt;/span&gt;
+    start_urls &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://books.toscrape.com/catalogue/category/books/science_22/index.html&amp;#34;&lt;/span&gt;,
+                  &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://books.toscrape.com/catalogue/category/books/science_23/index.html&amp;#34;&lt;/span&gt;]
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;parse&lt;/span&gt;(self, response):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; book &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; response&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;article.product_pod&amp;#34;&lt;/span&gt;):
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;yield&lt;/span&gt; {
+                &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: book&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;h3 a::attr(title)&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get(),
+                &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;price&amp;#34;&lt;/span&gt;: book&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;p.price_color::text&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get()
+            }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In questo esempio, lo spider utilizza un elenco di URL di partenza start_urls che contiene più di un sito web. Utilizzando un solo metodo parse() per estrarre i dati, lo spider esegue la scansione di entrambi i siti web specificati nel elenco e estrae i dati dei libri dalle pagine web.&lt;/p&gt;
+&lt;h2 id=&#34;scraping-di-dati-da-una-pagina-con-autenticazione&#34;&gt;Scraping di dati da una pagina con autenticazione&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; scrapy
+&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; scrapy.http &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; FormRequest
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;MySpider&lt;/span&gt;(scrapy&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Spider):
+    name &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;myspider&amp;#34;&lt;/span&gt;
+    start_urls &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [
+        &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;https://mywebsite.com/login&amp;#34;&lt;/span&gt;,
+    ]
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;parse&lt;/span&gt;(self, response):
+        &lt;span style=&#34;color:#75715e&#34;&gt;# estraiamo il token CSRF dalla pagina di login&lt;/span&gt;
+        csrf_token &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; response&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;input[name=&amp;#39;csrf_token&amp;#39;]::attr(value)&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get()
+
+        &lt;span style=&#34;color:#75715e&#34;&gt;# creiamo una richiesta di form con i dati di login e il token CSRF&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;yield&lt;/span&gt; FormRequest&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;from_response(response, formdata&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;{
+            &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;username&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;myusername&amp;#34;&lt;/span&gt;,
+            &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;password&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;mypassword&amp;#34;&lt;/span&gt;,
+            &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;csrf_token&amp;#34;&lt;/span&gt;: csrf_token
+        }, callback&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;after_login)
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;after_login&lt;/span&gt;(self, response):
+        &lt;span style=&#34;color:#75715e&#34;&gt;# controlliamo se siamo stati autenticati con successo&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Incorrect username or password&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; response&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;body:
+            self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;logger&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;error(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Login fallito&amp;#34;&lt;/span&gt;)
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;
+
+        &lt;span style=&#34;color:#75715e&#34;&gt;# se siamo stati autenticati con successo, possiamo iniziare a fare scraping&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; item &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; response&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;div.item&amp;#34;&lt;/span&gt;):
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;yield&lt;/span&gt; {
+                &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: item&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;h3 &amp;gt; a::text&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get(),
+                &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;price&amp;#34;&lt;/span&gt;: item&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;span.price::text&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get(),
+                &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;image_url&amp;#34;&lt;/span&gt;: item&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;img::attr(src)&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get()
+            }
+
+        &lt;span style=&#34;color:#75715e&#34;&gt;# e possiamo anche seguire i link per le pagine successive&lt;/span&gt;
+        next_page &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; response&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;a.next_page::attr(href)&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get()
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; next_page &lt;span style=&#34;color:#f92672&#34;&gt;is&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;not&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;None&lt;/span&gt;:
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;yield&lt;/span&gt; response&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;follow(next_page, self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;after_login)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In questo modo, il spider inizia visitando la pagina di login, estrae il token CSRF e invia una richiesta di form con i dati di login e il token. Quindi, utilizza la funzione after_login come callback per gestire la risposta della richiesta di form. In questa funzione, il spider controlla se l&amp;rsquo;autenticazione è stata eseguita con successo e, in caso contrario, registra un errore. In caso contrario, il spider inizia a fare scraping dei dati e a seguire i link per le pagine successive.&lt;/p&gt;
+&lt;h2 id=&#34;scraping-di-dati-da-una-pagina-ajax&#34;&gt;Scraping di dati da una pagina AJAX&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; scrapy
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;AJAXBookSpider&lt;/span&gt;(scrapy&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Spider):
+    name &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;ajaxbookspider&amp;#34;&lt;/span&gt;
+    start_urls &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://books.toscrape.com/catalogue/category/books/ajax&amp;#34;&lt;/span&gt;]
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;parse&lt;/span&gt;(self, response):
+        &lt;span style=&#34;color:#75715e&#34;&gt;# Invia una richiesta POST per ottenere i dati dei libri tramite AJAX&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;yield&lt;/span&gt; scrapy&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;FormRequest(
+            &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://books.toscrape.com/catalogue/category/books/ajax&amp;#34;&lt;/span&gt;,
+            formdata&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;{&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;page&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;2&amp;#34;&lt;/span&gt;},
+            callback&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;parse_ajax_response
+        )
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;parse_ajax_response&lt;/span&gt;(self, response):
+        &lt;span style=&#34;color:#75715e&#34;&gt;# Estraiamo i dati dei libri dalla risposta AJAX&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; book &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; response&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;article.product_pod&amp;#34;&lt;/span&gt;):
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;yield&lt;/span&gt; {
+                &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: book&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;h3 a::attr(title)&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get(),
+                &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;price&amp;#34;&lt;/span&gt;: book&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;p.price_color::text&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get()
+            }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In questo esempio, lo spider utilizza il metodo scrapy.FormRequest() per inviare una richiesta POST con i dati del form AJAX alla pagina web. La risposta AJAX contiene i dati dei libri che vengono estratti dalla pagina utilizzando il metodo parse_ajax_response().&lt;/p&gt;
+&lt;h2 id=&#34;scraping-di-dati-da-una-pagina-utilizzando-una-sessione&#34;&gt;Scraping di dati da una pagina utilizzando una sessione&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; scrapy
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;SessionBookSpider&lt;/span&gt;(scrapy&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Spider):
+    name &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;sessionbookspider&amp;#34;&lt;/span&gt;
+    start_urls &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://books.toscrape.com/catalogue/category/books/science_22/index.html&amp;#34;&lt;/span&gt;]
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;start_requests&lt;/span&gt;(self):
+        &lt;span style=&#34;color:#75715e&#34;&gt;# Iniziamo una sessione&lt;/span&gt;
+        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;session &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; scrapy&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Session()
+        &lt;span style=&#34;color:#75715e&#34;&gt;# Effettuiamo il login&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; [self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;session&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;post(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://books.toscrape.com/login&amp;#34;&lt;/span&gt;, data&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;{&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;username&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;user&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;password&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;pass&amp;#34;&lt;/span&gt;})]
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;parse&lt;/span&gt;(self, response):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; book &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; response&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;article.product_pod&amp;#34;&lt;/span&gt;):
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;yield&lt;/span&gt; {
+                &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: book&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;h3 a::attr(title)&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get(),
+                &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;price&amp;#34;&lt;/span&gt;: book&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;p.price_color::text&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get()
+            }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In questo esempio, lo spider utilizza una sessione per effettuare il login alla pagina web prima di iniziare a estrarre i dati. Utilizzando il metodo start_requests() per effettuare il login e il metodo parse() per estrarre i dati, lo spider mantiene la sessione attiva durante tutto il processo di scraping.&lt;/p&gt;
+&lt;h2 id=&#34;scraping-di-tutti-i-prezzi-dei-libri-su-tutte-le-pagine&#34;&gt;Scraping di tutti i prezzi dei libri su tutte le pagine&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; scrapy
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;AllPricesSpider&lt;/span&gt;(scrapy&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Spider):
+    name &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;allpricesspider&amp;#34;&lt;/span&gt;
+    start_urls &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [
+        &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://books.toscrape.com/catalogue/category/books/science_22/index.html&amp;#34;&lt;/span&gt;,
+    ]
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;parse&lt;/span&gt;(self, response):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; book &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; response&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;article.product_pod&amp;#34;&lt;/span&gt;):
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;yield&lt;/span&gt; {
+                &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;price&amp;#34;&lt;/span&gt;: book&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;.price_color::text&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get(),
+            }
+        next_page &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; response&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;li.next &amp;gt; a::attr(href)&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get()
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; next_page &lt;span style=&#34;color:#f92672&#34;&gt;is&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;not&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;None&lt;/span&gt;:
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;yield&lt;/span&gt; response&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;follow(next_page, self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;parse)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Questo codice è un esempio di uno spider Scrapy che estrae i prezzi di tutti i libri presenti sul sito &amp;ldquo;&lt;a href=&#34;http://books.toscrape.com/catalogue/category/books/science_22/index.html%22&#34;&gt;http://books.toscrape.com/catalogue/category/books/science_22/index.html&amp;quot;&lt;/a&gt; e li salva in un formato predefinito.&lt;/p&gt;
+&lt;p&gt;Il codice importa la libreria di scrapy, quindi definisce una classe &lt;em&gt;AllPricesSpider&lt;/em&gt; che estende la classe base &lt;em&gt;scrapy.Spider&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;La classe ha un nome univoco &lt;strong&gt;name&lt;/strong&gt; e una lista di URL da cui iniziare a raccogliere i dati &lt;strong&gt;start_urls&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Il metodo &lt;em&gt;parse&lt;/em&gt; è chiamato per ogni pagina visitata e utilizza la funzione &lt;em&gt;response.css&lt;/em&gt; per selezionare tutti gli elementi &lt;strong&gt;article.product_pod&lt;/strong&gt; sulla pagina. Per ogni elemento selezionato, estrae il prezzo utilizzando la selezione &lt;em&gt;.price_color::text&lt;/em&gt; e lo salva in un dizionario.&lt;/p&gt;
+&lt;p&gt;Infine, il codice cerca il link per la pagina successiva, se esiste, utilizzando la funzione &amp;ldquo;response.css(&amp;ldquo;li.next &amp;gt; a::attr(href)&amp;quot;).get()&amp;rdquo; e segue il link utilizzando la funzione &amp;ldquo;response.follow(next_page, self.parse)&amp;rdquo; per continuare a raccogliere dati dalle successive pagine.&lt;/p&gt;
+&lt;h2 id=&#34;scraping-di-tutti-i-titoli-e-le-categorie-dei-libri&#34;&gt;Scraping di tutti i titoli e le categorie dei libri&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; scrapy
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;TitleCategorySpider&lt;/span&gt;(scrapy&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Spider):
+    name &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;titlecategoryspider&amp;#34;&lt;/span&gt;
+    start_urls &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [
+        &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://books.toscrape.com/catalogue/category/books/science_22/index.html&amp;#34;&lt;/span&gt;,
+    ]
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;parse&lt;/span&gt;(self, response):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; book &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; response&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;article.product_pod&amp;#34;&lt;/span&gt;):
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;yield&lt;/span&gt; {
+                &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: book&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;h3 &amp;gt; a::text&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get(),
+                &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;category&amp;#34;&lt;/span&gt;: response&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;nav &amp;gt; ul &amp;gt; li.active &amp;gt; a::text&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get(),
+            }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Questo codice utilizza la libreria scrapy per estrarre dati da una pagina web. In particolare, il codice crea una classe chiamata &lt;em&gt;TitleCategorySpider&lt;/em&gt; che estrae i titoli dei libri e la categoria dei libri dalla pagina web &amp;ldquo;&lt;a href=&#34;http://books.toscrape.com/catalogue/category/books/science_22/index.html%22&#34;&gt;http://books.toscrape.com/catalogue/category/books/science_22/index.html&amp;quot;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;La classe &lt;strong&gt;TitleCategorySpider&lt;/strong&gt; estende la classe &lt;em&gt;scrapy.Spider&lt;/em&gt; e definisce un metodo &lt;em&gt;parse&lt;/em&gt; che viene chiamato quando la pagina specificata in &lt;em&gt;start_urls&lt;/em&gt; è scaricata.&lt;/p&gt;
+&lt;p&gt;Il metodo &lt;em&gt;parse&lt;/em&gt; utilizza il metodo &lt;em&gt;response.css&lt;/em&gt; per selezionare gli elementi delle pagine web. Utilizza il metodo &lt;strong&gt;css&lt;/strong&gt; per selezionare gli elementi &lt;em&gt;article.product_pod&lt;/em&gt; dalla pagina web. Per ogni elemento selezionato, utilizza il metodo &lt;strong&gt;css&lt;/strong&gt; di nuovo per estrarre il titolo del libro (&amp;ldquo;h3 &amp;gt; a::text&amp;rdquo;) e la categoria del libro (&amp;ldquo;nav &amp;gt; ul &amp;gt; li.active &amp;gt; a::text&amp;rdquo;) e quindi li salva in un dizionario.&lt;/p&gt;
+&lt;p&gt;Il metodo &lt;em&gt;yield&lt;/em&gt; è utilizzato per restituire il dizionario come risultato del metodo parse. In questo modo, scrapy sa che il risultato deve essere raccolto e utilizzato per qualcos&amp;rsquo;altro, come la scrittura su un file o la memorizzazione in un database.&lt;/p&gt;
+&lt;h2 id=&#34;scraping-delle-immagini-dei-libri&#34;&gt;Scraping delle immagini dei libri&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; scrapy
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;BookImageSpider&lt;/span&gt;(scrapy&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Spider):
+    name &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;bookimagespider&amp;#34;&lt;/span&gt;
+    start_urls &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [
+        &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://books.toscrape.com/catalogue/category/books/science_22/index.html&amp;#34;&lt;/span&gt;,
+    ]
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;parse&lt;/span&gt;(self, response):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; book &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; response&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;article.product_pod&amp;#34;&lt;/span&gt;):
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;yield&lt;/span&gt; {
+                &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;title&amp;#34;&lt;/span&gt;: book&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;h3 &amp;gt; a::text&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get(),
+                &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;image_urls&amp;#34;&lt;/span&gt;: book&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;img::attr(src)&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;getall(),
+            }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Il codice utilizza la libreria scrapy per creare uno spider chiamato &lt;em&gt;bookimagespider&lt;/em&gt; che inizia a navigare dalla pagina &amp;ldquo;&lt;a href=&#34;http://books.toscrape.com/catalogue/category/books/science_22/index.html%22&#34;&gt;http://books.toscrape.com/catalogue/category/books/science_22/index.html&amp;quot;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Il metodo parse(self, response) viene chiamato per ogni pagina visitata dallo spider. Il metodo cerca tutti gli elementi HTML con classe &lt;em&gt;product_pod&lt;/em&gt; che rappresentano i libri nella pagina. Per ogni elemento trovato, estrae il titolo del libro e l&amp;rsquo;URL dell&amp;rsquo;immagine del libro.&lt;/p&gt;
+&lt;p&gt;L&amp;rsquo;URL dell&amp;rsquo;immagine del libro viene estratto tramite il metodo .css(&amp;ldquo;img::attr(src)&amp;quot;).getall() che seleziona tutti gli elementi img e estrae l&amp;rsquo;attributo src. Il risultato è una lista di URL delle immagini dei libri.&lt;/p&gt;
+&lt;p&gt;Questi dati estratti vengono quindi restituiti come un dizionario con le chiavi &lt;em&gt;title&lt;/em&gt; e &lt;em&gt;image_urls&lt;/em&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;scraping-dei-prezzi-dei-libri-in-un-formato-specifico-es-json&#34;&gt;Scraping dei prezzi dei libri in un formato specifico (es. JSON)&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; scrapy
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;PriceSpiderJSON&lt;/span&gt;(scrapy&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Spider):
+    name &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;pricespiderjson&amp;#34;&lt;/span&gt;
+    start_urls &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [
+        &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://books.toscrape.com/catalogue/category/books/science_22/index.html&amp;#34;&lt;/span&gt;,
+    ]
+
+    custom_settings &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {
+        &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;FEED_FORMAT&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;json&amp;#34;&lt;/span&gt;,
+        &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;FEED_URI&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;prices.json&amp;#34;&lt;/span&gt;,
+    }
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;parse&lt;/span&gt;(self, response):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; book &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; response&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;article.product_pod&amp;#34;&lt;/span&gt;):
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;yield&lt;/span&gt; {
+                &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;price&amp;#34;&lt;/span&gt;: book&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;css(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;.price_color::text&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get(),
+            }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Questo codice utilizza la libreria scrapy per creare uno spider chiamato &lt;em&gt;PriceSpiderJSON&lt;/em&gt;, che inizia a navigare nella pagina web &amp;ldquo;&lt;a href=&#34;http://books.toscrape.com/catalogue/category/books/science_22/index.html%22&#34;&gt;http://books.toscrape.com/catalogue/category/books/science_22/index.html&amp;quot;&lt;/a&gt; e recupera i prezzi dei libri presenti su quella pagina. Utilizza il metodo parse() per elaborare la risposta ottenuta dalla pagina web e recuperare i prezzi. Il metodo yield {} serve per generare un dizionario di output contenente la proprietà &amp;ldquo;price&amp;rdquo; con il prezzo del libro.&lt;/p&gt;
+&lt;p&gt;Il dizionario custom_settings definisce il formato del feed e il nome del file in cui verranno salvati i dati recuperati dallo spider. In questo caso il feed verrà salvato in formato JSON con nome &lt;strong&gt;prices.json&lt;/strong&gt;.&lt;/p&gt;
+</content>
+    </item>
+    
+    <item>
       <title>Introduzione All&#39;ARP Poisoning</title>
       <link>https://kobra3390.github.io/SpaceHack/posts/introduzione-arp-poisoning/introduzione_arp_poisoning/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
