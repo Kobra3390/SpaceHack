@@ -13,7 +13,7 @@
       
       <guid>https://kobra3390.github.io/SpaceHack/posts/introduzione-arp-poisoning/introduzione_arp_poisoning/</guid>
       <description>Table Of Contents:
- Cos&amp;rsquo;è il Protocollo ARP Che cos’è l’ARP Poisoning ARP Poisoning con Scapy e Python  In questi giorni ho letto Python per Hacker (seconda edizione) e mi sono imbattuto durante la lettura in un argomento molto interessante, ossia l&amp;rsquo;ARP Poisoning.
+ Cos&amp;rsquo;è il Protocollo ARP Che cos’è l’ARP Poisoning ARP Poisoning con Scapy e Python Come prevenire L&amp;rsquo;ARP Poisoning con DAI  In questi giorni ho letto Python per Hacker (seconda edizione) e mi sono imbattuto durante la lettura in un argomento molto interessante, ossia l&amp;rsquo;ARP Poisoning.
 Ho iniziato dunque a fare delle ricerche e voglio condividere quello che ho trovato con voi.
 Cos&amp;rsquo;è il Protocollo ARP Per approfondire l&amp;rsquo;argomento ti consigli di leggere questo.</description>
       <content>&lt;p&gt;Table Of Contents:&lt;/p&gt;
@@ -21,6 +21,7 @@ Cos&amp;rsquo;è il Protocollo ARP Per approfondire l&amp;rsquo;argomento ti con
 &lt;li&gt;&lt;a href=&#34;#cos---il-protocollo-arp&#34;&gt;Cos&amp;rsquo;è il Protocollo ARP&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#che-cos---l-arp-poisoning&#34;&gt;Che cos’è l’ARP Poisoning&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#arp-poisoning-con-scapy-e-python&#34;&gt;ARP Poisoning con Scapy e Python&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#come-prevenire-l-arp-poisoning-con-dai&#34;&gt;Come prevenire L&amp;rsquo;ARP Poisoning con DAI&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;In questi giorni ho letto &lt;em&gt;Python per Hacker (seconda edizione)&lt;/em&gt; e mi sono imbattuto durante la lettura in un argomento
 molto interessante, ossia &lt;strong&gt;l&amp;rsquo;ARP Poisoning&lt;/strong&gt;.&lt;/p&gt;
@@ -314,6 +315,10 @@ Kobra3390.wind3.hub &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;192.
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;? &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;192.168.1.1&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; associato a 18:cc:18:fa:ad:b1 &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;ether&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; su wlp61s0
 ? &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;192.168.1.176&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; associato a 18:cc:18:fa:ad:b1 &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;ether&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; su wlp61s0
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Si vede che la vittima malcapitata ha una cache ARP compromessa, poichè il gateway risulta avere lo stesso indirizzo MAC dell’attaccante: infatti noi stiamo attaccando dal 192.168.1.176. A fine attacco, dovresti avere un file di nome arper.pcap nella stessa directory dello script.&lt;/p&gt;
+&lt;h1 id=&#34;come-prevenire-larp-poisoning-con-dai&#34;&gt;Come prevenire L&amp;rsquo;ARP Poisoning con DAI&lt;/h1&gt;
+&lt;p&gt;L&amp;rsquo;ispezione ARP dinamica (DAI) è una funzione di sicurezza che rifiuta i pacchetti ARP non validi e dannosi.  La funzione impedisce una classe di attacchi man-in-the-middle, in cui una stazione ostile intercetta il traffico per altre stazioni avvelenando le cache ARP dei suoi ignari vicini.  Il malintenzionato invia richieste o risposte ARP mappando l&amp;rsquo;indirizzo IP di un&amp;rsquo;altra stazione al proprio indirizzo MAC.&lt;/p&gt;
+&lt;p&gt;DAI si basa sullo snooping DHCP.  Lo snooping DHCP ascolta gli scambi di messaggi DHCP e crea un database di associazioni di tuple valide (indirizzo MAC, indirizzo IP, interfaccia VLAN).&lt;/p&gt;
+&lt;p&gt;Quando DAI è abilitato, lo switch elimina il pacchetto ARP se l&amp;rsquo;indirizzo MAC e l&amp;rsquo;indirizzo IP del mittente non corrispondono a una voce nel database dei binding di snooping DHCP.  Tuttavia, può essere superato attraverso mappature statiche.  I mapping statici sono utili quando gli host configurano indirizzi IP statici, lo snooping DHCP non può essere eseguito o altri switch nella rete non eseguono l&amp;rsquo;ispezione ARP dinamica.  Una mappatura statica associa un indirizzo IP a un indirizzo MAC su una VLAN.&lt;/p&gt;
 </content>
     </item>
     

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Python on HomePage</title>
-    <link>https://kobra3390.github.io/SpaceHack/tags/python/</link>
-    <description>Recent content in Python on HomePage</description>
+    <title>Network Attacks on HomePage</title>
+    <link>https://kobra3390.github.io/SpaceHack/categories/network-attacks/</link>
+    <description>Recent content in Network Attacks on HomePage</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://kobra3390.github.io/SpaceHack/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language><atom:link href="https://kobra3390.github.io/SpaceHack/categories/network-attacks/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Introduzione All&#39;ARP Poisoning</title>
       <link>https://kobra3390.github.io/SpaceHack/posts/introduzione-arp-poisoning/introduzione_arp_poisoning/</link>

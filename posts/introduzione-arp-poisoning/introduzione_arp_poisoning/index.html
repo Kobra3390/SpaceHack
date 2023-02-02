@@ -7,7 +7,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Table Of Contents:
- Cos&amp;rsquo;è il Protocollo ARP Che cos’è l’ARP Poisoning ARP Poisoning con Scapy e Python  In questi giorni ho letto Python per Hacker (seconda edizione) e mi sono imbattuto durante la lettura in un argomento molto interessante, ossia l&amp;rsquo;ARP Poisoning.
+ Cos&amp;rsquo;è il Protocollo ARP Che cos’è l’ARP Poisoning ARP Poisoning con Scapy e Python Come prevenire L&amp;rsquo;ARP Poisoning con DAI  In questi giorni ho letto Python per Hacker (seconda edizione) e mi sono imbattuto durante la lettura in un argomento molto interessante, ossia l&amp;rsquo;ARP Poisoning.
 Ho iniziato dunque a fare delle ricerche e voglio condividere quello che ho trovato con voi.
 Cos&amp;rsquo;è il Protocollo ARP Per approfondire l&amp;rsquo;argomento ti consigli di leggere questo." />
 <meta name="keywords" content="" />
@@ -49,7 +49,7 @@ Cos&amp;rsquo;è il Protocollo ARP Per approfondire l&amp;rsquo;argomento ti con
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Introduzione All&#39;ARP Poisoning">
 <meta property="og:description" content="Table Of Contents:
- Cos&amp;rsquo;è il Protocollo ARP Che cos’è l’ARP Poisoning ARP Poisoning con Scapy e Python  In questi giorni ho letto Python per Hacker (seconda edizione) e mi sono imbattuto durante la lettura in un argomento molto interessante, ossia l&amp;rsquo;ARP Poisoning.
+ Cos&amp;rsquo;è il Protocollo ARP Che cos’è l’ARP Poisoning ARP Poisoning con Scapy e Python Come prevenire L&amp;rsquo;ARP Poisoning con DAI  In questi giorni ho letto Python per Hacker (seconda edizione) e mi sono imbattuto durante la lettura in un argomento molto interessante, ossia l&amp;rsquo;ARP Poisoning.
 Ho iniziato dunque a fare delle ricerche e voglio condividere quello che ho trovato con voi.
 Cos&amp;rsquo;è il Protocollo ARP Per approfondire l&amp;rsquo;argomento ti consigli di leggere questo." />
 <meta property="og:url" content="https://kobra3390.github.io/SpaceHack/posts/introduzione-arp-poisoning/introduzione_arp_poisoning/" />
@@ -64,7 +64,7 @@ Cos&amp;rsquo;è il Protocollo ARP Per approfondire l&amp;rsquo;argomento ti con
 
   <meta property="article:section" content="Tutorial" />
 
-  <meta property="article:section" content="Network Attack" />
+  <meta property="article:section" content="Network Attacks" />
 
 
 
@@ -165,6 +165,8 @@ Cos&amp;rsquo;è il Protocollo ARP Per approfondire l&amp;rsquo;argomento ti con
       
       #<a href="https://kobra3390.github.io/SpaceHack/tags/scapy/">Scapy</a>&nbsp;
       
+      #<a href="https://kobra3390.github.io/SpaceHack/tags/dai/">DAI</a>&nbsp;
+      
     </span>
   
   
@@ -178,6 +180,7 @@ Cos&amp;rsquo;è il Protocollo ARP Per approfondire l&amp;rsquo;argomento ti con
 <li><a href="#cos---il-protocollo-arp">Cos&rsquo;è il Protocollo ARP</a></li>
 <li><a href="#che-cos---l-arp-poisoning">Che cos’è l’ARP Poisoning</a></li>
 <li><a href="#arp-poisoning-con-scapy-e-python">ARP Poisoning con Scapy e Python</a></li>
+<li><a href="#come-prevenire-l-arp-poisoning-con-dai">Come prevenire L&rsquo;ARP Poisoning con DAI</a></li>
 </ul>
 <p>In questi giorni ho letto <em>Python per Hacker (seconda edizione)</em> e mi sono imbattuto durante la lettura in un argomento
 molto interessante, ossia <strong>l&rsquo;ARP Poisoning</strong>.</p>
@@ -471,6 +474,10 @@ Kobra3390.wind3.hub <span style="color:#f92672">(</span>192.168.1.233<span style
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">? <span style="color:#f92672">(</span>192.168.1.1<span style="color:#f92672">)</span> associato a 18:cc:18:fa:ad:b1 <span style="color:#f92672">[</span>ether<span style="color:#f92672">]</span> su wlp61s0
 ? <span style="color:#f92672">(</span>192.168.1.176<span style="color:#f92672">)</span> associato a 18:cc:18:fa:ad:b1 <span style="color:#f92672">[</span>ether<span style="color:#f92672">]</span> su wlp61s0
 </code></pre></div><p>Si vede che la vittima malcapitata ha una cache ARP compromessa, poichè il gateway risulta avere lo stesso indirizzo MAC dell’attaccante: infatti noi stiamo attaccando dal 192.168.1.176. A fine attacco, dovresti avere un file di nome arper.pcap nella stessa directory dello script.</p>
+<h1 id="come-prevenire-larp-poisoning-con-dai">Come prevenire L&rsquo;ARP Poisoning con DAI<a href="#come-prevenire-larp-poisoning-con-dai" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>L&rsquo;ispezione ARP dinamica (DAI) è una funzione di sicurezza che rifiuta i pacchetti ARP non validi e dannosi.  La funzione impedisce una classe di attacchi man-in-the-middle, in cui una stazione ostile intercetta il traffico per altre stazioni avvelenando le cache ARP dei suoi ignari vicini.  Il malintenzionato invia richieste o risposte ARP mappando l&rsquo;indirizzo IP di un&rsquo;altra stazione al proprio indirizzo MAC.</p>
+<p>DAI si basa sullo snooping DHCP.  Lo snooping DHCP ascolta gli scambi di messaggi DHCP e crea un database di associazioni di tuple valide (indirizzo MAC, indirizzo IP, interfaccia VLAN).</p>
+<p>Quando DAI è abilitato, lo switch elimina il pacchetto ARP se l&rsquo;indirizzo MAC e l&rsquo;indirizzo IP del mittente non corrispondono a una voce nel database dei binding di snooping DHCP.  Tuttavia, può essere superato attraverso mappature statiche.  I mapping statici sono utili quando gli host configurano indirizzi IP statici, lo snooping DHCP non può essere eseguito o altri switch nella rete non eseguono l&rsquo;ispezione ARP dinamica.  Una mappatura statica associa un indirizzo IP a un indirizzo MAC su una VLAN.</p>
 
       </div></div>
 
