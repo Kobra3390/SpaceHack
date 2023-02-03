@@ -18,7 +18,7 @@
   &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/Scrapy-Banner.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
 
 
-&lt;p&gt;Table Of Contents:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Table Of Contents&lt;/strong&gt;:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#introduzione-al-modulo&#34;&gt;Introduzione al modulo&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#esempi-pratici&#34;&gt;Esempi Pratici&lt;/a&gt;
@@ -40,6 +40,7 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
+&lt;hr&gt;
 &lt;h1 id=&#34;introduzione-al-modulo&#34;&gt;Introduzione al modulo&lt;/h1&gt;
 &lt;p&gt;Scrapy è un modulo Python open-source per il web scraping. È stato progettato per estrarre i dati da siti web in modo efficiente e rapido. Scrapy offre una serie di funzionalità avanzate per il web scraping, tra cui la gestione delle richieste, la navigazione del sito, la selezione dei dati tramite XPath o CSS selector e la gestione dei cookie.&lt;/p&gt;
 &lt;p&gt;Il modulo Scrapy utilizza una struttura ad albero per rappresentare il contenuto di una pagina web. Ciò consente agli sviluppatori di selezionare facilmente i dati desiderati utilizzando i selettori CSS e XPath. Inoltre, Scrapy fornisce una serie di metodi per navigare il sito web come segue: seguire i link, inviare form e gestire i cookie.&lt;/p&gt;
@@ -76,6 +77,13 @@
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;scrapy shell &amp;lt;url&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Questo per testare il codice del tuo spider su una singola pagina web, prima di lanciare la scansione sull&amp;rsquo;intero sito.&lt;/p&gt;
 &lt;p&gt;Di seguito vediamo degli esempi usando come URL: &lt;a href=&#34;http://books.toscrape.com/&#34;&gt;http://books.toscrape.com/&lt;/a&gt; che viene usato appositamente per il Web Scraping.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Nota:&lt;/strong&gt;&lt;/em&gt; durante l’esecuzione del codice possono esserci errori per la mancanza del modulo attrs, per installarlo usiamo il comando:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;pip install attrs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Oppure per Python3:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;pip3 install attrs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Se abbiamo già questo modulo, possiamo aggiornarlo con il comando:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;pip install --upgrade attrs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;!-- raw HTML omitted --&gt;
 &lt;h1 id=&#34;esempi-pratici&#34;&gt;Esempi Pratici&lt;/h1&gt;
 &lt;h2 id=&#34;estrazione-del-titolo-di-una-pagina-web&#34;&gt;Estrazione del titolo di una pagina web&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; scrapy

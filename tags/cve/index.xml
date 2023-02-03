@@ -13,8 +13,8 @@
       
       <guid>https://kobra3390.github.io/SpaceHack/posts/walkthrough-explore/walkthrough_explore_ctf/</guid>
       <description>Table of Contents:
- Enumerazione con Nmap Analisi delle porte  Sfruttamento dell’Exploit con Metasploit Sfruttamento dell’Exploit con CVE (Script Python)   Privilage Escalation  Explore è una macchina Android di facile difficoltà. L’enumerazione della rete rivela un servizio vulnerabile, sfruttabile tramite un modulo Metasploit e fornisce un accesso in lettura limitato alla macchina. Un’ulteriore enumerazione dei file, rivela le credenziali SSH di un utente del sistema, consentendo così l’accesso remoto alla macchina.</description>
-      <content>&lt;p&gt;Table of Contents:&lt;/p&gt;
+ Enumerazione con Nmap Analisi delle porte  Sfruttamento dell’Exploit con Metasploit Sfruttamento dell’Exploit con CVE (Script Python)   Privilage Escalation   Explore è una macchina Android di facile difficoltà. L’enumerazione della rete rivela un servizio vulnerabile, sfruttabile tramite un modulo Metasploit e fornisce un accesso in lettura limitato alla macchina. Un’ulteriore enumerazione dei file, rivela le credenziali SSH di un utente del sistema, consentendo così l’accesso remoto alla macchina.</description>
+      <content>&lt;p&gt;&lt;strong&gt;Table of Contents&lt;/strong&gt;:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#enumerazione-con-nmap&#34;&gt;Enumerazione con Nmap&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#analisi-delle-porte&#34;&gt;Analisi delle porte&lt;/a&gt;
@@ -25,6 +25,7 @@
 &lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#privilage-escalation&#34;&gt;Privilage Escalation&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;hr&gt;
 
   &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/LogoExploreCTF.png&#34;  class=&#34;left&#34;  style=&#34;width: 300px&#34;  /&gt;
 

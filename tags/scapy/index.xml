@@ -13,16 +13,17 @@
       
       <guid>https://kobra3390.github.io/SpaceHack/posts/introduzione-arp-poisoning/introduzione_arp_poisoning/</guid>
       <description>Table Of Contents:
- Cos&amp;rsquo;è il Protocollo ARP Che cos’è l’ARP Poisoning ARP Poisoning con Scapy e Python Come prevenire L&amp;rsquo;ARP Poisoning con DAI  In questi giorni ho letto Python per Hacker (seconda edizione) e mi sono imbattuto durante la lettura in un argomento molto interessante, ossia l&amp;rsquo;ARP Poisoning.
+ Cos&amp;rsquo;è il Protocollo ARP Che cos’è l’ARP Poisoning ARP Poisoning con Scapy e Python Come prevenire L&amp;rsquo;ARP Poisoning con DAI   In questi giorni ho letto Python per Hacker (seconda edizione) e mi sono imbattuto durante la lettura in un argomento molto interessante, ossia l&amp;rsquo;ARP Poisoning.
 Ho iniziato dunque a fare delle ricerche e voglio condividere quello che ho trovato con voi.
 Cos&amp;rsquo;è il Protocollo ARP Per approfondire l&amp;rsquo;argomento ti consigli di leggere questo.</description>
-      <content>&lt;p&gt;Table Of Contents:&lt;/p&gt;
+      <content>&lt;p&gt;&lt;strong&gt;Table Of Contents&lt;/strong&gt;:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#cos---il-protocollo-arp&#34;&gt;Cos&amp;rsquo;è il Protocollo ARP&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#che-cos---l-arp-poisoning&#34;&gt;Che cos’è l’ARP Poisoning&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#arp-poisoning-con-scapy-e-python&#34;&gt;ARP Poisoning con Scapy e Python&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#come-prevenire-l-arp-poisoning-con-dai&#34;&gt;Come prevenire L&amp;rsquo;ARP Poisoning con DAI&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;hr&gt;
 &lt;p&gt;In questi giorni ho letto &lt;em&gt;Python per Hacker (seconda edizione)&lt;/em&gt; e mi sono imbattuto durante la lettura in un argomento
 molto interessante, ossia &lt;strong&gt;l&amp;rsquo;ARP Poisoning&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;Ho iniziato dunque a fare delle ricerche e voglio condividere quello che ho trovato con voi.&lt;/p&gt;

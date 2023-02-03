@@ -146,6 +146,8 @@
       <span class="post-author">Autore: k0Br@3390</span>
     
     
+      <span class="post-reading-time">:: 17 min read (3485 words)</span>
+    
   </div>
 
   
@@ -169,7 +171,7 @@
   <img src="https://kobra3390.github.io/SpaceHack/images/Scrapy-Banner.jpeg"  class="left"  style="width: 700px"  />
 
 
-<p>Table Of Contents:</p>
+<p><strong>Table Of Contents</strong>:</p>
 <ul>
 <li><a href="#introduzione-al-modulo">Introduzione al modulo</a></li>
 <li><a href="#esempi-pratici">Esempi Pratici</a>
@@ -191,6 +193,7 @@
 </ul>
 </li>
 </ul>
+<hr>
 <h1 id="introduzione-al-modulo">Introduzione al modulo<a href="#introduzione-al-modulo" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
 <p>Scrapy è un modulo Python open-source per il web scraping. È stato progettato per estrarre i dati da siti web in modo efficiente e rapido. Scrapy offre una serie di funzionalità avanzate per il web scraping, tra cui la gestione delle richieste, la navigazione del sito, la selezione dei dati tramite XPath o CSS selector e la gestione dei cookie.</p>
 <p>Il modulo Scrapy utilizza una struttura ad albero per rappresentare il contenuto di una pagina web. Ciò consente agli sviluppatori di selezionare facilmente i dati desiderati utilizzando i selettori CSS e XPath. Inoltre, Scrapy fornisce una serie di metodi per navigare il sito web come segue: seguire i link, inviare form e gestire i cookie.</p>
@@ -227,6 +230,13 @@
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">scrapy shell &lt;url&gt;
 </code></pre></div><p>Questo per testare il codice del tuo spider su una singola pagina web, prima di lanciare la scansione sull&rsquo;intero sito.</p>
 <p>Di seguito vediamo degli esempi usando come URL: <a href="http://books.toscrape.com/">http://books.toscrape.com/</a> che viene usato appositamente per il Web Scraping.</p>
+<p><em><strong>Nota:</strong></em> durante l’esecuzione del codice possono esserci errori per la mancanza del modulo attrs, per installarlo usiamo il comando:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pip install attrs
+</code></pre></div><p>Oppure per Python3:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pip3 install attrs
+</code></pre></div><p>Se abbiamo già questo modulo, possiamo aggiornarlo con il comando:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pip install --upgrade attrs
+</code></pre></div><!-- raw HTML omitted -->
 <h1 id="esempi-pratici">Esempi Pratici<a href="#esempi-pratici" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
 <h2 id="estrazione-del-titolo-di-una-pagina-web">Estrazione del titolo di una pagina web<a href="#estrazione-del-titolo-di-una-pagina-web" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> scrapy

@@ -17,7 +17,7 @@
 Il comando é:
 nmap -sVC -n -A -Pn -p 22, 23, 80 [address] --min-rate 5000 L&amp;rsquo;output:
 Starting Nmap 7.92 ( https://nmap.org ) at 2022-11-24 22:45 CET Nmap scan report for 10.</description>
-      <content>&lt;p&gt;Table Of Contents:&lt;/p&gt;
+      <content>&lt;p&gt;&lt;strong&gt;Table Of Contents&lt;/strong&gt;:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#enumerazione-con-nmap&#34;&gt;Enumerazione con Nmap&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#connessione-a-telnet&#34;&gt;Connessione a Telnet&lt;/a&gt;&lt;/li&gt;
