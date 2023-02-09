@@ -28,6 +28,12 @@
   </url><url>
     <loc>https://kobra3390.github.io/SpaceHack/posts/introduzione-arp-poisoning/introduzione_arp_poisoning/</loc>
   </url><url>
+    <loc>https://kobra3390.github.io/SpaceHack/tags/malware/</loc>
+  </url><url>
+    <loc>https://kobra3390.github.io/SpaceHack/tags/malware-analysis/</loc>
+  </url><url>
+    <loc>https://kobra3390.github.io/SpaceHack/categories/malware-analysis/</loc>
+  </url><url>
     <loc>https://kobra3390.github.io/SpaceHack/tags/metasploit/</loc>
   </url><url>
     <loc>https://kobra3390.github.io/SpaceHack/categories/network-attacks/</loc>
@@ -41,6 +47,8 @@
     <loc>https://kobra3390.github.io/SpaceHack/tags/python/</loc>
   </url><url>
     <loc>https://kobra3390.github.io/SpaceHack/tags/scapy/</loc>
+  </url><url>
+    <loc>https://kobra3390.github.io/SpaceHack/posts/scrivere-un-worm-in-python/scrivere_un_worm_in_python/</loc>
   </url><url>
     <loc>https://kobra3390.github.io/SpaceHack/tags/spider/</loc>
   </url><url>
@@ -61,5 +69,7 @@
     <loc>https://kobra3390.github.io/SpaceHack/posts/walkthrough-meow/walkthrough_meow_ctf/</loc>
   </url><url>
     <loc>https://kobra3390.github.io/SpaceHack/tags/web-scraping/</loc>
+  </url><url>
+    <loc>https://kobra3390.github.io/SpaceHack/tags/worm/</loc>
   </url>
 </urlset>

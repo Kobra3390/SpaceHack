@@ -77,6 +77,26 @@
     </item>
     
     <item>
+      <title>Malware</title>
+      <link>https://kobra3390.github.io/SpaceHack/tags/malware/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://kobra3390.github.io/SpaceHack/tags/malware/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Malware Analysis</title>
+      <link>https://kobra3390.github.io/SpaceHack/tags/malware-analysis/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://kobra3390.github.io/SpaceHack/tags/malware-analysis/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
       <title>Metasploit</title>
       <link>https://kobra3390.github.io/SpaceHack/tags/metasploit/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -172,6 +192,16 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://kobra3390.github.io/SpaceHack/tags/web-scraping/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Worm</title>
+      <link>https://kobra3390.github.io/SpaceHack/tags/worm/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://kobra3390.github.io/SpaceHack/tags/worm/</guid>
       <description></description>
       <content></content>
     </item>
