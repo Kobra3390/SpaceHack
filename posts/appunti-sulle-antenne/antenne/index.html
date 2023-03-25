@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>Appunti sulle Antenne :: HomePage</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Table of Contents  Appunti sulle Antenne Propagazione delle onde elettromagnetiche nello spazio libero  Intensitá del campo elettromagnetico prodotto da un’antenna isotropica  Cos’é la densitá di potenza Cos’é intesitá del campo elettrico   EIRP e calcolo del campo elettromagnetico prodotto da un’antenna non isotropica  Calcolo dell’EIRP Calcolo del campo elettromagnetico prodotto da un’antenna reale     Le Antenne  Teorema di Reciprocitá Componenti di un sistema di antenna   Diagramma di radiazione e solido di radiazione Guadagno di un’antenna  Guadagno rispetto all’antenna isotropica Guadagno rispetto all’antenna al dipolo in λ/2   Principali tipi di antenne  Principio di funzionamento delle antenne lineari Banda di un’antenna lineare Resistenza d’antenna  Resistenza di radiazione Resistenza di dissipazione   Parametri tipi di delle antenne riceventi  Altezza efficace Fattore di traduzione da campo elettrico indicente Area equivalente Correlazione tra Dimensioni dell’antenna e l’area equivalente Fattore di trasduzione da densitá di potenza incidente     Antenne omnidirezionali  Dipolo in λ/2 Antenna Marconi Antenna Ground Plane Antenne Caricate Dipolo ripiegato (folded dipole) e antenne a banda larga   Antenne direttive  Angolo di apertura del fascio (beamwidth) o angolo di radiazione Front-to-Back Ratio (rapporto avanti/dietro) Antenna Yagi Antenna collineari e a cortina Puntamento delle antenne direttive   Antenne a superficie  Antenna parabolica Parabola offset Antenne paraboliche per la ricezione TV da satellite Parabola Cassegrain   Sistemi di antenna MIMO(Multiple In Multiple Out) Installazione dei sistemi di antenna  Orizzonte radio e massima distanza fra due antenne Perdite per diffrazione e prima zona di Fresnel   Dimensionamento di un collegamento radio  Bilancio di potenza (link budget) di un collegamento radio Calcolo del livello in ricezione   Fading delle Antenne   In questo blog non vorrei parlare delle discipline come informatica, sicurezza informatica, ma col tempo vorrei trattare anche tematiche che riguardano il mio indirizzo di studi, ossia telecomunicazioni." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://kobra3390.github.io/SpaceHack/posts/appunti-sulle-antenne/antenne/" />
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://kobra3390.github.io/SpaceHack/styles.css">
+
+
+
+
+
+
+
+  <link rel="shortcut icon" href="https://kobra3390.github.io/SpaceHack/spacehack.ico">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+  
+    <meta name="twitter:site" content="" />
+  
+    <meta name="twitter:creator" content="Autore: k0Br@3390" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Appunti sulle Antenne">
+<meta property="og:description" content="Table of Contents  Appunti sulle Antenne Propagazione delle onde elettromagnetiche nello spazio libero  Intensitá del campo elettromagnetico prodotto da un’antenna isotropica  Cos’é la densitá di potenza Cos’é intesitá del campo elettrico   EIRP e calcolo del campo elettromagnetico prodotto da un’antenna non isotropica  Calcolo dell’EIRP Calcolo del campo elettromagnetico prodotto da un’antenna reale     Le Antenne  Teorema di Reciprocitá Componenti di un sistema di antenna   Diagramma di radiazione e solido di radiazione Guadagno di un’antenna  Guadagno rispetto all’antenna isotropica Guadagno rispetto all’antenna al dipolo in λ/2   Principali tipi di antenne  Principio di funzionamento delle antenne lineari Banda di un’antenna lineare Resistenza d’antenna  Resistenza di radiazione Resistenza di dissipazione   Parametri tipi di delle antenne riceventi  Altezza efficace Fattore di traduzione da campo elettrico indicente Area equivalente Correlazione tra Dimensioni dell’antenna e l’area equivalente Fattore di trasduzione da densitá di potenza incidente     Antenne omnidirezionali  Dipolo in λ/2 Antenna Marconi Antenna Ground Plane Antenne Caricate Dipolo ripiegato (folded dipole) e antenne a banda larga   Antenne direttive  Angolo di apertura del fascio (beamwidth) o angolo di radiazione Front-to-Back Ratio (rapporto avanti/dietro) Antenna Yagi Antenna collineari e a cortina Puntamento delle antenne direttive   Antenne a superficie  Antenna parabolica Parabola offset Antenne paraboliche per la ricezione TV da satellite Parabola Cassegrain   Sistemi di antenna MIMO(Multiple In Multiple Out) Installazione dei sistemi di antenna  Orizzonte radio e massima distanza fra due antenne Perdite per diffrazione e prima zona di Fresnel   Dimensionamento di un collegamento radio  Bilancio di potenza (link budget) di un collegamento radio Calcolo del livello in ricezione   Fading delle Antenne   In questo blog non vorrei parlare delle discipline come informatica, sicurezza informatica, ma col tempo vorrei trattare anche tematiche che riguardano il mio indirizzo di studi, ossia telecomunicazioni." />
+<meta property="og:url" content="https://kobra3390.github.io/SpaceHack/posts/appunti-sulle-antenne/antenne/" />
+<meta property="og:site_name" content="HomePage" />
+
+  
+    <meta property="og:image" content="https://kobra3390.github.io/SpaceHack/spacehack.ico">
+  
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+  <meta property="article:section" content="Tutorial" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="green">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://kobra3390.github.io/SpaceHack/">
+  <div class="logo">
+    SpaceHack
+  </div>
+</a>
+
+    </div>
+    
+      <ul class="menu menu--mobile">
+  <li class="menu__trigger">Menu&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        
+          <li><a href="https://kobra3390.github.io/SpaceHack/about">About</a></li>
+        
+      
+      
+    </ul>
+  </li>
+</ul>
+
+    
+    
+  </div>
+  
+    <nav class="navigation-menu">
+  <ul class="navigation-menu__inner menu--desktop">
+    
+      
+        
+          <li><a href="https://kobra3390.github.io/SpaceHack/about">About</a></li>
+        
+      
+      
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+  
+  
+  
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="https://kobra3390.github.io/SpaceHack/posts/appunti-sulle-antenne/antenne/">Appunti sulle Antenne</a>
+  </h1>
+  <div class="post-meta">
+    
+    
+      <span class="post-author">Autore: k0Br@3390</span>
+    
+    
+      <span class="post-reading-time">:: 41 min read (8727 words)</span>
+    
+  </div>
+
+  
+    <span class="post-tags">
+      
+      #<a href="https://kobra3390.github.io/SpaceHack/tags/telecomunicazioni/">Telecomunicazioni</a>&nbsp;
+      
+      #<a href="https://kobra3390.github.io/SpaceHack/tags/antenne/">Antenne</a>&nbsp;
+      
+      #<a href="https://kobra3390.github.io/SpaceHack/tags/elettronica/">Elettronica</a>&nbsp;
+      
+    </span>
+  
+  
+
+
+  
+
+  <div class="post-content"><div>
+        <h2 id="table-of-contents">Table of Contents<a href="#table-of-contents" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<ul>
+<li><a href="#appunti-sulle-antenne">Appunti sulle Antenne</a></li>
+<li><a href="#propagazione-delle-onde-elettromagnetiche-nello-spazio-libero">Propagazione delle onde elettromagnetiche nello spazio libero</a>
+<ul>
+<li><a href="#intensit%C3%A1-del-campo-elettromagnetico-prodotto-da-un-antenna-isotropica">Intensitá del campo elettromagnetico prodotto da un’antenna isotropica</a>
+<ul>
+<li><a href="#cos-%C3%A9-la-densit%C3%A1-di-potenza">Cos’é la densitá di potenza</a></li>
+<li><a href="#cos-%C3%A9-intesit%C3%A1-del-campo-elettrico">Cos’é intesitá del campo elettrico</a></li>
+</ul>
+</li>
+<li><a href="#eirp-e-calcolo-del-campo-elettromagnetico-prodotto-da-un-antenna-non-isotropica">EIRP e calcolo del campo elettromagnetico prodotto da un’antenna non isotropica</a>
+<ul>
+<li><a href="#calcolo-dell-eirp">Calcolo dell’EIRP</a></li>
+<li><a href="#calcolo-del-campo-elettromagnetico-prodotto-da-un-antenna-reale">Calcolo del campo elettromagnetico prodotto da un’antenna reale</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#le-antenne">Le Antenne</a>
+<ul>
+<li><a href="#teorema-di-reciprocit%C3%A1">Teorema di Reciprocitá</a></li>
+<li><a href="#componenti-di-un-sistema-di-antenna">Componenti di un sistema di antenna</a></li>
+</ul>
+</li>
+<li><a href="#diagramma-di-radiazione-e-solido-di-radiazione">Diagramma di radiazione e solido di radiazione</a></li>
+<li><a href="#guadagno-di-un-antenna">Guadagno di un’antenna</a>
+<ul>
+<li><a href="#guadagno-rispetto-all-antenna-isotropica">Guadagno rispetto all’antenna isotropica</a></li>
+<li><a href="#guadagno-rispetto-all-antenna-al-dipolo-in-%CE%BB-2-">Guadagno rispetto all’antenna al dipolo in <strong>λ/2</strong></a></li>
+</ul>
+</li>
+<li><a href="#principali-tipi-di-antenne">Principali tipi di antenne</a>
+<ul>
+<li><a href="#principio-di-funzionamento-delle-antenne-lineari">Principio di funzionamento delle antenne lineari</a></li>
+<li><a href="#banda-di-un-antenna-lineare">Banda di un’antenna lineare</a></li>
+<li><a href="#resistenza-d-antenna">Resistenza d’antenna</a>
+<ul>
+<li><a href="#resistenza-di-radiazione">Resistenza di radiazione</a></li>
+<li><a href="#resistenza-di-dissipazione">Resistenza di dissipazione</a></li>
+</ul>
+</li>
+<li><a href="#parametri-tipi-di-delle-antenne-riceventi">Parametri tipi di delle antenne riceventi</a>
+<ul>
+<li><a href="#altezza-efficace">Altezza efficace</a></li>
+<li><a href="#fattore-di-traduzione-da-campo-elettrico-indicente">Fattore di traduzione da campo elettrico indicente</a></li>
+<li><a href="#area-equivalente">Area equivalente</a></li>
+<li><a href="#correlazione-tra-dimensioni-dell-antenna-e-l-area-equivalente">Correlazione tra Dimensioni dell’antenna e l’area equivalente</a></li>
+<li><a href="#fattore-di-trasduzione-da-densit%C3%A1-di-potenza-incidente">Fattore di trasduzione da densitá di potenza incidente</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#antenne-omnidirezionali">Antenne omnidirezionali</a>
+<ul>
+<li><a href="#dipolo-in-%CE%BB-2-">Dipolo in <strong>λ/2</strong></a></li>
+<li><a href="#antenna-marconi">Antenna Marconi</a></li>
+<li><a href="#antenna-ground-plane">Antenna Ground Plane</a></li>
+<li><a href="#antenne-caricate">Antenne Caricate</a></li>
+<li><a href="#dipolo-ripiegato-folded-dipole-e-antenne-a-banda-larga">Dipolo ripiegato (folded dipole) e antenne a banda larga</a></li>
+</ul>
+</li>
+<li><a href="#antenne-direttive">Antenne direttive</a>
+<ul>
+<li><a href="#angolo-di-apertura-del-fascio-beamwidth-o-angolo-di-radiazione">Angolo di apertura del fascio (beamwidth) o angolo di radiazione</a></li>
+<li><a href="#front-to-back-ratio-rapporto-avanti-dietro-">Front-to-Back Ratio (rapporto avanti/dietro)</a></li>
+<li><a href="#antenna-yagi">Antenna Yagi</a></li>
+<li><a href="#antenna-collineari-e-a-cortina">Antenna collineari e a cortina</a></li>
+<li><a href="#puntamento-delle-antenne-direttive">Puntamento delle antenne direttive</a></li>
+</ul>
+</li>
+<li><a href="#antenne-a-superficie">Antenne a superficie</a>
+<ul>
+<li><a href="#antenna-parabolica">Antenna parabolica</a></li>
+<li><a href="#parabola-offset">Parabola offset</a></li>
+<li><a href="#antenne-paraboliche-per-la-ricezione-tv-da-satellite">Antenne paraboliche per la ricezione TV da satellite</a></li>
+<li><a href="#parabola-cassegrain">Parabola Cassegrain</a></li>
+</ul>
+</li>
+<li><a href="#sistemi-di-antenna-mimo-multiple-in-multiple-out-">Sistemi di antenna MIMO(Multiple In Multiple Out)</a></li>
+<li><a href="#installazione-dei-sistemi-di-antenna">Installazione dei sistemi di antenna</a>
+<ul>
+<li><a href="#orizzonte-radio-e-massima-distanza-fra-due-antenne">Orizzonte radio e massima distanza fra due antenne</a></li>
+<li><a href="#perdite-per-diffrazione-e-prima-zona-di-fresnel">Perdite per diffrazione e prima zona di Fresnel</a></li>
+</ul>
+</li>
+<li><a href="#dimensionamento-di-un-collegamento-radio">Dimensionamento di un collegamento radio</a>
+<ul>
+<li><a href="#bilancio-di-potenza-link-budget-di-un-collegamento-radio">Bilancio di potenza (link budget) di un collegamento radio</a></li>
+<li><a href="#calcolo-del-livello-in-ricezione">Calcolo del livello in ricezione</a></li>
+</ul>
+</li>
+<li><a href="#fading-delle-antenne">Fading delle Antenne</a></li>
+</ul>
+<hr>
+<p>In questo blog non vorrei parlare delle discipline come informatica, sicurezza informatica, ma col tempo vorrei trattare anche tematiche che riguardano il mio indirizzo di studi, ossia telecomunicazioni. Col tempo verranno mostrati e trattati argomenti di telecomunicazioni ed elettronica.</p>
+<p>Oggi parliamo delle antenne, qui di seguito sono riportati dei miei personali appunti, buona lettura.</p>
+<hr>
+<h1 id="propagazione-delle-onde-elettromagnetiche-nello-spazio-libero">Propagazione delle onde elettromagnetiche nello spazio libero<a href="#propagazione-delle-onde-elettromagnetiche-nello-spazio-libero" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>I parametri con cui si valuta l’entitá del campo elettromagnetico sono:</p>
+<ul>
+<li>Densitá di potenza \(S\) , che si misura in \(w / m^2\)</li>
+<li>Intensitá del campo elettrico \(E\), che si misura in \(V / m\)</li>
+</ul>
+<p>In particolare, si deve garantire che sull’antenna ricevente si abbia un valore di campo elettromagnetico tale da ottenere in ingresso al ricevitore un segnale che abbia un livello di potenza pari alla sensibilitá del ricevitore.</p>
+<p>La <strong>sensibilitá del ricevitore</strong> (in inglese sensitivity) é definita come il minimo livello di potenza del segnale in ingresso al ricevitore che consente di fornire in uscita un segnale di qualitá accettabile.</p>
+<p>I valori del campo elettromagnetico dipendono da fattori come:</p>
+<ul>
+<li>Potenza del segnale fornito in ingresso all’antenna trasmittente</li>
+<li>Tipo di antenna trasmittente</li>
+<li>Distanza fra antenna trasmittente e ricevente</li>
+<li>Ambiente in cui avviene la propagazione delle onde elettromagnetiche</li>
+</ul>
+<p>Altri due concetti importanti per lo studio dell’entitá del campo elettromagnetico sono: <em>l’antenna isotropic</em>a e <em>lo spazio libero</em>.</p>
+<p><strong>Un’antenna isotropica</strong> ideale é un antenna che irradia uniformemente in tutte le direzioni dello spazio e non causa dissipazione, dunque: \(P_{IRR} = P_{IN}\).</p>
+<p>Lo <strong>spazio libero</strong> é una regione dello spazio assimilabile al vuoto, questo spazio é un mezzo isotropo in cui le onde elettromagnetiche viaggiano in linea retta alla velocitá della luce, ossia a:</p>
+<p>$$
+\Large\textsf{}
+c \approx 3 * 10^8 \space \dfrac{m}{s}
+$$</p>
+<p>Nello spazio libero l’intensitá del campo elettrico \(E\), l’intensitá del campo magnetico \(H\) e la densitá di potenza \(S\) possono essere considerati come tensione, corrente e potenza di un circuito elettrico.</p>
+<p>Ecco una tabella che chiarisce le associazioni dei valori nello spazio libero e in un circuito elettrico:</p>
+<table>
+<thead>
+<tr>
+<th>Valori nello Spazio Libero</th>
+<th></th>
+<th>Valori in un Circuito Elettrico</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Intensitá del campo elettrico E</td>
+<td>=</td>
+<td>Tensione V</td>
+</tr>
+<tr>
+<td>Intesitá del campo magnetico H</td>
+<td>=</td>
+<td>Corrente I</td>
+</tr>
+<tr>
+<td>Densitá di potenza S</td>
+<td>=</td>
+<td>Potenza P</td>
+</tr>
+</tbody>
+</table>
+<p>Inoltre lo spazio libero é considerabile come un mezzo trasmissivo avente impedenza caratteristica:</p>
+<p>$$
+\Large\textsf{}
+Z_0 = 120 \pi \space \approx \space 377Ω
+$$</p>
+<p>É possibile estendere le leggi fondamentali dell’elettrotecnica per determinare i legami fra \(E\), \(H\), \(S\). Avendo fatto in precedenza quelle associazioni tra i valori del campo elettromagnetico e grandezze elettriche possiamo definire le seguenti relazioni:</p>
+<p>$$
+\Large\textsf{}
+E = Z_0 * H; \space\space
+S = E * H; \space\space
+Z_0 = \dfrac{E}{H};
+$$</p>
+<p>Da questi si possono definire i seguenti legami tra <strong>campo elettrico</strong> \(E\) e <strong>densitá di potenza</strong>:</p>
+<p>$$
+\Large\textsf{}
+S = \dfrac{E^2}{Z_0} \implies S = \dfrac{E^2}{120 * \pi} \space\space [ \space W / m^2 \space] \[20pt]
+E = \sqrt{S * Z_0} \implies E = \sqrt{S * 120 * \pi} \space\space [\space V / m \space]
+$$</p>
+<hr>
+<h2 id="intensitá-del-campo-elettromagnetico-prodotto-da-unantenna-isotropica">Intensitá del campo elettromagnetico prodotto da un’antenna isotropica<a href="#intensitá-del-campo-elettromagnetico-prodotto-da-unantenna-isotropica" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Lo studio della determinazione del campo elettromagnetico nel caso di un antenna isotropica posta nello spazio libero é di particolare importanza in quanto le formule ricavate possono essere riutilizzate per una valutazione del campo elettromagnetico in un ambiente reale.</p>
+<p>Pensiamo dunque al caso ideale di un’antenna trasmittente isotropica posta nello spazio libero. All’antenna viene fornita in ingresso una certa potenza di segnale \(P_{IN}\), che viene totalmente irradiata in modo uniforme in tutte le direzioni, si ha dunque \(P_{IN_ISO} = P_{IRR_ISO}\).</p>
+<hr>
+<h3 id="cosé-la-densitá-di-potenza">Cos’é la densitá di potenza<a href="#cosé-la-densitá-di-potenza" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Un generatore a radiofrequenza connesso a un’antenna isotropica, posta nello spazio libero, genererebbe onde elettromagnetiche i cui fronti d’onda sono costituiti da superfici sferiche, in quanto l’irradiazione é uniforme in tutte le direzioni e non si hanno né ostacoli né eterogeneitá.</p>
+<p>La <strong>densitá di potenza</strong> é data dalla potenza per unitá di area:</p>
+<p>$$
+\Large\textsf{}
+S = \dfrac{P_{IRR_ISO}}{4\pi * r^2} \space\space [\space \dfrac{W}{m^2} \space]
+$$</p>
+<p>dove:</p>
+<ul>
+<li>\(S \space(W / m^2):\) densitá di potenza a distanza $r$ dall’antenna isotropica ideale;</li>
+<li>\(P_{IRR_ISO} \space (W):\) potenza irradiata in modo isotropico, pari alla potenza di ingresso nel caso di antenna isotropica ideale;</li>
+<li>\(r(m):\)  distanza fra l’antenna isotropica e il punto in cui si valuta la densitá di potenza</li>
+</ul>
+<hr>
+<h3 id="cosé-intesitá-del-campo-elettrico">Cos’é intesitá del campo elettrico<a href="#cosé-intesitá-del-campo-elettrico" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Il valore efficace dell’intensitá del campo elettrico \(E\), si puó calcolare con la relazione:</p>
+<p>$$
+\Large\textsf{}
+E = \dfrac{1}{r} \space \sqrt{30 * P_{IRR_ISO_[w]}} \space [\space V/m\space]
+$$</p>
+<p>Ecco un’immagine del campo elettromagnetico generato da un’antenna isotropica:</p>
+
+  <img src="https://kobra3390.github.io/SpaceHack/images/antenna1.jpeg"  class="left"  style="width: 700px"  />
+
+
+<hr>
+<h2 id="eirp-e-calcolo-del-campo-elettromagnetico-prodotto-da-unantenna-non-isotropica">EIRP e calcolo del campo elettromagnetico prodotto da un’antenna non isotropica<a href="#eirp-e-calcolo-del-campo-elettromagnetico-prodotto-da-unantenna-non-isotropica" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>L’EIRP (Effective Isotropic Radiated Power) é definito come il livello di potenza, espresso in dBW o dBm fornito in ingresso a un’antenna isotropica per fornire lo stesso campo elettromagnetico prodotto dall’antenna reale:</p>
+<p>$$
+\Large\textsf{}
+EIRP = 10 \log_{10}(P_{IN_ISO}) = 10 \log_{10}(P_{IRR_ISO})
+$$</p>
+<p>In altre parole dunque, l’EIRP descrivere la potenza totale irradiata da un&rsquo;antenna in una determinata direzione, rispetto alla potenza che sarebbe irradiata se l&rsquo;antenna fosse una sorgente isotropica ideale che irradia uniformemente in tutte le direzioni.</p>
+<p>L&rsquo;EIRP tiene conto della potenza di trasmissione dell&rsquo;antenna e della direzionalità del diagramma di radiazione dell&rsquo;antenna stessa e tiene conto del fatto che un&rsquo;antenna non irradia uniformemente in tutte le direzioni ma concentra la potenza in determinate direzioni. Infine l’EIRP viene utilizzata per  rappresentare una misura della capacità dell&rsquo;antenna di trasmettere segnali a lunghe distanze.</p>
+<hr>
+<h3 id="calcolo-delleirp">Calcolo dell’EIRP<a href="#calcolo-delleirp" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>In precedenza abbiamo visto la formula generica per il calcolo dell’EIRP, ma esiste anche un’altra circostanza nella quale va calcolato. Si consideri lo schema di un sistema di trasmissione radio reale che comprenda:</p>
+<ul>
+<li>Un trasmettitore con un segnale che ha una certa potenza \(P_{TX} (W)\)  e un livello di potenza \(L_{PTX} = 10\log(P_{TX_[W]})\) dBW.</li>
+<li>Un cavo che collega il trasmettitore all’antenna con un’attenuazione \(A_F(dB)\)</li>
+<li>Un’antenna trasmittente con un guadagno \(G_{ant} (dB)\)</li>
+</ul>
+
+  <img src="https://kobra3390.github.io/SpaceHack/images/antenna2.jpeg"  class="left"  style="width: 700px"  />
+
+
+<p>L’EIRP viene calcolato utilizzando i decibel:</p>
+<p>$$
+\Large\textsf{}
+EIRP = L_{PTX_[dBW]} \space-\space A_{F_[dB]} \space+\space G_{ant_[dB]} \space[dBW]
+$$</p>
+<p>Noto l’EIRP é possibile calcolare la potenza equivalente che dovrebbe irradiare un’antenna isotropica per produrre lo stesso campo elettromagnetico che produce l’antenna reale:</p>
+<p>$$
+\Large\textsf{}
+P_{IRR_ISO} = 10^{EIRP/10} \space [W]
+$$</p>
+<hr>
+<h3 id="calcolo-del-campo-elettromagnetico-prodotto-da-unantenna-reale">Calcolo del campo elettromagnetico prodotto da un’antenna reale<a href="#calcolo-del-campo-elettromagnetico-prodotto-da-unantenna-reale" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Nel caso di antenna reale i valori di densitá di potenza (\(S\) e di campo elettrico (\(E\) possono essere calcolati con il seguente procedimento:</p>
+<ul>
+<li>Si calcola l’EIRP.</li>
+<li>Si calcola la potenza equivalente irradiata isotropicamente.</li>
+<li>Si calcolano i valori di \(S\) ed \(E\) con la formula:</li>
+</ul>
+<p>$$
+\Large\textsf{}
+S = \dfrac{P_{IRR_ISO}}{4\pi * r^2} \space[W/m^2]; \space\space E = \dfrac{1}{r} * \sqrt{30 * {P_{IRR_ISO}}}\space[W/m];
+$$</p>
+<p>Il calcolo del campo elettromagnetico in un sistema trasmittente via radio viene effettuato per due motivi:</p>
+<ol>
+<li>Verificare che la sua intensitá sia tale da fornite al ricevitore un segnale avente un livello di potenza sufficiente</li>
+<li>Verificare che il campo elettrico \(E\) misurato e la densitá di potenza \(S\) non debbano superare i seguenti valori:</li>
+</ol>
+<p>$$
+\Large\textsf{}
+E_{MAX} \leq 6 \space V/m, \space\space per \space\space 100kHz \leq f \leq 300 GHz \newline
+S_{MAX} \leq 0,1 \space W/m^2, \space\space per \space\space 3MHz \leq f \leq 300 GHz
+$$</p>
+<hr>
+<h1 id="le-antenne">Le Antenne<a href="#le-antenne" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>L’antenna é l’ultimo elemento di un sistema di trasmissione via radio. Essa riceve un segnale da un trasmettitore il quale imprime su un segnale a radiofrequenza (RF) le informazioni da trasmettere via radio.</p>
+<p>L’uscira dell’amplificatore di potenza é un segnale in corrente avente frequenza adatta alla trasmissione via radio e potenza sufficiente a garantire una corretta ricezione.</p>
+<p>Dunque possiamo dire che: <em>Un’antenna é definita come un trasduttore che in trasmissione converte un segnale elettrico a radiofrequenza in onde elettromagnetiche irradiate nelle direzioni desiderate, mentre in ricezione converte in modo efficiente le onde elettromagneitche in un segnale elettrico a RF</em>.</p>
+<p>Possiamo avere molti tipi di trasmissione radio:</p>
+<ul>
+<li>Radiodiffusione AM ed FM</li>
+<li>TV</li>
+<li>Ponti Radio</li>
+<li>Sistemi cellulari</li>
+</ul>
+<p>e i requisiti richiesti per le antenne possono essere diversi. Per esempio la radiodiffusione l’antenna trasmittente é omnidirezionale sul piano orizzontale per poter raggiungere tutti gli utenti, mentre per un collegamento in ponte radio si richiede che l’antenna sia estremamente direttiva cosí da limitare la potenza necessaria per trasmettere.</p>
+<p>Per le antenne vale il <strong>principio di reciprocitá</strong> che afferma: <em>le proprietá di un’antenna rimangono le stesse sia che essa venga usata come antenna trasmittente sia che ricevente</em>.</p>
+<hr>
+<h3 id="teorema-di-reciprocitá">Teorema di Reciprocitá<a href="#teorema-di-reciprocitá" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Il teorema di reciprocità nelle antenne di telecomunicazione è un principio fondamentale che riguarda la simmetria e l&rsquo;omogeneità del mezzo di propagazione delle onde elettromagnetiche. In parole semplici, questo teorema afferma che le caratteristiche di trasmissione e di ricezione di un&rsquo;antenna sono identiche quando viene utilizzata come trasmettitore e come ricevitore.</p>
+<p>In altre parole, se un&rsquo;antenna trasmette un segnale in una determinata direzione e successivamente viene utilizzata per ricevere un segnale nella stessa direzione, le sue proprietà di ricezione saranno le stesse che se fosse stata progettata specificamente per ricevere il segnale in questione. Questo significa che le antenne possono essere utilizzate per la trasmissione e la ricezione di segnali senza necessità di modifiche significative alla loro struttura o alla loro geometria.</p>
+<p>Il teorema di reciprocità si applica a tutte le antenne che soddisfano determinate condizioni di simmetria e linearità. In particolare, si applica alle antenne a filo, alle antenne a dipolo, alle antenne a cornetta, alle antenne a riflettore parabolico e alle antenne a schiera. In genere, tutte le antenne che presentano un&rsquo;impedenza di radiazione costante e omogenea in tutte le direzioni sono compatibili con il teorema di reciprocità.</p>
+<p>L&rsquo;importanza del teorema di reciprocità sta nella sua applicazione pratica. Ad esempio, quando si progetta un sistema di telecomunicazioni, spesso si utilizzano antenne diverse per la trasmissione e la ricezione dei segnali. Tuttavia, grazie al teorema di reciprocità, è possibile utilizzare la stessa antenna sia per trasmettere che per ricevere il segnale, semplificando notevolmente il progetto del sistema e riducendo i costi.</p>
+<p>Inoltre, il teorema di reciprocità può essere utilizzato per calcolare l&rsquo;efficienza di una antenna quando viene utilizzata come ricevitore, poiché l&rsquo;efficienza di trasmissione e di ricezione sono uguali. Questo può essere utile per determinare la capacità di una antenna di ricevere un segnale in presenza di rumore o interferenze.</p>
+<p>In sintesi, il teorema di reciprocità è un principio fondamentale delle antenne di telecomunicazione che permette di semplificare il progetto dei sistemi di comunicazione e di calcolare l&rsquo;efficienza delle antenne quando vengono utilizzate come ricevitori.</p>
+<hr>
+<h2 id="componenti-di-un-sistema-di-antenna">Componenti di un sistema di antenna<a href="#componenti-di-un-sistema-di-antenna" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Un impianto di trasmissione e/o ricezione via radio comprende un sistema di antenna, il quale puó essere costituito dai seguenti elementi:</p>
+<ul>
+<li><em><strong>Antenna</strong></em>: é l’elemento irradiante o ricevente, puó essere montata su una torre (che prende il nome di traliccio o palo) al fine di garantire la copertura radio alla distanza massima prevista per il sistema di comunicazione via radio.</li>
+<li><em><strong>Linea di trasmissione (feeder d’antenna)</strong></em>: é utilizzata per collegare il trasmettitore (o il ricevitore) con l’antenna. Ha lo scopo di trasferire il segnale dal trasmettitore all’antenna con la minima attenuazione possibile.</li>
+<li><em><strong>Dispositivo di adattamento</strong></em>: consente di riprisitnare l’adattamento fra linea e antenna nel caso in cui l’impedenza dell’antenna non si auguale all’impedenza caratteristica della linea.</li>
+<li><em><strong>Dispositivo di separazione TX-RX (duplexer o circolatore)</strong></em>: é utilizzato per separare i sensi di trasmissione (TX) e ricezione (RX) nel caso in cui si utilizzi la stessa antenna sia per trasmettere sia per ricevere.</li>
+<li><em><strong>Dispositivi ausiliari</strong></em>: sono necessari nei grandi impianti per segnalare la presenza dell’antenna, per la protezione contro il ghiaccio, il vento e l’acqua, per il puntamento dell’antenna nel caso di antenne direttive.</li>
+</ul>
+
+  <img src="https://kobra3390.github.io/SpaceHack/images/antenna3.jpeg"  class="left"  style="width: 700px"  />
+
+
+<hr>
+<h1 id="diagramma-di-radiazione-e-solido-di-radiazione">Diagramma di radiazione e solido di radiazione<a href="#diagramma-di-radiazione-e-solido-di-radiazione" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>Per rappresentare le direzioni preferenziali in cui irradia un’antenna si utilizza un diagramma di radiazione (<em>radiation pattern</em>).</p>
+<p>Un antenna reale, non irradia in modo uniforme in tutte le direzioni dello spazio. Questo diagramma mette bene in evidenza l’attitudine che ha una sorgente a concetrare la potenza in certe direzioni e quindi ne evidenzia il grado di direttività:</p>
+
+  <img src="https://kobra3390.github.io/SpaceHack/images/antenna4.jpeg"  class="left"  style="width: 700px"  />
+
+
+<p>Il <strong>diagramma di radiazione</strong> è una curva, riportata di solito su un diagramma polare con al centro l’antenna, che rappresenta come la potenza fornita in ingresso all’antenna viene distribuita nella varie direzione del piano considerato.</p>
+
+  <img src="https://kobra3390.github.io/SpaceHack/images/antenna5.jpeg"  class="left"  style="width: 700px"  />
+
+
+<p>Il diagramma di radiazione può riportare i valori del <em>guadagno</em> che l’antenna presenta nelle varie direzioni del piano considerato, espressi in decibel.</p>
+<p>Normalmente si tracciano i diagrammi di radiazione in due piani tra loro ortogonali denominati:</p>
+<ul>
+<li><strong>Piano verticale o piano E</strong>: è il piano in cui giace il vettore campo elettrico E ed è anche il piano su cui giace un’antenna lineare;</li>
+<li><strong>Piano orizzontale o piano H</strong>: è il piano in cui giace il vettore campo magnetico H ed è anche il piano che taglia ortogonalmente l’antenna;</li>
+</ul>
+<p>A seconda di come è fatto il diagramma di radiazione in un determinato piano, un’antenna viene definita:</p>
+<ul>
+<li><em><strong>Omnidirezionale</strong></em>: se il diagramma di radiazione in quel piano è all’incirca un cerchio l’antenna irradia uniformemente in tutte le direzioni;</li>
+<li><em><strong>Direttiva</strong></em>: se il diagramma di radiazione in quel piano presenta delle direzioni prefenziali di irraggiamento</li>
+<li><em><strong>Direttiva unidirezionale</strong></em>: se il diagramma di radiazione mostra una direzione preferenziale di irragiamento, quella anteriore data dal <em>lobo principale</em> del diagramma. Altre direzioni di minore irraggiamento, non desiderate, definite dai <em>lobi secondari</em> del diagramma di radiazione.</li>
+</ul>
+<hr>
+<h1 id="guadagno-di-unantenna">Guadagno di un’antenna<a href="#guadagno-di-unantenna" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>Il guadagno di un’antenna è un parametro che mette in evidenza quanto un’antenna può concentrare la potenza in una certa direzione rispetto a un’antenna di riferimento. Il guadagno di un’antenna è direttiva tanto più alto è il suo guadagno.</p>
+<p>A seconda dell’impiego si possono avere due antenne di riferimento:</p>
+<ul>
+<li><strong>Antenna isotropa</strong>: un’antenna puramente ideale, che irradia in modo uniforme in tutte le direzioni.</li>
+<li><strong>Dipolo in \(\lambda /2\)</strong>: viene utilizzata come riferimento per le antenne lineari, in particolare nel settore delle antenne riceveneti TV.</li>
+</ul>
+<hr>
+<h2 id="guadagno-rispetto-allantenna-isotropica">Guadagno rispetto all’antenna isotropica<a href="#guadagno-rispetto-allantenna-isotropica" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Il guadagno di un’antenna può essere definito come il rapporto fra la potenza che è necessaria dare in ingresso a un’antenna isotropica ideale è la potenza che è necessario fornire al connettore dell’antenna in esame.</p>
+<p>Il guadagno rispetto all’antenna isotropica si calcola come:</p>
+<p>$$
+\Large\textsf{}
+G = 10\log_{10} \space \dfrac{P_{ISO}}{P_{IN}} \space [dBi]
+$$</p>
+<p>Il guadagno viene espresso in \(dBi\) per indicare che è stato ottenuto prendendo come riferimento l’antenna isotropica ideale (i = isotropica).</p>
+<p>Il guadagno di un’antenna esprime l’aumento della potenza irradiata che si ottiene concentrando la potenza in certe direzioni.</p>
+<p>Il valore del guadagno nelle altre direzioni, denominato <strong>guadagno direttivo</strong>, può essere fornito tramite un <em>diagramma di radiazione</em> in cui si riporta il guadagno per i diversi angoli.</p>
+<p>Quando il guadagno viene espresso semplicemente in \(dB\) risulta sottointeso che l’antenna di riferimento è quella isotropa anche se non si mette.</p>
+<p>Noto il guadagno è possibile calcolare il livello con cui dovrebbe irradiare un’antenna per produrre lo stesso campo dell’antenna in considerazione:</p>
+<p>$$
+\Large\textsf{}
+G_{[dB]} = 10\log_{10} \space P_{ISO} - 10\log_{10} \space P_{IN} = EIRP - L_{P_IN}
+$$</p>
+<p>Da cui si ottiene la seguente formula inversa:</p>
+<p>$$
+\Large\textsf{}
+EIRP = L_{P_IN} \space + \space G_{dB}
+$$</p>
+<p>Se non è noto il livello di potenza in ingresso all’antenna ( \(L_{P_IN}\) ), è possibile calcolarlo in funzione del livello di potenza del trasmettitore ( \(L_{P_TX}\) ) e dell’attenuazione della linea (feeder, \(A_F\)) come:</p>
+<p>$$
+\Large\textsf{}
+L_{P_IN} = L_{P_TX} - A_F
+$$</p>
+<p>La <strong>direttivitá</strong> \(D\) il rapporto tra la potenza che dovrebbe irradiare un’antenna isotropica ( \(P_{ISO}\) ) e la potenza irradiata ( \(P_{IRR}\) ) dall’antenna in esame affinche il campo da loro prodotto sia lo stesso:</p>
+<p>$$
+\Large\textsf{}
+D = 10\log_{10} \space \dfrac{P_{ISO}}{P_{IRR}} \space [dBi]
+$$</p>
+<p>Il guadagno effettivo (\(G\)), detto anche <em>guadagno di potenza</em>, é minore della direttivitá (\(G &lt; D\)) a causa del fatto che un’antenna reale causa una piccola dissipazione di potenza, per cui la potenza irradiata é inferiore rispetto alla potenza in ingresso.</p>
+<hr>
+<h2 id="guadagno-rispetto-allantenna-al-dipolo-in-λ2">Guadagno rispetto all’antenna al dipolo in <strong>λ/2</strong><a href="#guadagno-rispetto-allantenna-al-dipolo-in-λ2" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Il guadagno viene espresso in \(dBd\) quando si prende come antenna di riferimento il dipolo \(\lambda/2\), il pedice $d$ sta proprio a indicare che si é presa come antenna di riferimento il dipolo in \(\lambda/2\).</p>
+<hr>
+<h1 id="principali-tipi-di-antenne">Principali tipi di antenne<a href="#principali-tipi-di-antenne" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>È possibile identificare due categorie principali:</p>
+<ul>
+<li>
+<p><strong>Antenne lineari</strong>: esse sono omnidirezionali a banda larga, direttive;</p>
+<ul>
+<li>
+<p><em><strong>Antenna a dipolo</strong></em>: un dipolo è un&rsquo;antenna costituita da due elementi conduttori che sono allineati elettricamente, ma con polarità opposta. Il dipolo è un&rsquo;antenna molto comune e può essere utilizzato in molte applicazioni wireless, come le trasmissioni radio e televisive.</p>
+<p>Il dipolo è solitamente costituito da un filo metallico sottile che viene tagliato a una lunghezza specifica in base alla frequenza di trasmissione desiderata. Quando il dipolo viene alimentato con un segnale di frequenza corrispondente alla sua lunghezza, le correnti elettriche fluiscono attraverso i suoi elementi, creando un campo elettromagnetico che si irradia nell&rsquo;ambiente circostante.</p>
+<p>Il dipolo è una delle antenne più semplici e convenienti da costruire, ed è spesso utilizzato come riferimento per la valutazione di altre antenne più complesse. Il dipolo può anche essere utilizzato in combinazione con altri elementi per creare antenne più direzionali o per migliorare le prestazioni in determinate direzioni.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Antenne a superficie</strong>: esse sono antenne direttive con alto guadagno; tra esse la più diffusa è l’antenna a parabola;</p>
+</li>
+</ul>
+<hr>
+<h2 id="principio-di-funzionamento-delle-antenne-lineari">Principio di funzionamento delle antenne lineari<a href="#principio-di-funzionamento-delle-antenne-lineari" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Consideriamo un tronco di linea bifilare con terminazione aperta alimentato da un generatore a radiofrequenza ($RF$). Su di esso si viene ad instaurare un regime di onde stazionarie di corrente e tensione. Questa linea irradia poco per due motivi:</p>
+<ol>
+<li>I due conduttori sono vicini e per questo motivio l’irradiazione di uno di essi cancella quella dell’altro.</li>
+<li>Se si considera lo spazio come un carico esso risulta fortemente disadattato e così si ha poco trasferimento di potenza a essa.</li>
+</ol>
+<p>Se però si piegano a $90\degree$gradi le estremità della linea, le correnti avranno lo stesso verso in questo tratto e sarà quindi possibile irradiare energia nello spazio in modo efficiente. In questo modo si ottiene un antenna denominata <em>antenna a dipolo</em> o <em>antenna Hertziana</em>.</p>
+<p>Dunque in sintesi: Se si vuole massimizzare l’irradiazione è necessario piegare i coduttori a una distanza \(\lambda/4\) dall’estremità ottenendo così un’antenna lunga \(\lambda/2\), denominata per questo dipolo <strong>\(\lambda/2\)</strong> o <strong>dipolo a mezz’onda</strong>.</p>
+
+  <img src="https://kobra3390.github.io/SpaceHack/images/antenna6.jpeg"  class="left"  style="width: 700px"  />
+
+
+<p>Il dipolo \(\lambda/2\) , ha un comportamento simile a quello di un tronco di linea in \(\lambda/4\); l’onda stazionaria di corrente presenta un minimo alle estremità, mentre è massimo al centro.</p>
+<hr>
+<h2 id="banda-di-unantenna-lineare">Banda di un’antenna lineare<a href="#banda-di-unantenna-lineare" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Un’antenna lineare, a dipolo, ha un comportamento analogo a quello di un circuito risonante.</p>
+<p>La <strong>banda</strong> (\(B\)) di un’antenna può essere defnita come l’intervallo di frequenza entro cui il ROS si mantiene entro dei limiti. Tipicamente i valori limite di ROS sono compresi tra \(1,5\) e \(2\).</p>
+
+  <img src="https://kobra3390.github.io/SpaceHack/images/antenna7.jpeg"  class="left"  style="width: 700px"  />
+
+
+<p>La banda di una antenna è in pratica l’intervallo di frequenza in cui il diagramma di radiazione dell’antenna fornisce le prestazioni richieste.</p>
+<p>La banda dipende dal diametro del conduttore con il quale si realizza l’antenna.</p>
+<hr>
+<h2 id="resistenza-dantenna">Resistenza d’antenna<a href="#resistenza-dantenna" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Un’antenna rappresenta per la linea (feeder) un carico che é resistivo in risonanza e viene denominato <em>resistenza d’antenna</em> ( \(R_a\) ). La resistenza d’antenna viene considerata come la somma di due resistenze:</p>
+<ul>
+<li>La resistenza di radiazione ( \(R_r\) )</li>
+<li>La resistenza di dissipazione (\( R_d\) )</li>
+</ul>
+<p>$$
+\Large\textsf{}
+R_a \space = \space R_r \space + \space R_d \space [Ω]
+$$</p>
+<hr>
+<h3 id="resistenza-di-radiazione">Resistenza di radiazione<a href="#resistenza-di-radiazione" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>La resistenza di radiazione é definita come il rapporto tra la potenza irradiata dall’antenna ( \(P_{IRR}\) ) e il quadrato della corrente ( \(I_{IN}\) ) che giunge in ingresso all’antenna (punto di alimentazione):</p>
+<p>$$
+\Large\textsf{}
+R_r = \dfrac{P_{IRR}}{I^2_{IN}} \space [Ω]
+$$</p>
+<p>La resistenza di radiazione é quella resistenza che dissipa una potenza pari a quella irradiata dall’antenna. Per un dipolo la \(R_r\) dipende da diversi fattori, tra i quali:</p>
+<ul>
+<li><strong>Diametro del conduttore</strong>: la \(R_r\) aumenta al diminuire del diametro del coduttore</li>
+<li><strong>Altezza dal suolo</strong>: alla quale si pone l’antenna; le onde elettromagnetiche emesse dall’antenna possono venire riflesse dalla terra ed indurre una corrente nell’antenna. A seconda della distanza percorsa varia la fase della corrente indotta e quindi varia la corrente totale. Si modifica percío anche la resistenza di radiazione</li>
+</ul>
+<hr>
+<h3 id="resistenza-di-dissipazione">Resistenza di dissipazione<a href="#resistenza-di-dissipazione" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>La resistenza di dissipazione tiene conto della perdita di potenza che si puó avere sull’antenna. Per valutare le perdite sull’antenna si definie il <strong>rendimento</strong> ( \(\eta\) ) dato dal rapporto fra la potenza irradiata ( \(P_{IRR}\) ) e la potenza in ingresso all’antenna ( \(P_{IN}\) ):</p>
+<p>$$
+\Large\textsf{}\eta = \dfrac{P_{IRR}}{P_{IN}} = \dfrac{R_r}{R_r + R_d}
+$$</p>
+<hr>
+<h2 id="parametri-tipi-di-delle-antenne-riceventi">Parametri tipi di delle antenne riceventi<a href="#parametri-tipi-di-delle-antenne-riceventi" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>In risonanza un’antenna ricevente puó essere considerata come un generatore avente resistenza interna \(R_a\), in grado di erogare una certa tensione e una certa potenza a un carico \(R_u\):</p>
+
+  <img src="https://kobra3390.github.io/SpaceHack/images/antenna8.jpeg"  class="left"  style="width: 700px"  />
+
+
+<p>Supponendo che l’antenna sia adattata e correttamente orientata, la tensione e la potenza che essa é in grado di erogare dipendono da due parametri di traduzione, ossia:</p>
+<ul>
+<li>L’altezza efficace ( \(h\) )</li>
+<li>L’area equivalente ( \(A_{eq} \))</li>
+</ul>
+<hr>
+<h3 id="altezza-efficace">Altezza efficace<a href="#altezza-efficace" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>L&rsquo;altezza efficace \(h_e\)  è un termine utilizzato in telecomunicazioni per descrivere l&rsquo;altezza a cui un&rsquo;antenna appare &ldquo;efficace&rdquo; nel trasferimento di segnali radio. In particolare, si riferisce all&rsquo;altezza a cui un&rsquo;antenna sembra essere vista dall&rsquo;altro lato della comunicazione.</p>
+<p>Inoltre, l&rsquo;altezza efficace di un&rsquo;antenna dipende da diversi fattori, tra cui l&rsquo;altezza fisica dell&rsquo;antenna, la frequenza del segnale trasmesso, la presenza di ostacoli o interferenze nell&rsquo;ambiente circostante e la potenza di trasmissione dell&rsquo;antenna.</p>
+<p>Fattore di traduzione da campo elettrico indicente ( \(E \space V/m\) ) a tensione d’uscita ( \(RMS\) ) a vuoto, \(V_g \space (V)\):</p>
+<p>$$
+\Large\textsf{}V_g = h_e * E
+$$</p>
+<p>Poiche \(E\) si esprime in \(V/m\), mentre \(V_g\) é in \(V\), \(h_e\) si esprime in mentri. Per le antenna a dipolo l’altezza efficace si puó calcolare come:</p>
+<p>$$
+\Large\textsf{}h_e = \lambda\sqrt{\dfrac{R_r * G}{\pi * Z_0}} \space [m]
+$$</p>
+<p>Dove:</p>
+<ul>
+<li>\(R_r\): resistenza di radiazione;</li>
+<li>\(G\): guadagno dell’antenna non in db;</li>
+<li>\(Z_0 = 120 \pi\): impedenza caratteristica dello spazio libero;</li>
+<li>\(\lambda\): lunghezza d’onda dell’onda elettromagnetica indicente;</li>
+</ul>
+<hr>
+<h3 id="fattore-di-traduzione-da-campo-elettrico-indicente">Fattore di traduzione da campo elettrico indicente<a href="#fattore-di-traduzione-da-campo-elettrico-indicente" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Il fattore di traduzione da campo elettrico, noto anche come coefficiente di accoppiamento o fattore di accoppiamento, è un parametro che indica la quantità di energia elettromagnetica trasmessa da un&rsquo;antenna trasmittente ad un&rsquo;antenna ricevente.</p>
+<p>In particolare, il fattore di traduzione da campo elettrico misura la frazione del campo elettrico irradiato dalla prima antenna che viene ricevuta efficacemente dalla seconda antenna, tenendo conto delle caratteristiche geometriche e di orientamento delle due antenne, della distanza tra di esse e delle proprietà del mezzo di propagazione.</p>
+<p>In pratica, il fattore di traduzione da campo elettrico è un parametro importante per la progettazione e l&rsquo;ottimizzazione delle antenne, poiché consente di valutare l&rsquo;efficacia di un&rsquo;antenna trasmittente nel trasferire energia ad un&rsquo;altra antenna ricevente.</p>
+<hr>
+<h3 id="area-equivalente">Area equivalente<a href="#area-equivalente" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>L&rsquo;area equivalente \(A_{eq}\) è una misura dell&rsquo;efficienza dell&rsquo;antenna e rappresenta l&rsquo;area che l&rsquo;antenna sembra occupare nell&rsquo;ambiente circostante in termini di capacità di ricezione o trasmissione del segnale radio.</p>
+<p>Fattore di trasduzione da densitá di potenza incidente (\(S\)) a potenza fornita al carico adattato ( \(P_u\) ):</p>
+<p>$$
+\Large\textsf{}P_u = S * A_q \space [W]
+$$</p>
+<p>Poiché $S$ si esprime in \(W/m^2\), mentre \(P\) é in \(W\), dimensionalmente \(A_{eq}\) si esprime in \(m^2\).</p>
+<p>L’area equivalente (\( A_{eq}\) ) di un’antenna si calcome come:</p>
+<p>$$
+\Large\textsf{}A_{eq} = G \space\dfrac{\lambda^2}{4\pi} \space [m^2]
+$$</p>
+<p>Dove:</p>
+<ul>
+<li>\(G\): guadagno dell’antenna non in dB;</li>
+<li>\( \lambda \): lunghezza d’onda dell’onda elettromagnetica indicente</li>
+</ul>
+<hr>
+<h3 id="correlazione-tra-dimensioni-dellantenna-e-larea-equivalente">Correlazione tra Dimensioni dell’antenna e l’area equivalente<a href="#correlazione-tra-dimensioni-dellantenna-e-larea-equivalente" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>La dimensione di un&rsquo;antenna si riferisce alle sue caratteristiche fisiche, come la lunghezza, il diametro, l&rsquo;altezza e l&rsquo;area di apertura. La dimensione dell&rsquo;antenna è importante perché determina le sue proprietà elettriche, come l&rsquo;impedenza, la direttività, la polarizzazione e la larghezza di banda. In generale, le antenne più grandi hanno una maggiore direttività e una maggiore efficienza rispetto alle antenne più piccole, ma possono essere più costose e difficili da installare. Tuttavia, le dimensioni dell&rsquo;antenna dipendono dalle specifiche esigenze di trasmissione e ricezione del sistema di telecomunicazioni in cui viene utilizzata. In telecomunicazioni, l&rsquo;area equivalente di un&rsquo;antenna è una misura del suo potere di ricezione o trasmissione, in relazione alla sua area fisica. Essa è definita come l&rsquo;area di un&rsquo;antenna ideale che ha lo stesso potere di ricezione o trasmissione dell&rsquo;antenna reale.</p>
+<p>La dimensione dell&rsquo;antenna è strettamente correlata all&rsquo;area equivalente dell&rsquo;antenna. In generale, le antenne più grandi hanno un&rsquo;area equivalente maggiore rispetto alle antenne più piccole. Ciò significa che le antenne più grandi possono trasmettere o ricevere segnali più potenti rispetto alle antenne più piccole, a parità di condizioni.</p>
+<p>Tuttavia, la relazione tra la dimensione e l&rsquo;area equivalente dell&rsquo;antenna non è lineare. Ciò significa che raddoppiare la dimensione dell&rsquo;antenna non raddoppia necessariamente la sua area equivalente. La relazione dipende dalle specifiche caratteristiche dell&rsquo;antenna, come la sua geometria, la frequenza di lavoro e le proprietà del materiale di cui è fatta. Pertanto, la scelta delle dimensioni dell&rsquo;antenna dipende dalle specifiche esigenze di trasmissione e ricezione del sistema di telecomunicazioni in cui viene utilizzata, e deve essere fatta in base a una progettazione attenta e un&rsquo;analisi dettagliata delle caratteristiche dell&rsquo;antenna.</p>
+<p>Nel caso del dipolo l&rsquo;area equivalente è legata alla lunghezza d&rsquo;onda, nel caso della parabola è legata al diametro dell&rsquo;antenna.</p>
+<hr>
+<h3 id="fattore-di-trasduzione-da-densitá-di-potenza-incidente">Fattore di trasduzione da densitá di potenza incidente<a href="#fattore-di-trasduzione-da-densitá-di-potenza-incidente" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
+<p>Il fattore di trasduzione da densità di potenza incidente, noto anche come fattore di conversione, è un parametro che indica la capacità di un&rsquo;antenna ricevente di convertire la densità di potenza del campo elettromagnetico incidente in una tensione elettrica rilevabile ai suoi terminali di uscita.</p>
+<p>In altre parole, il fattore di trasduzione da densità di potenza incidente rappresenta il rapporto tra la potenza elettrica generata ai terminali di uscita dell&rsquo;antenna e la densità di potenza del campo elettromagnetico incidente sull&rsquo;antenna stessa, espressa in watt per metro quadrato.</p>
+<p>Il fattore di trasduzione dipende dalle caratteristiche geometriche e di orientamento dell&rsquo;antenna ricevente, dalla frequenza del segnale incidente, dalla polarizzazione del segnale elettromagnetico e dalle proprietà del mezzo di propagazione.</p>
+<p>Il fattore di trasduzione è un parametro importante per la valutazione delle prestazioni delle antenne riceventi, in quanto consente di stimare l&rsquo;efficienza con cui l&rsquo;antenna converte l&rsquo;energia elettromagnetica incidente in una tensione di uscita utile per l&rsquo;elaborazione del segnale ricevuto.</p>
+<hr>
+<h1 id="antenne-omnidirezionali">Antenne omnidirezionali<a href="#antenne-omnidirezionali" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>Sono omnidirezionali quelle antenne che irradiano in modo uniforme in un piano, che di solito é il piano \(H\) (orizzontale), in cui il diagramma di radiazione é un cerchio.</p>
+<p>In altri piani, come per esempio nel piano \(E\) sono direttive.</p>
+<p>Le antenne omnidirezionali sono utilizzate quando il sistema di trasmissione si trova in posizione baricentrica rispetto all’area da servire, per cui nel piano \(H\), si ha lo stesso campo indipendentemente dalla posizione dell’antenna ricevente. É questo, il caso della trasmissone in brodcast (da un trasmettitore verso tutti i ricevitori che si trovano entro l’area di copertura) di trasmettitori radio AM/FM e TV.</p>
+<p>In questo caso l’antenna fondamentale é il tipolo in \( \lambda/2\). É poi possibile intervenire sulla lunghezza o sulla sezione dell’antenna per modificare il diagramma di radiazione nel piano verticale, in modo da ottenere le caratteristiche desiderate in termini di lunghezza dell’antenna  e quindi di praticitá nell’installazione.</p>
+
+  <img src="https://kobra3390.github.io/SpaceHack/images/antenna9.jpeg"  class="left"  style="width: 700px"  />
+
+
+<hr>
+<h2 id="dipolo-in-λ2">Dipolo in <strong>λ/2</strong><a href="#dipolo-in-λ2" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>E un’antenna a dipolo la cui lunghezza fisica ( \(l\) ) é pari a \( \lambda/2\), dove \( \lambda\) é la lunghezza d’onda del segnale (portante) impresso sull’antenna. Per questo motivio viene chiamato dipolo in \( \lambda/2\)  o <em>dipolo a mezz’onda</em> (half wave dipolo). La lunghezza fisica di un dipolo in \( \lambda/2\) si calcola come:</p>
+<p>$$
+\Large\textsf{}l_{fisica} = \dfrac{\lambda}{2} = \dfrac{1}{2} \frac{F_v * c}{f} \space [m]
+$$</p>
+<p>Dove:</p>
+<ul>
+<li>\(c \approx3 * 10^8 \space m/s\): velocitá di propagazione nel vuoto;</li>
+<li>\(F_v\): fattore di velocitá, tipicamente compreso fra \(0,92\) e \(0,98\);</li>
+<li>\(f\): frequenza (portante) del segnale che deve essere irradiato;</li>
+</ul>
+<p>Anche per le antenne si definisce, infatti, un <em>fattore di velocitá</em> (\(F_v\)), quanto la velocitá di propagazione nel conduttore é minore di quella nel vuoto. Le principali caratteristiche di un dipolo \( \lambda/2\) sono le seguenti:</p>
+<ul>
+<li>Il guadagno é pari a \(G = 2,15\) dBi;</li>
+<li>Nel piano \(H\) il diagramma di radiazione é un cerchio e quindi l’antenna é omnidirezionale; nel piano \(H\)  l’intensitá del campo elettrico si puó determinare, ricordando la formula:</li>
+</ul>
+<p>$$
+\Large\textsf{}E = \dfrac{60 * I}{r} \space [V/m]
+$$</p>
+<p>Dove:</p>
+<ul>
+<li>\(I\) (A): corrente nel punto di alimentazione;</li>
+<li>\(r\) (m): distanza dall’antenna;</li>
+</ul>
+<p>Le altre caratteristiche:</p>
+<ul>
+<li>nel piano \(E\) l’antenna é direttiva, con un angolo di apertura pari a \( \theta = 78 \degree\);</li>
+<li>Nello spazio libero la resistenza di radiazione teorica é pari a \(R_r = 73 \spaceΩ\); la resistenza d’antenna effettiva, varia al variare del rapporto \( \lambda/d\) dove \(d\) é il diametro del conduttore, spesso, si inserisce un opportuno adattatore quando si collega l’antenna a un cavo coassiale con impedenza caratteristica \(Z_0 = 50 \space Ω\);</li>
+</ul>
+<p>Quando la frequenza dei segnali da trasmettere é relativamente bassa la lunghezza fisica di un dipolo \( \lambda/2\)  diventa rilevante. Sono state cosí realizzate antenne che consentono di avere lunghezze inferiori, come le seguenti: antenna Marconi o antenna in \( \lambda/4\), Ground Plane, antenne caricate.</p>
+<hr>
+<h2 id="antenna-marconi">Antenna Marconi<a href="#antenna-marconi" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>L’antenna Marconi (o antenna a \( \lambda/4\) ) é un’antenna che dimezza la lunghezza dell’elemento radiante rispetto al dipolo \( \lambda/2\), essa é montata verticalmente e connessa a terra attraverso il generatore che lo alimenta; questa antenna sfrutta la terra come superficie conduttrice riflettente.</p>
+<p>Il suo funzionamento si basa sul <em>principio delle immagini</em> il quale afferma che il campo prodotto da una carica posta nelle vicinanze di un piano conduttore equivale al campo nel caso in cui vi fosse una carica di segno opposto, simmetrica rispetto al piano e detta <em>carica immagine</em>.</p>
+<p>É possibile sostituire un semidipolo con un piano conduttore, che puó anche essere il terreno. Supponendo la terra sia un perfetto conduttore, essa produce lo stesso effetto di un semidipolo immagine, e quindi nella porzione di spazio che contiene l’antenna reale si ottiene un diagramma di radiazione analogo a quello di un dipolo \( \lambda/2\).</p>
+<p>Le caratteristiche fondamentali di un’antenna \( \lambda/4\) sono:</p>
+<ul>
+<li>
+<p>L’antenna é omnidirezionale nel piano \(H\), in cui il diagramma di radiazione é un cerchio;</p>
+</li>
+<li>
+<p>Il diagramma di radiazione nel piano \(E\) é pari alla metá superiore di quello del dipolo \( \lambda/2\);</p>
+</li>
+<li>
+<p>Il guadagno aumenta di \(3 dB\) e diventa pari a:</p>
+<p>$$
+\Large\textsf{}G = 3 dBd \implies G = 5,15 dBi
+$$</p>
+</li>
+<li>
+<p>La resistenza di radiazione si dimezza e per un’antenna filiforme diventa pari a \(R_r = 36,5 Ω\), in quanto l’antenna é costituita da un semidipolo.</p>
+</li>
+</ul>
+
+  <img src="https://kobra3390.github.io/SpaceHack/images/antenna10.jpeg"  class="left"  style="width: 700px"  />
+
+
+<p>L’antenna Marconi trova impiego prevalentemente nelle trasmissioni a frequenza relativamente bassa, in onde lunghe (<strong>LF</strong>) e onde medie (<strong>MF</strong>). Per ottenere un piano conduttore di caratteristiche migliori rispetto alla terra si stende sotto l’antenna, una maglia di fili di rame intrecciati, nota come contrappeso (<em>counterpoise</em>).</p>
+<hr>
+<h2 id="antenna-ground-plane">Antenna Ground Plane<a href="#antenna-ground-plane" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Un&rsquo;antenna Ground Plane è un tipo di antenna a dipolo in cui la radiazione avviene grazie all&rsquo;assenza di una sezione del dipolo, sostituita da un piano di massa o &ldquo;ground plane&rdquo;. Questo piano di massa, a forma di piatto o di disco, si trova sotto l&rsquo;antenna e serve come elemento di ritorno per il segnale radio.</p>
+<p>In un&rsquo;antenna Ground Plane ideale, il piano di massa avrebbe un&rsquo;impedenza infinita e sarebbe perfettamente orizzontale rispetto all&rsquo;antenna, formando un angolo di 90 gradi rispetto alla direzione di emissione del segnale. In realtà, tuttavia, il piano di massa ha una resistenza finita e non è mai completamente orizzontale, il che può influire sulle prestazioni dell&rsquo;antenna.</p>
+<p>Per quanto riguarda i valori resistivi, la resistenza del piano di massa dipende dal materiale utilizzato, dalle dimensioni e dalla forma. Solitamente si cerca di utilizzare materiali con alta conduttività, come il rame o l&rsquo;alluminio, per minimizzare la resistenza. Tuttavia, la resistenza del piano di massa può comunque variare a seconda delle condizioni ambientali, come la presenza di umidità o di contaminanti.</p>
+<p>L&rsquo;angolo formato dal piano di massa dipende dalla geometria dell&rsquo;antenna e dalle esigenze di progetto. In generale, l&rsquo;angolo deve essere tale da massimizzare il guadagno dell&rsquo;antenna nella direzione di emissione del segnale e minimizzare il guadagno nelle direzioni indesiderate. Solitamente, l&rsquo;angolo varia tra i 30 e i 60 gradi rispetto all&rsquo;orizzontale.</p>
+<hr>
+<h2 id="antenne-caricate">Antenne Caricate<a href="#antenne-caricate" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Le antenne caricate sono antenne che utilizzano un&rsquo;induttanza o un condensatore per modificare le loro proprietà elettriche, in modo da adattarsi meglio alle specifiche esigenze di progetto. La carica, che è una reattanza, può essere utilizzata per vari scopi, come la riduzione delle dimensioni dell&rsquo;antenna, la regolazione dell&rsquo;impedenza di ingresso o la focalizzazione della radiazione in determinate direzioni.</p>
+<p>Ad esempio, un&rsquo;antenna a filo rettilineo lunga a λ/4 può essere carica in modo da apparire come un&rsquo;antenna più corta, ma con le stesse proprietà elettriche. Ciò consente di ottenere una riduzione delle dimensioni fisiche dell&rsquo;antenna, senza comprometterne le prestazioni.</p>
+<p>Inoltre, le antenne caricate possono essere utilizzate per adattare l&rsquo;impedenza di ingresso dell&rsquo;antenna alla sorgente del segnale. Questo può essere utile, ad esempio, quando l&rsquo;antenna è collegata a un amplificatore o a un ricevitore con un&rsquo;impedenza diversa da quella dell&rsquo;antenna. In questo caso, l&rsquo;antenna viene carica in modo da presentare un&rsquo;impedenza di ingresso compatibile con quella della sorgente del segnale.</p>
+<p>Infine, le antenne caricate possono essere utilizzate per focalizzare la radiazione in determinate direzioni. Ciò può essere ottenuto utilizzando carichi di induttanza o di capacità in modo selettivo, in modo da modificare la distribuzione della corrente lungo l&rsquo;antenna e quindi la direzione di emissione del segnale.</p>
+<p>In sintesi, le antenne caricate sono un&rsquo;importante tecnologia che consente di adattare le proprietà elettriche delle antenne alle specifiche esigenze di progetto, per ottenere prestazioni ottimali in diverse applicazioni.</p>
+<hr>
+<h2 id="dipolo-ripiegato-folded-dipole-e-antenne-a-banda-larga">Dipolo ripiegato (folded dipole) e antenne a banda larga<a href="#dipolo-ripiegato-folded-dipole-e-antenne-a-banda-larga" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Un’altra variante del dipolo \( \lambda/2\) é costituita dal dipolo ripiegato (folded dipole). Quest’antenna realizzata congiungendo gli estremi di un dipolo \( \lambda/2\) con un conduttore parallelo a esso per simulare un dipolo \( \lambda/2\) avente un diametro del conduttore piú grande.</p>
+<p>Poiché la banda di un dipolo aumenta con l’aumentare del diametro del conduttore, il dipolo ripiegato é un’antenna a banda larga utilizzata come elemento base delle antenne riceventi TV.</p>
+<p>Il guadagno rimane lo stesso del dipolo \( \lambda/2\), la resistenza di radiazione quadruplica arricando a circa \(R_r = 300 Ω\). Questa antenna puó essere usata da sola oppure puó costituire l’elemento radiante di antenne piú complesse, come le antenne riceventi TV di tipo Yagi.</p>
+<hr>
+<h1 id="antenne-direttive">Antenne direttive<a href="#antenne-direttive" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>Un’antenna che concentra la maggior parte della potenza irradiata lungo una direttrice ben precisa, viene definita <strong>direttiva unidrezionale</strong>, o piú semplicemente <strong>direttiva</strong>.</p>
+<p>Le antenne direttive hanno le seguenti caratteristiche salienti:</p>
+<ul>
+<li>Guadagno piú alto;</li>
+<li>Non irradiano nelle aree che non interessa servire;</li>
+<li>L’antenna é adatta per collegamenti di tipo punto-punto;</li>
+</ul>
+<p>Un parametro importante per le antenne direttive é l’FBR (<em>Front-to-Back Ratio</em>), che ne definisce il grado di unidirezionalitá. Piú alto é l’FBR e maggiore sará l’unidirezionalitá dell’antenna.</p>
+<p>Diagramma di radiazione di un’antenna direttiva undirezionale Yagi:</p>
+
+  <img src="https://kobra3390.github.io/SpaceHack/images/antenna11.jpeg"  class="left"  style="width: 700px"  />
+
+
+<hr>
+<h2 id="angolo-di-apertura-del-fascio-beamwidth-o-angolo-di-radiazione">Angolo di apertura del fascio (beamwidth) o angolo di radiazione<a href="#angolo-di-apertura-del-fascio-beamwidth-o-angolo-di-radiazione" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Viene definito <strong>angolo di apertura a 3 dB</strong> (<em>beamwidth</em>), o <strong>angolo di radiazione di un’antenna</strong> (\( \theta\) ), l’angolo indiviato dai due punto sul diagramma di radiazione in cui il grafico diminuisce di 3 dB rispetto al valore che si ha nella direzione di massimo irraggiamento.</p>
+<p>Nelle due direzioni individuate dall’angolo \( \theta\) la densitá di potenza, \(S\), si dimezza, rispetto al valore nella direzione di massimo irraggiamento, e di conseguenza il campo elettrico, \(E\), diviene pari a \(E = E_{max \space IRR} / \sqrt{2}\).</p>
+<hr>
+<h2 id="front-to-back-ratio-rapporto-avantidietro">Front-to-Back Ratio (rapporto avanti/dietro)<a href="#front-to-back-ratio-rapporto-avantidietro" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Il <strong>Front-to-Back Ratio</strong> (<strong>FBR</strong>), o <em>rapporto avanti/dietro</em>, esprime il grado di unidrezionalitá di un’antenna direttiva.</p>
+<p>L’FBR é espresso in decibel ed é pari alla differenza tra il guadagno (normalizzato) nella direzione di massima irradiazione (\( 0\degree\)) e il guadagno (normalizzato) che si ha nella direzione opposta (a \(180\degree\)gradi):</p>
+<p>$$
+\Large\textsf{}FBR = G (0\degree) - G (180\degree)
+$$</p>
+<hr>
+<h2 id="antenna-yagi">Antenna Yagi<a href="#antenna-yagi" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Un’antenna direttiva puó essere realizzata affiancando a un dipolo \( \lambda/2\)  degli <em>elementi passivi</em>. Un elemento passivo é un conduttore, avente lunghezza appropriata, che viene posta nelle immediate vicinanze dell’elemento radiante. L’elemento passivo intercetta una parte dell’energia irradiata e a sua volta la reirradia.</p>
+<p>L’antenna Yagi é composta da:</p>
+<ul>
+<li>Un elemento attivo costituito da un dipolo \( \lambda/2\)</li>
+<li>Un elemento passivo detto <em>riflettore</em>, avenete lunghezza maggiore di \( \lambda/2\) che riflette le onde elettromagnetiche nella direzione desiderata;</li>
+<li>Uno o piú elementi passivi, detti <em>direttori</em>, che hanno lunghezza minore di \( \lambda/2\) i quali concentrano la potenza irradiata nella direzione desiderata.</li>
+</ul>
+<p>Facendo un’analogia ottica, il <em>riflettore</em> si comporta come uno specchio, mentre i <em>direttori</em> si comportano come delle lenti convergenti.</p>
+<p>L’antenna Yagi é molto utilizzata come antenna ricevenete TV. Il riflettore tubolare puó essere sostituito da un riflettore formato da un diedro di materiale condutttore, sulla cui bisettrice viene posto il dipolo attivo. Si realizza cosí l’<em>antenna a diedro</em> o <em>corner riflector</em>.</p>
+<hr>
+<h2 id="antenna-collineari-e-a-cortina">Antenna collineari e a cortina<a href="#antenna-collineari-e-a-cortina" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Un modo per aumentare la direttivitiá e il guadagno di un’antenna é quello di utilizzare sistemi radianti costituiti da un certo numero ($N$) di dipoli \( \lambda/2\) allineati e alimentati. Se i dipoli sono disposti sullo stesso asse si ottiene un’antenna collineare o <strong>allineamento (array) collineare</strong>, mentre se i dipoli sono disposti a matrice su un piano si ottiene una <strong>cortina di dipoli</strong>.</p>
+<p>In tal modo il guadagno rispetto al dipolo \( \lambda/2\), espresso in dBd, diventa pari a \(G = 10\log_{10}N  d Bd\).</p>
+<hr>
+<h2 id="puntamento-delle-antenne-direttive">Puntamento delle antenne direttive<a href="#puntamento-delle-antenne-direttive" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Nel caso di collegamenti che impiegano antenne direttive, é importante conoscere il diagramma di radiazione per poter puntare correttamente l’antenna, cioé per posizionarla nella direzione in cui l’antenna capta meglio. Un errato puntamento dell’antenna causa una diminuzione del segnale fornito in uscita dall’antenna stessa, che puó anche annullarsi.</p>
+
+  <img src="https://kobra3390.github.io/SpaceHack/images/antenna12.jpeg"  class="left"  style="width: 700px"  />
+
+
+<hr>
+<h1 id="antenne-a-superficie">Antenne a superficie<a href="#antenne-a-superficie" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>Quando si opera nel campo delle microonde (UHF, SHF, EHF) le onde radio possono essere considerate come dei raggi che é possibile riflettere e focalizzare tramite superfici di forma e materiale opprtuni.</p>
+<hr>
+<h2 id="antenna-parabolica">Antenna parabolica<a href="#antenna-parabolica" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Nel campo dell’illuminazione per ottenere uno stretto fascio luminoso é possibile utilizzare riflettori parabolici, ponendo una sorgente luminosa nel punto focale di una superficie riflettente a forma di paraboloide.</p>
+<p>Se l’irradiazione di una sorgente, posta nel punto focale, viene riflessa da una superficie costituita da un paraboloide, la potenza irradiata viene concentrata in un fascio molto stretto lungo la direzione di propagazione, ottenendo cosí un elevato guadagno.</p>
+
+  <img src="https://kobra3390.github.io/SpaceHack/images/antenna13.jpeg"  class="left"  style="width: 700px"  />
+
+
+<p>I diagrammi di radiazione nei piani \(H\) ed \(E\) mostrano un lobo principale molto pronunciato, con un angolo di apertura molto piccolo, che denota un elevato guadagno.</p>
+<p>Per il principio di reciprocitá l’antenna conserva le sue proprietá anche quando viene usata come antenna ricevente. Il guadagno delle antenne paraboliche arriva a valori molto alti, anche 60 dB per antenne di grandi dimensioni.</p>
+<p>L’illuminazione della superficie parabolica, cioé l’irradiazione delle onde elettromagnetiche verso la superficie riflettente, puó essere realizzata in vari modi:</p>
+<ul>
+<li>Un’antenna vera e propria posta nel fuoco della parabola;</li>
+<li>Una guida d’onda tronca o terminata a tromba posta nel fuoco della parabola;</li>
+</ul>
+<p>L’illuminazione non é uniforme, ma decresce verso i bordi, l’illuminatore tende a illuminare meglio il centro. Per questo motivo si definisce l’efficienza, \( \eta\), di un’antenna parabolica come il rapporto tra l’area equivalente ( \(A_{eq}\) ), o area efficace e l’area geometrica ( \(A_g\) ) dell’antenna in esame: \( \eta = A_{eq} / A_g\). Normalmente si ha \(0,5 &lt; \eta &lt; 0,8\); in mancanza di dati certi si puó assumere il valore tipico \( \eta = 0,65\).</p>
+<p>Il guadagno di una antenna parabolica dipende dalla sua efficienza, dal suo diametro ( \(D_a\) ) e dalla lughezza d’onda del segnale captato o irradiato secondo la seguente relazione:</p>
+<p>$$
+\Large\textsf{}G = 10 \log_{10} \eta \begin{pmatrix} \dfrac{\pi * D_a}{\lambda} \end{pmatrix}^2 ; [dB]
+$$</p>
+<p>L’angolo di apertura a 3 dB (beamwidth) di un’antenna parabolica si puó calcolare come:</p>
+<p>$$
+\Large\textsf{}\theta\degree \approx 70 \dfrac{\lambda_{[m]}}{D_{a[m]}}
+$$</p>
+<hr>
+<h2 id="parabola-offset">Parabola offset<a href="#parabola-offset" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Le parabole che hanno l’illuminatore nel fuoco vengono denominate <em>prime focus</em>. Per limitare le interferenze sono state realizzate parabole denominate <em>offset</em> le quali sono costituite da una sezione di un paraboloide che punta verso un illuminatore posto nel fuoco, il quale però non è al centro dell’antenna bensì in posizione sottostante.</p>
+
+  <img src="https://kobra3390.github.io/SpaceHack/images/antenna14.jpeg"  class="left"  style="width: 700px"  />
+
+
+<hr>
+<h2 id="antenne-paraboliche-per-la-ricezione-tv-da-satellite">Antenne paraboliche per la ricezione TV da satellite<a href="#antenne-paraboliche-per-la-ricezione-tv-da-satellite" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>L’antenna parabolica costituisce un’antenna direttiva ad alto guadagno utilizzata anche per la ricezione di segnali TV da satellite (sistema DVB-S, Digital Video Broadcasting-Satellite).</p>
+<p>In questo caso sia perché l’intensità del segnale ricevuto è estremamente debole, sia perché la frequenza del segnale ricevuto è molto elevata, viene montato direttamente sulla parabola un dispositivo denominato LNB (<em>Low Noise Black converter</em>), collegato all’antenna ricevente vera e propria e a un polarizzatore, per discriminare il segnale in base alla sua polarizzazione.</p>
+<p>L’LNB è composto fondamentalmente da tre parti:</p>
+<ul>
+<li>LNA (<em>Low Noise Amplifer</em>): è un amplificatore che eleva il livello del segnale RF ricevuto;</li>
+<li>Mixer o down converter: ha il compito di abbassare la frequenza del segnale captato portandola dalla radio frequenza a una frequenza detta <em>frequenza intermedia</em> (FI);</li>
+<li>Filtro passa banda e amplificatore a FI: per eliminare le frequenze indesiderate e amplificare il segnale a FI prima di inviarlo sul cavo coassiale;</li>
+</ul>
+<hr>
+<h2 id="parabola-cassegrain">Parabola Cassegrain<a href="#parabola-cassegrain" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>È un tipo di antenna parabolica, che ha un diverso sistema di illuminazione, l’illuminatore, costituito da una guida d’onda tronca (feed horn), è posto al centro della parabola e punta su una superficie riflettente secondaria, denominata <em>subriflettore</em>, avente la forma di un iperboloide di rotazione, in questo modo si ottiene un’illuminazione più uniforme.</p>
+<hr>
+<h1 id="sistemi-di-antenna-mimomultiple-in-multiple-out">Sistemi di antenna MIMO(Multiple In Multiple Out)<a href="#sistemi-di-antenna-mimomultiple-in-multiple-out" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>In alta frequenza, i sistemi d’antenna possono impiegare una o piú antenne e possono essere suddivisi nei seguenti sistemi:</p>
+<ul>
+<li>SISO (<em>Serial In Serial Out</em>): sono i sistemi che utilizzano un’antenna lato trasmissione e un’antenna lato ricezione; sono sistemi adatti a operare quando l’ambiente é assimilabile allo spazio libero.</li>
+<li>SIMO (<em>Serial In Multiple Out</em>): sono i sistemi che operano lato ricezione con due antenne riceventi, per implementare la tecnica della diversitá di spazio; sono adatti a operare quando il ricevitore é posto in un ambiente in cui vi sono oggetti che causano riflessioni.</li>
+<li>MISO (<em>Multiple In Serial Out</em>): sono un’alternativa ai sistemi SIMO, in cui si utilizzano due antenne trasmittenti e un’antenna ricevente.</li>
+<li>MIMO (<em>Multiple In Multiple Out</em>): sono i sistemi piú moderni che utilizzano contemporaneamente due o piú antenne in trasmissione e due o piú antenne in ricezione. Sono sistemi che trasmettono e ripartiscono il flusso di bit in ingresso su piú segnali modulati inviati in parallelo alle antenne trasmittenti; i segnali vengono captati dalle antenne riceventi e con sofisticate tecniche di elaborazione digitale dei segnali (DSP) sono demodulati e viene riassemblato il flusso id bit originario; i sistemi MIMO consentono di aumentare la capacitá trasmissiva di un sistema all’aumentaredel minimo tra (<em>m</em>, <em>n</em>), dove <em>m</em> é il numero di antenne usate in trasmissione e <em>n</em> é il numero di antenne usate in ricezione; possono operare in maniera piú efficace in ambienti in cui vi sono molte riflessioni in quanto sono in grado di compensare le differenze di fase fra i vari percorsi e quindi di sfruttare positivamente i segnali riflessi. I sistemi MIMO sono impiegati nei sistemi di comunicazione radio piú moderni; apparati WiFi (802.11n), sistemi di accesso wireless a banda larga (WiMAX), sistemi per la comunicazione in mobilitá di ultima generazione (LTE, Long Term Evolution).</li>
+</ul>
+
+  <img src="https://kobra3390.github.io/SpaceHack/images/antenna15.jpeg"  class="left"  style="width: 700px"  />
+
+
+<hr>
+<h1 id="installazione-dei-sistemi-di-antenna">Installazione dei sistemi di antenna<a href="#installazione-dei-sistemi-di-antenna" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>Quando si opera a frequena elevate (bande VHF/UHF/SHF) le onde elettromagnetiche si propagano per onda diretta, propagazione detta anche in visibilitá ottica (<em>Line Of Sight</em> - <em>LoS</em>).</p>
+<p>Questo tipo di propagazione richiede che le antenne tramittenti e riceventi siano (quasi) visibili l’una all’altra, in quanto le onde elettromagnetiche viaggiano direttamente dall’antenna trasmittente all’antenna ricevente.</p>
+<p>Nello spazio libero i percorsi seguiti sarebbero rettilinei, mentre nell’atmosfera essi risentono delle disomogeneitá del mezzo.</p>
+<p>In condizioni normali (<em>atmosfera standard</em>) le disomogeneitá causano delle rifrazioni facendo sí che il percorso seguito da un’onda elettromagnetica sia all’incirca un <strong>arco di cerchio</strong>.</p>
+<p>In situazioni anomale si possono avere rifrazioni diverse, fenomi di riflessione, diffrazioni e assorbimento, che causano ulteriori perdite. Tali fenomeni avvegono nella troposfera in quanto la stratosfera e la ionosfera a queste frequenze si possono considerare sostanzialmente simili allo spazio libero.</p>
+<p>I calcoli relativi all’installazione e al posizionamento delle antenne sono semplificati se si considerano i percorsi come rettilinei. a tale scopo si tiene conto del fatto che in realtá i percorsi sono archi di cerchio, introducendo cosí il concetto di <em>terra equivalente</em>.</p>
+<p>La <strong>terra equivalente</strong> é una superficie terrestre fittizzia in cui si possono considerare i percorsi delle onde elettromagnetiche come rettilinei.</p>
+<p>Il raggio della terra equivalente si ottiene moltiplicando il raggio effettivo della terra per un fattore $k$ (<em>effective earth radius factor</em>), che per l’atmosfera standard vale \(k = 4/3 \approx 1,33\), per cui si ha \(R_{eq} = k * R_0 = 4/3 * 6367 \approx 8490\) km.</p>
+
+  <img src="https://kobra3390.github.io/SpaceHack/images/antenna16.jpeg"  class="left"  style="width: 700px"  />
+
+
+<hr>
+<h2 id="orizzonte-radio-e-massima-distanza-fra-due-antenne">Orizzonte radio e massima distanza fra due antenne<a href="#orizzonte-radio-e-massima-distanza-fra-due-antenne" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>L’orizzonte radio di un’antenna trasmittente, posta a un’altezza \(h_{TX}\) (m) dal suolo, é la massima distanza, \(d_{TX}\) (in km) a cui l’altezza é in visibilitá radio con un’antenna posta a livello del suolo.</p>
+<p>In un ambiente privo di ostacoli l’orizzonte radio risulta pari a:</p>
+<p>$$
+\Large\textsf{}d_{TX} \approx 4,12 \sqrt{h_{TX [m]}} ; [km]
+$$</p>
+<p>L’orizzonte radio é piú grande dell’orizzonte visivo in quanto le onde elettromagnetiche compiono dei percorsi che sono archi di cerchio.</p>
+<p>In un ambiente privo di ostacoli la massima distanza \(d_{max}\) é pari alla somma degli orizzonti radio e si puó calcolare come:</p>
+<p>$$
+\Large\textsf{}d_{max} = d_{TX} + d_{RX} \approx 4,12 (\sqrt{h_{TX_[m]}} + \sqrt{h_{RX_[m]}}) ; [km]
+$$</p>
+<p>Quando le condizioni dell’atmosfera non sono quelle standard varia la curvatura della traiettoria del raggio. Si definiscono cosi le seguenti due condizioni:</p>
+<ul>
+<li><em>subrifrazione</em>, quando \(k &lt; 4/3\) e la curvatura é inferiore rispetto alla condizione standard; l’onda elettromagnetica (raggio) devia verso l’alto rispetto alla traiettoria standard;</li>
+<li><em>superrifrazione</em>, quando \(k &gt; 4/3 \); la curvatura é maggiore di quella standard; l’onda elettromagnetica (raggio) devia verso il basso rispetto alla traiettoria standard.</li>
+</ul>
+<p>Queste situazioni possono comportare una diminuzione anche forte della potenza di segnale che giunge all’antenna ricevente e si configurano come una forma di fading.</p>
+
+  <img src="https://kobra3390.github.io/SpaceHack/images/antenna17.jpeg"  class="left"  style="width: 700px"  />
+
+
+<hr>
+<h2 id="perdite-per-diffrazione-e-prima-zona-di-fresnel">Perdite per diffrazione e prima zona di Fresnel<a href="#perdite-per-diffrazione-e-prima-zona-di-fresnel" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Quando in un collegamento radio il terreno (o un ostacolo di dimensione &raquo; \( \lambda\) ) risulta vicino alla linea fittizzia che congiunge l’antenna trasmittente con quella ricevente intervengono fenomeni di diffrazione che riducono la potenza del segnale ricevuto.</p>
+<p>La maggior parte della potenza giunge all’antenna ricevente viaggia in una zona dello spazio denominata <strong>prima zona di Fresnel</strong>, individuata da un eliissoide di ratoazione detto <strong>ellisoide di Fresnel</strong>.</p>
+<p>Il raggio massimo dell’ellissoide di Fresnel si ha quando \(d_1 = d_2 = d/2\), il raggio massimo dell’ellissoide di Fresnel risulta pari a:</p>
+<p>$$
+\Large\textsf{}r_{max} =  8,66 \sqrt{\dfrac{d_{km}}{f_{GHz}}} ; [m]
+$$</p>
+<p>Le perdite per diffrazione sono trascurabili solo se la prima zona di Fresnel risulta libera da ostacoli. Quindi l’altezza delle torri o dei tralicci viene calcolata imponendo che eventuali ostacoli risultino posti a distanze maggiori di \(r_{max}\).</p>
+
+  <img src="https://kobra3390.github.io/SpaceHack/images/antenna18.jpeg"  class="left"  style="width: 700px"  />
+
+
+<hr>
+<h1 id="dimensionamento-di-un-collegamento-radio">Dimensionamento di un collegamento radio<a href="#dimensionamento-di-un-collegamento-radio" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>È necessario fare il bilancio di potenza di un collegamento, o <em>link (power) budget</em>, per calcolare qual è il livello di potenza che si fornisce in ingresso al primo amplificatore in ricezione.</p>
+<hr>
+<h2 id="bilancio-di-potenza-link-budget-di-un-collegamento-radio">Bilancio di potenza (link budget) di un collegamento radio<a href="#bilancio-di-potenza-link-budget-di-un-collegamento-radio" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Il bilancio di potenza di un collegamento radio è una relazione matematica che lega il livello di potenza con cui opera il trasmettitore al livello di potenza che si ha in ingresso al ricevitore, sommando tutti i guadagni e sottraendo tutte le attenuazioni che sono presenti fra uscita del trasmettitore e ingresso del ricevitore:</p>
+<p>$$
+\Large\textsf{}L_{PRX} = L_{PTX[dBm \ (o \ dBW)]} + \sum Guadagni_{[dB]} - \sum Attenuazioni_{[dB]} ; dBm\ (o \ DBW)
+$$</p>
+<p>Spesso si preferisce spezzare il bilancio di potenza in due parti:</p>
+<ol>
+<li>Calcolo dell’EIRP del sistema tramittente, sottraendo al livello di potenza del trasmettitore ( \(L_{PTX}\) ) l’attenuazione del feeder (cavo) \(A_F\) in dB, e sommando il guadagno dell’antenna trasmittente ( \(G_T\) in dBi);</li>
+<li>Si calcola il livello in ricezione sottraendo all’EIRP l’attenuazione del collegamento radio, tenendo conto dell’attenuazione dello spazio libero ( \(A_{sl}\) ) dell’eventuale attenuazione supplementare (\( A_{suppl}\) ), sommando il guadagno dell’antenna ricevente e sottranendo l’attenuazione dell’eventuale feeder (cavo), \(A_F\).</li>
+</ol>
+<p>$$
+\begin{cases}
+EIRP = L_{PTX[dBm \ (o \ dBW)]} - A_{F[dB]} + G_{T[dB]} \ dBm \ (o \ dBW) \newline
+L_{PRX} = EIRP - [A_{sl} + A_{suppl} + M_L] + G_R - A_F ; dBm \ (o \ dBW)
+\end{cases}
+$$</p>
+<hr>
+<h2 id="calcolo-del-livello-in-ricezione">Calcolo del livello in ricezione<a href="#calcolo-del-livello-in-ricezione" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>Per calcolare il livello in ricezione si procede nel seguente modo:</p>
+
+  <img src="https://kobra3390.github.io/SpaceHack/images/antenna19.jpeg"  class="left"  style="width: 700px"  />
+
+
+<ol>
+<li>
+<p>Determiniamo l’EIRP del sistema trasmittente.</p>
+<ol>
+<li>
+<p>Calcoliamo il livello di potenza del trasmettitore esprimendo la potenza in \( mW \) e applicando la relazione:</p>
+<p>$$
+\Large\textsf{}L_{PTX} = 10\log_{10} \ P_{TX[mW]}  [dBm]
+$$</p>
+</li>
+<li>
+<p>Calcoliamo l’attenuazione del cavo coassiale (feeder), l’attenuazione per unità di lunghezza (\( \alpha \)) e la sua lunghezza ( \(l\) ) come:</p>
+<p>$$
+\Large\textsf{}A_F = \alpha * l  [dB]
+$$</p>
+</li>
+<li>
+<p>Noto il tipo di antenna e le sue caratteristiche si determina il guadagno ( \(G_T\), in \(dBi\), o semplicemente in $dB$ per le antenne paraboliche).</p>
+</li>
+<li>
+<p>Si calcola l’EIRP:</p>
+<p>$$
+\Large\textsf{}EIRP
+= L_{PTX [dBm]} - A_{F[dB]} + G_{T[dB]}  [dBm]
+$$</p>
+</li>
+</ol>
+</li>
+<li>
+<p>Determiniamo l’attenuazione del collegamento radio.</p>
+<ol>
+<li>
+<p>Calcoliamo l’attenuazione dello spazio libero ( \(A_{sl}\) ) e la distanza fra le antenne \((r)\) in km:</p>
+<p>$$
+\Large\textsf{}A_{sl} = 32,5 + 20\log_{10} f_{MHz} + 20\log_{10} ; r_{km} [dB]
+$$</p>
+<p>Se si opera a frequenze elevate, si dovrebbe verificare che l’altezza sia sufficiente per fornire la visibilitá radio fra le antenne.</p>
+</li>
+<li>
+<p>Stimiamo l’attenuazione supplementare ( \(A_{suppl}\) ); indicativamente in ambiente aperto e in situazioni meteo favorevoli l’attenuazione supplementare é trascurabile per frequenze inferiori ai \(10  GHz\), \(0,02  dB/km\) a circa \(0,2  dB/km\) fino a \(40 GHz\).</p>
+</li>
+<li>
+<p>Si introduce un <em>margine del collegamento</em>, o margine di link (\(M_L\)) per tener conto dell’aumento di attenuazione che si potrebbe avere in determinate condizioni atmosferiche. \(M_L\) é legato alla frequenza di trasmissione e alla disponibilitá che si desidera ottenere per il collegamento.</p>
+<p>Nei collegamenti terrestri si puó aggiungere nel margine di link anche un margine contro i fading (margine di fading, \(M_F\)).</p>
+</li>
+</ol>
+</li>
+<li>
+<p>Determiniamo il livello di potenza in ingresso al ricevitore.</p>
+<ol>
+<li>
+<p>Noto il tipo di antenna ricevente e le sue caratteristiche se ne determinina il guadagno (\(G_g\), in dBi, o dB per le antenne paraboliche).</p>
+</li>
+<li>
+<p>Si calcola l’attenuazione del feeder in ricezione.</p>
+</li>
+<li>
+<p>Si calcola il livello di potenza in ingresso al ricevitore:</p>
+<p>$$
+\Large\textsf{}L_{PRX} = EIRP - [A_{SL} + A_{suppl} + M_L] + G_R - A_{FRX} dBm
+$$</p>
+</li>
+</ol>
+</li>
+<li>
+<p>Si verifica che il livello in ricezione sia almeno pari alla sensibilitá del ricevitore affinché il sistema fornisca in uscita un segnale con livello e qualitá accettabile:</p>
+<p>$$
+\Large\textsf{}L_{PRX_[dBm] } \geq S_{RX_[dBm]}
+$$</p>
+</li>
+</ol>
+<p>Utilizzando la stessa metedologia é possibile, variando i dati, determinare un’incognita diversa:</p>
+<ul>
+<li>Distanza massima del collegamento</li>
+<li>Guadagno che deve avere l’antenna ricevente</li>
+<li>Margine di link che si ha</li>
+</ul>
+<hr>
+<h1 id="fading-delle-antenne">Fading delle Antenne<a href="#fading-delle-antenne" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>Il fenomeno del fading delle antenne si riferisce alla perdita di intensità del segnale radio quando viene trasmesso da un&rsquo;antenna e ricevuto da un&rsquo;altra. Questo può accadere a causa di diverse ragioni, tra cui l&rsquo;effetto della riflessione, la diffrazione e l&rsquo;assorbimento delle onde radio.</p>
+<p>In particolare, il fading può essere causato dalla riflessione delle onde radio su superfici come edifici, alberi o montagne, che possono creare zone di attenuazione o interferenza nel segnale radio. Inoltre, il fading può essere causato dalla diffrazione, cioè dalla deviazione del segnale radio quando incontra ostacoli come angoli, spigoli o superfici curve.</p>
+<p>Il fading può anche essere causato dall&rsquo;assorbimento delle onde radio da parte di materiali come acqua, pioggia, neve o aria umida. In questo caso, la quantità di energia del segnale radio diminuisce man mano che attraversa questi materiali, causando un attenuamento del segnale.</p>
+<p>Il fading può essere ridotto utilizzando tecniche come l&rsquo;uso di antenne direzionali, la diversità di antenna e la modulazione adattiva, che possono aiutare a migliorare la qualità del segnale radio e ridurre la perdita di intensità.</p>
+
+      </div></div>
+
+  
+    
+<div class="pagination">
+    <div class="pagination__title">
+        <span class="pagination__title-h">Read other posts</span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        
+        
+        <span class="button next">
+            <a href="https://kobra3390.github.io/SpaceHack/posts/basi-sul-modulo-scrapy/basi_sul_modulo_scrapy/">
+                <span class="button__text">Basi sul Modulo Scrapy</span>
+                <span class="button__icon">→</span>
+            </a>
+        </span>
+        
+    </div>
+</div>
+
+  
+
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
+    integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"
+    integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4"
+    crossorigin="anonymous"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
+    integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2023 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="https://kobra3390.github.io/SpaceHack/bundle.min.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>
