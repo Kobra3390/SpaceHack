@@ -176,7 +176,7 @@ $$&lt;/p&gt;
 &lt;p&gt;Da questi si possono definire i seguenti legami tra &lt;strong&gt;campo elettrico&lt;/strong&gt; \(E\) e &lt;strong&gt;densitá di potenza&lt;/strong&gt;:&lt;/p&gt;
 &lt;p&gt;$$
 \Large\textsf{}
-S = \dfrac{E^2}{Z_0} \implies S = \dfrac{E^2}{120 * \pi} \space\space [ \space W / m^2 \space] \[20pt]
+S = \dfrac{E^2}{Z_0} \implies S = \dfrac{E^2}{120 * \pi}  [ \space W / m^2 \space]
 E = \sqrt{S * Z_0} \implies E = \sqrt{S * 120 * \pi} \space\space [\space V / m \space]
 $$&lt;/p&gt;
 &lt;hr&gt;
