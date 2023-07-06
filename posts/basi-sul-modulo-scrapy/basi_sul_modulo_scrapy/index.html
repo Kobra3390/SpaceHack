@@ -140,7 +140,7 @@
       <span class="post-author">Autore: k0Br@3390</span>
     
     
-      <span class="post-reading-time">:: 17 min read (3486 words)</span>
+      <span class="post-reading-time">:: 17 min read (3485 words)</span>
     
   </div>
 
@@ -207,7 +207,7 @@
 </code></pre></div><p>Dove <em>&lt;nome_progetto&gt;</em> è il nome del progetto che si desidera creare. Questo comando creerà una nuova cartella con il nome del progetto, che conterrà i file di configurazione e la struttura del progetto.</p>
 <p><strong>Creare un nuovo spider</strong>: utilizzare il comando seguente nella riga di comando:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">scrapy genspider &lt;nome_spider&gt; &lt;dominio&gt;
-</code></pre></div><p>Dove <em>&lt;nome_spider&gt;</em> è il nome del spider che si desidera creare e <em><dominio></em> è il dominio del sito web da cui si desidera estrarre i dati. Questo comando creerà un nuovo file spider nella cartella &ldquo;spiders&rdquo; del progetto. Il comando richiede il nome dello spider e l&rsquo;URL di partenza per lo spider. Esempio:</p>
+</code></pre></div><p>Dove <em>&lt;nome_spider&gt;</em> è il nome del spider che si desidera creare e <em><!-- raw HTML omitted --></em> è il dominio del sito web da cui si desidera estrarre i dati. Questo comando creerà un nuovo file spider nella cartella &ldquo;spiders&rdquo; del progetto. Il comando richiede il nome dello spider e l&rsquo;URL di partenza per lo spider. Esempio:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">scrapy genspider example example.com
 </code></pre></div><p>Questo creerà un file chiamato example.py all&rsquo;interno della cartella <em>spiders</em> del tuo progetto, con una classe di spider chiamata <em>ExampleSpider</em> che inizia a estrarre i dati dall&rsquo;URL example.com.</p>
 <p>Una volta creato lo spider, è possibile modificare il codice per soddisfare le esigenze del progetto. In seguito, lo spider può essere eseguito utilizzando il comando:</p>
@@ -230,7 +230,7 @@
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pip3 install attrs
 </code></pre></div><p>Se abbiamo già questo modulo, possiamo aggiornarlo con il comando:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pip install --upgrade attrs
-</code></pre></div><p style="color:red"> CIAOO</p>
+</code></pre></div><!-- raw HTML omitted -->
 <h1 id="esempi-pratici">Esempi Pratici<a href="#esempi-pratici" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
 <h2 id="estrazione-del-titolo-di-una-pagina-web">Estrazione del titolo di una pagina web<a href="#estrazione-del-titolo-di-una-pagina-web" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> scrapy
@@ -247,8 +247,8 @@
                 <span style="color:#e6db74">&#34;title&#34;</span>: book<span style="color:#f92672">.</span>css(<span style="color:#e6db74">&#34;h3 &gt; a::text&#34;</span>)<span style="color:#f92672">.</span>get(),
             }
 </code></pre></div><p>Questo codice crea uno spider chiamato <strong>TitleSpider</strong> che estende la classe base <strong>scrapy.Spider</strong>. Nella classe, viene definito un nome per lo spider e una lista di URL di partenza per lo spider. Nel nostro caso, l&rsquo;URL di partenza è una pagina web di un negozio di libri online.</p>
-<p>La funzione parse() è chiamata ogni volta che lo spider recupera una pagina web. All&rsquo;interno della funzione parse(), utilizziamo un ciclo for per scorrere tutti gli elementi HTML che corrispondono al selettore <strong>article.product_pod</strong>. Questo selettore seleziona tutti gli elementi  <em><article></em> con la classe <strong>product_pod</strong> nella pagina web.</p>
-<p>Per ogni elemento selezionato, utilizziamo il selettore <em>h3 &gt; a::text</em> per selezionare il testo del primo elemento <em><a></em> all&rsquo;interno dell&rsquo;elemento <em><h3></em> all&rsquo;interno dell&rsquo;elemento <em><article></em>. Il testo selezionato rappresenta il titolo del libro. Utilizziamo la funzione get() per restituire il valore del titolo del libro come una stringa. Infine, utilizziamo yield per restituire un dizionario contenente il titolo del libro. Alla fine del ciclo for, lo spider avrà raccolto tutti i titoli dei libri presenti nella pagina web di partenza.</p>
+<p>La funzione parse() è chiamata ogni volta che lo spider recupera una pagina web. All&rsquo;interno della funzione parse(), utilizziamo un ciclo for per scorrere tutti gli elementi HTML che corrispondono al selettore <strong>article.product_pod</strong>. Questo selettore seleziona tutti gli elementi  <em><!-- raw HTML omitted --></em> con la classe <strong>product_pod</strong> nella pagina web.</p>
+<p>Per ogni elemento selezionato, utilizziamo il selettore <em>h3 &gt; a::text</em> per selezionare il testo del primo elemento <em><!-- raw HTML omitted --></em> all&rsquo;interno dell&rsquo;elemento <em><!-- raw HTML omitted --></em> all&rsquo;interno dell&rsquo;elemento <em><!-- raw HTML omitted --></em>. Il testo selezionato rappresenta il titolo del libro. Utilizziamo la funzione get() per restituire il valore del titolo del libro come una stringa. Infine, utilizziamo yield per restituire un dizionario contenente il titolo del libro. Alla fine del ciclo for, lo spider avrà raccolto tutti i titoli dei libri presenti nella pagina web di partenza.</p>
 <h2 id="estrazione-dei-prezzi-dei-libri-da-una-pagina-web">Estrazione dei prezzi dei libri da una pagina web<a href="#estrazione-dei-prezzi-dei-libri-da-una-pagina-web" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> scrapy
 
