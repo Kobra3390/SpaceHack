@@ -761,12 +761,16 @@ $$&lt;/p&gt;
 &lt;li&gt;Calcolo dell’EIRP del sistema tramittente, sottraendo al livello di potenza del trasmettitore ( \(L_{PTX}\) ) l’attenuazione del feeder (cavo) \(A_F\) in dB, e sommando il guadagno dell’antenna trasmittente ( \(G_T\) in dBi);&lt;/li&gt;
 &lt;li&gt;Si calcola il livello in ricezione sottraendo all’EIRP l’attenuazione del collegamento radio, tenendo conto dell’attenuazione dello spazio libero ( \(A_{sl}\) ) dell’eventuale attenuazione supplementare (\( A_{suppl}\) ), sommando il guadagno dell’antenna ricevente e sottranendo l’attenuazione dell’eventuale feeder (cavo), \(A_F\).&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;$$
-\begin{cases}
-EIRP = L_{PTX[dBm \ (o \ dBW)]} - A_{F[dB]} + G_{T[dB]} \ dBm \ (o \ dBW) \newline
-L_{PRX} = EIRP - [A_{sl} + A_{suppl} + M_L] + G_R - A_F ; dBm \ (o \ dBW)
-\end{cases}
-$$&lt;/p&gt;
+&lt;div style=&#34;text-align: center;&#34;&gt;
+  &lt;div style=&#34;display: inline-block; text-align: left; font-size: 18px;&#34;&gt;
+    $$
+    \begin{cases}
+      EIRP = L_{PTX}[dBm \ (o \ dBW)] - A_{F}[dB] + G_{T}[dBm \ (o \ dBW)] \\
+      L_{PRX} = EIRP - [A_{sl} + A_{suppl} + M_L] + G_R - A_F \; [dBm \ (o \ dBW)]
+    \end{cases}
+    $$
+  &lt;/div&gt;
+&lt;/div&gt;
 &lt;hr&gt;
 &lt;h2 id=&#34;calcolo-del-livello-in-ricezione&#34;&gt;Calcolo del livello in ricezione&lt;/h2&gt;
 &lt;p&gt;Per calcolare il livello in ricezione si procede nel seguente modo:&lt;/p&gt;
