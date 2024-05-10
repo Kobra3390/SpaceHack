@@ -5,109 +5,19 @@
     <link>https://kobra3390.github.io/SpaceHack/tags/telecomunicazioni/</link>
     <description>Recent content in Telecomunicazioni on HomePage</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://kobra3390.github.io/SpaceHack/tags/telecomunicazioni/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language><atom:link href="https://kobra3390.github.io/SpaceHack/tags/telecomunicazioni/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Appunti sulle Antenne</title>
       <link>https://kobra3390.github.io/SpaceHack/posts/appunti-sulle-antenne/antenne/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://kobra3390.github.io/SpaceHack/posts/appunti-sulle-antenne/antenne/</guid>
-      <description>Table of Contents  Appunti sulle Antenne Propagazione delle onde elettromagnetiche nello spazio libero  Intensitá del campo elettromagnetico prodotto da un’antenna isotropica  Cos’é la densitá di potenza Cos’é intesitá del campo elettrico   EIRP e calcolo del campo elettromagnetico prodotto da un’antenna non isotropica  Calcolo dell’EIRP Calcolo del campo elettromagnetico prodotto da un’antenna reale     Le Antenne  Teorema di Reciprocitá Componenti di un sistema di antenna   Diagramma di radiazione e solido di radiazione Guadagno di un’antenna  Guadagno rispetto all’antenna isotropica Guadagno rispetto all’antenna al dipolo in λ/2   Principali tipi di antenne  Principio di funzionamento delle antenne lineari Banda di un’antenna lineare Resistenza d’antenna  Resistenza di radiazione Resistenza di dissipazione   Parametri tipi di delle antenne riceventi  Altezza efficace Fattore di traduzione da campo elettrico indicente Area equivalente Correlazione tra Dimensioni dell’antenna e l’area equivalente Fattore di trasduzione da densitá di potenza incidente     Antenne omnidirezionali  Dipolo in λ/2 Antenna Marconi Antenna Ground Plane Antenne Caricate Dipolo ripiegato (folded dipole) e antenne a banda larga   Antenne direttive  Angolo di apertura del fascio (beamwidth) o angolo di radiazione Front-to-Back Ratio (rapporto avanti/dietro) Antenna Yagi Antenna collineari e a cortina Puntamento delle antenne direttive   Antenne a superficie  Antenna parabolica Parabola offset Antenne paraboliche per la ricezione TV da satellite Parabola Cassegrain   Sistemi di antenna MIMO(Multiple In Multiple Out) Installazione dei sistemi di antenna  Orizzonte radio e massima distanza fra due antenne Perdite per diffrazione e prima zona di Fresnel   Dimensionamento di un collegamento radio  Bilancio di potenza (link budget) di un collegamento radio Calcolo del livello in ricezione   Fading delle Antenne   In questo blog non vorrei parlare delle discipline come informatica, sicurezza informatica, ma col tempo vorrei trattare anche tematiche che riguardano il mio indirizzo di studi, ossia telecomunicazioni.</description>
-      <content>&lt;h2 id=&#34;table-of-contents&#34;&gt;Table of Contents&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#appunti-sulle-antenne&#34;&gt;Appunti sulle Antenne&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#propagazione-delle-onde-elettromagnetiche-nello-spazio-libero&#34;&gt;Propagazione delle onde elettromagnetiche nello spazio libero&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#intensit%C3%A1-del-campo-elettromagnetico-prodotto-da-un-antenna-isotropica&#34;&gt;Intensitá del campo elettromagnetico prodotto da un’antenna isotropica&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#cos-%C3%A9-la-densit%C3%A1-di-potenza&#34;&gt;Cos’é la densitá di potenza&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#cos-%C3%A9-intesit%C3%A1-del-campo-elettrico&#34;&gt;Cos’é intesitá del campo elettrico&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#eirp-e-calcolo-del-campo-elettromagnetico-prodotto-da-un-antenna-non-isotropica&#34;&gt;EIRP e calcolo del campo elettromagnetico prodotto da un’antenna non isotropica&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#calcolo-dell-eirp&#34;&gt;Calcolo dell’EIRP&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#calcolo-del-campo-elettromagnetico-prodotto-da-un-antenna-reale&#34;&gt;Calcolo del campo elettromagnetico prodotto da un’antenna reale&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#le-antenne&#34;&gt;Le Antenne&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#teorema-di-reciprocit%C3%A1&#34;&gt;Teorema di Reciprocitá&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#componenti-di-un-sistema-di-antenna&#34;&gt;Componenti di un sistema di antenna&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#diagramma-di-radiazione-e-solido-di-radiazione&#34;&gt;Diagramma di radiazione e solido di radiazione&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#guadagno-di-un-antenna&#34;&gt;Guadagno di un’antenna&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#guadagno-rispetto-all-antenna-isotropica&#34;&gt;Guadagno rispetto all’antenna isotropica&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#guadagno-rispetto-all-antenna-al-dipolo-in-%CE%BB-2-&#34;&gt;Guadagno rispetto all’antenna al dipolo in &lt;strong&gt;λ/2&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#principali-tipi-di-antenne&#34;&gt;Principali tipi di antenne&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#principio-di-funzionamento-delle-antenne-lineari&#34;&gt;Principio di funzionamento delle antenne lineari&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#banda-di-un-antenna-lineare&#34;&gt;Banda di un’antenna lineare&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#resistenza-d-antenna&#34;&gt;Resistenza d’antenna&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#resistenza-di-radiazione&#34;&gt;Resistenza di radiazione&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#resistenza-di-dissipazione&#34;&gt;Resistenza di dissipazione&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#parametri-tipi-di-delle-antenne-riceventi&#34;&gt;Parametri tipi di delle antenne riceventi&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#altezza-efficace&#34;&gt;Altezza efficace&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#fattore-di-traduzione-da-campo-elettrico-indicente&#34;&gt;Fattore di traduzione da campo elettrico indicente&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#area-equivalente&#34;&gt;Area equivalente&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#correlazione-tra-dimensioni-dell-antenna-e-l-area-equivalente&#34;&gt;Correlazione tra Dimensioni dell’antenna e l’area equivalente&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#fattore-di-trasduzione-da-densit%C3%A1-di-potenza-incidente&#34;&gt;Fattore di trasduzione da densitá di potenza incidente&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#antenne-omnidirezionali&#34;&gt;Antenne omnidirezionali&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#dipolo-in-%CE%BB-2-&#34;&gt;Dipolo in &lt;strong&gt;λ/2&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#antenna-marconi&#34;&gt;Antenna Marconi&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#antenna-ground-plane&#34;&gt;Antenna Ground Plane&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#antenne-caricate&#34;&gt;Antenne Caricate&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#dipolo-ripiegato-folded-dipole-e-antenne-a-banda-larga&#34;&gt;Dipolo ripiegato (folded dipole) e antenne a banda larga&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#antenne-direttive&#34;&gt;Antenne direttive&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#angolo-di-apertura-del-fascio-beamwidth-o-angolo-di-radiazione&#34;&gt;Angolo di apertura del fascio (beamwidth) o angolo di radiazione&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#front-to-back-ratio-rapporto-avanti-dietro-&#34;&gt;Front-to-Back Ratio (rapporto avanti/dietro)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#antenna-yagi&#34;&gt;Antenna Yagi&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#antenna-collineari-e-a-cortina&#34;&gt;Antenna collineari e a cortina&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#puntamento-delle-antenne-direttive&#34;&gt;Puntamento delle antenne direttive&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#antenne-a-superficie&#34;&gt;Antenne a superficie&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#antenna-parabolica&#34;&gt;Antenna parabolica&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#parabola-offset&#34;&gt;Parabola offset&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#antenne-paraboliche-per-la-ricezione-tv-da-satellite&#34;&gt;Antenne paraboliche per la ricezione TV da satellite&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#parabola-cassegrain&#34;&gt;Parabola Cassegrain&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#sistemi-di-antenna-mimo-multiple-in-multiple-out-&#34;&gt;Sistemi di antenna MIMO(Multiple In Multiple Out)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#installazione-dei-sistemi-di-antenna&#34;&gt;Installazione dei sistemi di antenna&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#orizzonte-radio-e-massima-distanza-fra-due-antenne&#34;&gt;Orizzonte radio e massima distanza fra due antenne&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#perdite-per-diffrazione-e-prima-zona-di-fresnel&#34;&gt;Perdite per diffrazione e prima zona di Fresnel&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#dimensionamento-di-un-collegamento-radio&#34;&gt;Dimensionamento di un collegamento radio&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#bilancio-di-potenza-link-budget-di-un-collegamento-radio&#34;&gt;Bilancio di potenza (link budget) di un collegamento radio&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#calcolo-del-livello-in-ricezione&#34;&gt;Calcolo del livello in ricezione&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#fading-delle-antenne&#34;&gt;Fading delle Antenne&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr&gt;
+      <description>&lt;hr&gt;
+&lt;br&gt;
+&lt;p&gt;In questo blog non vorrei parlare delle discipline come informatica, sicurezza informatica, ma col tempo vorrei trattare anche tematiche che riguardano il mio indirizzo di studi, ossia telecomunicazioni. Col tempo verranno mostrati e trattati argomenti di telecomunicazioni ed elettronica.&lt;/p&gt;
+&lt;p&gt;Oggi parliamo delle antenne, qui di seguito sono riportati dei miei personali appunti, buona lettura.&lt;/p&gt;</description>
+      <content>&lt;hr&gt;
+&lt;br&gt;
 &lt;p&gt;In questo blog non vorrei parlare delle discipline come informatica, sicurezza informatica, ma col tempo vorrei trattare anche tematiche che riguardano il mio indirizzo di studi, ossia telecomunicazioni. Col tempo verranno mostrati e trattati argomenti di telecomunicazioni ed elettronica.&lt;/p&gt;
 &lt;p&gt;Oggi parliamo delle antenne, qui di seguito sono riportati dei miei personali appunti, buona lettura.&lt;/p&gt;
 &lt;hr&gt;
@@ -860,8 +770,7 @@ $$&lt;/p&gt;
 &lt;p&gt;Il fenomeno del fading delle antenne si riferisce alla perdita di intensità del segnale radio quando viene trasmesso da un&amp;rsquo;antenna e ricevuto da un&amp;rsquo;altra. Questo può accadere a causa di diverse ragioni, tra cui l&amp;rsquo;effetto della riflessione, la diffrazione e l&amp;rsquo;assorbimento delle onde radio.&lt;/p&gt;
 &lt;p&gt;In particolare, il fading può essere causato dalla riflessione delle onde radio su superfici come edifici, alberi o montagne, che possono creare zone di attenuazione o interferenza nel segnale radio. Inoltre, il fading può essere causato dalla diffrazione, cioè dalla deviazione del segnale radio quando incontra ostacoli come angoli, spigoli o superfici curve.&lt;/p&gt;
 &lt;p&gt;Il fading può anche essere causato dall&amp;rsquo;assorbimento delle onde radio da parte di materiali come acqua, pioggia, neve o aria umida. In questo caso, la quantità di energia del segnale radio diminuisce man mano che attraversa questi materiali, causando un attenuamento del segnale.&lt;/p&gt;
-&lt;p&gt;Il fading può essere ridotto utilizzando tecniche come l&amp;rsquo;uso di antenne direzionali, la diversità di antenna e la modulazione adattiva, che possono aiutare a migliorare la qualità del segnale radio e ridurre la perdita di intensità.&lt;/p&gt;
-</content>
+&lt;p&gt;Il fading può essere ridotto utilizzando tecniche come l&amp;rsquo;uso di antenne direzionali, la diversità di antenna e la modulazione adattiva, che possono aiutare a migliorare la qualità del segnale radio e ridurre la perdita di intensità.&lt;/p&gt;</content>
     </item>
     
   </channel>
