@@ -12,16 +12,9 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://kobra3390.github.io/SpaceHack/posts/introduzione-arp-poisoning/introduzione_arp_poisoning/</guid>
-      <description>&lt;hr&gt;
-&lt;br&gt;
-&lt;p&gt;In questi giorni ho letto &lt;em&gt;Python per Hacker (seconda edizione)&lt;/em&gt; e mi sono imbattuto durante la lettura in un argomento
-molto interessante, ossia &lt;strong&gt;l&amp;rsquo;ARP Poisoning&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;Ho iniziato dunque a fare delle ricerche e voglio condividere quello che ho trovato con voi.&lt;/p&gt;</description>
+      <description>Cos&amp;rsquo;è il Protocollo ARP Per approfondire l&amp;rsquo;argomento ti consigli di leggere questo.
+A differenza di quanto succede su Internet, i dispositivi presenti nella LAN non comunicano direttamente attraverso gli indirizzi IP, al loro posto, per l’indirizzamento nelle reti locali IPv4, vengono utilizzati gli indirizzi fisici dell’hardware, chiamati indirizzi MAC (Media Access Control). Gli indirizzi MAC vengono attribuiti dal rispettivo produttore hardware e sono unici al mondo. Teoricamente gli indirizzi hardware si adatterebbero quindi per consentire un indirizzamento globale, ma nella prassi questa concezione non si può applicare, visto che gli indirizzi IPv4 sono troppo brevi per rappresentare in modo completo gli indirizzi MAC.</description>
       <content>&lt;hr&gt;
-&lt;br&gt;
-&lt;p&gt;In questi giorni ho letto &lt;em&gt;Python per Hacker (seconda edizione)&lt;/em&gt; e mi sono imbattuto durante la lettura in un argomento
-molto interessante, ossia &lt;strong&gt;l&amp;rsquo;ARP Poisoning&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;Ho iniziato dunque a fare delle ricerche e voglio condividere quello che ho trovato con voi.&lt;/p&gt;
 &lt;h1 id=&#34;cosè-il-protocollo-arp&#34;&gt;Cos&amp;rsquo;è il Protocollo ARP&lt;/h1&gt;
 &lt;p&gt;Per approfondire l&amp;rsquo;argomento ti consigli di leggere &lt;a href=&#34;https://www.ionos.it/digitalguide/server/sicurezza/arp-poisoning-attacchi-dalla-rete-locale/&#34;&gt;questo&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;A differenza di quanto succede su Internet, i dispositivi presenti nella LAN non comunicano direttamente attraverso gli indirizzi IP, al loro posto, per l’indirizzamento nelle reti locali IPv4, vengono utilizzati gli indirizzi fisici dell’hardware, chiamati indirizzi MAC (Media Access Control). Gli indirizzi MAC vengono attribuiti dal rispettivo produttore hardware e sono unici al mondo. Teoricamente gli indirizzi hardware si adatterebbero quindi per consentire un indirizzamento globale, ma nella prassi questa concezione non si può applicare, visto che gli indirizzi IPv4 sono troppo brevi per rappresentare in modo completo gli indirizzi MAC. Nelle reti basate su IPv4, la risoluzione dell’indirizzo tramite ARP è perciò indispensabile.&lt;/p&gt;
@@ -314,7 +307,8 @@ molto interessante, ossia &lt;strong&gt;l&amp;rsquo;ARP Poisoning&lt;/strong&gt;
 &lt;h1 id=&#34;come-prevenire-larp-poisoning-con-dai&#34;&gt;Come prevenire L&amp;rsquo;ARP Poisoning con DAI&lt;/h1&gt;
 &lt;p&gt;L&amp;rsquo;ispezione ARP dinamica (DAI) è una funzione di sicurezza che rifiuta i pacchetti ARP non validi e dannosi.  La funzione impedisce una classe di attacchi man-in-the-middle, in cui una stazione ostile intercetta il traffico per altre stazioni avvelenando le cache ARP dei suoi ignari vicini.  Il malintenzionato invia richieste o risposte ARP mappando l&amp;rsquo;indirizzo IP di un&amp;rsquo;altra stazione al proprio indirizzo MAC.&lt;/p&gt;
 &lt;p&gt;DAI si basa sullo snooping DHCP.  Lo snooping DHCP ascolta gli scambi di messaggi DHCP e crea un database di associazioni di tuple valide (indirizzo MAC, indirizzo IP, interfaccia VLAN).&lt;/p&gt;
-&lt;p&gt;Quando DAI è abilitato, lo switch elimina il pacchetto ARP se l&amp;rsquo;indirizzo MAC e l&amp;rsquo;indirizzo IP del mittente non corrispondono a una voce nel database dei binding di snooping DHCP.  Tuttavia, può essere superato attraverso mappature statiche.  I mapping statici sono utili quando gli host configurano indirizzi IP statici, lo snooping DHCP non può essere eseguito o altri switch nella rete non eseguono l&amp;rsquo;ispezione ARP dinamica.  Una mappatura statica associa un indirizzo IP a un indirizzo MAC su una VLAN.&lt;/p&gt;</content>
+&lt;p&gt;Quando DAI è abilitato, lo switch elimina il pacchetto ARP se l&amp;rsquo;indirizzo MAC e l&amp;rsquo;indirizzo IP del mittente non corrispondono a una voce nel database dei binding di snooping DHCP.  Tuttavia, può essere superato attraverso mappature statiche.  I mapping statici sono utili quando gli host configurano indirizzi IP statici, lo snooping DHCP non può essere eseguito o altri switch nella rete non eseguono l&amp;rsquo;ispezione ARP dinamica.  Una mappatura statica associa un indirizzo IP a un indirizzo MAC su una VLAN.&lt;/p&gt;
+</content>
     </item>
     
   </channel>

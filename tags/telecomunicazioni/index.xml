@@ -12,15 +12,11 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://kobra3390.github.io/SpaceHack/posts/appunti-sulle-antenne/antenne/</guid>
-      <description>&lt;hr&gt;
-&lt;br&gt;
-&lt;p&gt;In questo blog non vorrei parlare delle discipline come informatica, sicurezza informatica, ma col tempo vorrei trattare anche tematiche che riguardano il mio indirizzo di studi, ossia telecomunicazioni. Col tempo verranno mostrati e trattati argomenti di telecomunicazioni ed elettronica.&lt;/p&gt;
-&lt;p&gt;Oggi parliamo delle antenne, qui di seguito sono riportati dei miei personali appunti, buona lettura.&lt;/p&gt;</description>
+      <description>Oggi parliamo delle antenne, qui di seguito sono riportati dei miei personali appunti, buona lettura. Propagazione delle onde elettromagnetiche nello spazio libero I parametri con cui si valuta l’entitá del campo elettromagnetico sono:
+Densitá di potenza \(S\) , che si misura in \(w / m^2\) Intensitá del campo elettrico \(E\), che si misura in \(V / m\) In particolare, si deve garantire che sull’antenna ricevente si abbia un valore di campo elettromagnetico tale da ottenere in ingresso al ricevitore un segnale che abbia un livello di potenza pari alla sensibilitá del ricevitore.</description>
       <content>&lt;hr&gt;
 &lt;br&gt;
-&lt;p&gt;In questo blog non vorrei parlare delle discipline come informatica, sicurezza informatica, ma col tempo vorrei trattare anche tematiche che riguardano il mio indirizzo di studi, ossia telecomunicazioni. Col tempo verranno mostrati e trattati argomenti di telecomunicazioni ed elettronica.&lt;/p&gt;
-&lt;p&gt;Oggi parliamo delle antenne, qui di seguito sono riportati dei miei personali appunti, buona lettura.&lt;/p&gt;
-&lt;hr&gt;
+Oggi parliamo delle antenne, qui di seguito sono riportati dei miei personali appunti, buona lettura.
 &lt;h1 id=&#34;propagazione-delle-onde-elettromagnetiche-nello-spazio-libero&#34;&gt;Propagazione delle onde elettromagnetiche nello spazio libero&lt;/h1&gt;
 &lt;p&gt;I parametri con cui si valuta l’entitá del campo elettromagnetico sono:&lt;/p&gt;
 &lt;ul&gt;
@@ -770,7 +766,8 @@ $$&lt;/p&gt;
 &lt;p&gt;Il fenomeno del fading delle antenne si riferisce alla perdita di intensità del segnale radio quando viene trasmesso da un&amp;rsquo;antenna e ricevuto da un&amp;rsquo;altra. Questo può accadere a causa di diverse ragioni, tra cui l&amp;rsquo;effetto della riflessione, la diffrazione e l&amp;rsquo;assorbimento delle onde radio.&lt;/p&gt;
 &lt;p&gt;In particolare, il fading può essere causato dalla riflessione delle onde radio su superfici come edifici, alberi o montagne, che possono creare zone di attenuazione o interferenza nel segnale radio. Inoltre, il fading può essere causato dalla diffrazione, cioè dalla deviazione del segnale radio quando incontra ostacoli come angoli, spigoli o superfici curve.&lt;/p&gt;
 &lt;p&gt;Il fading può anche essere causato dall&amp;rsquo;assorbimento delle onde radio da parte di materiali come acqua, pioggia, neve o aria umida. In questo caso, la quantità di energia del segnale radio diminuisce man mano che attraversa questi materiali, causando un attenuamento del segnale.&lt;/p&gt;
-&lt;p&gt;Il fading può essere ridotto utilizzando tecniche come l&amp;rsquo;uso di antenne direzionali, la diversità di antenna e la modulazione adattiva, che possono aiutare a migliorare la qualità del segnale radio e ridurre la perdita di intensità.&lt;/p&gt;</content>
+&lt;p&gt;Il fading può essere ridotto utilizzando tecniche come l&amp;rsquo;uso di antenne direzionali, la diversità di antenna e la modulazione adattiva, che possono aiutare a migliorare la qualità del segnale radio e ridurre la perdita di intensità.&lt;/p&gt;
+</content>
     </item>
     
   </channel>

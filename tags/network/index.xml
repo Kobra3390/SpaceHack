@@ -12,16 +12,10 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://kobra3390.github.io/SpaceHack/posts/cos%C3%A8-un-attacco-ddos-e-come-farlo-con-python/ddos_python/</guid>
-      <description>&lt;hr&gt;
-&lt;br&gt;
-&lt;p&gt;Nel post di oggi andiamo a dare una panoramica di cos&amp;rsquo;è un attacco DDoS e come realizzare un semplice script python che lo esegue, per coloro di voi
-che sono interessati al tema degli attacchi di rete ho fatto un post anche su &lt;a href=&#34;https://kobra3390.github.io/SpaceHack/posts/brute-force-ftp-server/brute_force_server_ftp/&#34;&gt;Brute Force FTP Server&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Di seguito vi mostrerò il frutto delle mie ricerche in questo ambito 👽.&lt;/p&gt;</description>
+      <description>Introduzione Wikipedia lo definisce come un attacco informatico che mira ad esaurire le risorse di un sistema informatico, mirando quindi a negare la disponibilità del servizio verso client benevoli. Come vedremo ci sono diverse modalità per esaurire la risorse di un servizio, ad esempio:
+Congestione della rete Riempimento della memoria Avvelenamento della traduzione a dominio Riduzione della potenza di computazione Solitamente I DoS sono attacchi temporanei, atti a bloccare le risorse per tempi più o meno brevi, ma ci sono anche casi speciali in cui l’attacco porta ad un danneggiamento o distruzione completa del firmware, solitamente detti PDOs o phlashing.</description>
       <content>&lt;hr&gt;
 &lt;br&gt;
-&lt;p&gt;Nel post di oggi andiamo a dare una panoramica di cos&amp;rsquo;è un attacco DDoS e come realizzare un semplice script python che lo esegue, per coloro di voi
-che sono interessati al tema degli attacchi di rete ho fatto un post anche su &lt;a href=&#34;https://kobra3390.github.io/SpaceHack/posts/brute-force-ftp-server/brute_force_server_ftp/&#34;&gt;Brute Force FTP Server&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Di seguito vi mostrerò il frutto delle mie ricerche in questo ambito 👽.&lt;/p&gt;
 &lt;h1 id=&#34;introduzione&#34;&gt;Introduzione&lt;/h1&gt;
 &lt;p&gt;Wikipedia lo definisce come un attacco informatico che mira ad esaurire le risorse di un sistema informatico, mirando quindi a negare la disponibilità del servizio verso client benevoli. Come vedremo ci sono diverse modalità per esaurire la risorse di un servizio, ad esempio:&lt;/p&gt;
 &lt;ul&gt;
@@ -128,7 +122,8 @@ Essi si possono dividere in:&lt;/li&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        print(attack_num)
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        s&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;close()
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Abbiamo creato una variabile attack_num che tiene traccia di quante richieste sono già state inviate. Ad ogni iterazione, aumentiamo questo numero e lo stampiamo.&lt;/p&gt;</content>
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Abbiamo creato una variabile attack_num che tiene traccia di quante richieste sono già state inviate. Ad ogni iterazione, aumentiamo questo numero e lo stampiamo.&lt;/p&gt;
+</content>
     </item>
     
   </channel>

@@ -6,9 +6,7 @@
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content=" In questi giorni ho letto Python per Hacker (seconda edizione) e mi sono imbattuto durante la lettura in un argomento molto interessante, ossia l&amp;rsquo;ARP Poisoning.
-Ho iniziato dunque a fare delle ricerche e voglio condividere quello che ho trovato con voi.
-" />
+<meta name="description" content="In questi giorni ho letto _Python per Hacker (seconda edizione)_ e mi sono imbattuto durante la lettura in un argomento molto interessante, ossia **l&#39;ARP Poisoning**. Ho iniziato dunque a fare delle ricerche e voglio condividere quello che ho trovato con voi." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://kobra3390.github.io/SpaceHack/posts/introduzione-arp-poisoning/introduzione_arp_poisoning/" />
@@ -47,9 +45,7 @@ Ho iniziato dunque a fare delle ricerche e voglio condividere quello che ho trov
 <meta property="og:locale" content="en" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="Introduzione All&#39;ARP Poisoning">
-<meta property="og:description" content=" In questi giorni ho letto Python per Hacker (seconda edizione) e mi sono imbattuto durante la lettura in un argomento molto interessante, ossia l&amp;rsquo;ARP Poisoning.
-Ho iniziato dunque a fare delle ricerche e voglio condividere quello che ho trovato con voi.
-" />
+<meta property="og:description" content="In questi giorni ho letto _Python per Hacker (seconda edizione)_ e mi sono imbattuto durante la lettura in un argomento molto interessante, ossia **l&#39;ARP Poisoning**. Ho iniziato dunque a fare delle ricerche e voglio condividere quello che ho trovato con voi." />
 <meta property="og:url" content="https://kobra3390.github.io/SpaceHack/posts/introduzione-arp-poisoning/introduzione_arp_poisoning/" />
 <meta property="og:site_name" content="HomePage" />
 
@@ -146,7 +142,7 @@ Ho iniziato dunque a fare delle ricerche e voglio condividere quello che ho trov
       <span class="post-author">Autore: k0Br@3390</span>
     
     
-      <span class="post-reading-time">:: 12 min read (2452 words)</span>
+      <span class="post-reading-time">:: 12 min read (2411 words)</span>
     
   </div>
 
@@ -186,10 +182,6 @@ Ho iniziato dunque a fare delle ricerche e voglio condividere quello che ho trov
 
   <div class="post-content"><div>
         <hr>
-<br>
-<p>In questi giorni ho letto <em>Python per Hacker (seconda edizione)</em> e mi sono imbattuto durante la lettura in un argomento
-molto interessante, ossia <strong>l&rsquo;ARP Poisoning</strong>.</p>
-<p>Ho iniziato dunque a fare delle ricerche e voglio condividere quello che ho trovato con voi.</p>
 <h1 id="cosè-il-protocollo-arp">Cos&rsquo;è il Protocollo ARP<a href="#cosè-il-protocollo-arp" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
 <p>Per approfondire l&rsquo;argomento ti consigli di leggere <a href="https://www.ionos.it/digitalguide/server/sicurezza/arp-poisoning-attacchi-dalla-rete-locale/">questo</a>.</p>
 <p>A differenza di quanto succede su Internet, i dispositivi presenti nella LAN non comunicano direttamente attraverso gli indirizzi IP, al loro posto, per l’indirizzamento nelle reti locali IPv4, vengono utilizzati gli indirizzi fisici dell’hardware, chiamati indirizzi MAC (Media Access Control). Gli indirizzi MAC vengono attribuiti dal rispettivo produttore hardware e sono unici al mondo. Teoricamente gli indirizzi hardware si adatterebbero quindi per consentire un indirizzamento globale, ma nella prassi questa concezione non si può applicare, visto che gli indirizzi IPv4 sono troppo brevi per rappresentare in modo completo gli indirizzi MAC. Nelle reti basate su IPv4, la risoluzione dell’indirizzo tramite ARP è perciò indispensabile.</p>
@@ -483,6 +475,7 @@ molto interessante, ossia <strong>l&rsquo;ARP Poisoning</strong>.</p>
 <p>L&rsquo;ispezione ARP dinamica (DAI) è una funzione di sicurezza che rifiuta i pacchetti ARP non validi e dannosi.  La funzione impedisce una classe di attacchi man-in-the-middle, in cui una stazione ostile intercetta il traffico per altre stazioni avvelenando le cache ARP dei suoi ignari vicini.  Il malintenzionato invia richieste o risposte ARP mappando l&rsquo;indirizzo IP di un&rsquo;altra stazione al proprio indirizzo MAC.</p>
 <p>DAI si basa sullo snooping DHCP.  Lo snooping DHCP ascolta gli scambi di messaggi DHCP e crea un database di associazioni di tuple valide (indirizzo MAC, indirizzo IP, interfaccia VLAN).</p>
 <p>Quando DAI è abilitato, lo switch elimina il pacchetto ARP se l&rsquo;indirizzo MAC e l&rsquo;indirizzo IP del mittente non corrispondono a una voce nel database dei binding di snooping DHCP.  Tuttavia, può essere superato attraverso mappature statiche.  I mapping statici sono utili quando gli host configurano indirizzi IP statici, lo snooping DHCP non può essere eseguito o altri switch nella rete non eseguono l&rsquo;ispezione ARP dinamica.  Una mappatura statica associa un indirizzo IP a un indirizzo MAC su una VLAN.</p>
+
       </div></div>
 
   

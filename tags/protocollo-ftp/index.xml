@@ -12,9 +12,9 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://kobra3390.github.io/SpaceHack/posts/badftp-quando-ftp-diventa-bad/badftp_quando_ftp_diventa_bad/</guid>
-      <description>&lt;hr&gt;
-&lt;h1 id=&#34;introduzione-a-badftp&#34;&gt;Introduzione a BadFTP&lt;/h1&gt;
-&lt;p&gt;Qualche tempo fa, mostrai come scrivere uno script in Python3 per effettuare il brute forcing delle credenziali FTP trovate il post al seguente link: &lt;a href=&#34;https://kobra3390.github.io/SpaceHack/posts/brute-force-ftp-server/brute_force_server_ftp/&#34;&gt;Brute Force di un Server FTP&lt;/a&gt;. Col tempo però, ho sentito l&amp;rsquo;esigenza di modificare lo script per renderlo in un certo senso &lt;code&gt;modulabile&lt;/code&gt;.&lt;/p&gt;</description>
+      <description>Introduzione a BadFTP Qualche tempo fa, mostrai come scrivere uno script in Python3 per effettuare il brute forcing delle credenziali FTP trovate il post al seguente link: Brute Force di un Server FTP. Col tempo però, ho sentito l&amp;rsquo;esigenza di modificare lo script per renderlo in un certo senso modulabile.
+Da qui nasce BadFTP.py:
+import sys, ftplib, threading from ftplib import FTP from colorama import init, Fore, Style init() credentials_found = False port = 21 def banner(): print(f&amp;#34;&amp;#34;&amp;#34;{Style.</description>
       <content>&lt;hr&gt;
 &lt;h1 id=&#34;introduzione-a-badftp&#34;&gt;Introduzione a BadFTP&lt;/h1&gt;
 &lt;p&gt;Qualche tempo fa, mostrai come scrivere uno script in Python3 per effettuare il brute forcing delle credenziali FTP trovate il post al seguente link: &lt;a href=&#34;https://kobra3390.github.io/SpaceHack/posts/brute-force-ftp-server/brute_force_server_ftp/&#34;&gt;Brute Force di un Server FTP&lt;/a&gt;. Col tempo però, ho sentito l&amp;rsquo;esigenza di modificare lo script per renderlo in un certo senso &lt;code&gt;modulabile&lt;/code&gt;.&lt;/p&gt;
@@ -348,7 +348,8 @@ apple
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ConnectionRefusedError: &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Errno 111&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; Connection refused
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Come possiamo notare, veniamo bloccati da fail2ban, disattivandolo con:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo service fail2ban stop
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Saremo di nuovo in grado di utilizzare lo script. Nella cybersecurity è fondamentale capire sia come sfruttare vulnerabilità dei sistemi, dei protocolli di rete o in snippet di codice che fanno parte di un software, ma è altrettanto fondamentale capire come difendere questi sistemi.&lt;/p&gt;</content>
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Saremo di nuovo in grado di utilizzare lo script. Nella cybersecurity è fondamentale capire sia come sfruttare vulnerabilità dei sistemi, dei protocolli di rete o in snippet di codice che fanno parte di un software, ma è altrettanto fondamentale capire come difendere questi sistemi.&lt;/p&gt;
+</content>
     </item>
     
     <item>
@@ -357,12 +358,8 @@ apple
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://kobra3390.github.io/SpaceHack/posts/brute-force-ftp-server/brute_force_server_ftp/</guid>
-      <description>&lt;hr&gt;
-&lt;br&gt;
-&lt;p&gt;In questo post andrò a spiegare come è possibile creare uno script per fare il brute forcing delle credenziali (in particolare la password) di un server FTP. Prima di tutto facciamo chiarezza su cos&amp;rsquo;è il protocollo FTP.&lt;/p&gt;</description>
+      <description>Basi sul Protocollo FTP Ftp è l’acronimo di File Transfer Protocol esso è un protocollo che permette di trasferire un file dalla rete al singolo client (server) e viceversa, esso però permette anche la navigazione veloce nella struttura di un server web dove sono presenti file. É uno dei protocolli più vecchi di Internet. Già a partire dal 1974 si inizia a lavorare con la tecnologia di trasmissione dei file completi.</description>
       <content>&lt;hr&gt;
-&lt;br&gt;
-&lt;p&gt;In questo post andrò a spiegare come è possibile creare uno script per fare il brute forcing delle credenziali (in particolare la password) di un server FTP. Prima di tutto facciamo chiarezza su cos&amp;rsquo;è il protocollo FTP.&lt;/p&gt;
 &lt;h1 id=&#34;basi-sul-protocollo-ftp&#34;&gt;Basi sul Protocollo FTP&lt;/h1&gt;
 &lt;p&gt;Ftp è l’acronimo di File Transfer Protocol esso è un protocollo che permette di trasferire un file dalla rete al singolo client (server) e viceversa, esso però permette anche la navigazione veloce nella struttura di un server web dove sono presenti file. É uno dei protocolli più vecchi di Internet. Già a partire dal 1974 si inizia a lavorare con la tecnologia di trasmissione dei file completi. Nel 1985 si definisce con esattezza il FTP nel documento Request For Comments 959. Il protocollo ftp è un protocollo indipendente quindi è possibile usarlo su qualsiasi computer, indipendentemente dal sistema operativo che vi si usa. Questo servizio viene usato anche nella posta odierna, questo perché, anche essendo un protocollo datato permette il trasferimento di file di notevoli dimensioni. C’è una distinzione da fare tra ftp pubblico e ftp privato:&lt;/p&gt;
 &lt;ul&gt;

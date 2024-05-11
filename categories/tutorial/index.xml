@@ -12,15 +12,11 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://kobra3390.github.io/SpaceHack/posts/appunti-sulle-antenne/antenne/</guid>
-      <description>&lt;hr&gt;
-&lt;br&gt;
-&lt;p&gt;In questo blog non vorrei parlare delle discipline come informatica, sicurezza informatica, ma col tempo vorrei trattare anche tematiche che riguardano il mio indirizzo di studi, ossia telecomunicazioni. Col tempo verranno mostrati e trattati argomenti di telecomunicazioni ed elettronica.&lt;/p&gt;
-&lt;p&gt;Oggi parliamo delle antenne, qui di seguito sono riportati dei miei personali appunti, buona lettura.&lt;/p&gt;</description>
+      <description>Oggi parliamo delle antenne, qui di seguito sono riportati dei miei personali appunti, buona lettura. Propagazione delle onde elettromagnetiche nello spazio libero I parametri con cui si valuta l’entitá del campo elettromagnetico sono:
+Densitá di potenza \(S\) , che si misura in \(w / m^2\) Intensitá del campo elettrico \(E\), che si misura in \(V / m\) In particolare, si deve garantire che sull’antenna ricevente si abbia un valore di campo elettromagnetico tale da ottenere in ingresso al ricevitore un segnale che abbia un livello di potenza pari alla sensibilitá del ricevitore.</description>
       <content>&lt;hr&gt;
 &lt;br&gt;
-&lt;p&gt;In questo blog non vorrei parlare delle discipline come informatica, sicurezza informatica, ma col tempo vorrei trattare anche tematiche che riguardano il mio indirizzo di studi, ossia telecomunicazioni. Col tempo verranno mostrati e trattati argomenti di telecomunicazioni ed elettronica.&lt;/p&gt;
-&lt;p&gt;Oggi parliamo delle antenne, qui di seguito sono riportati dei miei personali appunti, buona lettura.&lt;/p&gt;
-&lt;hr&gt;
+Oggi parliamo delle antenne, qui di seguito sono riportati dei miei personali appunti, buona lettura.
 &lt;h1 id=&#34;propagazione-delle-onde-elettromagnetiche-nello-spazio-libero&#34;&gt;Propagazione delle onde elettromagnetiche nello spazio libero&lt;/h1&gt;
 &lt;p&gt;I parametri con cui si valuta l’entitá del campo elettromagnetico sono:&lt;/p&gt;
 &lt;ul&gt;
@@ -770,7 +766,8 @@ $$&lt;/p&gt;
 &lt;p&gt;Il fenomeno del fading delle antenne si riferisce alla perdita di intensità del segnale radio quando viene trasmesso da un&amp;rsquo;antenna e ricevuto da un&amp;rsquo;altra. Questo può accadere a causa di diverse ragioni, tra cui l&amp;rsquo;effetto della riflessione, la diffrazione e l&amp;rsquo;assorbimento delle onde radio.&lt;/p&gt;
 &lt;p&gt;In particolare, il fading può essere causato dalla riflessione delle onde radio su superfici come edifici, alberi o montagne, che possono creare zone di attenuazione o interferenza nel segnale radio. Inoltre, il fading può essere causato dalla diffrazione, cioè dalla deviazione del segnale radio quando incontra ostacoli come angoli, spigoli o superfici curve.&lt;/p&gt;
 &lt;p&gt;Il fading può anche essere causato dall&amp;rsquo;assorbimento delle onde radio da parte di materiali come acqua, pioggia, neve o aria umida. In questo caso, la quantità di energia del segnale radio diminuisce man mano che attraversa questi materiali, causando un attenuamento del segnale.&lt;/p&gt;
-&lt;p&gt;Il fading può essere ridotto utilizzando tecniche come l&amp;rsquo;uso di antenne direzionali, la diversità di antenna e la modulazione adattiva, che possono aiutare a migliorare la qualità del segnale radio e ridurre la perdita di intensità.&lt;/p&gt;</content>
+&lt;p&gt;Il fading può essere ridotto utilizzando tecniche come l&amp;rsquo;uso di antenne direzionali, la diversità di antenna e la modulazione adattiva, che possono aiutare a migliorare la qualità del segnale radio e ridurre la perdita di intensità.&lt;/p&gt;
+</content>
     </item>
     
     <item>
@@ -779,9 +776,9 @@ $$&lt;/p&gt;
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://kobra3390.github.io/SpaceHack/posts/badftp-quando-ftp-diventa-bad/badftp_quando_ftp_diventa_bad/</guid>
-      <description>&lt;hr&gt;
-&lt;h1 id=&#34;introduzione-a-badftp&#34;&gt;Introduzione a BadFTP&lt;/h1&gt;
-&lt;p&gt;Qualche tempo fa, mostrai come scrivere uno script in Python3 per effettuare il brute forcing delle credenziali FTP trovate il post al seguente link: &lt;a href=&#34;https://kobra3390.github.io/SpaceHack/posts/brute-force-ftp-server/brute_force_server_ftp/&#34;&gt;Brute Force di un Server FTP&lt;/a&gt;. Col tempo però, ho sentito l&amp;rsquo;esigenza di modificare lo script per renderlo in un certo senso &lt;code&gt;modulabile&lt;/code&gt;.&lt;/p&gt;</description>
+      <description>Introduzione a BadFTP Qualche tempo fa, mostrai come scrivere uno script in Python3 per effettuare il brute forcing delle credenziali FTP trovate il post al seguente link: Brute Force di un Server FTP. Col tempo però, ho sentito l&amp;rsquo;esigenza di modificare lo script per renderlo in un certo senso modulabile.
+Da qui nasce BadFTP.py:
+import sys, ftplib, threading from ftplib import FTP from colorama import init, Fore, Style init() credentials_found = False port = 21 def banner(): print(f&amp;#34;&amp;#34;&amp;#34;{Style.</description>
       <content>&lt;hr&gt;
 &lt;h1 id=&#34;introduzione-a-badftp&#34;&gt;Introduzione a BadFTP&lt;/h1&gt;
 &lt;p&gt;Qualche tempo fa, mostrai come scrivere uno script in Python3 per effettuare il brute forcing delle credenziali FTP trovate il post al seguente link: &lt;a href=&#34;https://kobra3390.github.io/SpaceHack/posts/brute-force-ftp-server/brute_force_server_ftp/&#34;&gt;Brute Force di un Server FTP&lt;/a&gt;. Col tempo però, ho sentito l&amp;rsquo;esigenza di modificare lo script per renderlo in un certo senso &lt;code&gt;modulabile&lt;/code&gt;.&lt;/p&gt;
@@ -1115,7 +1112,8 @@ apple
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ConnectionRefusedError: &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Errno 111&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; Connection refused
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Come possiamo notare, veniamo bloccati da fail2ban, disattivandolo con:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo service fail2ban stop
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Saremo di nuovo in grado di utilizzare lo script. Nella cybersecurity è fondamentale capire sia come sfruttare vulnerabilità dei sistemi, dei protocolli di rete o in snippet di codice che fanno parte di un software, ma è altrettanto fondamentale capire come difendere questi sistemi.&lt;/p&gt;</content>
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Saremo di nuovo in grado di utilizzare lo script. Nella cybersecurity è fondamentale capire sia come sfruttare vulnerabilità dei sistemi, dei protocolli di rete o in snippet di codice che fanno parte di un software, ma è altrettanto fondamentale capire come difendere questi sistemi.&lt;/p&gt;
+</content>
     </item>
     
     <item>
@@ -1511,12 +1509,8 @@ apple
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://kobra3390.github.io/SpaceHack/posts/brute-force-ftp-server/brute_force_server_ftp/</guid>
-      <description>&lt;hr&gt;
-&lt;br&gt;
-&lt;p&gt;In questo post andrò a spiegare come è possibile creare uno script per fare il brute forcing delle credenziali (in particolare la password) di un server FTP. Prima di tutto facciamo chiarezza su cos&amp;rsquo;è il protocollo FTP.&lt;/p&gt;</description>
+      <description>Basi sul Protocollo FTP Ftp è l’acronimo di File Transfer Protocol esso è un protocollo che permette di trasferire un file dalla rete al singolo client (server) e viceversa, esso però permette anche la navigazione veloce nella struttura di un server web dove sono presenti file. É uno dei protocolli più vecchi di Internet. Già a partire dal 1974 si inizia a lavorare con la tecnologia di trasmissione dei file completi.</description>
       <content>&lt;hr&gt;
-&lt;br&gt;
-&lt;p&gt;In questo post andrò a spiegare come è possibile creare uno script per fare il brute forcing delle credenziali (in particolare la password) di un server FTP. Prima di tutto facciamo chiarezza su cos&amp;rsquo;è il protocollo FTP.&lt;/p&gt;
 &lt;h1 id=&#34;basi-sul-protocollo-ftp&#34;&gt;Basi sul Protocollo FTP&lt;/h1&gt;
 &lt;p&gt;Ftp è l’acronimo di File Transfer Protocol esso è un protocollo che permette di trasferire un file dalla rete al singolo client (server) e viceversa, esso però permette anche la navigazione veloce nella struttura di un server web dove sono presenti file. É uno dei protocolli più vecchi di Internet. Già a partire dal 1974 si inizia a lavorare con la tecnologia di trasmissione dei file completi. Nel 1985 si definisce con esattezza il FTP nel documento Request For Comments 959. Il protocollo ftp è un protocollo indipendente quindi è possibile usarlo su qualsiasi computer, indipendentemente dal sistema operativo che vi si usa. Questo servizio viene usato anche nella posta odierna, questo perché, anche essendo un protocollo datato permette il trasferimento di file di notevoli dimensioni. C’è una distinzione da fare tra ftp pubblico e ftp privato:&lt;/p&gt;
 &lt;ul&gt;
@@ -2286,16 +2280,10 @@ Bash non interpreterà più &lt;code&gt;y=() {...}&lt;/code&gt; come una definiz
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://kobra3390.github.io/SpaceHack/posts/cos%C3%A8-un-attacco-ddos-e-come-farlo-con-python/ddos_python/</guid>
-      <description>&lt;hr&gt;
-&lt;br&gt;
-&lt;p&gt;Nel post di oggi andiamo a dare una panoramica di cos&amp;rsquo;è un attacco DDoS e come realizzare un semplice script python che lo esegue, per coloro di voi
-che sono interessati al tema degli attacchi di rete ho fatto un post anche su &lt;a href=&#34;https://kobra3390.github.io/SpaceHack/posts/brute-force-ftp-server/brute_force_server_ftp/&#34;&gt;Brute Force FTP Server&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Di seguito vi mostrerò il frutto delle mie ricerche in questo ambito 👽.&lt;/p&gt;</description>
+      <description>Introduzione Wikipedia lo definisce come un attacco informatico che mira ad esaurire le risorse di un sistema informatico, mirando quindi a negare la disponibilità del servizio verso client benevoli. Come vedremo ci sono diverse modalità per esaurire la risorse di un servizio, ad esempio:
+Congestione della rete Riempimento della memoria Avvelenamento della traduzione a dominio Riduzione della potenza di computazione Solitamente I DoS sono attacchi temporanei, atti a bloccare le risorse per tempi più o meno brevi, ma ci sono anche casi speciali in cui l’attacco porta ad un danneggiamento o distruzione completa del firmware, solitamente detti PDOs o phlashing.</description>
       <content>&lt;hr&gt;
 &lt;br&gt;
-&lt;p&gt;Nel post di oggi andiamo a dare una panoramica di cos&amp;rsquo;è un attacco DDoS e come realizzare un semplice script python che lo esegue, per coloro di voi
-che sono interessati al tema degli attacchi di rete ho fatto un post anche su &lt;a href=&#34;https://kobra3390.github.io/SpaceHack/posts/brute-force-ftp-server/brute_force_server_ftp/&#34;&gt;Brute Force FTP Server&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Di seguito vi mostrerò il frutto delle mie ricerche in questo ambito 👽.&lt;/p&gt;
 &lt;h1 id=&#34;introduzione&#34;&gt;Introduzione&lt;/h1&gt;
 &lt;p&gt;Wikipedia lo definisce come un attacco informatico che mira ad esaurire le risorse di un sistema informatico, mirando quindi a negare la disponibilità del servizio verso client benevoli. Come vedremo ci sono diverse modalità per esaurire la risorse di un servizio, ad esempio:&lt;/p&gt;
 &lt;ul&gt;
@@ -2402,7 +2390,8 @@ Essi si possono dividere in:&lt;/li&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        print(attack_num)
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        s&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;close()
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Abbiamo creato una variabile attack_num che tiene traccia di quante richieste sono già state inviate. Ad ogni iterazione, aumentiamo questo numero e lo stampiamo.&lt;/p&gt;</content>
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Abbiamo creato una variabile attack_num che tiene traccia di quante richieste sono già state inviate. Ad ogni iterazione, aumentiamo questo numero e lo stampiamo.&lt;/p&gt;
+</content>
     </item>
     
     <item>
@@ -2411,16 +2400,9 @@ Essi si possono dividere in:&lt;/li&gt;
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://kobra3390.github.io/SpaceHack/posts/introduzione-arp-poisoning/introduzione_arp_poisoning/</guid>
-      <description>&lt;hr&gt;
-&lt;br&gt;
-&lt;p&gt;In questi giorni ho letto &lt;em&gt;Python per Hacker (seconda edizione)&lt;/em&gt; e mi sono imbattuto durante la lettura in un argomento
-molto interessante, ossia &lt;strong&gt;l&amp;rsquo;ARP Poisoning&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;Ho iniziato dunque a fare delle ricerche e voglio condividere quello che ho trovato con voi.&lt;/p&gt;</description>
+      <description>Cos&amp;rsquo;è il Protocollo ARP Per approfondire l&amp;rsquo;argomento ti consigli di leggere questo.
+A differenza di quanto succede su Internet, i dispositivi presenti nella LAN non comunicano direttamente attraverso gli indirizzi IP, al loro posto, per l’indirizzamento nelle reti locali IPv4, vengono utilizzati gli indirizzi fisici dell’hardware, chiamati indirizzi MAC (Media Access Control). Gli indirizzi MAC vengono attribuiti dal rispettivo produttore hardware e sono unici al mondo. Teoricamente gli indirizzi hardware si adatterebbero quindi per consentire un indirizzamento globale, ma nella prassi questa concezione non si può applicare, visto che gli indirizzi IPv4 sono troppo brevi per rappresentare in modo completo gli indirizzi MAC.</description>
       <content>&lt;hr&gt;
-&lt;br&gt;
-&lt;p&gt;In questi giorni ho letto &lt;em&gt;Python per Hacker (seconda edizione)&lt;/em&gt; e mi sono imbattuto durante la lettura in un argomento
-molto interessante, ossia &lt;strong&gt;l&amp;rsquo;ARP Poisoning&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;Ho iniziato dunque a fare delle ricerche e voglio condividere quello che ho trovato con voi.&lt;/p&gt;
 &lt;h1 id=&#34;cosè-il-protocollo-arp&#34;&gt;Cos&amp;rsquo;è il Protocollo ARP&lt;/h1&gt;
 &lt;p&gt;Per approfondire l&amp;rsquo;argomento ti consigli di leggere &lt;a href=&#34;https://www.ionos.it/digitalguide/server/sicurezza/arp-poisoning-attacchi-dalla-rete-locale/&#34;&gt;questo&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;A differenza di quanto succede su Internet, i dispositivi presenti nella LAN non comunicano direttamente attraverso gli indirizzi IP, al loro posto, per l’indirizzamento nelle reti locali IPv4, vengono utilizzati gli indirizzi fisici dell’hardware, chiamati indirizzi MAC (Media Access Control). Gli indirizzi MAC vengono attribuiti dal rispettivo produttore hardware e sono unici al mondo. Teoricamente gli indirizzi hardware si adatterebbero quindi per consentire un indirizzamento globale, ma nella prassi questa concezione non si può applicare, visto che gli indirizzi IPv4 sono troppo brevi per rappresentare in modo completo gli indirizzi MAC. Nelle reti basate su IPv4, la risoluzione dell’indirizzo tramite ARP è perciò indispensabile.&lt;/p&gt;
@@ -2713,7 +2695,8 @@ molto interessante, ossia &lt;strong&gt;l&amp;rsquo;ARP Poisoning&lt;/strong&gt;
 &lt;h1 id=&#34;come-prevenire-larp-poisoning-con-dai&#34;&gt;Come prevenire L&amp;rsquo;ARP Poisoning con DAI&lt;/h1&gt;
 &lt;p&gt;L&amp;rsquo;ispezione ARP dinamica (DAI) è una funzione di sicurezza che rifiuta i pacchetti ARP non validi e dannosi.  La funzione impedisce una classe di attacchi man-in-the-middle, in cui una stazione ostile intercetta il traffico per altre stazioni avvelenando le cache ARP dei suoi ignari vicini.  Il malintenzionato invia richieste o risposte ARP mappando l&amp;rsquo;indirizzo IP di un&amp;rsquo;altra stazione al proprio indirizzo MAC.&lt;/p&gt;
 &lt;p&gt;DAI si basa sullo snooping DHCP.  Lo snooping DHCP ascolta gli scambi di messaggi DHCP e crea un database di associazioni di tuple valide (indirizzo MAC, indirizzo IP, interfaccia VLAN).&lt;/p&gt;
-&lt;p&gt;Quando DAI è abilitato, lo switch elimina il pacchetto ARP se l&amp;rsquo;indirizzo MAC e l&amp;rsquo;indirizzo IP del mittente non corrispondono a una voce nel database dei binding di snooping DHCP.  Tuttavia, può essere superato attraverso mappature statiche.  I mapping statici sono utili quando gli host configurano indirizzi IP statici, lo snooping DHCP non può essere eseguito o altri switch nella rete non eseguono l&amp;rsquo;ispezione ARP dinamica.  Una mappatura statica associa un indirizzo IP a un indirizzo MAC su una VLAN.&lt;/p&gt;</content>
+&lt;p&gt;Quando DAI è abilitato, lo switch elimina il pacchetto ARP se l&amp;rsquo;indirizzo MAC e l&amp;rsquo;indirizzo IP del mittente non corrispondono a una voce nel database dei binding di snooping DHCP.  Tuttavia, può essere superato attraverso mappature statiche.  I mapping statici sono utili quando gli host configurano indirizzi IP statici, lo snooping DHCP non può essere eseguito o altri switch nella rete non eseguono l&amp;rsquo;ispezione ARP dinamica.  Una mappatura statica associa un indirizzo IP a un indirizzo MAC su una VLAN.&lt;/p&gt;
+</content>
     </item>
     
     <item>
@@ -2722,12 +2705,9 @@ molto interessante, ossia &lt;strong&gt;l&amp;rsquo;ARP Poisoning&lt;/strong&gt;
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://kobra3390.github.io/SpaceHack/posts/scrivere-un-worm-in-python/scrivere_un_worm_in_python/</guid>
-      <description>&lt;hr&gt;
-&lt;br&gt;
-&lt;p&gt;In questo post voglio iniziare una mini serie sulla &lt;code&gt;Malware Analysis&lt;/code&gt;, al fine di comprendere qual&amp;rsquo;è il funzionamento di un virus, quali danni può comportare su un sistema e come scriverlo. La presa di consapevolezza di una certa minaccia, è la prima contromisura per potersi difendere da essa. Molti utente non sanno bene cos&amp;rsquo;è un Virus o qualsiasi altra sua variante, dunque questa serie prova a fare chiarezza sul tema mediante le ricerche che ho fatto in rete in merito.&lt;/p&gt;</description>
+      <description>Cos&amp;rsquo;è un Worm Un worm è un programma software dannoso che si replica sfruttando in modo indipendente le vulnerabilità nelle reti. A differenza di un virus, che richiede l&amp;rsquo;esecuzione di un programma host, i worm possono essere eseguiti da soli. A parte l&amp;rsquo;infezione iniziale dell&amp;rsquo;host, non richiedono la partecipazione dell&amp;rsquo;utente e possono diffondersi molto rapidamente sulla rete, di solito rallentandola.
+I worm condividono schemi simili: sfruttano le vulnerabilità del sistema, hanno un modo per propagarsi e contengono tutti codice dannoso (payload) per causare danni ai sistemi o alle reti dei computer.</description>
       <content>&lt;hr&gt;
-&lt;br&gt;
-&lt;p&gt;In questo post voglio iniziare una mini serie sulla &lt;code&gt;Malware Analysis&lt;/code&gt;, al fine di comprendere qual&amp;rsquo;è il funzionamento di un virus, quali danni può comportare su un sistema e come scriverlo. La presa di consapevolezza di una certa minaccia, è la prima contromisura per potersi difendere da essa. Molti utente non sanno bene cos&amp;rsquo;è un Virus o qualsiasi altra sua variante, dunque questa serie prova a fare chiarezza sul tema mediante le ricerche che ho fatto in rete in merito.&lt;/p&gt;
 &lt;h1 id=&#34;cosè-un-worm&#34;&gt;Cos&amp;rsquo;è un Worm&lt;/h1&gt;
 &lt;p&gt;Un worm è un programma software dannoso che si replica sfruttando in modo indipendente le vulnerabilità nelle reti. A differenza di un virus, che richiede l&amp;rsquo;esecuzione di un programma host, i worm possono essere eseguiti da soli. A parte l&amp;rsquo;infezione iniziale dell&amp;rsquo;host, non richiedono la partecipazione dell&amp;rsquo;utente e possono diffondersi molto rapidamente sulla rete, di solito rallentandola.&lt;/p&gt;
 &lt;p&gt;I worm condividono schemi simili: sfruttano le vulnerabilità del sistema, hanno un modo per propagarsi e contengono tutti codice dannoso (payload) per causare danni ai sistemi o alle reti dei computer.
@@ -2912,7 +2892,10 @@ I worm sono responsabili di alcuni degli attacchi più devastanti su Internet. N
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;python3 worm&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;py
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Ecco il risultato:&lt;/p&gt;
 
-  &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/WriteWormInPython2.png&#34;  class=&#34;left&#34;  style=&#34;width: 300px&#34;  /&gt;</content>
+  &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/WriteWormInPython2.png&#34;  class=&#34;left&#34;  style=&#34;width: 300px&#34;  /&gt;
+
+
+</content>
     </item>
     
   </channel>

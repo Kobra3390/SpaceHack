@@ -12,12 +12,9 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://kobra3390.github.io/SpaceHack/posts/scrivere-un-worm-in-python/scrivere_un_worm_in_python/</guid>
-      <description>&lt;hr&gt;
-&lt;br&gt;
-&lt;p&gt;In questo post voglio iniziare una mini serie sulla &lt;code&gt;Malware Analysis&lt;/code&gt;, al fine di comprendere qual&amp;rsquo;è il funzionamento di un virus, quali danni può comportare su un sistema e come scriverlo. La presa di consapevolezza di una certa minaccia, è la prima contromisura per potersi difendere da essa. Molti utente non sanno bene cos&amp;rsquo;è un Virus o qualsiasi altra sua variante, dunque questa serie prova a fare chiarezza sul tema mediante le ricerche che ho fatto in rete in merito.&lt;/p&gt;</description>
+      <description>Cos&amp;rsquo;è un Worm Un worm è un programma software dannoso che si replica sfruttando in modo indipendente le vulnerabilità nelle reti. A differenza di un virus, che richiede l&amp;rsquo;esecuzione di un programma host, i worm possono essere eseguiti da soli. A parte l&amp;rsquo;infezione iniziale dell&amp;rsquo;host, non richiedono la partecipazione dell&amp;rsquo;utente e possono diffondersi molto rapidamente sulla rete, di solito rallentandola.
+I worm condividono schemi simili: sfruttano le vulnerabilità del sistema, hanno un modo per propagarsi e contengono tutti codice dannoso (payload) per causare danni ai sistemi o alle reti dei computer.</description>
       <content>&lt;hr&gt;
-&lt;br&gt;
-&lt;p&gt;In questo post voglio iniziare una mini serie sulla &lt;code&gt;Malware Analysis&lt;/code&gt;, al fine di comprendere qual&amp;rsquo;è il funzionamento di un virus, quali danni può comportare su un sistema e come scriverlo. La presa di consapevolezza di una certa minaccia, è la prima contromisura per potersi difendere da essa. Molti utente non sanno bene cos&amp;rsquo;è un Virus o qualsiasi altra sua variante, dunque questa serie prova a fare chiarezza sul tema mediante le ricerche che ho fatto in rete in merito.&lt;/p&gt;
 &lt;h1 id=&#34;cosè-un-worm&#34;&gt;Cos&amp;rsquo;è un Worm&lt;/h1&gt;
 &lt;p&gt;Un worm è un programma software dannoso che si replica sfruttando in modo indipendente le vulnerabilità nelle reti. A differenza di un virus, che richiede l&amp;rsquo;esecuzione di un programma host, i worm possono essere eseguiti da soli. A parte l&amp;rsquo;infezione iniziale dell&amp;rsquo;host, non richiedono la partecipazione dell&amp;rsquo;utente e possono diffondersi molto rapidamente sulla rete, di solito rallentandola.&lt;/p&gt;
 &lt;p&gt;I worm condividono schemi simili: sfruttano le vulnerabilità del sistema, hanno un modo per propagarsi e contengono tutti codice dannoso (payload) per causare danni ai sistemi o alle reti dei computer.
@@ -202,7 +199,10 @@ I worm sono responsabili di alcuni degli attacchi più devastanti su Internet. N
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;python3 worm&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;py
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Ecco il risultato:&lt;/p&gt;
 
-  &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/WriteWormInPython2.png&#34;  class=&#34;left&#34;  style=&#34;width: 300px&#34;  /&gt;</content>
+  &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/WriteWormInPython2.png&#34;  class=&#34;left&#34;  style=&#34;width: 300px&#34;  /&gt;
+
+
+</content>
     </item>
     
   </channel>
