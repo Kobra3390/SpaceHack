@@ -1,7 +1,7 @@
 {
 	"version": 3,
 	"file": "styles.css",
-	"sourceRoot": "/home/k0bra3390/Documents/BlogSpaceHack",
+	"sourceRoot": "/home/k0bra3390/Desktop/MyDesktopFile/BlogSpaceHack",
 	"sources": [
 		"css/base.scss",
 		"themes/terminal/assets/css/variables.scss",
