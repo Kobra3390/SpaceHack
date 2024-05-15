@@ -7,17 +7,27 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language><atom:link href="https://kobra3390.github.io/SpaceHack/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Linux Vulnerability</title>
-      <link>https://kobra3390.github.io/SpaceHack/categories/linux-vulnerability/</link>
+      <title></title>
+      <link>https://kobra3390.github.io/SpaceHack/categories/hackthebox/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://kobra3390.github.io/SpaceHack/categories/linux-vulnerability/</guid>
+      <guid>https://kobra3390.github.io/SpaceHack/categories/hackthebox/</guid>
       <description></description>
       <content></content>
     </item>
     
     <item>
-      <title>Malware Analysis</title>
+      <title></title>
+      <link>https://kobra3390.github.io/SpaceHack/categories/linux/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://kobra3390.github.io/SpaceHack/categories/linux/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title></title>
       <link>https://kobra3390.github.io/SpaceHack/categories/malware-analysis/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -27,7 +37,7 @@
     </item>
     
     <item>
-      <title>Network Attacks</title>
+      <title></title>
       <link>https://kobra3390.github.io/SpaceHack/categories/network-attacks/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -37,21 +47,21 @@
     </item>
     
     <item>
-      <title>Tutorial</title>
-      <link>https://kobra3390.github.io/SpaceHack/categories/tutorial/</link>
+      <title></title>
+      <link>https://kobra3390.github.io/SpaceHack/categories/python/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://kobra3390.github.io/SpaceHack/categories/tutorial/</guid>
+      <guid>https://kobra3390.github.io/SpaceHack/categories/python/</guid>
       <description></description>
       <content></content>
     </item>
     
     <item>
-      <title>Walkthrough HackTheBox</title>
-      <link>https://kobra3390.github.io/SpaceHack/categories/walkthrough-hackthebox/</link>
+      <title></title>
+      <link>https://kobra3390.github.io/SpaceHack/categories/telecomunicazioni/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://kobra3390.github.io/SpaceHack/categories/walkthrough-hackthebox/</guid>
+      <guid>https://kobra3390.github.io/SpaceHack/categories/telecomunicazioni/</guid>
       <description></description>
       <content></content>
     </item>

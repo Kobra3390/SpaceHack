@@ -2,16 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tutorial on HomePage</title>
-    <link>https://kobra3390.github.io/SpaceHack/categories/tutorial/</link>
+    <link>http://localhost:1313/SpaceHack/categories/tutorial/</link>
     <description>Recent content in Tutorial on HomePage</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language><atom:link href="https://kobra3390.github.io/SpaceHack/categories/tutorial/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language><atom:link href="http://localhost:1313/SpaceHack/categories/tutorial/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Appunti sulle Antenne</title>
-      <link>https://kobra3390.github.io/SpaceHack/posts/appunti-sulle-antenne/antenne/</link>
+      <link>http://localhost:1313/SpaceHack/posts/appunti-sulle-antenne/antenne/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://kobra3390.github.io/SpaceHack/posts/appunti-sulle-antenne/antenne/</guid>
+      <guid>http://localhost:1313/SpaceHack/posts/appunti-sulle-antenne/antenne/</guid>
       <description>Oggi parliamo delle antenne, qui di seguito sono riportati dei miei personali appunti, buona lettura. Propagazione delle onde elettromagnetiche nello spazio libero I parametri con cui si valuta l’entitá del campo elettromagnetico sono:
 Densitá di potenza \(S\) , che si misura in \(w / m^2\) Intensitá del campo elettrico \(E\), che si misura in \(V / m\) In particolare, si deve garantire che sull’antenna ricevente si abbia un valore di campo elettromagnetico tale da ottenere in ingresso al ricevitore un segnale che abbia un livello di potenza pari alla sensibilitá del ricevitore.</description>
       <content>&lt;hr&gt;
@@ -112,7 +112,7 @@ E = \dfrac{1}{r} \space \sqrt{30 * P_{IRR_ISO_[w]}} \space [\space V/m\space]
 $$&lt;/p&gt;
 &lt;p&gt;Ecco un’immagine del campo elettromagnetico generato da un’antenna isotropica:&lt;/p&gt;
 
-  &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/antenna1.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
+  &lt;img src=&#34;http://localhost:1313/SpaceHack/images/antenna1.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
 
 
 &lt;hr&gt;
@@ -133,7 +133,7 @@ $$&lt;/p&gt;
 &lt;li&gt;Un’antenna trasmittente con un guadagno \(G_{ant} (dB)\)&lt;/li&gt;
 &lt;/ul&gt;
 
-  &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/antenna2.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
+  &lt;img src=&#34;http://localhost:1313/SpaceHack/images/antenna2.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
 
 
 &lt;p&gt;L’EIRP viene calcolato utilizzando i decibel:&lt;/p&gt;
@@ -201,7 +201,7 @@ $$&lt;/p&gt;
 &lt;li&gt;&lt;em&gt;&lt;strong&gt;Dispositivi ausiliari&lt;/strong&gt;&lt;/em&gt;: sono necessari nei grandi impianti per segnalare la presenza dell’antenna, per la protezione contro il ghiaccio, il vento e l’acqua, per il puntamento dell’antenna nel caso di antenne direttive.&lt;/li&gt;
 &lt;/ul&gt;
 
-  &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/antenna3.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
+  &lt;img src=&#34;http://localhost:1313/SpaceHack/images/antenna3.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
 
 
 &lt;hr&gt;
@@ -209,12 +209,12 @@ $$&lt;/p&gt;
 &lt;p&gt;Per rappresentare le direzioni preferenziali in cui irradia un’antenna si utilizza un diagramma di radiazione (&lt;em&gt;radiation pattern&lt;/em&gt;).&lt;/p&gt;
 &lt;p&gt;Un antenna reale, non irradia in modo uniforme in tutte le direzioni dello spazio. Questo diagramma mette bene in evidenza l’attitudine che ha una sorgente a concetrare la potenza in certe direzioni e quindi ne evidenzia il grado di direttività:&lt;/p&gt;
 
-  &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/antenna4.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
+  &lt;img src=&#34;http://localhost:1313/SpaceHack/images/antenna4.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
 
 
 &lt;p&gt;Il &lt;strong&gt;diagramma di radiazione&lt;/strong&gt; è una curva, riportata di solito su un diagramma polare con al centro l’antenna, che rappresenta come la potenza fornita in ingresso all’antenna viene distribuita nella varie direzione del piano considerato.&lt;/p&gt;
 
-  &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/antenna5.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
+  &lt;img src=&#34;http://localhost:1313/SpaceHack/images/antenna5.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
 
 
 &lt;p&gt;Il diagramma di radiazione può riportare i valori del &lt;em&gt;guadagno&lt;/em&gt; che l’antenna presenta nelle varie direzioni del piano considerato, espressi in decibel.&lt;/p&gt;
@@ -301,7 +301,7 @@ $$&lt;/p&gt;
 &lt;p&gt;Se però si piegano a $90\degree$gradi le estremità della linea, le correnti avranno lo stesso verso in questo tratto e sarà quindi possibile irradiare energia nello spazio in modo efficiente. In questo modo si ottiene un antenna denominata &lt;em&gt;antenna a dipolo&lt;/em&gt; o &lt;em&gt;antenna Hertziana&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;Dunque in sintesi: Se si vuole massimizzare l’irradiazione è necessario piegare i coduttori a una distanza \(\lambda/4\) dall’estremità ottenendo così un’antenna lunga \(\lambda/2\), denominata per questo dipolo &lt;strong&gt;\(\lambda/2\)&lt;/strong&gt; o &lt;strong&gt;dipolo a mezz’onda&lt;/strong&gt;.&lt;/p&gt;
 
-  &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/antenna6.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
+  &lt;img src=&#34;http://localhost:1313/SpaceHack/images/antenna6.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
 
 
 &lt;p&gt;Il dipolo \(\lambda/2\) , ha un comportamento simile a quello di un tronco di linea in \(\lambda/4\); l’onda stazionaria di corrente presenta un minimo alle estremità, mentre è massimo al centro.&lt;/p&gt;
@@ -310,7 +310,7 @@ $$&lt;/p&gt;
 &lt;p&gt;Un’antenna lineare, a dipolo, ha un comportamento analogo a quello di un circuito risonante.&lt;/p&gt;
 &lt;p&gt;La &lt;strong&gt;banda&lt;/strong&gt; (\(B\)) di un’antenna può essere defnita come l’intervallo di frequenza entro cui il ROS si mantiene entro dei limiti. Tipicamente i valori limite di ROS sono compresi tra \(1,5\) e \(2\).&lt;/p&gt;
 
-  &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/antenna7.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
+  &lt;img src=&#34;http://localhost:1313/SpaceHack/images/antenna7.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
 
 
 &lt;p&gt;La banda di una antenna è in pratica l’intervallo di frequenza in cui il diagramma di radiazione dell’antenna fornisce le prestazioni richieste.&lt;/p&gt;
@@ -348,7 +348,7 @@ $$&lt;/p&gt;
 &lt;h2 id=&#34;parametri-tipi-di-delle-antenne-riceventi&#34;&gt;Parametri tipi di delle antenne riceventi&lt;/h2&gt;
 &lt;p&gt;In risonanza un’antenna ricevente puó essere considerata come un generatore avente resistenza interna \(R_a\), in grado di erogare una certa tensione e una certa potenza a un carico \(R_u\):&lt;/p&gt;
 
-  &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/antenna8.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
+  &lt;img src=&#34;http://localhost:1313/SpaceHack/images/antenna8.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
 
 
 &lt;p&gt;Supponendo che l’antenna sia adattata e correttamente orientata, la tensione e la potenza che essa é in grado di erogare dipendono da due parametri di traduzione, ossia:&lt;/p&gt;
@@ -416,7 +416,7 @@ $$&lt;/p&gt;
 &lt;p&gt;Le antenne omnidirezionali sono utilizzate quando il sistema di trasmissione si trova in posizione baricentrica rispetto all’area da servire, per cui nel piano \(H\), si ha lo stesso campo indipendentemente dalla posizione dell’antenna ricevente. É questo, il caso della trasmissone in brodcast (da un trasmettitore verso tutti i ricevitori che si trovano entro l’area di copertura) di trasmettitori radio AM/FM e TV.&lt;/p&gt;
 &lt;p&gt;In questo caso l’antenna fondamentale é il tipolo in \( \lambda/2\). É poi possibile intervenire sulla lunghezza o sulla sezione dell’antenna per modificare il diagramma di radiazione nel piano verticale, in modo da ottenere le caratteristiche desiderate in termini di lunghezza dell’antenna  e quindi di praticitá nell’installazione.&lt;/p&gt;
 
-  &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/antenna9.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
+  &lt;img src=&#34;http://localhost:1313/SpaceHack/images/antenna9.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
 
 
 &lt;hr&gt;
@@ -474,7 +474,7 @@ $$&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 
-  &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/antenna10.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
+  &lt;img src=&#34;http://localhost:1313/SpaceHack/images/antenna10.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
 
 
 &lt;p&gt;L’antenna Marconi trova impiego prevalentemente nelle trasmissioni a frequenza relativamente bassa, in onde lunghe (&lt;strong&gt;LF&lt;/strong&gt;) e onde medie (&lt;strong&gt;MF&lt;/strong&gt;). Per ottenere un piano conduttore di caratteristiche migliori rispetto alla terra si stende sotto l’antenna, una maglia di fili di rame intrecciati, nota come contrappeso (&lt;em&gt;counterpoise&lt;/em&gt;).&lt;/p&gt;
@@ -508,7 +508,7 @@ $$&lt;/p&gt;
 &lt;p&gt;Un parametro importante per le antenne direttive é l’FBR (&lt;em&gt;Front-to-Back Ratio&lt;/em&gt;), che ne definisce il grado di unidirezionalitá. Piú alto é l’FBR e maggiore sará l’unidirezionalitá dell’antenna.&lt;/p&gt;
 &lt;p&gt;Diagramma di radiazione di un’antenna direttiva undirezionale Yagi:&lt;/p&gt;
 
-  &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/antenna11.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
+  &lt;img src=&#34;http://localhost:1313/SpaceHack/images/antenna11.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
 
 
 &lt;hr&gt;
@@ -541,7 +541,7 @@ $$&lt;/p&gt;
 &lt;h2 id=&#34;puntamento-delle-antenne-direttive&#34;&gt;Puntamento delle antenne direttive&lt;/h2&gt;
 &lt;p&gt;Nel caso di collegamenti che impiegano antenne direttive, é importante conoscere il diagramma di radiazione per poter puntare correttamente l’antenna, cioé per posizionarla nella direzione in cui l’antenna capta meglio. Un errato puntamento dell’antenna causa una diminuzione del segnale fornito in uscita dall’antenna stessa, che puó anche annullarsi.&lt;/p&gt;
 
-  &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/antenna12.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
+  &lt;img src=&#34;http://localhost:1313/SpaceHack/images/antenna12.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
 
 
 &lt;hr&gt;
@@ -552,7 +552,7 @@ $$&lt;/p&gt;
 &lt;p&gt;Nel campo dell’illuminazione per ottenere uno stretto fascio luminoso é possibile utilizzare riflettori parabolici, ponendo una sorgente luminosa nel punto focale di una superficie riflettente a forma di paraboloide.&lt;/p&gt;
 &lt;p&gt;Se l’irradiazione di una sorgente, posta nel punto focale, viene riflessa da una superficie costituita da un paraboloide, la potenza irradiata viene concentrata in un fascio molto stretto lungo la direzione di propagazione, ottenendo cosí un elevato guadagno.&lt;/p&gt;
 
-  &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/antenna13.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
+  &lt;img src=&#34;http://localhost:1313/SpaceHack/images/antenna13.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
 
 
 &lt;p&gt;I diagrammi di radiazione nei piani \(H\) ed \(E\) mostrano un lobo principale molto pronunciato, con un angolo di apertura molto piccolo, che denota un elevato guadagno.&lt;/p&gt;
@@ -575,7 +575,7 @@ $$&lt;/p&gt;
 &lt;h2 id=&#34;parabola-offset&#34;&gt;Parabola offset&lt;/h2&gt;
 &lt;p&gt;Le parabole che hanno l’illuminatore nel fuoco vengono denominate &lt;em&gt;prime focus&lt;/em&gt;. Per limitare le interferenze sono state realizzate parabole denominate &lt;em&gt;offset&lt;/em&gt; le quali sono costituite da una sezione di un paraboloide che punta verso un illuminatore posto nel fuoco, il quale però non è al centro dell’antenna bensì in posizione sottostante.&lt;/p&gt;
 
-  &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/antenna14.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
+  &lt;img src=&#34;http://localhost:1313/SpaceHack/images/antenna14.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
 
 
 &lt;hr&gt;
@@ -601,7 +601,7 @@ $$&lt;/p&gt;
 &lt;li&gt;MIMO (&lt;em&gt;Multiple In Multiple Out&lt;/em&gt;): sono i sistemi piú moderni che utilizzano contemporaneamente due o piú antenne in trasmissione e due o piú antenne in ricezione. Sono sistemi che trasmettono e ripartiscono il flusso di bit in ingresso su piú segnali modulati inviati in parallelo alle antenne trasmittenti; i segnali vengono captati dalle antenne riceventi e con sofisticate tecniche di elaborazione digitale dei segnali (DSP) sono demodulati e viene riassemblato il flusso id bit originario; i sistemi MIMO consentono di aumentare la capacitá trasmissiva di un sistema all’aumentaredel minimo tra (&lt;em&gt;m&lt;/em&gt;, &lt;em&gt;n&lt;/em&gt;), dove &lt;em&gt;m&lt;/em&gt; é il numero di antenne usate in trasmissione e &lt;em&gt;n&lt;/em&gt; é il numero di antenne usate in ricezione; possono operare in maniera piú efficace in ambienti in cui vi sono molte riflessioni in quanto sono in grado di compensare le differenze di fase fra i vari percorsi e quindi di sfruttare positivamente i segnali riflessi. I sistemi MIMO sono impiegati nei sistemi di comunicazione radio piú moderni; apparati WiFi (802.11n), sistemi di accesso wireless a banda larga (WiMAX), sistemi per la comunicazione in mobilitá di ultima generazione (LTE, Long Term Evolution).&lt;/li&gt;
 &lt;/ul&gt;
 
-  &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/antenna15.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
+  &lt;img src=&#34;http://localhost:1313/SpaceHack/images/antenna15.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
 
 
 &lt;hr&gt;
@@ -615,7 +615,7 @@ $$&lt;/p&gt;
 &lt;p&gt;La &lt;strong&gt;terra equivalente&lt;/strong&gt; é una superficie terrestre fittizzia in cui si possono considerare i percorsi delle onde elettromagnetiche come rettilinei.&lt;/p&gt;
 &lt;p&gt;Il raggio della terra equivalente si ottiene moltiplicando il raggio effettivo della terra per un fattore $k$ (&lt;em&gt;effective earth radius factor&lt;/em&gt;), che per l’atmosfera standard vale \(k = 4/3 \approx 1,33\), per cui si ha \(R_{eq} = k * R_0 = 4/3 * 6367 \approx 8490\) km.&lt;/p&gt;
 
-  &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/antenna16.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
+  &lt;img src=&#34;http://localhost:1313/SpaceHack/images/antenna16.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
 
 
 &lt;hr&gt;
@@ -637,7 +637,7 @@ $$&lt;/p&gt;
 &lt;/ul&gt;
 &lt;p&gt;Queste situazioni possono comportare una diminuzione anche forte della potenza di segnale che giunge all’antenna ricevente e si configurano come una forma di fading.&lt;/p&gt;
 
-  &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/antenna17.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
+  &lt;img src=&#34;http://localhost:1313/SpaceHack/images/antenna17.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
 
 
 &lt;hr&gt;
@@ -650,7 +650,7 @@ $$&lt;/p&gt;
 $$&lt;/p&gt;
 &lt;p&gt;Le perdite per diffrazione sono trascurabili solo se la prima zona di Fresnel risulta libera da ostacoli. Quindi l’altezza delle torri o dei tralicci viene calcolata imponendo che eventuali ostacoli risultino posti a distanze maggiori di \(r_{max}\).&lt;/p&gt;
 
-  &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/antenna18.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
+  &lt;img src=&#34;http://localhost:1313/SpaceHack/images/antenna18.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
 
 
 &lt;hr&gt;
@@ -681,7 +681,7 @@ $$&lt;/p&gt;
 &lt;h2 id=&#34;calcolo-del-livello-in-ricezione&#34;&gt;Calcolo del livello in ricezione&lt;/h2&gt;
 &lt;p&gt;Per calcolare il livello in ricezione si procede nel seguente modo:&lt;/p&gt;
 
-  &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/antenna19.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
+  &lt;img src=&#34;http://localhost:1313/SpaceHack/images/antenna19.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
 
 
 &lt;ol&gt;
@@ -772,10 +772,10 @@ $$&lt;/p&gt;
     
     <item>
       <title>BadFTP, quando FTP diventa &#39;BAD&#39;</title>
-      <link>https://kobra3390.github.io/SpaceHack/posts/badftp-quando-ftp-diventa-bad/badftp_quando_ftp_diventa_bad/</link>
+      <link>http://localhost:1313/SpaceHack/posts/badftp-quando-ftp-diventa-bad/badftp_quando_ftp_diventa_bad/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://kobra3390.github.io/SpaceHack/posts/badftp-quando-ftp-diventa-bad/badftp_quando_ftp_diventa_bad/</guid>
+      <guid>http://localhost:1313/SpaceHack/posts/badftp-quando-ftp-diventa-bad/badftp_quando_ftp_diventa_bad/</guid>
       <description>Introduzione a BadFTP Qualche tempo fa, mostrai come scrivere uno script in Python3 per effettuare il brute forcing delle credenziali FTP trovate il post al seguente link: Brute Force di un Server FTP. Col tempo però, ho sentito l&amp;rsquo;esigenza di modificare lo script per renderlo in un certo senso modulabile.
 Da qui nasce BadFTP.py:
 import sys, ftplib, threading from ftplib import FTP from colorama import init, Fore, Style init() credentials_found = False port = 21 def banner(): print(f&amp;#34;&amp;#34;&amp;#34;{Style.</description>
@@ -1118,14 +1118,14 @@ apple
     
     <item>
       <title>Basi sul Modulo Scrapy</title>
-      <link>https://kobra3390.github.io/SpaceHack/posts/basi-sul-modulo-scrapy/basi_sul_modulo_scrapy/</link>
+      <link>http://localhost:1313/SpaceHack/posts/basi-sul-modulo-scrapy/basi_sul_modulo_scrapy/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://kobra3390.github.io/SpaceHack/posts/basi-sul-modulo-scrapy/basi_sul_modulo_scrapy/</guid>
+      <guid>http://localhost:1313/SpaceHack/posts/basi-sul-modulo-scrapy/basi_sul_modulo_scrapy/</guid>
       <description>&lt;hr&gt;
 &lt;br&gt;
 
-  &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/Scrapy-Banner.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
+  &lt;img src=&#34;http://localhost:1313/SpaceHack/images/Scrapy-Banner.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
 
 
 &lt;h1 id=&#34;introduzione-al-modulo&#34;&gt;Introduzione al modulo&lt;/h1&gt;
@@ -1133,7 +1133,7 @@ apple
       <content>&lt;hr&gt;
 &lt;br&gt;
 
-  &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/Scrapy-Banner.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
+  &lt;img src=&#34;http://localhost:1313/SpaceHack/images/Scrapy-Banner.jpeg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
 
 
 &lt;h1 id=&#34;introduzione-al-modulo&#34;&gt;Introduzione al modulo&lt;/h1&gt;
@@ -1505,10 +1505,10 @@ apple
     
     <item>
       <title>Brute Force di un Server FTP</title>
-      <link>https://kobra3390.github.io/SpaceHack/posts/brute-force-ftp-server/brute_force_server_ftp/</link>
+      <link>http://localhost:1313/SpaceHack/posts/brute-force-ftp-server/brute_force_server_ftp/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://kobra3390.github.io/SpaceHack/posts/brute-force-ftp-server/brute_force_server_ftp/</guid>
+      <guid>http://localhost:1313/SpaceHack/posts/brute-force-ftp-server/brute_force_server_ftp/</guid>
       <description>Basi sul Protocollo FTP Ftp è l’acronimo di File Transfer Protocol esso è un protocollo che permette di trasferire un file dalla rete al singolo client (server) e viceversa, esso però permette anche la navigazione veloce nella struttura di un server web dove sono presenti file. É uno dei protocolli più vecchi di Internet. Già a partire dal 1974 si inizia a lavorare con la tecnologia di trasmissione dei file completi.</description>
       <content>&lt;hr&gt;
 &lt;h1 id=&#34;basi-sul-protocollo-ftp&#34;&gt;Basi sul Protocollo FTP&lt;/h1&gt;
@@ -1807,10 +1807,10 @@ Per iniziare, apri il file di configurazione vsftpd:&lt;/p&gt;
     
     <item>
       <title>Cos&#39;è ShellShock</title>
-      <link>https://kobra3390.github.io/SpaceHack/posts/introduzione-a-shellshock/introduzione_a_shellshock/</link>
+      <link>http://localhost:1313/SpaceHack/posts/introduzione-a-shellshock/introduzione_a_shellshock/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://kobra3390.github.io/SpaceHack/posts/introduzione-a-shellshock/introduzione_a_shellshock/</guid>
+      <guid>http://localhost:1313/SpaceHack/posts/introduzione-a-shellshock/introduzione_a_shellshock/</guid>
       <description>&lt;hr&gt;
 &lt;h1 id=&#34;cosè-shellshock&#34;&gt;Cos&amp;rsquo;è Shellshock?&lt;/h1&gt;
 &lt;p&gt;La vulnerabilità Shellshock consente a un aggressore di sfruttare vecchie versioni di Bash che salvano in modo scorretto le variabili d&amp;rsquo;ambiente. Tipicamente, quando si salva una funzione come variabile, la funzione della shell si interromperà dove è definita per terminare da parte del creatore.&lt;/p&gt;</description>
@@ -1854,7 +1854,7 @@ Bash non interpreterà più &lt;code&gt;y=() {...}&lt;/code&gt; come una definiz
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo chmod &lt;span style=&#34;color:#ae81ff&#34;&gt;755&lt;/span&gt; hello.sh
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Possiamo verificare che funzioni correttamente navigando nel file sul server web:&lt;/p&gt;
 
-  &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/exploit-shellshock.jpg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
+  &lt;img src=&#34;http://localhost:1313/SpaceHack/images/exploit-shellshock.jpg&#34;  class=&#34;left&#34;  style=&#34;width: 700px&#34;  /&gt;
 
 
 &lt;p&gt;Sulla macchina Kali, avviamo Metasploit digitando &lt;strong&gt;msfconsole&lt;/strong&gt; nel terminale. Siamo accolti da un banner casuale e dal prompt dei comandi di Metasploit:&lt;/p&gt;
@@ -2276,10 +2276,10 @@ Bash non interpreterà più &lt;code&gt;y=() {...}&lt;/code&gt; come una definiz
     
     <item>
       <title>Cos&#39;è un attacco DDoS e come farlo con Python</title>
-      <link>https://kobra3390.github.io/SpaceHack/posts/cos%C3%A8-un-attacco-ddos-e-come-farlo-con-python/ddos_python/</link>
+      <link>http://localhost:1313/SpaceHack/posts/cos%C3%A8-un-attacco-ddos-e-come-farlo-con-python/ddos_python/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://kobra3390.github.io/SpaceHack/posts/cos%C3%A8-un-attacco-ddos-e-come-farlo-con-python/ddos_python/</guid>
+      <guid>http://localhost:1313/SpaceHack/posts/cos%C3%A8-un-attacco-ddos-e-come-farlo-con-python/ddos_python/</guid>
       <description>Introduzione Wikipedia lo definisce come un attacco informatico che mira ad esaurire le risorse di un sistema informatico, mirando quindi a negare la disponibilità del servizio verso client benevoli. Come vedremo ci sono diverse modalità per esaurire la risorse di un servizio, ad esempio:
 Congestione della rete Riempimento della memoria Avvelenamento della traduzione a dominio Riduzione della potenza di computazione Solitamente I DoS sono attacchi temporanei, atti a bloccare le risorse per tempi più o meno brevi, ma ci sono anche casi speciali in cui l’attacco porta ad un danneggiamento o distruzione completa del firmware, solitamente detti PDOs o phlashing.</description>
       <content>&lt;hr&gt;
@@ -2396,10 +2396,10 @@ Essi si possono dividere in:&lt;/li&gt;
     
     <item>
       <title>Introduzione All&#39;ARP Poisoning</title>
-      <link>https://kobra3390.github.io/SpaceHack/posts/introduzione-arp-poisoning/introduzione_arp_poisoning/</link>
+      <link>http://localhost:1313/SpaceHack/posts/introduzione-arp-poisoning/introduzione_arp_poisoning/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://kobra3390.github.io/SpaceHack/posts/introduzione-arp-poisoning/introduzione_arp_poisoning/</guid>
+      <guid>http://localhost:1313/SpaceHack/posts/introduzione-arp-poisoning/introduzione_arp_poisoning/</guid>
       <description>Cos&amp;rsquo;è il Protocollo ARP Per approfondire l&amp;rsquo;argomento ti consigli di leggere questo.
 A differenza di quanto succede su Internet, i dispositivi presenti nella LAN non comunicano direttamente attraverso gli indirizzi IP, al loro posto, per l’indirizzamento nelle reti locali IPv4, vengono utilizzati gli indirizzi fisici dell’hardware, chiamati indirizzi MAC (Media Access Control). Gli indirizzi MAC vengono attribuiti dal rispettivo produttore hardware e sono unici al mondo. Teoricamente gli indirizzi hardware si adatterebbero quindi per consentire un indirizzamento globale, ma nella prassi questa concezione non si può applicare, visto che gli indirizzi IPv4 sono troppo brevi per rappresentare in modo completo gli indirizzi MAC.</description>
       <content>&lt;hr&gt;
@@ -2701,10 +2701,10 @@ A differenza di quanto succede su Internet, i dispositivi presenti nella LAN non
     
     <item>
       <title>Scrivere un Worm in Python</title>
-      <link>https://kobra3390.github.io/SpaceHack/posts/scrivere-un-worm-in-python/scrivere_un_worm_in_python/</link>
+      <link>http://localhost:1313/SpaceHack/posts/scrivere-un-worm-in-python/scrivere_un_worm_in_python/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://kobra3390.github.io/SpaceHack/posts/scrivere-un-worm-in-python/scrivere_un_worm_in_python/</guid>
+      <guid>http://localhost:1313/SpaceHack/posts/scrivere-un-worm-in-python/scrivere_un_worm_in_python/</guid>
       <description>Cos&amp;rsquo;è un Worm Un worm è un programma software dannoso che si replica sfruttando in modo indipendente le vulnerabilità nelle reti. A differenza di un virus, che richiede l&amp;rsquo;esecuzione di un programma host, i worm possono essere eseguiti da soli. A parte l&amp;rsquo;infezione iniziale dell&amp;rsquo;host, non richiedono la partecipazione dell&amp;rsquo;utente e possono diffondersi molto rapidamente sulla rete, di solito rallentandola.
 I worm condividono schemi simili: sfruttano le vulnerabilità del sistema, hanno un modo per propagarsi e contengono tutti codice dannoso (payload) per causare danni ai sistemi o alle reti dei computer.</description>
       <content>&lt;hr&gt;
@@ -2885,14 +2885,14 @@ I worm sono responsabili di alcuni degli attacchi più devastanti su Internet. N
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    worm&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;start_worm_actions()
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Vediamo un esempio pratico, abbiamo creato questa struttura di file di testo e sottocartelle di prova:&lt;/p&gt;
 
-  &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/WriteWormInPython.png&#34;  class=&#34;left&#34;  style=&#34;width: 300px&#34;  /&gt;
+  &lt;img src=&#34;http://localhost:1313/SpaceHack/images/WriteWormInPython.png&#34;  class=&#34;left&#34;  style=&#34;width: 300px&#34;  /&gt;
 
 
 &lt;p&gt;Eseguiamo il worm 2 volte con il comando:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;python3 worm&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;py
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Ecco il risultato:&lt;/p&gt;
 
-  &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/WriteWormInPython2.png&#34;  class=&#34;left&#34;  style=&#34;width: 300px&#34;  /&gt;
+  &lt;img src=&#34;http://localhost:1313/SpaceHack/images/WriteWormInPython2.png&#34;  class=&#34;left&#34;  style=&#34;width: 300px&#34;  /&gt;
 
 
 </content>

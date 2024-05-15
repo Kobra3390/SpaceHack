@@ -2,6 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://kobra3390.github.io/SpaceHack/categories/hackthebox/</loc>
+  </url><url>
+    <loc>https://kobra3390.github.io/SpaceHack/categories/linux/</loc>
+  </url><url>
+    <loc>https://kobra3390.github.io/SpaceHack/categories/malware-analysis/</loc>
+  </url><url>
+    <loc>https://kobra3390.github.io/SpaceHack/categories/network-attacks/</loc>
+  </url><url>
+    <loc>https://kobra3390.github.io/SpaceHack/categories/python/</loc>
+  </url><url>
+    <loc>https://kobra3390.github.io/SpaceHack/categories/telecomunicazioni/</loc>
+  </url><url>
     <loc>https://kobra3390.github.io/SpaceHack/about/</loc>
   </url><url>
     <loc>https://kobra3390.github.io/SpaceHack/tags/android/</loc>
@@ -46,19 +58,15 @@
   </url><url>
     <loc>https://kobra3390.github.io/SpaceHack/posts/introduzione-arp-poisoning/introduzione_arp_poisoning/</loc>
   </url><url>
-    <loc>https://kobra3390.github.io/SpaceHack/categories/linux-vulnerability/</loc>
+    <loc>https://kobra3390.github.io/SpaceHack/tags/linux-vulnerability/</loc>
   </url><url>
     <loc>https://kobra3390.github.io/SpaceHack/tags/malware/</loc>
   </url><url>
     <loc>https://kobra3390.github.io/SpaceHack/tags/malware-analysis/</loc>
   </url><url>
-    <loc>https://kobra3390.github.io/SpaceHack/categories/malware-analysis/</loc>
-  </url><url>
     <loc>https://kobra3390.github.io/SpaceHack/tags/metasploit/</loc>
   </url><url>
     <loc>https://kobra3390.github.io/SpaceHack/tags/network/</loc>
-  </url><url>
-    <loc>https://kobra3390.github.io/SpaceHack/categories/network-attacks/</loc>
   </url><url>
     <loc>https://kobra3390.github.io/SpaceHack/posts/</loc>
   </url><url>
@@ -80,7 +88,7 @@
   </url><url>
     <loc>https://kobra3390.github.io/SpaceHack/tags/telnet/</loc>
   </url><url>
-    <loc>https://kobra3390.github.io/SpaceHack/categories/tutorial/</loc>
+    <loc>https://kobra3390.github.io/SpaceHack/tags/tutorial/</loc>
   </url><url>
     <loc>https://kobra3390.github.io/SpaceHack/tags/vsftpd/</loc>
   </url><url>
@@ -89,8 +97,6 @@
     <loc>https://kobra3390.github.io/SpaceHack/tags/walkthrough/</loc>
   </url><url>
     <loc>https://kobra3390.github.io/SpaceHack/posts/walkthrough-explore/walkthrough_explore_ctf/</loc>
-  </url><url>
-    <loc>https://kobra3390.github.io/SpaceHack/categories/walkthrough-hackthebox/</loc>
   </url><url>
     <loc>https://kobra3390.github.io/SpaceHack/posts/walkthrough-meow/walkthrough_meow_ctf/</loc>
   </url><url>
