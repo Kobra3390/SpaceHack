@@ -109,6 +109,7 @@
     </div>
     
 </header>
+
   
   
   
@@ -125,7 +126,7 @@
       <span class="post-author">Autore: k0Br@3390</span>
     
     
-      <span class="post-reading-time">:: 2 min read (216 words)</span>
+      <span class="post-reading-time">:: 2 min read (232 words)</span>
     
   </div>
 
@@ -161,10 +162,59 @@
 
   <div class="post-content"><div>
         <hr>
+<br>
+<div class="flex-container">
+    <div class="image-container">
+        
+          <img src="https://kobra3390.github.io/SpaceHack/images/LogoMeowCTF.png"  class="left"  style="width: 300px"  />
+        
 
-  <img src="https://kobra3390.github.io/SpaceHack/images/LogoMeowCTF.png"  class="left"  style="width: 300px"  />
+    </div>
+    <div class="table-container">
+        <div class="custom-table">
+            <div class="custom-row">
+                <span class="custom-label">Nome:</span> <span class="custom-difficulty">Meow</span>
+            </div>
+            <div class="custom-row">
+                <span class="custom-label">Tags:</span> <span class="custom-difficulty">Telnet</span>
+            </div>
+            <div class="custom-row">
+                <span class="custom-label">Difficoltà:</span> <span class="custom-difficulty">Molto Facile</span>
+            </div>
+            <div class="custom-row">
+                <span class="custom-label">OS: </span>
+                <span> Linux </span>
+                <img src="https://kobra3390.github.io/SpaceHack/images/linux.png" alt="Linux" style="width: 20px; display: inline-block; vertical-align: middle;">
+            </div>
+            <div class="custom-row">
+                <span class="custom-label">Exploit - Vulnerabilità:</span> Credenziali Deboli, Errata Configurazione
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .flex-container {
+        display: flex;
+        align-items: center;
+    }
 
+    .image-container {
+        margin-right: 20px; 
+    }
 
+    .table-container {
+        margin-left: 80px; 
+    }
+
+    .custom-table {
+        
+    }
+
+    .custom-label {
+        font-weight: bold;
+        color: #78e2a0;
+    }
+</style>
 <h1 id="enumerazione-con-nmap">Enumerazione con Nmap<a href="#enumerazione-con-nmap" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
 <p>La primissima cosa è stata eseguire una scansione nmap per vedere quali porte sono aperte, e anche i servizi in esecuzione su ciascuna porta aperta. Ho etichettato specificamente tre porte.</p>
 <p>Il comando é:</p>
@@ -188,11 +238,12 @@
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>telnet <span style="color:#f92672">[</span>address<span style="color:#f92672">]</span>
 </span></span></code></pre></div><p>L&rsquo;output sarà:</p>
 
-  <img src="https://kobra3390.github.io/SpaceHack/images/Meow1.png"  class="left"  style="width: 500px"  />
+  <img src="https://kobra3390.github.io/SpaceHack/images/Meow1.png"  class="left"  style="width: 800px"  />
 
 
+<br>
 
-  <img src="https://kobra3390.github.io/SpaceHack/images/Meow2.png"  class="left"  style="width: 500px"  />
+  <img src="https://kobra3390.github.io/SpaceHack/images/Meow2.png"  class="left"  style="width: 800px"  />
 
 
 <p>Ci viene presentata una schermata di accesso. Tenendo presente il suggerimento fornito nell’attività precedente. Un utente root è in grado di accedere al servizio telnet senza password. Abbiamo provato a utilizzare il root e abbiamo ottenuto l’accesso.</p>

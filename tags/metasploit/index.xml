@@ -481,12 +481,62 @@ Bash non interpreterà più &lt;code&gt;y=() {...}&lt;/code&gt; come una definiz
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://kobra3390.github.io/SpaceHack/posts/walkthrough-explore/walkthrough_explore_ctf/</guid>
-      <description>Explore è una macchina Android di facile difficoltà. L’enumerazione della rete rivela un servizio vulnerabile, sfruttabile tramite un modulo Metasploit e fornisce un accesso in lettura limitato alla macchina. Un’ulteriore enumerazione dei file, rivela le credenziali SSH di un utente del sistema, consentendo così l’accesso remoto alla macchina. Infine, l’aggressore è in grado di inoltrare localmente una porta filtrata utilizzando il tunneling SSH, al fine di accedere alla shell di Android tramite l’Android Debug Bridge (ADB).</description>
+      <description>Nome: Explore Tags: Mobile, Metasploit Difficoltà: Facile OS: Android Exploit - Vulnerabilità: Arbitrary File Read, Credenziali in chiaro, Riutilizzo della password Explore è una macchina Android di facile difficoltà. L’enumerazione della rete rivela un servizio vulnerabile, sfruttabile tramite un modulo Metasploit e fornisce un accesso in lettura limitato alla macchina. Un’ulteriore enumerazione dei file, rivela le credenziali SSH di un utente del sistema, consentendo così l’accesso remoto alla macchina. Infine, l’aggressore è in grado di inoltrare localmente una porta filtrata utilizzando il tunneling SSH, al fine di accedere alla shell di Android tramite l’Android Debug Bridge (ADB).</description>
       <content>&lt;hr&gt;
+&lt;br&gt;
+&lt;div class=&#34;flex-container&#34;&gt;
+    &lt;div class=&#34;image-container&#34;&gt;
+        
+          &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/LogoExploreCTF.png&#34;  class=&#34;left&#34;  style=&#34;width: 300px&#34;  /&gt;
+        
 
-  &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/LogoExploreCTF.png&#34;  class=&#34;left&#34;  style=&#34;width: 300px&#34;  /&gt;
+    &lt;/div&gt;
+    &lt;div class=&#34;table-container&#34;&gt;
+        &lt;div class=&#34;custom-table&#34;&gt;
+            &lt;div class=&#34;custom-row&#34;&gt;
+                &lt;span class=&#34;custom-label&#34;&gt;Nome:&lt;/span&gt; &lt;span class=&#34;custom-difficulty&#34;&gt;Explore&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class=&#34;custom-row&#34;&gt;
+                &lt;span class=&#34;custom-label&#34;&gt;Tags:&lt;/span&gt; &lt;span class=&#34;custom-difficulty&#34;&gt;Mobile, Metasploit&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class=&#34;custom-row&#34;&gt;
+                &lt;span class=&#34;custom-label&#34;&gt;Difficoltà:&lt;/span&gt; &lt;span class=&#34;custom-difficulty&#34;&gt;Facile&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class=&#34;custom-row&#34;&gt;
+                &lt;span class=&#34;custom-label&#34;&gt;OS: &lt;/span&gt;
+                &lt;span&gt; Android &lt;/span&gt;
+                &lt;img src=&#34;https://kobra3390.github.io/SpaceHack/images/android.png&#34; alt=&#34;Linux&#34; style=&#34;width: 20px; display: inline-block; vertical-align: middle;&#34;&gt;
+            &lt;/div&gt;
+            &lt;div class=&#34;custom-row&#34;&gt;
+                &lt;span class=&#34;custom-label&#34;&gt;Exploit - Vulnerabilità:&lt;/span&gt; Arbitrary File Read, Credenziali in chiaro, Riutilizzo della password
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;style&gt;
+    .flex-container {
+        display: flex;
+        align-items: center;
+    }
 
+    .image-container {
+        margin-right: 20px; 
+    }
 
+    .table-container {
+        margin-left: 80px; 
+    }
+
+    .custom-table {
+        
+    }
+
+    .custom-label {
+        font-weight: bold;
+        color: #78e2a0;
+    }
+&lt;/style&gt;
+&lt;br&gt;
 &lt;p&gt;Explore è una macchina Android di facile difficoltà. L’enumerazione della rete rivela un servizio vulnerabile, sfruttabile tramite un modulo Metasploit e fornisce un accesso in lettura limitato alla macchina.
 Un’ulteriore enumerazione dei file, rivela le credenziali SSH di un utente del sistema, consentendo così l’accesso remoto alla macchina.
 Infine, l’aggressore è in grado di inoltrare localmente una porta filtrata utilizzando il tunneling SSH, al fine di accedere alla shell di Android tramite l’Android Debug Bridge (ADB). Questa eventualità consente all’utente malintenzionato di eseguire comandi come utente root.&lt;/p&gt;
